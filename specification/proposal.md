@@ -7,7 +7,7 @@ Project Title: Easel
 ## Description
 The modified content is displayed in **bold**. The removed content is displayed in ~~strikethrough~~.
 
-#### Original Project Proposal - Briefcase: Portfolio Webapp for Art Majors
+### Original Project Proposal - Briefcase: Portfolio Webapp for Art Majors
 
 There are several well-established employment-based websites and SNS that showcase students’ capabilities and potentials, such as LinkedIn and GitHub. However, these platforms do not provide equivalent UI/UX to highlight art major students.
 
