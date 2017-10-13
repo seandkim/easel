@@ -39,4 +39,6 @@ This list contains which person is responsible for which feature.
 - Allow user to use templates **Sean**
 #### Page Rendering
 - Account for projects with limited visibility **Stella**
-#### Further UI/UX Polishing **Tiffany**
+
+#### UI/UX
+- Further UI/UX Polishing **Tiffany**
