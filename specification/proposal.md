@@ -1,8 +1,8 @@
 # Project Specification
 
 ## General
-Team 277: Tiffany Lee, Sean Kim, Stella Kim
-Project Title: Easel
+- Team 277: Tiffany Lee, Sean Kim, Stella Kim
+- Project Title: Easel
 
 ## Description
 The modified content is displayed in **bold**. The removed content is displayed in ~~strikethrough~~.
