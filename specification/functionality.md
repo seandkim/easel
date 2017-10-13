@@ -1,5 +1,7 @@
 # Functionality
 
+This document describes the functionality of each page. The list of library and specific technology used can be found at `backlog.md`.
+
 ## Diagram
 
 ![functionality diagram](draft/site_navigation.png)
