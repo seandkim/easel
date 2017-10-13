@@ -12,4 +12,6 @@ Most of our files are markdown file, so it is best viewed in github or any markd
 
 - `model_diagram.pdf`: a complete draft implementation of data models as UML diagram.
 
-- `wireframe`: This folder contains a complete set of wireframes. The interactive wireframe (with button enabled) can be found [here](https://projects.invisionapp.com/share/5YDX0P9QT#/screens/257954292).
+- `wireframe/`: This folder contains a complete set of wireframes. The interactive wireframe (with button enabled) can be found [here](https://projects.invisionapp.com/share/5YDX0P9QT#/screens/257954292).
+  - `Screens/`: Contains all jpg of mock-ups
+  - `Style Guide`: Style guide for the look and feel of the website.
