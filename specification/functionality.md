@@ -1,6 +1,6 @@
 # Functionality
 
-This document describes the functionality of each page. The list of library and specific technology used can be found at `backlog.md`.
+This document describes the functionality of each page. The list of specific technologies used can be found at [`backlog.md`](/backlog.md). The list of libraries used can be found at the end of `proposal.md`. 
 
 ## Diagram
 
