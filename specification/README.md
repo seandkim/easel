@@ -1,9 +1,17 @@
-Turn in your project specification, and any related documents, to
-this directory.
+# Specification
 
-Please remember to include the original proposal in your specification
-document(s), and explicitly highlight any differences between your
-current plans and the original proposal.  (By "original proposal" we
-mean the original proposal for the project you are implementing.  If
-you are implementing a project proposed by another team, the "original
-proposal" is their original proposal, not yours.)
+## Files
+
+Most of our files are markdown file, so it is best viewed in github or any markdown viewer.
+
+-  `proposal.md`: a copy of the project proposal with our edition.
+
+- `functionality.md`: a complete list of all functionality can be accessed in the same way as above.
+
+- `backlog.md`: a complete list of library/technology used and which member is responsible for each.
+
+- `model_diagram.pdf`: a complete draft implementation of data models as UML diagram.
+
+- `wireframe/`: This folder contains a complete set of wireframes. The interactive wireframe (with button enabled) can be found [here](https://projects.invisionapp.com/share/5YDX0P9QT#/screens/257954292).
+  - `Screens/`: Contains all jpg of mock-ups
+  - `Style Guide`: Style guide for the look and feel of the website.

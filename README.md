@@ -1,5 +1,3 @@
-This repository is for your course final project. Your project team
-should complete all project work using this repository.
+# Team 277
 
-Before your project demo, add to this file a link to your deployed
-web site:  
+Please refer to `specification/README.md`.
