@@ -15,11 +15,17 @@
     <script src="{% static 'js/main.js' %}"></script>
     <link rel="stylesheet" href="{% static 'css/materialize.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    {% block head %}{% endblock %}
 </head>
 
 <body>
     {% block page %} 
-        <h1>Default message in base template.</h1>
+        <div class="center text-center">
+            <h1 class="logo-text">EASEL</h1>
+            <h5 class="sublogo-text">Portfolio<br>Creator</h5>
+            <hr class="half-rule">
+            <p>Let your artistic talent speaks for itself. Create your portfolio now.</p>
+        </div>
     {% endblock %}
 </body>
 

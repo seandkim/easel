@@ -1,0 +1,42 @@
+@import "global";
+
+* {
+	font-family: $font-family-01;
+}
+
+.logo-text {
+	font-family: $logo-font;
+	letter-spacing: 10px;
+}
+
+.sublogo-text {
+	font-family: $sublogo-font;
+	letter-spacing: 4px;
+}
+
+.header-text {
+	font-family: $header-font;
+}
+
+
+/* alignment class */
+.center {
+	position: fixed;
+	transform: translate(-50%, -50%);
+	top: 50%;
+	left: 50%;
+}
+
+.halign {
+	margin: 0 auto;
+}
+
+.text-center {
+	text-align: center;
+}
+
+/* page elements */
+.half-rule {
+	color: $gray-scale-05;
+	margin: 40px 0 30px;
+}

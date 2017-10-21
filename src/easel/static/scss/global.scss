@@ -1,0 +1,43 @@
+/* defines all the global variables */
+
+/* fonts */
+@import url('https://fonts.googleapis.com/css?family=Lato|Josefin+Sans');
+@font-face{
+    font-family: "Gloss And Bloom";
+    src: url('../gloss_and_bloom.ttf');
+}
+@font-face{
+    font-family: "Impact Label";
+    src: url('../Impact_Label.ttf');
+}
+@font-face{
+    font-family: "Impact Label Reversed";
+    src: url('../Impact_Label_Reversed.ttf');
+}
+
+$logo-font: 'Gloss and Bloom', sans-serif;
+$sublogo-font: 'Impact Label Reversed', sans-serif;
+$header-font: 'Josefin Sans', sans-serif;
+$font-family-01: 'Baskerville', 'Lato', sans-serif;
+
+/* colors */
+$interface-color-01 : #30302E;
+$interface-color-02 : #C1272D;
+$interface-color-03 : #CC11CC;
+$interface-color-04 : #112A3C;
+$interface-color-05 : #EAEAEA;
+$interface-color-06 : #F9F9F9;
+
+
+/* gray scale */
+$gray-scale-01 : #666666;
+$gray-scale-02 : #888888;
+$gray-scale-03 : #aaaaaa;
+$gray-scale-04 : #bbbbbb;
+$gray-scale-05 : #cccccc;
+$gray-scale-06 : #d3d3d3;
+
+
+/* highlight color */
+$highlight-color-01: #A8E0FF;
+$highlight-color-02: #B08EA2;
