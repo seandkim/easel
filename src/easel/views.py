@@ -10,7 +10,7 @@ from django.contrib.auth import login, authenticate, logout, tokens
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth.models import User
 from django.db import transaction
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template import Context
 from django.template.loader import get_template
@@ -27,30 +27,41 @@ def test_view(request):
 	return render(request, 'base.html', {})
 
 def registration(request):
-    context = {}
+	print("registration start1", request.method=="GET")
+	context = {}
 
     # Just display the registration form if this is a GET request.
-    if request.method == 'GET':
-        context['form'] = RegistrationForm()
-        return render(request, 'registration/registration.html', context)
+	if request.method == 'GET':
+		print("request is GET")
+		context['form'] = RegistrationForm()
+		print("hello")
+		return render(request, 'registration/registration.html', context)
 
-    form = RegistrationForm(request.POST)
-    context['form'] = form
+	print("hello")
+	form = RegistrationForm(request.POST)
+	context['form'] = form
+	print('form is valid?', form.is_valid())
     # Validates the form.
-    if not form.is_valid():
-        return render(request, 'registration/registration.html', context)
+	if not form.is_valid():
+		print("form is not valid")
+		return render(request, 'registration/registration.html', context)
 
-    new_user = User.objects.create_user(username=form.cleaned_data['username'], 
-                                        password=form.cleaned_data['password1'],
-                                        email=form.cleaned_data['email'])
-    new_user.save()
+	print("registering...")
 
-    new_profile = Profile(user = new_user,
-                          firstname = form.cleaned_data['firstname'],
-                          lastname = form.cleaned_data['lastname'])
-    new_profile.save()
+	# TODO to allow email confirmation; set is_active to false and change later
+	new_user = User.objects.create_user(username=form.cleaned_data['username'],
+                                        password=form.cleaned_data['password'],
+                                        first_name=form.cleaned_data['first_name'],
+                                        last_name=form.cleaned_data['last_name'],
+                                        email=form.cleaned_data['email'],
+										is_active=True)
 
-    return render(request, 'registration/registration.html', context)
+	new_user.save()
+	new_profile = Profile(user = new_user)
+	new_profile.save()
+	login(request, new_user)
+	print("loggin in")
+	return HttpResponseRedirect(reverse("home"))
 
 
 @login_required
@@ -113,9 +124,6 @@ def dashboard(request):
 
 
 
-
-
-
 #####################################
 ############## API CALL #############
 #####################################
@@ -133,3 +141,8 @@ def getStats(request):
 
 def getPhoto(request):
 	return
+
+def clearAllUsers(request):
+	User.objects.all().delete()
+	Profile.objects.all().delete()
+	return HttpResponse('')
