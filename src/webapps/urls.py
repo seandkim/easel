@@ -15,9 +15,13 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
+
 from easel import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^testpage/', views.test_view, name="test_view"),
+    url(r'^registration', views.registration, name="registration"),
+    url(r'^login$', auth_views.LoginView.as_view(template_name='login.html'), name="login"),
 ]
