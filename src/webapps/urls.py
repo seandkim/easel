@@ -20,8 +20,10 @@ from django.contrib.auth import views as auth_views
 from easel import views
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
+    url(r'^$', views.dashboard, name="home"),
     url(r'^testpage/', views.test_view, name="test_view"),
     url(r'^registration', views.registration, name="registration"),
     url(r'^login$', auth_views.LoginView.as_view(template_name='login.html'), name="login"),
+    url(r'^confirm-registration', views.confirmed, name='confirm'),
+
 ]
