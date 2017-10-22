@@ -20,6 +20,6 @@ class Profile(models.Model):
     school = models.CharField(max_length=40, default="", blank=True)
     bio = models.CharField(max_length=420, default="", blank=True)
     picture = models.ImageField(upload_to='', blank=True)
-    
+
     def __unicode__(self):
         return self.username

@@ -23,5 +23,19 @@ from easel import views
 
 urlpatterns = [
     url(r'^$', views.dashboard, name="home"),
-    url(r'^easel/', include('easel.urls')),
+    url(r'^testpage/', views.test_view, name="test_view"),
+
+    # API calls
+    url(r'^getProjects/(?P<username>\w+)$', views.getProjects, {}, name='getProjects'),
+    url(r'^getMedia/(?P<project_id>\w+)$', views.getMedia, {}, name='getMedia'),
+    url(r'^getMessages/(?P<username>\w+)$', views.getMessages, {}, name='getMessages'),
+    url(r'^getStats/(?P<username>\w+)$', views.getStats, {}, name='getStats'),
+    url(r'^getPhoto/(?P<photo_id>\w+)$', views.getPhoto, {}, name='getPhoto'),
+
+    # login/registration
+    url(r'^registration', views.registration, name="registration"),
+    url(r'^login$', auth_views.LoginView.as_view(template_name='registration/login.html'), name="login"),
+    url(r'^logout/$', logout, {'next_page': settings.LOGOUT_REDIRECT_URL}, name="logout"),
+    url(r'^confirm-registration', views.confirmed, name='confirm'),
+    url(r'^settings', views.settings, name='settings'),
 ]

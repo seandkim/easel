@@ -1,0 +1,13 @@
+{
+  "messages":
+    [
+      {% for message in messages %}
+         {
+           "from_user": "{{message.from_user}}",
+           "messageID": "{{message.messageID}}",
+           "content": "{{message.content}}",
+           "time": "{{message.time}}"
+         }{% if not forloop.last %},{% endif %}
+      {% endfor %}
+    ]
+}

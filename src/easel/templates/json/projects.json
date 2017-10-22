@@ -1,0 +1,13 @@
+{
+  "projects":
+    [
+      {% for project in projects %}
+         {
+           "owner": "{{project.username}}",
+           "name": "{{project.name}}",
+           "time": "{{project.time}}",
+           "description": "{{project.description}}"
+         }{% if not forloop.last %},{% endif %}
+      {% endfor %}
+    ]
+}
