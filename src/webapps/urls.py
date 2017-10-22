@@ -24,4 +24,6 @@ from easel import views
 urlpatterns = [
     url(r'^$', views.dashboard, name="home"),
     url(r'^easel/', include('easel.urls')),
+
+    url(r'^clearallusers/$', views.clearAllUsers),
 ]
