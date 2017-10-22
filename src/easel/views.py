@@ -64,11 +64,6 @@ def registration(request):
 	return HttpResponseRedirect(reverse("home"))
 
 
-@login_required
-def confirmed(request):
-#    TODO
-	return render(request, 'base.html', {})
-
 
 @login_required
 def settings(request):
@@ -77,7 +72,6 @@ def settings(request):
     profile = Profile.objects.get(user = cur_user)
     context['profile'] = profile
     context['form'] = SettingsForm()
-    context['id'] = profile.username
 
     # Just display the registration form if this is a GET request.
     if request.method == 'GET':
@@ -90,32 +84,28 @@ def settings(request):
         context['form'] = form
         return render(request, 'settings.html', context)
 
-#    if (len(form.cleaned_data['bio']) > 420):
-#        context['error'] = "Your bio cannot be longer than 420 characters"
-#        return render(request, 'settings.html', context)
+    if 'first_name' in request.POST and request.POST['first_name'] != '':
+        cur_user.first_name = form.cleaned_data['first_name']
 
-    if 'firstname' in request.POST and request.POST['firstname'] != '':
-        Profile.objects.select_for_update().filter(user=cur_user).update(fullname=form.cleaned_data['firstname'])
-
-    if 'lastname' in request.POST and request.POST['lastname'] != '':
-        Profile.objects.select_for_update().filter(user=cur_user).update(fullname=form.cleaned_data['lastname'])
+    if 'last_name' in request.POST and request.POST['last_name'] != '':
+        cur_user.last_name = form.cleaned_data['last_name']
 
     if 'password1' in request.POST and request.POST['password1'] != '':
         cur_user.set_password(form.cleaned_data['password1'])
         cur_user.save()
-
+    #TODO other fields in profile
 
     context['message'] = "Your information has been updated"
 
     profile = Profile.objects.get(user=cur_user)
     context['profile'] = profile
-    context['id'] = profile.username
 
     new_user = authenticate(username=cur_user.username,
                             password=request.user.password)
     login(request, new_user)
 
     return render(request, 'settings.html', context)
+
 
 @login_required
 def dashboard(request):

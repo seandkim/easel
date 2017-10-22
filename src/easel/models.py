@@ -48,7 +48,7 @@ class Media(models.Model):
 #    media_type = models.CharField(max_length=5, choices=MEDIA_TYPE)
     media_type = models.CharField(max_length=5)
     file = models.FileField(upload_to='')
-    caption = models.CharField(max_lenth=200)
+    caption = models.CharField(max_length=200)
     
     def __unicode__(self):
         return self.name
