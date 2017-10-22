@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block page %}
+<!--
+        <div class="text-center" style="float: left">
+            <h1 class="logo-text">EASEL</h1>
+            <h5 class="sublogo-text">Portfolio<br>Creator</h5>
+            <hr class="half-rule">
+            <p>Let your artistic talent speaks for itself. Create your portfolio now.</p>
+        </div>
+-->
+        <div class="center text-center">       
+            <div class="text-center">
+                <h2>Sign Up</h2>
+            </div>
+            <div class="text-center">
+                <!-- link to dashboard -->
+                <form method="post" action="">
+                    {% if message %}
+                        <h5>{{message}}</h5>
+                    {% endif %}
+                    
+                    <table>
+                    {{form}}
+                    </table>
+                    <button id="register-button" class="btn waves-effect waves-light black" type="submit" name="action">
+                        Start
+                    </button>
+                    <!-- link to sign in page -->
+                    <a href="{% url 'login' %}">Or sign in</a>
+
+                    {% csrf_token %}
+                </form>
+                <br>
+            <br>            
+        </div>
+{% endblock %}
