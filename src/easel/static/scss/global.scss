@@ -4,15 +4,15 @@
 @import url('https://fonts.googleapis.com/css?family=Lato|Josefin+Sans');
 @font-face{
     font-family: "Gloss And Bloom";
-    src: url('../gloss_and_bloom.ttf');
+    src: url('../fonts/gloss_and_bloom/gloss_and_bloom.ttf');
 }
 @font-face{
     font-family: "Impact Label";
-    src: url('../Impact_Label.ttf');
+    src: url('../fonts/impact_label/Impact_Label.ttf');
 }
 @font-face{
     font-family: "Impact Label Reversed";
-    src: url('../Impact_Label_Reversed.ttf');
+    src: url('../fonts/impact_label/Impact_Label_Reversed.ttf');
 }
 
 $logo-font: 'Gloss and Bloom', sans-serif;
