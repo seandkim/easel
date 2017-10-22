@@ -16,6 +16,10 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
+from django.contrib.auth.views import logout
+from django.conf import settings
+
+
 
 from easel import views
 
@@ -24,6 +28,8 @@ urlpatterns = [
     url(r'^testpage/', views.test_view, name="test_view"),
     url(r'^registration', views.registration, name="registration"),
     url(r'^login$', auth_views.LoginView.as_view(template_name='login.html'), name="login"),
+    url(r'^logout/$', logout, {'next_page': settings.LOGOUT_REDIRECT_URL}, name="logout"),    
     url(r'^confirm-registration', views.confirmed, name='confirm'),
+    url(r'^settings', views.settings, name='settings'),
 
 ]

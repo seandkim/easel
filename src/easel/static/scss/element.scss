@@ -40,3 +40,9 @@
 	color: $gray-scale-05;
 	margin: 40px 0 30px;
 }
+
+.form-center {
+    transform: translate(-50%, -50%);
+	top: 50%;
+	left: 50%;
+}

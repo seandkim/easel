@@ -1,1 +1,8 @@
 @import url(https://fonts.googleapis.com/css?family=Lato|Josefin+Sans);@font-face{font-family:"Gloss And Bloom";src:url(../fonts/gloss_and_bloom/gloss_and_bloom.ttf)}@font-face{font-family:"Impact Label";src:url(../fonts/impact_label/Impact_Label.ttf)}@font-face{font-family:"Impact Label Reversed";src:url(../fonts/impact_label/Impact_Label_Reversed.ttf)}*{font-family:Baskerville,Lato,sans-serif}.logo-text{font-family:"Gloss and Bloom",sans-serif;letter-spacing:10px}.sublogo-text{font-family:"Impact Label Reversed",sans-serif;letter-spacing:4px}.header-text{font-family:"Josefin Sans",sans-serif}.center{position:fixed;transform:translate(-50%,-50%);top:50%;left:50%}.halign{margin:0 auto}.text-center{text-align:center}.half-rule{color:#ccc;margin:40px 0 30px}@font-face{font-family:"Gloss And Bloom";src:url(../fonts/gloss_and_bloom/gloss_and_bloom.ttf)}@font-face{font-family:"Impact Label";src:url(../fonts/impact_label/Impact_Label.ttf)}@font-face{font-family:"Impact Label Reversed";src:url(../fonts/impact_label/Impact_Label_Reversed.ttf)}*{color:#000}
+.form-center {
+    margin: auto;
+    width:30%;
+}
+.logo{
+    padding-top: 20px;
+}

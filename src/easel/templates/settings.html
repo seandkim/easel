@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block page %}
+    <div class="text-center">
+        <div class="text-center">
+            <h2 class="logo-text logo">Edit Information</h2>
+        </div>
+        <div class="form-center text-center">
+            <form enctype="multipart/form-data" method="post" action="{% url 'settings' %}">
+                <table>
+                    {% if error %}
+                        {{error}}
+                    {% endif %}
+                    {% if message %}
+                        {{message}}
+                    {% endif %}
+                {{form}}
+                </table>
+                {% csrf_token %}
+                <button id="save-button" class="btn waves-effect waves-light black" type="submit" name="action">
+                    Save
+                </button>
+            </form>
+        </div> 
+        <br>
+    </div>
+{% endblock %}
