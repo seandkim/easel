@@ -14,69 +14,93 @@ class Profile(models.Model):
     school = models.CharField(max_length=40, default="", blank=True)
     bio = models.CharField(max_length=420, default="", blank=True)
     # picture = models.ImageField(upload_to='', blank=True)
-
+    
+    ####0 if male, 1 if female####
+#    gender = models.BooleanField(default="0")
+    
     def __unicode__(self):
         return self.username
-
+    
+    def getProjects(self):
+        return Project.objects.filter(owner=self)
+    
+#    def getSites(self):
+#        return Site.objects.filter(owner=self)
+    
     
 class Project(models.Model):
     owner = models.ForeignKey(Profile)
     name = models.CharField(max_length=20)
-    date = models.DateField(max_length=20)
+    date = models.DateField()
     description = models.CharField(max_length=1000)
     
     def __unicode__(self):
         return self.name
 
-
+    def getMedia(self):
+        return Media.objects.filter(project=self)
+    
+    
 class Media(models.Model):
-    owner = models.ForeignKey(Profile)
-    name = models.CharField(max_length=20)
     project = models.ForeignKey(Project)
-    mediatype = models.CharField(max_length=10)
-#    mediatype = (
-#        (IMAGE, 'image'),
-#        (AUDIO, 'audio'),
-#        (VIDEO, 'video'),
+#    MEDIA_TYPE = (
+#        ('img', 'Image'),
+#        ('aud', 'Audio'),
+#        ('vid', 'Video'),
 #    )
+#    media_type = models.CharField(max_length=5, choices=MEDIA_TYPE)
+    media_type = models.CharField(max_length=5)
     file = models.FileField(upload_to='')
     caption = models.CharField(max_lenth=200)
     
     def __unicode__(self):
         return self.name
     
-    
-class Site(models.Model):
-    owner = models.ForeignKey(Profile)
-    name = models.CharField(max_length=20)
-    description = models.CharField(max_length=1000)
-    url = models.CharField()
-    
-    def __unicode__(self):
-        return self.name
-
-    
-class Page(models.Model):
-    owner = models.ForeignKey(Profile)
-    name = models.CharField(max_length=40)
-    site = models.ForeignKey(Site)
-    nrow = models.IntegerField()
-    ncol = models.IntegerField()
-    url = models.CharField()
-    
-    def __unicode__(self):
-        return self.name
+    def getHTML(self):
+        return 
     
 
-class Component(models.Model):
-    owner = models.ForeignKey(Profile)
-    name = models.CharField(max_length=40)
-    page = models.ForeignKey(Page)
-    html = models.CharField()
-    nrow = models.IntegerField()
-    ncol = models.IntegerField()
-    rowIndex = models.IntegerField()
-    colIndex = models.IntegerField()
-
-    def __unicode__(self):
-        return self.name
+    
+    
+#
+#class Site(models.Model):
+#    owner = models.ForeignKey(Profile)
+#    name = models.CharField(max_length=20)
+#    description = models.CharField(max_length=1000)
+#    url = models.CharField()
+#    
+#    def __unicode__(self):
+#        return self.name
+#    
+#    def getPages(self):
+#        return Page.objects.filter(site=self)
+#    
+#    
+#class Page(models.Model):
+#    site = models.ForeignKey(Site)
+#    nrow = models.IntegerField()
+#    ncol = models.IntegerField()
+#    url = models.CharField()
+#    
+#    def __unicode__(self):
+#        return self.name
+#    
+#    def getComponents(self):
+#        return Component.objects.filter(page=self)
+#
+#    def getHTML(self):
+#        return 
+#    
+#class Component(models.Model):
+#    page = models.ForeignKey(Page)
+#    html = models.CharField()
+#    nrow = models.IntegerField()
+#    ncol = models.IntegerField()
+#    row_idx = models.IntegerField()
+#    col_idx = models.IntegerField()
+#
+#    def __unicode__(self):
+#        return self.name
+#    
+#    def getHTML(self):
+#        return 

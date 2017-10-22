@@ -36,10 +36,10 @@ class SettingsForm(forms.Form):
                                 label='Confirm password',
                                 widget = forms.PasswordInput(), required=False)
 
-    age = forms.CharField(max_length = 20, required=False)
+#    age = forms.CharField(max_length = 20, required=False)
     school = forms.CharField(max_length = 20, required=False)
     bio = forms.CharField(max_length = 421, required=False)
-    picture = forms.ImageField(label='profile picture', widget=forms.FileInput(), required=False)
+#    picture = forms.ImageField(label='profile picture', widget=forms.FileInput(), required=False)
 
     def clean(self):
         cleaned_data = super(SettingsForm, self).clean()
