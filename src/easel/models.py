@@ -2,10 +2,15 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.contrib.auth.models import User
 
-# Create your models here.
+
+#class User(AbstractUser):
+#    pass
+
 
 class Profile(models.Model):
+    user = models.OneToOneField(User)
     username = models.CharField(max_length=40)
     firstname = models.CharField(max_length=40)
     lastname = models.CharField(max_length=40)
