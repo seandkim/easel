@@ -34,6 +34,13 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+EMAIL_HOST = 'smtp.andrew.cmu.edu'
+EMAIL_HOST_USER = 'hyunjunk'
+EMAIL_HOST_PASSWORD = '123'
+EMAIL_USE_TLS = True
+
 ROOT_URLCONF = 'webapps.urls'
 
 TEMPLATES = [
