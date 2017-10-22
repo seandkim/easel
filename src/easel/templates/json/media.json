@@ -1,0 +1,12 @@
+{
+  "media":
+    [
+      {% for medium in media %}
+         {
+           "type": "{{medium.type}}",
+           "fileURL": "{{medium.fileURL}}",
+           "caption": "{{medium.caption}}"
+         }{% if not forloop.last %},{% endif %}
+      {% endfor %}
+    ]
+}
