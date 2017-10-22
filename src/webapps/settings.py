@@ -34,7 +34,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-LOGIN_URL = '/login'
+LOGIN_URL = '/easel/login'
 
 #dashboard
 LOGIN_REDIRECT_URL = '/'
