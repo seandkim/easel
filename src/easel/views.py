@@ -52,11 +52,12 @@ def registration(request):
     email_body = """Welcome to EASEL. Please click on the link below to verify your email address and complete the registration of your account:
     %s""" % (link)   
     
-    new_profile = Profile(username = form.cleaned_data['username'], 
+    new_profile = Profile(user = new_user,
+                          username = form.cleaned_data['username'], 
                           firstname = form.cleaned_data['firstname'],
                           lastname = form.cleaned_data['lastname'],
                           confirmlink = link, confirmed = 0)
-#    new_profile.save()
+    new_profile.save()
     
     send_mail(subject="Verify your email address",
              message = email_body,
