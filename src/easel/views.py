@@ -4,8 +4,11 @@ from __future__ import unicode_literals
 # bunch of imports we probably need later on
 from datetime import datetime
 from django.core.mail import EmailMessage
+from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate, logout, tokens
+from django.contrib.auth.tokens import default_token_generator
+from django.contrib.auth.models import User
 from django.db import transaction
 from django.http import HttpResponse, Http404
 from django.shortcuts import render, redirect, get_object_or_404
@@ -53,7 +56,7 @@ def registration(request):
                           firstname = form.cleaned_data['firstname'],
                           lastname = form.cleaned_data['lastname'],
                           confirmlink = link, confirmed = 0)
-    new_profile.save()
+#    new_profile.save()
     
     send_mail(subject="Verify your email address",
              message = email_body,
@@ -66,3 +69,13 @@ def registration(request):
 
     return render(request, 'registration.html', context)
 
+
+@login_required
+def confirmed(request):
+#    TODO
+	return render(request, 'base.html', {})
+
+@login_required
+def dashboard(request):
+#    TODO
+    return render(request, 'base.html', {})
