@@ -40,7 +40,11 @@ def registration(request):
     if not form.is_valid():
         return render(request, 'registration/registration.html', context)
 
+<<<<<<< HEAD
     new_user = User.objects.create_user(username=form.cleaned_data['username'],
+=======
+    new_user = EaselUser.objects.create_user(username=form.cleaned_data['username'], 
+>>>>>>> 546b83f0466afc9e508d34734d7d279b94213923
                                         password=form.cleaned_data['password1'],
                                         email=form.cleaned_data['email'])
     new_user.save()
