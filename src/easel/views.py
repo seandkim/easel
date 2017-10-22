@@ -33,13 +33,13 @@ def registration(request):
     # Just display the registration form if this is a GET request.
     if request.method == 'GET':
         context['form'] = RegistrationForm()
-        return render(request, 'registration.html', context)
+        return render(request, 'registration/registration.html', context)
 
     form = RegistrationForm(request.POST)
     context['form'] = form
     # Validates the form.
     if not form.is_valid():
-        return render(request, 'registration.html', context)
+        return render(request, 'registration/registration.html', context)
 
     new_user = User.objects.create_user(username=form.cleaned_data['username'], 
                                         password=form.cleaned_data['password1'],
@@ -68,7 +68,7 @@ def registration(request):
     context['message'] = ('A confirmaion email has been sent to ' + new_user.email + 
         '. Please click the link in that email to confirm your email address and complete your registration for EASEL.')
 
-    return render(request, 'registration.html', context)
+    return render(request, 'registration/registration.html', context)
 
 
 @login_required
