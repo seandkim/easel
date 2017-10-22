@@ -41,7 +41,7 @@ def registration(request):
     if not form.is_valid():
         return render(request, 'registration/registration.html', context)
 
-    new_user = User.objects.create_user(username=form.cleaned_data['username'], 
+    new_user = EaselUser.objects.create_user(username=form.cleaned_data['username'], 
                                         password=form.cleaned_data['password1'],
                                        email=form.cleaned_data['email'])
     new_user.save()
