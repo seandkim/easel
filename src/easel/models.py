@@ -13,4 +13,4 @@ class Profile(models.Model):
     confirmed = models.BooleanField(default=0)
   
     def __unicode__(self):
-        return self.fullname
+        return self.username
