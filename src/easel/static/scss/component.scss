@@ -1,9 +1,46 @@
+@import "global";
+
+.homepage-container {
+	margin: 10px;
+	padding: 70px 50px 40px;
+}
+
 .easel-container {
-	padding: 0 40px;
+	@extend .homepage-container;
 	.call-to-action {
 		p {
 			padding: 0;
 			margin: 0;
 		}
 	}
+}
+
+.form-container {
+	@extend .homepage-container;
+	box-shadow: 4px 4px 20px rgba(100,100,100,.75);
+    background-color: #F9F9F9;
+
+	.form-header {
+		font-size: 20pt;
+    	letter-spacing: 6px;
+    	color: $gray-scale-00;
+	}
+
+	.form-footer {
+
+	}
+
+	a {
+		color: $interface-color-01;
+		text-decoration: underline;
+		-webkit-transition: all 0.3s ease-in-out;
+	    -o-transition: all 0.3s ease-in-out;
+	    -moz-transition: all 0.3s ease-in-out;
+	    transition: all 0.3s ease-in-out;
+		&:hover {
+			color: $gray-scale-02;
+		}
+	}
+
+
 }

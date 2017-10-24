@@ -75,16 +75,20 @@ figcaption {
     border: 1.5px solid black;
     padding: 5px 10px;
     text-align: center;
+    font-family: $sublogo-font;
 }
-
-.light-btn {
+.light-btn-outline {
 	@extend .btn;
 
 }
-
-.dark-btn {
+.dark-btn-outline {
 	@extend .btn;
 	color: $interface-color-01;
+}
+.dark-btn {
+	@extend .btn;
+	background-color: $interface-color-01;
+	color: $interface-color-06;
 }
 
 /* img */
@@ -99,4 +103,28 @@ figcaption {
 	margin: 0 auto;
     max-width: 1280px;
 	width: 85%;
+}
+
+/* form input */
+.paint-as-input {
+	input[type="text"] {
+		border-bottom: none!important;
+  		box-shadow: none!important;
+	    background: url('../img/form/text_input_long_01.png') no-repeat;
+	    background-size: 100% auto;
+	}
+	input[type="password"] {
+		border-bottom: none!important;
+  		box-shadow: none!important;
+		background: url('../img/form/text_input_long.png') no-repeat;
+	    background-size: 100% auto;
+	}
+
+	input:focus {
+		transform: scale(1.05);
+    	-webkit-transition: all 0.3s ease-in-out;
+	    -o-transition: all 0.3s ease-in-out;
+	    -moz-transition: all 0.3s ease-in-out;
+	    transition: all 0.3s ease-in-out;
+	}
 }

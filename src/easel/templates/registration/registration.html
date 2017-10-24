@@ -1,29 +1,39 @@
 {% extends 'base.html' %}
 
 {% block page %}
-        <div class="text-center">       
-            <div class="text-center">
-                <h2 class="logo-text">Sign Up</h2>
+<div class="wide-container row center">
+    <div class="col m6">
+        <div class="text-center easel-container">
+            <h1 class="logo-text">EASEL</h1>
+            <h5 class="sublogo-text">Portfolio<br>Creator</h5>
+            <hr class="half-rule">
+            <div class="call-to-action">
+                <p>Let your artistic talent speaks for itself. <br>Create your portfolio now.</p>
             </div>
-            <div class="form-center text-center">
-                <!-- link to dashboard -->
+        </div>
+    </div>
+    <div class="col m6">
+        <div class="form-container paint-as-input">
+            <div class="text-left">
+                <h2 class="form-header logo-text">Sign Up</h2>
+            </div>
+            <div class="text-center">
                 <form method="post" action="">
+                    {% csrf_token %}
                     {% if message %}
                         <h5>{{message}}</h5>
                     {% endif %}
-                    
-                    <table>
-                    {{form}}
-                    </table>
-                    <button id="register-button" class="btn waves-effect waves-light black" type="submit" name="action">
-                        Start
-                    </button>
-                    <!-- link to sign in page -->
-                    <a href="{% url 'home' %}">Or sign in</a>
-
-                    {% csrf_token %}
+                    <table>{{ form.as_p }}</table>
+                    <div class="form-footer text-right">
+                        <a href="{% url 'login' %}">
+                            Or Sign In
+                        </a>
+                        &nbsp; &nbsp;
+                        <button id="register-button" class="dark-btn" type="submit" name="action">START &#10230;</button>
+                    </div>
                 </form>
-                <br>
-            <br>            
+            </div>
         </div>
+    </div>
+</div>
 {% endblock %}
