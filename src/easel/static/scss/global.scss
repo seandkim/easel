@@ -14,6 +14,12 @@
     font-family: "Impact Label Reversed";
     src: url('../fonts/impact_label/Impact_Label_Reversed.ttf');
 }
+@mixin smooth($speed) {
+	-webkit-transition: all $speed ease-in-out;
+    -o-transition: all $speed ease-in-out;
+    -moz-transition: all $speed ease-in-out;
+    transition: all $speed ease-in-out;
+}
 
 $logo-font: 'Gloss and Bloom', sans-serif;
 $sublogo-font: 'Impact Label Reversed', sans-serif;

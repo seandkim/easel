@@ -26,10 +26,6 @@
     	color: $gray-scale-00;
 	}
 
-	.form-footer {
-
-	}
-
 	a {
 		color: $interface-color-01;
 		text-decoration: underline;
@@ -41,6 +37,50 @@
 			color: $gray-scale-02;
 		}
 	}
+}
 
+.page-header {
+	margin: 120px 0 50px;
+	.header {
+		font-size: 35pt;
+    	letter-spacing: 4px;
+    	margin: 10px 0;
+	}
+	.subheader {
+		margin: 0;
+		letter-spacing: 2px;
+		color: $gray-scale-02;
+	}
+}
 
+.project-list {
+	.project-card {
+		.project-img-container {
+			margin-bottom: 15px;
+		}
+	}
+	.item-list {
+		margin-top: 30px;
+	}
+	.project-title {
+		font-size: 20pt;
+	    letter-spacing: 4px;
+	    color: $gray-scale-02;
+	}
+	.project-description {
+		font-family: $font-family-01;
+		font-size: 12pt;
+		margin-bottom: 20px;
+	}
+	.add-group {
+		@include smooth(0.3s);
+		line-height: 48px;
+		font-weight: 300;
+    	letter-spacing: 2px;
+    	color: $interface-color-01;
+    	text-decoration: underline;
+    	&:hover {
+    		color: $interface-color-05;
+    	}
+	}
 }

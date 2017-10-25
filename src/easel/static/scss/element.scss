@@ -1,9 +1,5 @@
 @import "global";
 
-* {
-	font-family: $font-family-01;
-}
-
 figcaption {
 	font-family: $font-family-02;
 	font-size: 9pt;
@@ -77,6 +73,25 @@ figcaption {
     text-align: center;
     font-family: $sublogo-font;
 }
+.new-project-btn {
+	@extend .btn;
+	@include smooth(0.3s);
+
+	color: $gray-scale-04;
+	border: 1.5px solid $gray-scale-04;
+	display: inline-block;
+	font-family: $header-font;
+	font-size: 10pt;
+	margin: 20px 0;
+
+	i {
+		color: inherit;
+	}
+	&:hover {
+		color: $interface-color-01;
+		border: 1.5px solid $interface-color-01;
+	}
+}
 .light-btn-outline {
 	@extend .btn;
 
@@ -98,15 +113,53 @@ figcaption {
 	}
 }
 
-/* img */
 .wide-container {
 	margin: 0 auto;
     max-width: 1280px;
 	width: 85%;
 }
 
+/* tabs */
+.tab {
+	font-family: $header-font !important;
+    letter-spacing: 2px;
+}
+
+.tab-icon {
+    transform: translate(0, 25%);
+}
+.tabs .tab a{
+    color: $gray-scale-04;
+} /*Black color to the text*/
+
+.tabs .tab a:hover {
+    color: $interface-color-01;
+} /*Text color on hover*/
+
+.tabs .tab a.active {
+    color: $interface-color-01;
+} /*Background and text color when a tab is active*/
+
+.tabs .indicator {
+    background-color: $interface-color-01;
+} /*Color of underline*/
+
+/* drop down */
+.dropdown-content > li > a {
+    color: $interface-color-01;
+    letter-spacing: 1.5px;
+    font-size: 10pt;
+}
+
+.modal-overlay {
+    opacity: 0.8 !important;
+}
+
+
 /* form input */
 .paint-as-input {
+	@include smooth(0.3s);
+
 	input[type="text"] {
 		border-bottom: none!important;
   		box-shadow: none!important;
@@ -122,9 +175,5 @@ figcaption {
 
 	input:focus {
 		transform: scale(1.05);
-    	-webkit-transition: all 0.3s ease-in-out;
-	    -o-transition: all 0.3s ease-in-out;
-	    -moz-transition: all 0.3s ease-in-out;
-	    transition: all 0.3s ease-in-out;
 	}
 }
