@@ -22,8 +22,6 @@ This list contains which person is responsible for which feature.
 - Create user specific dashboard : **Stella**
 - Monitor visitor to each user’s website : **Sean**
 - Create infographics for site statistics : **Tiffany**
-#### Inbox
-- Create instant messaging between users : **Tiffany**
 #### Project Editing
 - Allow project to have limited visibility (with password protection) : **Stella**
 - Allow user to group and add tags to the projects : **Stella**
