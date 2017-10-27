@@ -116,33 +116,3 @@ def settings(request):
     login(request, new_user)
 
     return render(request, 'settings.html', context)
-
-@login_required
-def dashboard(request):
-#    TODO
-    return render(request, 'base.html', {})
-
-
-
-#####################################
-############## API CALL #############
-#####################################
-def getProjects(request):
-	return
-
-def getMedia(request):
-	return
-
-def getMessages(request):
-	return
-
-def getStats(request):
-	return
-
-def getPhoto(request):
-	return
-
-def clearAllUsers(request):
-	User.objects.all().delete()
-	Profile.objects.all().delete()
-	return HttpResponse('')
