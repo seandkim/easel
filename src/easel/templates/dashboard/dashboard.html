@@ -1,8 +1,8 @@
-(% extends '../base.html' %) 
+{% extends '../base.html' %}
 {% load static %} 
 
 {% block page %}
-<div class="container">
+<div class="container dashboard">
     <div class="page-header row">
         <div class="col m8">
             <div class="header">DEAR JANE,</div>
@@ -13,21 +13,29 @@
         </div>
     </div>
     <div class="stats row">
-        <div class="stats-box col m3">
-            <div class="number">24</div>
-            visitors today
+        <div class="col m3">
+            <div class="stats-box">
+                <div class="number">24</div>
+                <div class="number-description">visitors today</div>
+            </div>
         </div>
-        <div class="stats-box col m3">
-            <div class="number">24</div>
-            visitors today
+        <div class="col m3">
+            <div class="stats-box">
+                <div class="number">24</div>
+                <div class="number-description">visitors today</div>
+            </div>
         </div>
-        <div class="stats-box col m3">
-            <div class="number">24</div>
-            visitors today
+        <div class="col m3">
+            <div class="stats-box">
+                <div class="number">24</div>
+                <div class="number-description">visitors today</div>
+            </div>
         </div>
-        <div class="stats-box col m3">
-            <div class="number">24</div>
-            visitors today
+        <div class="col m3">
+            <div class="stats-box">
+                <div class="number">24</div>
+                <div class="number-description">visitors today</div>
+            </div>
         </div>
     </div>
     <div class="data-viz row">
@@ -40,4 +48,4 @@
     </div>
 </div>
 
-{% block page %}
+{% endblock %}
