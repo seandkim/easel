@@ -1,52 +1,49 @@
-(% extends '../base.html' %) 
-{% load static %} 
+{% extends '../base.html' %} {% load static %} {% block page %}
+<div class="project-cover">
+    <img src="{% static 'image/placeholders/church.png' %}">
+    <div class="cover-description text-center">
+        <h1 class="logo-text">Church remodel</h1>
+        <div class="cover-bottom">
+            <hr class="cover-rule">
+            <div class="cover-detail">
+                OCT 29th, 2015
+                <br> 
+                <div class="status">IN PROGRESS</div>
+            </div>
+        </div>
+    </div>
+</div>
 
-{% block page %}
-<div class="container">
-    <form method="post" action="{% url '/' %}">
-    <div class="row">
-        <div class="col m6 project-cover">
-            <img src="{% static 'image/placeholders/church.png' %}">
-            <div class="cover-description">
-                <h1 class="logo-text">Church remodel</h1>
-                <div class="cover-sep"></div>
-                <hr class="cover-rule">
-                <div class="cover-detail text-center">
-                    OCT 29th, 2015 <br> IN PROGRESS
-                </div>
-            </div>
+<div class="project-edit">
+    <form method="post" action="{% url 'login' %}">
+        <div class="project-edit-header">
+            <h1 class="project-title-xl">CHURCH REMODEL</h1>
+            <ul class="project-field-list">
+                <li><strong>DATE: </strong>Oct 29th, 2015</li>
+                <li><strong>TYPE: </strong>Architexture <br></li>
+                <li><strong>STATUS: </strong>Active <br></li>
+            </ul>
+            <a href="#">+ ADD FIELD</a>
         </div>
-        <div class="col m6 project-cover">
-            <div class="project edit">
-                <h1 class="project-title-xl">CHURCH REMODEL</h1>
-                <div class="project-field">
-                    <strong>DATE: </strong>Oct 29th, 2015
-                    <strong>TYPE: </strong>Architexture
-                    <strong>STATUS: </strong>Active
-                </div>
-                <a href="#">+ ADD FIELD</a>
-            </div>
-            <p class="project-description-paragraph">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Amet volutpat consequat mauris nunc. Donec enim diam vulputate ut pharetra. Nunc mi ipsum faucibus vitae. Sodales ut etiam sit amet nisl. Ultricies integer quis auctor elit sed. Tortor at risus viverra adipiscing at. Volutpat odio facilisis mauris sit amet massa vitae tortor condimentum. Enim diam vulputate ut pharetra sit amet aliquam. Non arcu risus quis varius. Turpis tincidunt id aliquet risus feugiat. Sed cras ornare arcu dui vivamus arcu felis bibendum ut. Mauris pharetra et ultrices neque ornare aenean euismod elementum. Amet risus nullam eget felis eget nunc lobortis. Et odio pellentesque diam volutpat commodo sed egestas egestas. Congue eu consequat ac felis donec et odio. Volutpat ac tincidunt vitae semper. Tempus imperdiet nulla malesuada pellentesque elit. Ut ornare lectus sit amet est. Leo vel fringilla est ullamcorper eget nulla facilisi etiam dignissim.
-            </p>
-            <p class="project-description-paragraph">
-                Sed lectus vestibulum mattis ullamcorper velit sed ullamcorper morbi. Sodales ut eu sem integer vitae. At consectetur lorem donec massa sapien faucibus. In fermentum et sollicitudin ac orci. Sit amet nisl suscipit adipiscing. Ante metus dictum at tempor commodo ullamcorper. Mauris ultrices eros in cursus turpis massa. Sed enim ut sem viverra. Tellus integer feugiat scelerisque varius morbi enim. Turpis tincidunt id aliquet risus feugiat in ante. Lorem donec massa sapien faucibus et molestie. Volutpat maecenas volutpat blandit aliquam. Risus ultricies tristique nulla aliquet enim tortor at auctor urna. Suscipit tellus mauris a diam maecenas sed enim ut. Fermentum dui faucibus in ornare quam viverra. Tristique risus nec feugiat in fermentum posuere. Eleifend mi in nulla posuere sollicitudin. At auctor urna nunc id cursus metus aliquam eleifend mi.
-            </p>
-            <p class="project-description-paragraph">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Amet volutpat consequat mauris nunc. Donec enim diam vulputate ut pharetra. Nunc mi ipsum faucibus vitae. Sodales ut etiam sit amet nisl. Ultricies integer quis auctor elit sed. Tortor at risus viverra adipiscing at. Volutpat odio facilisis mauris sit amet massa vitae tortor condimentum. Enim diam vulputate ut pharetra sit amet aliquam. Non arcu risus quis varius. Turpis tincidunt id aliquet risus feugiat. Sed cras ornare arcu dui vivamus arcu felis bibendum ut. Mauris pharetra et ultrices neque ornare aenean euismod elementum. Amet risus nullam eget felis eget nunc lobortis. Et odio pellentesque diam volutpat commodo sed egestas egestas. Congue eu consequat ac felis donec et odio. Volutpat ac tincidunt vitae semper. Tempus imperdiet nulla malesuada pellentesque elit. Ut ornare lectus sit amet est. Leo vel fringilla est ullamcorper eget nulla facilisi etiam dignissim.
-            </p>
-            <p class="project-description-paragraph">
-                Sed lectus vestibulum mattis ullamcorper velit sed ullamcorper morbi. Sodales ut eu sem integer vitae. At consectetur lorem donec massa sapien faucibus. In fermentum et sollicitudin ac orci. Sit amet nisl suscipit adipiscing. Ante metus dictum at tempor commodo ullamcorper. Mauris ultrices eros in cursus turpis massa. Sed enim ut sem viverra. Tellus integer feugiat scelerisque varius morbi enim. Turpis tincidunt id aliquet risus feugiat in ante. Lorem donec massa sapien faucibus et molestie. Volutpat maecenas volutpat blandit aliquam. Risus ultricies tristique nulla aliquet enim tortor at auctor urna. Suscipit tellus mauris a diam maecenas sed enim ut. Fermentum dui faucibus in ornare quam viverra. Tristique risus nec feugiat in fermentum posuere. Eleifend mi in nulla posuere sollicitudin. At auctor urna nunc id cursus metus aliquam eleifend mi.
-            </p>
-        </div>
-    </div>
-    <div class="bottom-bar">
-        <a href="back-button" href="#">
-            <i class="material-icons">chevron_left</i>
-        </a>
-        <button id="live-preview" class="light-btn">LIVE PREVIEW</button>
-        <button id="save" class="light-btn">SAVE</button>
-    </div>
+        <p class="project-description-paragraph">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Amet volutpat consequat mauris nunc. Donec enim diam vulputate ut pharetra. Nunc mi ipsum faucibus vitae. Sodales ut etiam sit amet nisl. Ultricies integer quis auctor elit sed. Tortor at risus viverra adipiscing at. Volutpat odio facilisis mauris sit amet massa vitae tortor condimentum. Enim diam vulputate ut pharetra sit amet aliquam. Non arcu risus quis varius. Turpis tincidunt id aliquet risus feugiat. Sed cras ornare arcu dui vivamus arcu felis bibendum ut. Mauris pharetra et ultrices neque ornare aenean euismod elementum. Amet risus nullam eget felis eget nunc lobortis. Et odio pellentesque diam volutpat commodo sed egestas egestas. Congue eu consequat ac felis donec et odio. Volutpat ac tincidunt vitae semper. Tempus imperdiet nulla malesuada pellentesque elit. Ut ornare lectus sit amet est. Leo vel fringilla est ullamcorper eget nulla facilisi etiam dignissim.
+        </p>
+        <p class="project-description-paragraph">
+            Sed lectus vestibulum mattis ullamcorper velit sed ullamcorper morbi. Sodales ut eu sem integer vitae. At consectetur lorem donec massa sapien faucibus. In fermentum et sollicitudin ac orci. Sit amet nisl suscipit adipiscing. Ante metus dictum at tempor commodo ullamcorper. Mauris ultrices eros in cursus turpis massa. Sed enim ut sem viverra. Tellus integer feugiat scelerisque varius morbi enim. Turpis tincidunt id aliquet risus feugiat in ante. Lorem donec massa sapien faucibus et molestie. Volutpat maecenas volutpat blandit aliquam. Risus ultricies tristique nulla aliquet enim tortor at auctor urna. Suscipit tellus mauris a diam maecenas sed enim ut. Fermentum dui faucibus in ornare quam viverra. Tristique risus nec feugiat in fermentum posuere. Eleifend mi in nulla posuere sollicitudin. At auctor urna nunc id cursus metus aliquam eleifend mi.
+        </p>
+        <p class="project-description-paragraph">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Amet volutpat consequat mauris nunc. Donec enim diam vulputate ut pharetra. Nunc mi ipsum faucibus vitae. Sodales ut etiam sit amet nisl. Ultricies integer quis auctor elit sed. Tortor at risus viverra adipiscing at. Volutpat odio facilisis mauris sit amet massa vitae tortor condimentum. Enim diam vulputate ut pharetra sit amet aliquam. Non arcu risus quis varius. Turpis tincidunt id aliquet risus feugiat. Sed cras ornare arcu dui vivamus arcu felis bibendum ut. Mauris pharetra et ultrices neque ornare aenean euismod elementum. Amet risus nullam eget felis eget nunc lobortis. Et odio pellentesque diam volutpat commodo sed egestas egestas. Congue eu consequat ac felis donec et odio. Volutpat ac tincidunt vitae semper. Tempus imperdiet nulla malesuada pellentesque elit. Ut ornare lectus sit amet est. Leo vel fringilla est ullamcorper eget nulla facilisi etiam dignissim.
+        </p>
+        <p class="project-description-paragraph">
+            Sed lectus vestibulum mattis ullamcorper velit sed ullamcorper morbi. Sodales ut eu sem integer vitae. At consectetur lorem donec massa sapien faucibus. In fermentum et sollicitudin ac orci. Sit amet nisl suscipit adipiscing. Ante metus dictum at tempor commodo ullamcorper. Mauris ultrices eros in cursus turpis massa. Sed enim ut sem viverra. Tellus integer feugiat scelerisque varius morbi enim. Turpis tincidunt id aliquet risus feugiat in ante. Lorem donec massa sapien faucibus et molestie. Volutpat maecenas volutpat blandit aliquam. Risus ultricies tristique nulla aliquet enim tortor at auctor urna. Suscipit tellus mauris a diam maecenas sed enim ut. Fermentum dui faucibus in ornare quam viverra. Tristique risus nec feugiat in fermentum posuere. Eleifend mi in nulla posuere sollicitudin. At auctor urna nunc id cursus metus aliquam eleifend mi.
+        </p>
     </form>
 </div>
-(% endblock %)
+<div class="bottom-bar valign-wrapper">
+    <a class="back-btn" href="#">
+        <i class="material-icons">chevron_left</i>
+    </a>
+    <button id="live-preview" class="light-btn-outline">LIVE PREVIEW</button>
+    <button id="save" class="light-btn-outline">SAVE</button>
+</div>
+{% endblock %}

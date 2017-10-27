@@ -84,3 +84,121 @@
     	}
 	}
 }
+
+.project-cover {
+	background-image: url('../img/placeholders/church.png');
+	background-size: cover;
+	background-repeat: no-repeat;
+	position: fixed;
+	width: 45%;
+	height: 100%;
+	margin: 50px 0 50px 50px;
+	padding: 40px;
+	left: 0;
+	top: 0;
+	color: white !important;
+
+	.logo-text {
+		color: $interface-color-05;
+		margin: 0;
+	}
+
+	.cover-description {
+		font-family: $header-font;
+		color: inherit;
+		background-color: rgba(0, 0, 0, 0.6);
+		padding: 100px 50px;
+		width: 100%;
+		height: 100%;
+	}
+	.cover-detail {
+		font-size: 14pt;
+		letter-spacing: 2px;
+		margin: 20px 0;
+		color: white;
+		.status {
+			font-weight: 200;
+			font-size: 12pt;
+			color: $interface-color-05;
+		}
+	}
+	.cover-bottom {
+		position: absolute;
+		bottom: 0;
+		margin-bottom: 100px;
+	}
+}
+
+.project-edit {
+	z-index: -1;
+	position: fixed;
+	width: 45%;
+	height: 100%;
+	margin: 50px 50px 50px 0px;
+	padding: 100px 40px 40px 40px;
+	right: 0;
+	top: 0;
+	overflow-y: scroll;
+
+	.project-edit-header {
+		font-family: $header-font;
+		.project-title-xl {
+			font-size: 35pt;
+    		letter-spacing: 5px;
+		}
+	}
+
+	a {
+		font-weight: 300;
+		letter-spacing: 3px;
+		text-decoration: underline;
+	}
+	.project-field-list {
+		list-style: none;
+		font-family: $header-font;
+		color: $gray-scale-04;
+		font-weight: 300;
+		letter-spacing: 2px;
+	}
+	.project-description-paragraph {
+		font-family: $font-family-01;
+		text-indent: 30pt;
+	}
+}
+
+/* project item */
+.bottom-bar {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	height: 10%;
+	background-color: $interface-color-01;
+	color: $interface-color-05;
+	z-index: 1;
+	padding: 0 20px;
+
+	display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+
+	button {
+		@include smooth(0.3s);
+		margin: 0 10px;
+    	&:hover {
+    		color: $gray-scale-02;
+    	}
+	}
+	.back-btn {
+		color: $interface-color-05;
+		margin-right: auto;
+	}
+	i {
+		@include smooth(0.3s);
+		color: $interface-color-05;
+    	font-size: 25pt;
+    	margin: 20px;
+    	&:hover {
+    		color: $gray-scale-02;
+    	}
+	}
+}

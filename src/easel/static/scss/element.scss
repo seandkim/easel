@@ -92,9 +92,16 @@ figcaption {
 		border: 1.5px solid $interface-color-01;
 	}
 }
+.back-btn {
+	@include smooth(0.3s);
+	color: $interface-color-05;
+	&:hover {
+		color: $gray-scale-03;
+	}
+}
 .light-btn-outline {
 	@extend .btn;
-
+	border: 1.5px solid $interface-color-05;
 }
 .dark-btn-outline {
 	@extend .btn;
