@@ -1,7 +1,7 @@
 /* defines all the global variables */
 
 /* fonts */
-@import url('https://fonts.googleapis.com/css?family=Lato|Josefin+Sans');
+@import url('https://fonts.googleapis.com/css?family=Lato|Josefin+Sans:100,300,400,800);');
 @font-face{
     font-family: "Gloss And Bloom";
     src: url('../fonts/gloss_and_bloom/gloss_and_bloom.ttf');
@@ -14,11 +14,18 @@
     font-family: "Impact Label Reversed";
     src: url('../fonts/impact_label/Impact_Label_Reversed.ttf');
 }
+@mixin smooth($speed) {
+	-webkit-transition: all $speed ease-in-out;
+    -o-transition: all $speed ease-in-out;
+    -moz-transition: all $speed ease-in-out;
+    transition: all $speed ease-in-out;
+}
 
 $logo-font: 'Gloss and Bloom', sans-serif;
 $sublogo-font: 'Impact Label Reversed', sans-serif;
 $header-font: 'Josefin Sans', sans-serif;
 $font-family-01: 'Baskerville', 'Lato', sans-serif;
+$font-family-02: 'Courier New', fixed-width;
 
 /* colors */
 $interface-color-01 : #30302E;
@@ -30,6 +37,7 @@ $interface-color-06 : #F9F9F9;
 
 
 /* gray scale */
+$gray-scale-00 : #3D3D3D;
 $gray-scale-01 : #666666;
 $gray-scale-02 : #888888;
 $gray-scale-03 : #aaaaaa;

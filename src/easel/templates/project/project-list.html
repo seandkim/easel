@@ -1,0 +1,61 @@
+{% extends '../base.html' %}
+{% load static %}
+
+{% block page %}
+<div class="container">
+    
+    <!-- page header -->
+    <div class="page-header row">
+        <div class="col m10">
+            <h1 class="header-text header">MY PROJECTS</h1>
+            <h5 class="subheader-text subheader">Edit and manage your projects.</h5>
+        </div>
+        <div class="col m2 text-right">
+            <button class="new-project-btn">
+                <i class="material-icons">add</i><br>NEW
+            </button>
+        </div>
+    </div>
+    
+    <div class="project-list">
+        <!-- tabs -->
+        <div class="row">
+            <div class="col s8">
+                <ul class="tabs header-text">
+                    <li class="tab col s3"><a class="active" href="#all">ALL</a></li>
+                    <li class="tab col s3"><a href="#test2">UI / UX DESIGN</a></li>
+                    <li class="tab col s3"><a href="#test3">ILLUSTRAIONS</a></li>
+                </ul>
+            </div>
+            <div class="col s4 text-right">
+                <a href="#" class="add-group">+ ADD GROUP</a>
+            </div>
+            <div id="all" class="col s12">
+                <!-- project list -->
+                <div class="row item-list">
+                    <div class="col m6">
+                        <div class="project-card">
+                            <div class="project-img-container">
+                                <img src="{% static 'img/placeholders/church.png' %}">
+                            </div>
+                            <div class="project-title">CHURCH REMODEL</div>
+                            <div class="project-description">Some text to describe project</div>
+                        </div>
+                    </div>
+                    <div class="col m6">
+                        <div class="project-card">
+                            <div class="project-img-container">
+                                <img src="{% static 'img/placeholders/apartment.png' %}">
+                            </div>
+                            <div class="project-title">FANCY APARTMENT</div>
+                            <div class="project-description">Some text to describe project</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="test2" class="col s12">UI / UX Tab</div>
+            <div id="test3" class="col s12">Illustration Tab</div>
+        </div>
+    </div>
+</div>
+{% endblock %}

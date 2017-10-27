@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block page %}
+<div class="wide-container row center">
+	<div class="col m6">
+		<img src="{% static 'img/placeholders/cover.png' %}">
+		<figcaption class="text-left">Lora Andreas, Graffiti artist in Brooklyn, made her statement using Easel.</figcaption>
+	</div>
+	<div class="col m6">
+		<div class="text-center easel-container">
+            <h1 class="logo-text">EASEL</h1>
+            <h5 class="sublogo-text">Portfolio<br>Creator</h5>
+            <hr class="half-rule">
+            <div class="row call-to-action">
+	            <div class="col m7 text-left">
+	            	<p>Let your artistic talent speaks for itself. Create your portfolio now.</p>
+	            </div>
+	            <div class="col m5 text-right">
+	            	<button class="dark-btn-outline sublogo-text">START&#10230;</button>
+	            </div>
+            </div>
+        </div>
+	</div>
+</div>
+{% endblock %}

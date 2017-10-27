@@ -39,7 +39,7 @@ LOGIN_URL = '/easel/login'
 #dashboard
 LOGIN_REDIRECT_URL = '/'
 
-LOGOUT_REDIRECT_URL = '/login'
+LOGOUT_REDIRECT_URL = '/easel/login'
 
 EMAIL_HOST = 'smtp.andrew.cmu.edu'
 EMAIL_HOST_USER = 'team277'

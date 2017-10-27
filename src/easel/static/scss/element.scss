@@ -1,7 +1,8 @@
 @import "global";
 
-* {
-	font-family: $font-family-01;
+figcaption {
+	font-family: $font-family-02;
+	font-size: 9pt;
 }
 
 .logo-text {
@@ -18,6 +19,10 @@
 	font-family: $header-font;
 }
 
+.subheader-text {
+	font-family: $header-font;
+}
+
 
 /* alignment class */
 .center {
@@ -27,12 +32,25 @@
 	left: 50%;
 }
 
+.bottom {
+    position: fixed;
+    bottom: 0%;
+}
+
 .halign {
 	margin: 0 auto;
 }
 
 .text-center {
 	text-align: center;
+}
+
+.text-left {
+	text-align: left;
+}
+
+.text-right {
+	text-align: right;
 }
 
 /* page elements */
@@ -45,4 +63,124 @@
     transform: translate(-50%, -50%);
 	top: 50%;
 	left: 50%;
+}
+
+/* buttons */
+.btn {
+	background: none;
+    border: 1.5px solid black;
+    padding: 5px 10px;
+    text-align: center;
+    font-family: $sublogo-font;
+}
+.new-project-btn {
+	@extend .btn;
+	@include smooth(0.3s);
+
+	color: $gray-scale-04;
+	border: 1.5px solid $gray-scale-04;
+	display: inline-block;
+	font-family: $header-font;
+	font-size: 10pt;
+	margin: 20px 0;
+
+	i {
+		color: inherit;
+	}
+	&:hover {
+		color: $interface-color-01;
+		border: 1.5px solid $interface-color-01;
+	}
+}
+.back-btn {
+	@include smooth(0.3s);
+	color: $interface-color-05;
+	&:hover {
+		color: $gray-scale-03;
+	}
+}
+.light-btn-outline {
+	@extend .btn;
+	border: 1.5px solid $interface-color-05;
+}
+.dark-btn-outline {
+	@extend .btn;
+	color: $interface-color-01;
+}
+.dark-btn {
+	@extend .btn;
+	background-color: $interface-color-01;
+	color: $interface-color-06;
+}
+
+/* img */
+.col {
+	img {
+		max-width: 100%;
+	}
+}
+
+.wide-container {
+	margin: 0 auto;
+    max-width: 1280px;
+	width: 85%;
+}
+
+/* tabs */
+.tab {
+	font-family: $header-font !important;
+    letter-spacing: 2px;
+}
+
+.tab-icon {
+    transform: translate(0, 25%);
+}
+.tabs .tab a{
+    color: $gray-scale-04;
+} /*Black color to the text*/
+
+.tabs .tab a:hover {
+    color: $interface-color-01;
+} /*Text color on hover*/
+
+.tabs .tab a.active {
+    color: $interface-color-01;
+} /*Background and text color when a tab is active*/
+
+.tabs .indicator {
+    background-color: $interface-color-01;
+} /*Color of underline*/
+
+/* drop down */
+.dropdown-content > li > a {
+    color: $interface-color-01;
+    letter-spacing: 1.5px;
+    font-size: 10pt;
+}
+
+.modal-overlay {
+    opacity: 0.8 !important;
+}
+
+
+/* form input */
+.paint-as-input {
+	@include smooth(0.3s);
+
+	input[type="text"] {
+		border-bottom: none!important;
+  		box-shadow: none!important;
+	    background: url('../img/form/text_input_long_01.png') no-repeat;
+	    background-size: 100% auto;
+	}
+	input[type="password"] {
+		border-bottom: none!important;
+  		box-shadow: none!important;
+		background: url('../img/form/text_input_long.png') no-repeat;
+	    background-size: 100% auto;
+	}
+
+	input:focus {
+		transform: scale(1.05);
+	}
 }
