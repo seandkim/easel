@@ -30,3 +30,7 @@ def showPages(request):
 
 def pageEditor(request):
     return HttpResponse('')
+
+# for dev purpose, will delete later
+def testview(request):
+	return render(request,'dashboard.html', {})
