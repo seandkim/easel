@@ -2,6 +2,10 @@ from django import forms
 
 from django.contrib.auth.models import User
 
+# dummy form for checking file
+# TODO delete
+class FileForm(forms.Form):
+    file = forms.FileInput()
 
 class RegistrationForm(forms.Form):
     first_name = forms.CharField(max_length=20)

@@ -19,23 +19,45 @@ from django.contrib.auth import views as auth_views
 from django.contrib.auth.views import logout
 from django.conf import settings
 
-from easel import views
+from .views import views_api
+from .views import views_user_account
+from .views import views_dashboard
+from .views import views_projects
+from .views import views_sites
+from .views import views_public
+
 
 urlpatterns = [
-    url(r'^$', views.dashboard, name="home"),
-    url(r'^testpage/', views.test_view, name="test_view"),
-
     # API calls
-    url(r'^getProjects/(?P<username>\w+)$', views.getProjects, {}, name='getProjects'),
-    url(r'^getMedia/(?P<project_id>\w+)$', views.getMedia, {}, name='getMedia'),
-    url(r'^getMessages/(?P<username>\w+)$', views.getMessages, {}, name='getMessages'),
-    url(r'^getStats/(?P<username>\w+)$', views.getStats, {}, name='getStats'),
-    url(r'^getPhoto/(?P<photo_id>\w+)$', views.getPhoto, {}, name='getPhoto'),
+    # url(r'^getProjects/(?P<username>\w+)$', views_api.getProjects, {}, name='getProjects'),
+    # url(r'^getMedia/(?P<projectID>\w+)$', views_api.getMedia, {}, name='getMedia'),
+    # url(r'^getMessages/(?P<username>\w+)$', views_api.getMessages, {}, name='getMessages'),
+    # url(r'^getStats/(?P<username>\w+)$', views_api.getStats, {}, name='getStats'),
+    url(r'^getPhoto/(?P<photoID>\w+)$', views_api.getPhoto, {}, name='getPhoto'),
+    url(r'^uploadPhoto/$', views_api.uploadPhoto, {}, name='uploadPhoto'),
 
     # login/registration
-    url(r'^registration', views.registration, name="registration"),
-    url(r'^login$', auth_views.LoginView.as_view(template_name='registration/login.html'), name="login"),
+    url(r'^registration/$', views_user_account.registration, name="registration"),
+    url(r'^login/$', auth_views.LoginView.as_view(template_name='registration/login.html'), name="login"),
     url(r'^logout/$', logout, {'next_page': settings.LOGOUT_REDIRECT_URL}, name="logout"),
-    url(r'^confirmed', views.dashboard, name='confirm'),
-    url(r'^settings', views.settings, name='settings'),
+
+    url(r'^confirm-registration/$', views_user_account.confirmed, name='confirm'),
+    url(r'^settings/$', views_user_account.settings, name='settings'),
+
+    # dashboard
+    url(r'^dashboard/$', views_dashboard.home, name="dashboard"),
+
+    # projects
+    url(r'^projects/$', views_projects.home, name="projects"), # see list of projects
+    url(r'^projects/(?P<projectID>\w+)/$', views_projects.showProject, name="showProject"), # see list of media
+    url(r'^projects/(?P<projectID>\w+)/editor/$', views_projects.projectEditor, name="projectEditor"), # edit projjects
+
+    # sites
+    url(r'^sites/$', views_sites.home, name="sitesHome"), # list all the sites
+    url(r'^sites/(?P<siteID>\w+)/pages$', views_sites.showPages, name="showPages"), # list all the pages of the site
+    url(r'^sites/(?P<siteID>\w+)/pages/(?P<pageName>\w+)/editor/$', views_sites.pageEditor, name="pageEditor"), # editor of the page
+
+    # public (what public audience sees)
+    url(r'^public/(?P<siteID>\w+)$', views_public.home, name="public"), # list all the sites
+    url(r'^public/notFound/$', views_public.notFound, name="publicNotFound"), # list all the sites
 ]
