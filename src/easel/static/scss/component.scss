@@ -202,3 +202,38 @@
     	}
 	}
 }
+
+
+/* dashboard */
+.dashboard {
+	.page-header {
+		font-family: $header-font;
+	}
+	.date {
+		font-family: $font-family-01;
+		font-size: 40pt;
+		color: $gray-scale-04;
+	}
+	.header {
+		letter-spacing: 4px;
+		margin: 0;
+	}
+	.stats-box {
+		text-align: center;
+		font-family: $font-family-01;
+		background-color: $interface-color-05;
+		font-size: 20pt;
+		padding: 20px;
+		margin: 10px;
+    	line-height: 1;
+    	max-width: 100%;
+		.number {
+			font-size: 40pt;
+			margin-bottom: 10px;
+		}
+		&:after {
+			padding-top: 100%;
+			content: '';
+		}
+	}
+}
