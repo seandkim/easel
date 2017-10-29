@@ -4,19 +4,15 @@ from __future__ import unicode_literals
 from django.db import models
 from django.contrib.auth.models import User
 
-
 class Profile(models.Model):
     user = models.OneToOneField(User)
-    age = models.IntegerField(default=20, blank=True)
     school = models.CharField(max_length=40, default="", blank=True)
     bio = models.CharField(max_length=420, default="", blank=True)
-    # picture = models.ImageField(upload_to='', blank=True)
-    profilePicID = ""
+    age = models.IntegerField(blank=True)
+    gender = models.CharField(max_length=10, blank=True)
+    profilePic = models.ImageField(upload_to="profilePic", blank=True, height_field=500, width_field=500)
     def __unicode__(self):
         return self.username
-
-class Photo(models.Model):
-    base64 = models.ImageField(upload_to="profile-pics", blank=True)
 
 class Project(models.Model):
     owner = models.ForeignKey(Profile)
@@ -33,64 +29,59 @@ class Project(models.Model):
 
 class Media(models.Model):
     project = models.ForeignKey(Project)
-#    MEDIA_TYPE = (
-#        ('img', 'Image'),
-#        ('aud', 'Audio'),
-#        ('vid', 'Video'),
-#    )
-#    media_type = models.CharField(max_length=5, choices=MEDIA_TYPE)
     media_type = models.CharField(max_length=5)
-    file = models.FileField(upload_to='')
-    caption = models.CharField(max_length=200)
+    # TODO support multi-file
+    # TODO change upload_to folder
+    image = models.ImageField(upload_to='media', blank=True)
+    caption = models.CharField(max_length=1000)
 
     def __unicode__(self):
         return self.name
 
+    # TODO
     def getHTML(self):
-        return
+        return "<img src=''></img>"
 
 
+class Site(models.Model):
+   owner = models.ForeignKey(Profile)
+   name = models.CharField(max_length=20)
+   description = models.CharField(max_length=1000)
+   url = models.CharField(max_length=100)
 
+   def __unicode__(self):
+       return self.name
 
-#
-#class Site(models.Model):
-#    owner = models.ForeignKey(Profile)
-#    name = models.CharField(max_length=20)
-#    description = models.CharField(max_length=1000)
-#    url = models.CharField()
-#
-#    def __unicode__(self):
-#        return self.name
-#
-#    def getPages(self):
-#        return Page.objects.filter(site=self)
-#
-#
-#class Page(models.Model):
-#    site = models.ForeignKey(Site)
-#    nrow = models.IntegerField()
-#    ncol = models.IntegerField()
-#    url = models.CharField()
-#
-#    def __unicode__(self):
-#        return self.name
-#
-#    def getComponents(self):
-#        return Component.objects.filter(page=self)
-#
-#    def getHTML(self):
-#        return
-#
-#class Component(models.Model):
-#    page = models.ForeignKey(Page)
-#    html = models.CharField()
-#    nrow = models.IntegerField()
-#    ncol = models.IntegerField()
-#    row_idx = models.IntegerField()
-#    col_idx = models.IntegerField()
-#
-#    def __unicode__(self):
-#        return self.name
-#
-#    def getHTML(self):
-#        return
+   def getPages(self):
+       return Page.objects.filter(site=self)
+
+class Page(models.Model):
+   site = models.ForeignKey(Site)
+   nrow = models.IntegerField()
+   ncol = models.IntegerField()
+   url = models.CharField(max_length=100)
+
+   def __unicode__(self):
+       return self.name
+
+   def getComponents(self):
+       return Component.objects.filter(page=self)
+
+   # TODO
+   def getHTML(self):
+       return ""
+
+class Component(models.Model):
+   page = models.ForeignKey(Page)
+   html = models.CharField(max_length=1000) #TODO necessary?
+   nrow = models.IntegerField()
+   ncol = models.IntegerField()
+   row_idx = models.IntegerField()
+   col_idx = models.IntegerField()
+
+   def __unicode__(self):
+       return self.name
+
+   # TODO
+   def getHTML(self):
+       return ""

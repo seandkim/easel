@@ -41,7 +41,7 @@ urlpatterns = [
     url(r'^login/$', auth_views.LoginView.as_view(template_name='registration/login.html'), name="login"),
     url(r'^logout/$', logout, {'next_page': settings.LOGOUT_REDIRECT_URL}, name="logout"),
 
-    url(r'^confirm-registration/$', views_user_account.confirmed, name='confirm'),
+    # url(r'^confirm-registration/$', views_user_account.confirmed, name='confirm'),
     url(r'^settings/$', views_user_account.settings, name='settings'),
 
     # dashboard
