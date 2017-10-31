@@ -28,7 +28,7 @@ from .views import views_public
 
 
 urlpatterns = [
-    # for dev purpose, remove later
+    # TODO for dev purpose, remove later
     url(r'^testview$', views_sites.testview),
 
     # API calls
@@ -44,15 +44,12 @@ urlpatterns = [
     url(r'^login/$', auth_views.LoginView.as_view(template_name='registration/login.html'), name="login"),
     url(r'^logout/$', logout, {'next_page': settings.LOGOUT_REDIRECT_URL}, name="logout"),
 
-    # url(r'^confirm-registration/$', views_user_account.confirmed, name='confirm'),
-    url(r'^settings/$', views_user_account.settings, name='settings'),
-
     # dashboard
     url(r'^dashboard/$', views_dashboard.home, name="dashboard"),
 
     # projects
     url(r'^projects/$', views_projects.home, name="projects"), # see list of projects
-    url(r'^projects/(?P<projectID>\w+)/$', views_projects.showProject, name="showProject"), # see list of media
+    url(r'^projects/(?P<projectID>\w+)/$', views_projects.showMedia, name="showMedia"), # see list of media
     url(r'^projects/(?P<projectID>\w+)/editor/$', views_projects.projectEditor, name="projectEditor"), # edit projjects
 
     # sites

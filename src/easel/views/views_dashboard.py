@@ -23,4 +23,4 @@ from easel.forms import *
 from time import localtime, strftime
 
 def home(request):
-    return HttpResponse('')
+    return render(request, 'dashboard/dashboard.html', {})

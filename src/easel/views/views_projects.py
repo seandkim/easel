@@ -23,10 +23,10 @@ from easel.forms import *
 from time import localtime, strftime
 
 def home(request):
-    return HttpResponse('')
+    return render(request, 'project/project-list.html', {})
 
-def showProject(request):
-    return HttpResponse('')
+def showMedia(request, projectID):
+    return render(request, 'project/project-list.html', {}) # TODO
 
-def projectEditor(request):
-    return HttpResponse('')
+def projectEditor(request, projectID):
+    return render(request, 'project/project-edit.html', {})
