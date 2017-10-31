@@ -20,7 +20,11 @@ from django.contrib.auth.views import logout
 from django.conf import settings
 
 from easel import views
+import views_test
 
 urlpatterns = [
     url(r'^easel/', include('easel.urls')),
+
+    # TODO for dev purpose, remove later
+    url(r'^testview$', views_test.testview),
 ]

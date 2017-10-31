@@ -28,9 +28,6 @@ from .views import views_public
 
 
 urlpatterns = [
-    # TODO for dev purpose, remove later
-    url(r'^testview$', views_sites.testview),
-
     # API calls
     # url(r'^getProjects/(?P<username>\w+)$', views_api.getProjects, {}, name='getProjects'),
     # url(r'^getMedia/(?P<projectID>\w+)$', views_api.getMedia, {}, name='getMedia'),

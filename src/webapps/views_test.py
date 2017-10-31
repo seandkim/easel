@@ -22,11 +22,6 @@ from easel.models import *
 from easel.forms import *
 from time import localtime, strftime
 
-def home(request):
-    return HttpResponse('')
-
-def showPages(request):
-    return HttpResponse('')
-
-def pageEditor(request):
-    return HttpResponse('')
+# for dev purpose, will delete later
+def testview(request):
+	return render(request,'components/sidebar.html', {})
