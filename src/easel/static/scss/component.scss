@@ -11,6 +11,7 @@
 		p {
 			padding: 0;
 			margin: 0;
+			font-family: $font-family-01;
 		}
 	}
 }
@@ -25,8 +26,11 @@
     	letter-spacing: 6px;
     	color: $gray-scale-00;
 	}
-
+	.form-footer {
+		margin-top: 20px;
+	}
 	a {
+		font-family: $font-family-01;
 		color: $interface-color-01;
 		text-decoration: underline;
 		-webkit-transition: all 0.3s ease-in-out;

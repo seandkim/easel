@@ -189,9 +189,11 @@ figcaption {
 
 
 /* form input */
+input {
+	margin: 0 !important;
+}
 .paint-as-input {
 	@include smooth(0.3s);
-
 	input[type="text"] {
 		border-bottom: none!important;
   		box-shadow: none!important;
