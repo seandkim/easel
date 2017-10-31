@@ -33,4 +33,4 @@ def pageEditor(request):
 
 # for dev purpose, will delete later
 def testview(request):
-	return render(request,'dashboard.html', {})
+	return render(request,'components/sidebar.html', {})

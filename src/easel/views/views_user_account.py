@@ -105,3 +105,6 @@ def settings(request):
     login(request, new_user)
 
     return render(request, 'settings.html', context)
+
+def confirmed(request):
+    pass

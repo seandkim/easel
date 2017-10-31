@@ -1,33 +1,59 @@
-{% extends '../base.html' %} {% load static %}
-<div class="sidebar light">
+{% extends '../base.html' %} 
+{% load static %}
+
+{% block page %}
+
+<button class="sliiider-toggle">show</button>
+<!--
+<a class="sliiider-toggle">
+	<img src="{% static 'img/component/toggle.png' %}">
+</a> 
+--> 
+
+<div class="sidebar light" id="menu">
+	<a class="sliiider-toggle">
+		<img class="toggle" src="{% static 'img/component/toggle.png' %}">
+	</a>
+	<div class="close-btn slider-exit">
+		<i class="tab-icon material-icons">close</i>
+	</div>
 	<div class="sidebar-header">
-		<div class="col m3">
-			<div class="col m2 icon-container">
-                <img src="{% static 'img/placeholders/girl.jpeg' }">
+		<div class="profile">
+			<div class="icon-container">
+                <img src="{% static 'img/placeholders/girl.jpeg' %}">
             </div>
             <div class="sidebar-name">
-             	JANE PETERSON
+             	JANE<br>PETERSON
             </div>
 		</div>
 		<hr class="divider">
 		<div class="sidebar-menu">
 			<ul>
 				<li class="sidebar-item">
-					<i class="materialize-icon">home</i>HOME
+					<a href="#">
+						<i class="tab-icon material-icons">home</i>HOME
+					</a>
 				</li>
 				<li class="sidebar-item">
-					<i class="materialize-icon">insert_drive_file</i>PROJECTS
+					<a href="#">
+						<i class="tab-icon material-icons">insert_drive_file</i>PROJECTS
+					</a>
 				</li>
 				<li class="sidebar-item">
-					<i class="materialize-icon">language</i>SITE
+					<a href="#">
+						<i class="tab-icon material-icons">language</i>SITE
+					</a>
 				</li>
 				<li class="sidebar-item">
-					<i class="materialize-icon">inbox</i>INBOX
+					<a href="#">
+						<i class="tab-icon material-icons">inbox</i>INBOX
+					</a>
 				</li>
 			</ul>
 		</div>
 		<div class="sidebar-bottom">
-		<button id="logout" class="dark-btn">LOG OUT</button>
+			<button id="logout" class="dark-btn-alt">LOG OUT</button>
 		</div>
 	</div>
 </div>
+{% endblock %}
