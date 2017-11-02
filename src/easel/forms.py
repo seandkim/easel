@@ -66,3 +66,17 @@ class SettingsForm(forms.Form):
             raise forms.ValidationError("Passwords did not match.")
 
         return cleaned_data
+
+
+class AddProjectForm(forms.Form):
+    project_name = forms.CharField(max_length=20)
+    description = forms.CharField(max_length=1000)
+    
+    def clean(self):
+        cleaned_data = super(AddProjectForm, self).clean()
+        project_name = cleaned_data.get('project_name')
+        description = cleaned_data.get('description')
+        
+        return cleaned_data
+
+    

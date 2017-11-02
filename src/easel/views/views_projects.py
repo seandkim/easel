@@ -30,3 +30,27 @@ def showMedia(request, projectID):
 
 def projectEditor(request, projectID):
     return render(request, 'project/project-edit.html', {})
+
+def addProject(request):
+    context = {}
+
+    # Just display the add-project form if this is a GET request.
+    if request.method == 'GET':
+        context['form'] = AddProjectForm()
+        return render(request, 'project/project-add.html', context)
+
+    form = AddProjectForm(request.POST)
+    context['form'] = form
+    # Validates the form.
+    if not form.is_valid():
+        return render(request, 'project/project-add.html', context)
+
+    profile = Profile.objects.get(user = request.user)
+    
+    new_project = Project(owner=profile,
+                          name=form.cleaned_data['project_name'],
+                          description=form.cleaned_data['description'])
+    new_project.save()
+    context['message'] = "Your project has been added"
+
+    return render(request, 'project/project-add.html', context)

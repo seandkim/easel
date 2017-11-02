@@ -48,6 +48,7 @@ urlpatterns = [
 
     # projects
     url(r'^projects/$', views_projects.home, name="projects"), # see list of projects
+    url(r'^projects/add/$', views_projects.addProject, name="addProject"), # form to add project
     url(r'^projects/(?P<projectID>\w+)/$', views_projects.showMedia, name="showMedia"), # see list of media
     url(r'^projects/(?P<projectID>\w+)/editor/$', views_projects.projectEditor, name="projectEditor"), # edit projjects
 

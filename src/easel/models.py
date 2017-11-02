@@ -30,7 +30,7 @@ class Dashboard(models.Model):
 class Project(models.Model):
     owner = models.ForeignKey(Profile)
     name = models.CharField(max_length=20)
-    date = models.DateField()
+    date = models.DateField(auto_now=True)
     description = models.CharField(max_length=1000)
 
     def __unicode__(self):

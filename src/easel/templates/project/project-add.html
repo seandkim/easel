@@ -1,0 +1,18 @@
+<html>
+<body>
+    <p>
+    Add Project
+    </p>
+    <form method="post" action="{% url 'addProject' %}">
+        <table>
+            {% if message %}
+                {{message}}
+            {% endif %}
+            {{form}}
+        </table>
+    {% csrf_token %}
+    <input type="submit" value="Add" />
+    </form>
+
+</body>
+</html>
