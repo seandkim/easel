@@ -18,7 +18,7 @@
                 <h2 class="form-header logo-text">Sign In</h2>
             </div>
             <div class="text-center paint-as-input">
-                <form method="post" action="">
+                <form method="post" action='{% url "login" %}'>
                     {% csrf_token %}
                     <table>{{ form.as_p }}</table>
                     <div class="form-footer text-right">

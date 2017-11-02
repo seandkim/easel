@@ -42,8 +42,8 @@ urlpatterns = [
     url(r'^logout/$', logout, {'next_page': settings.LOGOUT_REDIRECT_URL}, name="logout"),
     url(r'^settings/$', views_user_account.settings, name="settings"),
 
-
     # dashboard
+    url(r'^$', views_dashboard.home, name="home"),
     url(r'^dashboard/$', views_dashboard.home, name="dashboard"),
 
     # projects

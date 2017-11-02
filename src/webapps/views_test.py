@@ -25,3 +25,6 @@ from time import localtime, strftime
 # for dev purpose, will delete later
 def testview(request):
 	return render(request,'components/sidebar.html', {})
+
+def testform(request):
+	return render(request,'test_pages/form.html', {})
