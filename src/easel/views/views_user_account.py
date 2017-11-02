@@ -27,41 +27,37 @@ def test_view(request):
 	return render(request, 'base.html', {})
 
 def registration(request):
-	print("registration start1", request.method=="GET")
-	context = {}
+    context = {}
 
     # Just display the registration form if this is a GET request.
-	if request.method == 'GET':
-		print("request is GET")
-		context['form'] = RegistrationForm()
-		print("hello")
-		return render(request, 'registration/registration.html', context)
+    if request.method == 'GET':
+        context['form'] = RegistrationForm()
+        return render(request, 'registration/registration.html', context)
 
-	print("hello")
-	form = RegistrationForm(request.POST)
-	context['form'] = form
-	print('form is valid?', form.is_valid())
+    form = RegistrationForm(request.POST)
+    context['form'] = form
     # Validates the form.
-	if not form.is_valid():
-		print("form is not valid")
-		return render(request, 'registration/registration.html', context)
+    if not form.is_valid():
+        return render(request, 'registration/registration.html', context)
 
-	print("registering...")
 
 	# TODO to allow email confirmation; set is_active to false and change later
-	new_user = User.objects.create_user(username=form.cleaned_data['username'],
+    new_user = User.objects.create_user(username=form.cleaned_data['username'],
                                         password=form.cleaned_data['password'],
                                         first_name=form.cleaned_data['first_name'],
                                         last_name=form.cleaned_data['last_name'],
                                         email=form.cleaned_data['email'],
 										is_active=True)
+    new_user.save()
+    new_profile = Profile(user = new_user)
+    new_profile.save()
+    new_dashboard = Dashboard(user = new_user)
+    new_dashboard.save()
 
-	new_user.save()
-	new_profile = Profile(user = new_user)
-	new_profile.save()
-	login(request, new_user)
-	print("loggin in")
-	return HttpResponseRedirect(reverse("dashboard"))
+    
+    login(request, new_user)
+    
+    return HttpResponseRedirect(reverse("dashboard"))
 
 
 

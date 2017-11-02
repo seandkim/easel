@@ -23,4 +23,8 @@ from easel.forms import *
 from time import localtime, strftime
 
 def home(request):
-    return render(request, 'dashboard/dashboard.html', {})
+    profile = Profile.objects.get(user = request.user)
+    firstname = profile.user.first_name.upper()
+    lastname = profile.user.last_name.upper()
+    dashboard = Dashboard.objects.get(user = request.user)
+    return render(request, 'dashboard/dashboard.html', {'firstname': firstname, 'lastname':lastname, 'dashboard':dashboard})

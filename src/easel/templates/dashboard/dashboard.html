@@ -5,36 +5,36 @@
 <div class="container dashboard">
     <div class="page-header row">
         <div class="col m8">
-            <div class="header">DEAR JANE,</div>
+            <div class="header">DEAR {{firstname}},</div>
             <div class="subheader">This is your overview of the day.</div>
         </div>
         <div class="col m4 date">
-            Oct / 12
+            {% now "M" %} / {% now "H" %}
         </div>
     </div>
     <div class="stats row">
         <div class="col m3">
             <div class="stats-box">
-                <div class="number">24</div>
-                <div class="number-description">visitors today</div>
+                <div class="number">{{dashboard.visitorNum}}</div>
+                <div class="number-description">visitors<br>today</div>
             </div>
         </div>
         <div class="col m3">
             <div class="stats-box">
-                <div class="number">24</div>
-                <div class="number-description">visitors today</div>
+                <div class="number">{{dashboard.clapNum}}</div>
+                <div class="number-description">claps<br>today</div>
             </div>
         </div>
         <div class="col m3">
             <div class="stats-box">
-                <div class="number">24</div>
-                <div class="number-description">visitors today</div>
+                <div class="number">{{dashboard.projectNum}}</div>
+                <div class="number-description">projects<br>total</div>
             </div>
         </div>
         <div class="col m3">
             <div class="stats-box">
-                <div class="number">24</div>
-                <div class="number-description">visitors today</div>
+                <div class="number">{{dashboard.messageNum}}</div>
+                <div class="number-description">new<br>messages</div>
             </div>
         </div>
     </div>

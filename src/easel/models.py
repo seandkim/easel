@@ -11,9 +11,22 @@ class Profile(models.Model):
     age = models.IntegerField(default=0, blank=True)
     gender = models.CharField(max_length=10, default="", blank=True)
     profilePic = models.ImageField(upload_to="profilePic", blank=True, height_field=500, width_field=500)
+    
     def __unicode__(self):
         return self.user.username
 
+
+class Dashboard(models.Model):
+    user = models.OneToOneField(User, null=True)
+    visitorNum = models.IntegerField(default=0)
+    clapNum = models.IntegerField(default=0)
+    projectNum = models.IntegerField(default=0)
+    messageNum = models.IntegerField(default=0)
+    
+    def __unicode__(self):
+        return self.user.username
+    
+    
 class Project(models.Model):
     owner = models.ForeignKey(Profile)
     name = models.CharField(max_length=20)
