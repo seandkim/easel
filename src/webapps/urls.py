@@ -27,4 +27,5 @@ urlpatterns = [
 
     # TODO for dev purpose, remove later
     url(r'^testview$', views_test.testview),
+    url(r'^testform$', views_test.testform),
 ]

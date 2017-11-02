@@ -1,4 +1,4 @@
-{% extends '../base.html' %} 
+{% extends '../base.html' %}
 {% load static %}
 
 {% block page %}
@@ -7,7 +7,7 @@
 <div id="sidebar" class="light">
 	<a id="toggle">
 		<img src="{% static 'img/component/toggle.png' %}">
-	</a> 
+	</a>
 	<div class="close-btn" id="slider-exit">
 		<i class="tab-icon material-icons">close</i>
 	</div>
@@ -24,17 +24,17 @@
 		<div class="sidebar-menu">
 			<ul>
 				<li class="sidebar-item">
-					<a href="#">
+					<a href="{% url 'home' %}">
 						<i class="tab-icon material-icons">home</i>HOME
 					</a>
 				</li>
 				<li class="sidebar-item">
-					<a href="#">
+					<a href="{% url 'projects' %}">
 						<i class="tab-icon material-icons">insert_drive_file</i>PROJECTS
 					</a>
 				</li>
 				<li class="sidebar-item">
-					<a href="#">
+					<a href="{% url 'sitesHome' %}">
 						<i class="tab-icon material-icons">language</i>SITE
 					</a>
 				</li>
