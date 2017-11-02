@@ -22,6 +22,7 @@ from easel.models import *
 from easel.forms import *
 from time import localtime, strftime
 
+@login_required
 def home(request):
     profile = Profile.objects.get(user = request.user)
     firstname = profile.user.first_name.upper()

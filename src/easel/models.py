@@ -10,7 +10,7 @@ class Profile(models.Model):
     bio = models.CharField(max_length=420, default="", blank=True)
     age = models.IntegerField(default=0, blank=True)
     gender = models.CharField(max_length=10, default="", blank=True)
-    profilePic = models.ImageField(upload_to="profilePic", blank=True, height_field=500, width_field=500)
+    profilePic = models.ImageField(upload_to="profilePic", blank=True)
     
     def __unicode__(self):
         return self.user.username
