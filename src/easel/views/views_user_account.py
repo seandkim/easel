@@ -61,7 +61,7 @@ def registration(request):
 	new_profile.save()
 	login(request, new_user)
 	print("loggin in")
-	return HttpResponseRedirect(reverse("home"))
+	return HttpResponseRedirect(reverse("dashboard"))
 
 
 

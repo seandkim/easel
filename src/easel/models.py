@@ -5,14 +5,14 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class Profile(models.Model):
-    user = models.OneToOneField(User)
+    user = models.OneToOneField(User, null=True)
     school = models.CharField(max_length=40, default="", blank=True)
     bio = models.CharField(max_length=420, default="", blank=True)
-    age = models.IntegerField(blank=True)
-    gender = models.CharField(max_length=10, blank=True)
+    age = models.IntegerField(default=0, blank=True)
+    gender = models.CharField(max_length=10, default="", blank=True)
     profilePic = models.ImageField(upload_to="profilePic", blank=True, height_field=500, width_field=500)
     def __unicode__(self):
-        return self.username
+        return self.user.username
 
 class Project(models.Model):
     owner = models.ForeignKey(Profile)
@@ -42,46 +42,46 @@ class Media(models.Model):
     def getHTML(self):
         return "<img src=''></img>"
 
-
+    
 class Site(models.Model):
-   owner = models.ForeignKey(Profile)
-   name = models.CharField(max_length=20)
-   description = models.CharField(max_length=1000)
-   url = models.CharField(max_length=100)
+    owner = models.ForeignKey(Profile)
+    name = models.CharField(max_length=20)
+    description = models.CharField(max_length=1000)
+    url = models.CharField(max_length=100)
 
-   def __unicode__(self):
-       return self.name
+    def __unicode__(self):
+        return self.name
 
-   def getPages(self):
-       return Page.objects.filter(site=self)
+    def getPages(self):
+        return Page.objects.filter(site=self)
 
 class Page(models.Model):
-   site = models.ForeignKey(Site)
-   nrow = models.IntegerField()
-   ncol = models.IntegerField()
-   url = models.CharField(max_length=100)
+    site = models.ForeignKey(Site)
+    nrow = models.IntegerField()
+    ncol = models.IntegerField()
+    url = models.CharField(max_length=100)
 
-   def __unicode__(self):
-       return self.name
+    def __unicode__(self):
+        return self.name
 
-   def getComponents(self):
-       return Component.objects.filter(page=self)
+    def getComponents(self):
+        return Component.objects.filter(page=self)
 
-   # TODO
-   def getHTML(self):
-       return ""
+    # TODO
+    def getHTML(self):
+        return ""
 
 class Component(models.Model):
-   page = models.ForeignKey(Page)
-   html = models.CharField(max_length=1000) #TODO necessary?
-   nrow = models.IntegerField()
-   ncol = models.IntegerField()
-   row_idx = models.IntegerField()
-   col_idx = models.IntegerField()
+    page = models.ForeignKey(Page)
+    html = models.CharField(max_length=1000) #TODO necessary?
+    nrow = models.IntegerField()
+    ncol = models.IntegerField()
+    row_idx = models.IntegerField()
+    col_idx = models.IntegerField()
 
-   def __unicode__(self):
-       return self.name
+    def __unicode__(self):
+        return self.name
 
-   # TODO
-   def getHTML(self):
-       return ""
+    # TODO
+    def getHTML(self):
+        return ""

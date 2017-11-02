@@ -1,13 +1,14 @@
 {% extends 'base.html' %}
 
 {% block page %}
-    <div class="text-center">
-        <div class="text-center">
-            <h2 class="logo-text logo">Edit Information</h2>
-        </div>
-        <div class="form-center text-center">
-            <form enctype="multipart/form-data" method="post" action="{% url 'settings' %}">
-                <table>
+    <div class="col m6">
+        <div class="form-container">
+            <div class="text-left">
+                <h2 class="form-header logo-text">Edit Information</h2>
+            </div>
+            <div class="text-center paint-as-input">
+                <form enctype="multipart/form-data" method="post" action="{% url 'settings' %}">
+                    <table>
                     {% if error %}
                         {{error}}
                     {% endif %}
@@ -21,7 +22,12 @@
                     Save
                 </button>
             </form>
-        </div> 
-        <br>
+                <br>
+                <button id="dashboard-button" class="btn waves-effect waves-light black" type="submit" name="action" onclick="location.href='{% url 'dashboard' %}'">
+                    Back to Dashboard
+                </button>
+            </div>
+        </div>
     </div>
+
 {% endblock %}

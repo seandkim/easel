@@ -37,7 +37,7 @@ MIDDLEWARE = [
 LOGIN_URL = '/easel/login'
 
 #dashboard
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/easel/dashboard'
 
 LOGOUT_REDIRECT_URL = '/easel/login'
 
