@@ -15,12 +15,12 @@ $(function() {
     function sidebarToggle() {
         if (sidebarHidden) {
             $("#sidebar").animate({ right: 0 }, {
-                duration: 1000,
+                duration: 700,
                 easing: 'easeOutQuart'
             });
         } else {
             $("#sidebar").animate({ right: '-' + $('#sidebar').outerWidth() + 'px' }, {
-                duration: 1000,
+                duration: 700,
                 easing: 'easeOutQuart'
             });
         }
