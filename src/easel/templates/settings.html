@@ -15,13 +15,13 @@
                     {% if message %}
                         {{message}}
                     {% endif %}
-                {{form}}
-                </table>
-                {% csrf_token %}
-                <button id="save-button" class="btn waves-effect waves-light black" type="submit" name="action">
-                    Save
-                </button>
-            </form>
+                    {{form}}
+                    </table>
+                    {% csrf_token %}
+                    <button id="save-button" class="btn waves-effect waves-light black" type="submit" name="action">
+                        Save
+                    </button>
+                </form>
                 <br>
                 <button id="dashboard-button" class="btn waves-effect waves-light black" type="submit" name="action" onclick="location.href='{% url 'dashboard' %}'">
                     Back to Dashboard
