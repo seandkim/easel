@@ -17,10 +17,10 @@ class Profile(models.Model):
 
 class Dashboard(models.Model):
     user = models.OneToOneField(User, null=True)
-    visitorNum = models.IntegerField(default=0)
-    clapNum = models.IntegerField(default=0)
-    projectNum = models.IntegerField(default=0)
-    messageNum = models.IntegerField(default=0)
+    visitorNum = models.IntegerField()
+    clapNum = models.IntegerField()
+    projectNum = models.IntegerField()
+    messageNum = models.IntegerField()
 
     def __unicode__(self):
         return self.user.username    

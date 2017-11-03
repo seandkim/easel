@@ -51,6 +51,9 @@ def addProject(request):
                           name=form.cleaned_data['project_name'],
                           description=form.cleaned_data['description'])
     new_project.save()
+    dashboard = Dashboard.objects.get(user = request.user)
+    dashboard.projectNum += 1
+    dashboard.save()
     context['message'] = "Your project has been added"
 
     return HttpResponseRedirect('/easel/projects/')
