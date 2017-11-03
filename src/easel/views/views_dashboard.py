@@ -25,7 +25,7 @@ from time import localtime, strftime
 @login_required
 def home(request):
     profile = Profile.objects.get(user = request.user)
-    firstname = profile.user.first_name.upper()
-    lastname = profile.user.last_name.upper()
     dashboard = Dashboard.objects.get(user = request.user)
-    return render(request, 'dashboard/dashboard.html', {'firstname': firstname, 'lastname':lastname, 'dashboard':dashboard})
+    firstname = profile.user.first_name
+    lastname = profile.user.last_name
+    return render(request, 'dashboard/dashboard.html', {'firstname':firstname, 'lastname':lastname, 'dashboard':dashboard})
