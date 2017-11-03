@@ -6,8 +6,8 @@ $(function() {
     $('#sidebar').css('right', '-' + $('#sidebar').outerWidth() + 'px');
     
     /* event listeners */
-    $('#toggle').click(sidebarToggle);
-    $('#slider-exit').click(sidebarToggle);
+    $('#toggle').on('click', sidebarToggle);
+    $('#slider-exit').on('click', sidebarToggle);
 
     /* 
      * Controls hide and show of sidebar
