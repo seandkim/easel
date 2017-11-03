@@ -24,7 +24,11 @@ from time import localtime, strftime
 
 @login_required
 def home(request):
-    return render(request, 'project/project-list.html', {})
+    context = {}
+    profile = Profile.objects.get(user = request.user)
+    projects = Project.objects.filter(owner = profile)
+    context['projects'] = projects
+    return render(request, 'project/project-list.html', context)
 
 @login_required
 def addProject(request):
