@@ -280,19 +280,6 @@
 	    	max-height: 250px;
 	    }
 	}
-	.close-btn {
-		position: absolute;
-	    right: 0;
-	    top: 0;
-	    margin: 10px;
-	    cursor: pointer;
-	    &:hover {
-	    	@include smooth(0.3s);
-	    	i { 
-	    		color: $gray-scale-04 !important;
-	    	}
-	    }
-	}
 	.icon-container {
 		display: inline-block;
 		margin-right: 0 20px;
@@ -363,3 +350,54 @@
 	}
 }
 
+#editor-bar {
+	position: fixed;
+	left: 0;
+	top: 0;
+	height: 100%;
+	width: 35%;
+	padding: 70px 40px;
+	overflow-y: scroll;
+	color: $interface-color-05 !important;
+
+	.sidebar-title {
+		font-family: $header-font;
+		font-size: 25pt;
+		letter-spacing: 4px;
+		color: $interface-color-07;
+	}
+	.sidebar-description {
+		font-family: $font-family-01;
+		color: $interface-color-07;
+	}
+	.close-btn {
+		color: $interface-color-07;
+	}
+	.tabs {
+		background: none;
+	}
+	.tabs tab a {
+		background: none;
+		color: $interface-color-05;
+	}
+	.editor-body {
+		margin-top: 20px;
+	}
+}
+#page-preview {
+	position: fixed;
+	width: 65%;
+	height: 100%;
+	right: 0;
+	top: 0;
+}
+
+
+.dark {
+	background-color: $interface-color-01;
+	color: $interface-color-05;
+}
+
+.light {
+	background-color: $interface-color-06;
+}
