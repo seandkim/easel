@@ -67,9 +67,12 @@ def registration(request):
 
 @login_required
 def settings(request):
-    context={}
+    context = {}
     cur_user = request.user
-    context['form'] = SettingsForm()
+    profile = Profile.objects.get(user = cur_user)
+    
+    data={'first_name':cur_user.first_name, 'last_name':cur_user.last_name, 'age':profile.age, 'school':profile.school, 'bio':profile.bio}
+    context['form'] = SettingsForm(initial=data)
 
     # Just display the registration form if this is a GET request.
     if request.method == 'GET':
@@ -81,7 +84,6 @@ def settings(request):
         context['form'] = form
         return render(request, 'settings.html', context)
 
-    profile = Profile.objects.get(user = cur_user)
 
     cur_user.first_name = form.cleaned_data['first_name']
     cur_user.last_name = form.cleaned_data['last_name']
