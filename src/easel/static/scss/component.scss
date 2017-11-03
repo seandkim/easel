@@ -295,11 +295,13 @@
 	}
 	.icon-container {
 		display: inline-block;
-		transform: translate(0, 15%);
 		margin-right: 0 20px;
+		border-radius: 50%;
+		background-color: $interface-color-01;
 		img {
 			border-radius: 50%;
 			width: 100px;
+			transform: translate(5%, 5%);
 		}
 	}
 	.profile {
@@ -340,9 +342,23 @@
 		bottom: 0;
 		transform: translate(50%, 0);
 		right: 50%;
-		margin: 75px 0;
+		margin: 50px 0;
 		button {
 			padding: 10px 30px;
+		}
+		.setting-btn {
+			margin: 20px 0;
+		}
+		#settings {
+			font-size: 10pt;
+			color: $gray-scale-02;
+			text-decoration: underline;
+			letter-spacing: 1px;
+			cursor: pointer;
+			&:hover {
+				@include smooth(0.3s);
+				color: $gray-scale-04;
+			}
 		}
 	}
 }

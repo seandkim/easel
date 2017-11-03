@@ -45,13 +45,12 @@
 				</li>
 			</ul>
 		</div>
-<!--   FOR EDITING USER INFO     -->
-        <div>
-			<button id="settings" class="dark-btn-alt" onclick="location.href='{% url 'settings' %}'">SETTINGS</button>
-		</div>
-<!--        -->
 		<div class="sidebar-bottom">
 			<button id="logout" class="dark-btn-alt" onclick="location.href='{% url 'logout' %}'">LOG OUT</button>
+			<div class="setting-btn">
+				<a id="settings" onclick="location.href='{% url 'settings' %}'">SETTINGS</button>
+				</a>
+			</div>
 		</div>
 	</div>
 </div>
