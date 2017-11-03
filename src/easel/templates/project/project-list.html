@@ -51,6 +51,17 @@
                             <div class="project-description">Some text to describe project</div>
                         </div>
                     </div>
+                    {% for project in projects %}
+                    <div class="col m6">
+                        <div class="project-card">
+                            <div class="project-img-container">
+                                <img src="{% static 'img/placeholders/apartment.png' %}">
+                            </div>
+                            <div class="project-title">{{project.name|upper}}</div>
+                            <div class="project-description">{{project.description}}</div>
+                        </div>
+                    </div>
+                    {% endfor %}
                 </div>
             </div>
             <div id="test2" class="col s12">UI / UX Tab</div>
