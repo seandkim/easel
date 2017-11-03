@@ -1,6 +1,6 @@
 $(function() {
 	/* variable declarations */
-    var sidebarHidden = false;
+    var sidebarHidden = true;
 
     // hide sidebar
     $('#sidebar').css('right', '-' + $('#sidebar').outerWidth() + 'px');
