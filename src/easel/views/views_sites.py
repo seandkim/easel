@@ -22,11 +22,14 @@ from easel.models import *
 from easel.forms import *
 from time import localtime, strftime
 
+@login_required
 def home(request):
     return HttpResponse('')
 
+@login_required
 def showPages(request):
     return HttpResponse('')
 
+@login_required
 def pageEditor(request):
     return HttpResponse('')
