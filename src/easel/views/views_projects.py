@@ -22,6 +22,7 @@ from easel.models import *
 from easel.forms import *
 from time import localtime, strftime
 
+@login_required
 def home(request):
     context = {}
     profile = Profile.objects.get(user = request.user)
@@ -29,12 +30,7 @@ def home(request):
     context['projects'] = projects
     return render(request, 'project/project-list.html', context)
 
-def showMedia(request, projectID):
-    return render(request, 'project/project-list.html', {}) # TODO
-
-def projectEditor(request, projectID):
-    return render(request, 'project/project-edit.html', {})
-
+@login_required
 def addProject(request):
     context = {}
 
@@ -50,11 +46,19 @@ def addProject(request):
         return render(request, 'project/project-add.html', context)
 
     profile = Profile.objects.get(user = request.user)
-    
+
     new_project = Project(owner=profile,
                           name=form.cleaned_data['project_name'],
                           description=form.cleaned_data['description'])
     new_project.save()
     context['message'] = "Your project has been added"
 
-    return render(request, 'project/project-add.html', context)
+    return HttpResponseRedirect('/easel/projects/')
+
+@login_required
+def showMedia(request, projectID):
+    return render(request, 'project/project-list.html', {}) # TODO
+
+@login_required
+def projectEditor(request, projectID):
+    return render(request, 'project/project-edit.html', {})

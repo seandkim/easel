@@ -11,10 +11,9 @@ class Profile(models.Model):
     age = models.IntegerField(default=0, blank=True)
     gender = models.CharField(max_length=10, default="", blank=True)
     profilePic = models.ImageField(upload_to="profilePic", blank=True)
-    
+
     def __unicode__(self):
         return self.user.username
-
 
 class Dashboard(models.Model):
     user = models.OneToOneField(User, null=True)
@@ -22,11 +21,10 @@ class Dashboard(models.Model):
     clapNum = models.IntegerField(default=0)
     projectNum = models.IntegerField(default=0)
     messageNum = models.IntegerField(default=0)
-    
+
     def __unicode__(self):
-        return self.user.username
-    
-    
+        return self.user.username    
+
 class Project(models.Model):
     owner = models.ForeignKey(Profile)
     name = models.CharField(max_length=20)
@@ -55,7 +53,7 @@ class Media(models.Model):
     def getHTML(self):
         return "<img src=''></img>"
 
-    
+
 class Site(models.Model):
     owner = models.ForeignKey(Profile)
     name = models.CharField(max_length=20)

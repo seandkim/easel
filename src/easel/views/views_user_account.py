@@ -54,9 +54,9 @@ def registration(request):
     new_dashboard = Dashboard(user = new_user)
     new_dashboard.save()
 
-    
+
     login(request, new_user)
-    
+
     return HttpResponseRedirect(reverse("dashboard"))
 
 
@@ -82,7 +82,7 @@ def settings(request):
     if 'first_name' in request.POST and request.POST['first_name'] != '':
         cur_user.first_name = form.cleaned_data['first_name']
         cur_user.save()
-        
+
     if 'last_name' in request.POST and request.POST['last_name'] != '':
         cur_user.last_name = form.cleaned_data['last_name']
         cur_user.save()
@@ -90,24 +90,24 @@ def settings(request):
     if 'password1' in request.POST and request.POST['password1'] != '':
         cur_user.set_password(form.cleaned_data['password1'])
         cur_user.save()
-        
+
     #other fields in profile
     if 'age' in request.POST and request.POST['age'] != '':
         profile.age = form.cleaned_data['age']
         profile.save()
-        
+
     if 'school' in request.POST and request.POST['school'] != '':
         profile.school=form.cleaned_data['school']
         profile.save()
-        
+
     if 'bio' in request.POST and request.POST['bio'] != '':
         profile.bio=form.cleaned_data['bio']
         profile.save()
-        
+
     if 'picture' in request.FILES and request.FILES['picture'] != '':
         profile.profilePic = request.FILES['picture']
         profile.save()
-    
+
     context['message'] = "Your information has been updated"
 
     new_user = authenticate(username=cur_user.username,
