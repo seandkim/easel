@@ -23,7 +23,7 @@ class Dashboard(models.Model):
     messageNum = models.IntegerField()
 
     def __unicode__(self):
-        return self.user.username    
+        return self.user.username
 
 class Project(models.Model):
     owner = models.ForeignKey(Profile)
@@ -36,7 +36,6 @@ class Project(models.Model):
 
     def getMedia(self):
         return Media.objects.filter(project=self)
-
 
 class Media(models.Model):
     project = models.ForeignKey(Project)
