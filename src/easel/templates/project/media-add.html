@@ -1,9 +1,12 @@
 <html>
 <body>
     <p>
-    Add Project
+    Add Media
     </p>
-    <form method="post" action="{% url 'addProject' %}">
+    {% for field, error in form.errors.items %}
+      <span class="error">{{error}}</span>
+    {% endfor %}
+    <form method="post" action="{% url 'addMedia' %}">
         <table>
             {% if message %}
                 {{message}}

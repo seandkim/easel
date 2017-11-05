@@ -3,9 +3,10 @@
     [
       {% for project in projects %}
          {
-           "owner": "{{project.username}}",
+           "id": "{{project.id}}",
+           "owner": "{{username}}",
            "name": "{{project.name}}",
-           "time": "{{project.time}}",
+           "time": "{{project.date}}",
            "description": "{{project.description}}"
          }{% if not forloop.last %},{% endif %}
       {% endfor %}
