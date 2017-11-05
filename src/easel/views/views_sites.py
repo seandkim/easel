@@ -28,7 +28,13 @@ def home(request):
 
 @login_required
 def siteEditor(request, siteID):
-    return render(request,'site-editor/site-editor.html', {})
+    context = {}
+    profile = Profile.objects.get(user=request.user)
+    projects = Project.objects.filter(owner=profile)
+    medias = Media.objects.filter(project__in=projects)
+    context['profile'] = profile
+    context['medias'] = medias
+    return render(request,'site-editor/site-editor.html', context)
 
 @login_required
 def pageEditor(request):
