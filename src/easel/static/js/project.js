@@ -66,6 +66,7 @@ $(document).ready(function() {
       for (var i=0; i<media.length; i++) {
         var medium = media[i]
 
+        var a = $('<a></a>').attr('href', '/easel/projects/'+projectID+'/editMedia/'+medium.id)
         var col = $('<div class="col m6"></div>')
         var card = $('<div class="project-card"></div>')
 
@@ -75,10 +76,11 @@ $(document).ready(function() {
 
         var name = $('<div class="project-title"></div>').html(medium.name)
         var description = $('<div class="project-description"></div>').html(medium.caption)
+        a.append(card)
         card.append(img_container)
         card.append(name)
         card.append(description)
-        col.append(card)
+        col.append(a)
         media_list.append(col)
       }
     })

@@ -1,0 +1,25 @@
+<html>
+<body>
+    <p>
+    Edit Media
+    </p>
+    <form method="post" enctype="multipart/form-data" action="{% url 'editMedia' projectID mediaID %}">
+        <table>
+            {% if message %}
+                {{message}}
+            {% endif %}
+
+            <img src="/easel/getPhoto/media/{{mediaID}}"/>
+            {% for field in form.visible_fields %}
+              {{field.label_tag}} {{field}}
+              <br />
+            {% endfor %}
+        </table>
+    {% csrf_token %}
+    <input type="submit" name='action' value="Save" />
+    <input type="submit" name='action' value="Delete" />
+    <input type="submit" name='action' value="Cancel" />
+    </form>
+
+</body>
+</html>

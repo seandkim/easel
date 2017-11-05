@@ -37,7 +37,7 @@ class Media(models.Model):
     caption = models.CharField(max_length=1000)
 
     def __unicode__(self):
-        return self.name
+        return self.name3
 
     # TODO
     def getHTML(self):

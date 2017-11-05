@@ -78,3 +78,27 @@ class AddMediaForm(forms.ModelForm):
         model = Media
         exclude = ('project',)
         widgets = {'image': forms.FileInput()}
+
+class EditMediaForm(forms.Form):
+    def __init__(self, user, *args, **kwargs):
+        super(EditMediaForm, self).__init__(*args, **kwargs)
+        profile = Profile.objects.get(user=user)
+        projects = Project.objects.filter(owner=profile)
+        self.fields['project'] = forms.ModelChoiceField(queryset=projects, empty_label=None)
+
+    # project field is overwritten with choice field
+    # it is declared here to display first in the form
+    project = forms.CharField(max_length=20)
+    # image = forms.FileField()
+    name = forms.CharField(max_length=20)
+    caption = forms.CharField(max_length=1000)
+
+    # image file is not required
+    def is_valid(self):
+        valid = super(EditMediaForm, self).is_valid()
+
+        if valid:
+            return True
+
+        print(self)
+        return False

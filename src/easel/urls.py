@@ -51,6 +51,7 @@ urlpatterns = [
     url(r'^projects/$', views_projects.home, name="projects"), # see list of projects
     url(r'^projects/addProject/$', views_projects.addProject, name="addProject"), # form to add project
     url(r'^projects/(?P<projectID>\w+)/addMedia/$', views_projects.addMedia, name="addMedia"), # addMedia
+    url(r'^projects/(?P<projectID>\w+)/editMedia/(?P<mediaID>\w+)$', views_projects.editMedia, name="editMedia"), # addMedia
 
     # sites
     url(r'^sites/$', views_sites.home, name="sitesHome"), # list all the sites

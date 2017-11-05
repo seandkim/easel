@@ -80,3 +80,41 @@ def addMedia(request, projectID):
     media.save()
 
     return HttpResponseRedirect(reverse("projects"))
+
+@login_required
+def editMedia(request, projectID, mediaID):
+    context = {'projectID': projectID, 'mediaID': mediaID}
+    if request.method == 'GET':
+        medium = Media.objects.get(id=mediaID)
+        initial = {
+            'name': medium.name,
+            'caption': medium.caption,
+            'project': medium.project
+        }
+
+        form = EditMediaForm(request.user, initial=initial)
+        context['form'] = form
+        return render(request, 'project/media-edit.html', context)
+
+    # POST request
+    if not 'action' in request.POST or request.POST['action'] == "":
+        return HttpResponseRedirect(reverse('projects'))
+     
+    action = request.POST['action']
+    medium = Media.objects.get(id=mediaID)
+    if action == 'Save':
+        form = EditMediaForm(request.user, request.POST)
+        if not form.is_valid():
+            context['form'] = form
+            return render(request, 'project/media-edit.html', context)
+
+        medium.project = form.cleaned_data['project']
+        medium.name = form.cleaned_data['name']
+        medium.caption = form.cleaned_data['caption']
+        medium.save()
+    elif action == 'Delete':
+        medium.delete()
+    elif action == 'Cancel':
+        pass
+
+    return HttpResponseRedirect(reverse('projects')) # TODO focus on the selected project
