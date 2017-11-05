@@ -63,8 +63,35 @@ def getPhoto(request, photoID):
     return HttpResponse(profile.picture, content_type=content_type)
 
 def makeDefaultProjects(request):
+	try:
+		user = User.objects.get(username='henri_matisse')
+	except:
+		user = User.objects.create_user(username='henri_matisse',
+	                password='123',
+	                first_name='Henri',
+	                last_name='Matisse',
+	                email='henri_matisse@gmail.com')
+		user.save()
+		profile = Profile(user=user)
+		profile.save()
 
-	return HttpResponse('')
+	login(request, user)
+	profile = Profile.objects.get(user=user)
+
+	Project.objects.filter(owner=profile).delete()
+	p1 = Project(owner=profile, name='paper', description="my late paper work")
+	p1.save()
+	for i in range(3):
+		m1 = Media(project=p1, name="Paper "+str(i), caption="caption "+str(i))
+		m1.save()
+
+	p2 = Project(owner=profile, name='woman', description="my woman painting")
+	p2.save()
+	for i in range(3):
+		m1 = Media(project=p2, name="Woman "+str(i), caption="caption "+str(i))
+		m1.save()
+
+	return HttpResponseRedirect(reverse('projects'))
 
 def clearAllUsers(request):
 	User.objects.all().delete()

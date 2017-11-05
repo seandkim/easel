@@ -35,6 +35,7 @@ urlpatterns = [
     # url(r'^getStats/(?P<username>\w+)$', views_api.getStats, {}, name='getStats'),
     url(r'^getPhoto/(?P<photoID>\w+)$', views_api.getPhoto, {}, name='getPhoto'),
     url(r'^uploadPhoto/$', views_api.uploadPhoto, {}, name='uploadPhoto'),
+    url(r'^makeDefaultProjects/$', views_api.makeDefaultProjects, {}, name='makeDefaultProjects'),
 
     # login/registration
     url(r'^registration/$', views_user_account.registration, name="registration"),

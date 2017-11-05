@@ -39,8 +39,8 @@ class Project(models.Model):
 
 class Media(models.Model):
     project = models.ForeignKey(Project)
-    media_type = models.CharField(max_length=5)
     # TODO support multi-file
+    #media_type = models.CharField(max_length=5)
     # TODO change upload_to folder
     image = models.ImageField(upload_to='media', blank=True)
     name = models.CharField(max_length=20)
