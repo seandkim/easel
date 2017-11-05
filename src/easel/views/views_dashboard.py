@@ -24,8 +24,9 @@ from time import localtime, strftime
 
 @login_required
 def home(request):
+    context = {}
     profile = Profile.objects.get(user = request.user)
-    dashboard = Dashboard.objects.get(user = request.user)
-    firstname = profile.user.first_name
-    lastname = profile.user.last_name
-    return render(request, 'dashboard/dashboard.html', {'firstname':firstname, 'lastname':lastname, 'dashboard':dashboard})
+    context['firstname'] = profile.user.first_name
+    context['lastname'] = profile.user.last_name
+    context['dashboard'] = Dashboard.objects.get(user = request.user)
+    return render(request, 'dashboard/dashboard.html', context)
