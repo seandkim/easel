@@ -30,10 +30,10 @@ from .views import views_public
 urlpatterns = [
     # API calls
     url(r'^getProjects/$', views_api.getProjects, {}, name='getProjects'),
-    url(r'^getMedia/(?P<projectID>\w+)$', views_api.getMedia, {}, name='getMedia'),
+    url(r'^getMedia/(?P<projectID>\w+)/$', views_api.getMedia, {}, name='getMedia'),
     # url(r'^getMessages/(?P<username>\w+)$', views_api.getMessages, {}, name='getMessages'),
     # url(r'^getStats/(?P<username>\w+)$', views_api.getStats, {}, name='getStats'),
-    url(r'^getPhoto/(?P<photoID>\w+)$', views_api.getPhoto, {}, name='getPhoto'),
+    url(r'^getPhoto/(?P<type>\w+)/(?P<id1>\w+)/$', views_api.getPhoto, {}, name='getPhoto'),
     url(r'^uploadPhoto/$', views_api.uploadPhoto, {}, name='uploadPhoto'),
     url(r'^makeDefaultProjects/$', views_api.makeDefaultProjects, {}, name='makeDefaultProjects'),
 

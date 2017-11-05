@@ -21,14 +21,18 @@ from django.utils.http import urlsafe_base64_decode
 from easel.models import *
 from easel.forms import *
 from time import localtime, strftime
+from mimetypes import guess_type
+from PIL import Image, ImageTk
+import os
 
 def getProjects(request):
-	if request.method == "GET":
-		profile = Profile.objects.get(user=request.user)
-		projects = Project.objects.filter(owner=profile)
-		context = {"username": profile.user.username, "projects": projects}
-		return render(request, 'json/projects.json', context, content_type='application/json')
-	return HttpResponse('')
+    if request.method == "GET":
+        profile = Profile.objects.get(user=request.user)
+        projects = Project.objects.filter(owner=profile)
+        context = {"username": profile.user.username, "projects": projects}
+        return render(request, 'json/projects.json', context, content_type='application/json')
+    return HttpResponse('')
+
 
 def getMedia(request, projectID):
     if request.method == "GET":
@@ -38,62 +42,78 @@ def getMedia(request, projectID):
         context = {"projectID": projectID, "media": media}
         return render(request, 'json/media.json', context, content_type='application/json')
 
-	return HttpResponse('')
+    return HttpResponse('')
+
 
 def getMessages(request, username):
-	return
+    return
+
 
 def getStats(request, username):
-	return
+    return
+
 
 def uploadPhoto(request):
     return
 
-def getPhoto(request, photoID):
-	# user = Photo.objects.get(username=username)
-    # profile = Profile.objects.get(user=user)
-    #
-    # if not profile.picture:
-    #     user = User.objects.get(username="defaultuser")
-    #     profile = Profile.objects.get(user=user)
-    #     content_type = guess_type(profile.picture.name)
-    #     return HttpResponse(profile.picture, content_type=content_type)
-    #
-    # content_type = guess_type(profile.picture.name)
-    return HttpResponse(profile.picture, content_type=content_type)
+
+def getPhoto(request, type, id1):
+    if type == 'media':
+        try:
+            medium = Media.objects.get(id=id1)
+            print("medium is", medium)
+            content_type = guess_type(medium.image.name)
+            print("content type is", content_type)
+            return HttpResponse(medium.image, content_type=content_type)
+        except:
+            pass
+
+	return serveDummyImage();
+
+def serveDummyImage():
+	# if dynamic file is not found
+	try:
+		print(os.getcwd())
+		valid_image = "easel/static/img/placeholders/apartment.png"
+		with open(valid_image, "rb") as f:
+			return HttpResponse(f.read(), content_type="image/jpeg")
+	except IOError:
+		# TODO https://stackoverflow.com/questions/3003146/best-way-to-write-an-image-to-a-django-httpresponse/15832328
+		print("File not found")
+		return HttpResponse("")
 
 def makeDefaultProjects(request):
-	try:
-		user = User.objects.get(username='henri_matisse')
-	except:
-		user = User.objects.create_user(username='henri_matisse',
-	                password='123',
-	                first_name='Henri',
-	                last_name='Matisse',
-	                email='henri_matisse@gmail.com')
-		user.save()
-		profile = Profile(user=user)
-		profile.save()
+    try:
+        user = User.objects.get(username='henri_matisse')
+    except:
+        user = User.objects.create_user(username='henri_matisse',
+                    password='123',
+                    first_name='Henri',
+                    last_name='Matisse',
+                    email='henri_matisse@gmail.com')
+        user.save()
+        profile = Profile(user=user)
+        profile.save()
 
-	login(request, user)
-	profile = Profile.objects.get(user=user)
+    login(request, user)
+    profile = Profile.objects.get(user=user)
 
-	Project.objects.filter(owner=profile).delete()
-	p1 = Project(owner=profile, name='paper', description="my late paper work")
-	p1.save()
-	for i in range(3):
-		m1 = Media(project=p1, name="Paper "+str(i), caption="caption "+str(i))
-		m1.save()
+    Project.objects.filter(owner=profile).delete()
+    p1 = Project(owner=profile, name='paper', description="my late paper work")
+    p1.save()
+    for i in range(3):
+        m1 = Media(project=p1, name="Paper "+str(i), caption="caption "+str(i))
+        m1.save()
 
-	p2 = Project(owner=profile, name='woman', description="my woman painting")
-	p2.save()
-	for i in range(3):
-		m1 = Media(project=p2, name="Woman "+str(i), caption="caption "+str(i))
-		m1.save()
+    p2 = Project(owner=profile, name='woman', description="my woman painting")
+    p2.save()
+    for i in range(3):
+        m1 = Media(project=p2, name="Woman "+str(i), caption="caption "+str(i))
+        m1.save()
 
-	return HttpResponseRedirect(reverse('projects'))
+    return HttpResponseRedirect(reverse('projects'))
 
 def clearAllUsers(request):
-	User.objects.all().delete()
-	Profile.objects.all().delete()
-	return HttpResponse('')
+    User.objects.all().delete()
+    Profile.objects.all().delete()
+    return HttpResponse('')

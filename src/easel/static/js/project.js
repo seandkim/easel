@@ -55,9 +55,9 @@ $(document).ready(function() {
 
       var media_div = $("<div></div>").addClass("media-list").addClass("col").addClass("s12")
       media_div.addClass("media-list").attr("id", projectID)
+      media_div.append($('<a href="/easel/projects/'+projectID+'/addMedia">Add Media</a>'))
       media_div.append($('<div class="row item-list"></div>'))
       media_div.attr('style', "display: none;")
-      media_div.append($('<a href="/easel/projects/'+projectID+'/addMedia">Add Media</a>'))
       $('.project-list > .row').append(media_div)
 
       var media = data.media
@@ -70,11 +70,11 @@ $(document).ready(function() {
         var card = $('<div class="project-card"></div>')
 
         var img_container = $('<div class="project-img-container"></div>')
-        var img = $('<img>').attr("src", "{% static 'img/placeholders/church.png' %}")
+        var img = $('<img>').attr("src", "/easel/getPhoto/media/" + medium.id + '/')
         img_container.append(img)
 
         var name = $('<div class="project-title"></div>').html(medium.name)
-        var description = $('<div class="project-description"></div>').html(medium.description)
+        var description = $('<div class="project-description"></div>').html(medium.caption)
         card.append(img_container)
         card.append(name)
         card.append(description)
