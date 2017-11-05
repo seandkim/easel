@@ -72,7 +72,7 @@ $(document).ready(function() {
         media_div.addClass("media-list").attr("id", project.id)
         media_div.append($('<div class="row item-list"></div>'))
         project_list.append(media_div)
-        // loadMedia(project.id)
+        loadMedia(project.id)
       }
     })
   }

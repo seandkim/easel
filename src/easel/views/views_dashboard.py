@@ -25,7 +25,11 @@ from time import localtime, strftime
 @login_required
 def home(request):
     profile = Profile.objects.get(user = request.user)
-    dashboard = Dashboard.objects.get(user = request.user)
-    firstname = profile.user.first_name
-    lastname = profile.user.last_name
-    return render(request, 'dashboard/dashboard.html', {'firstname':firstname, 'lastname':lastname, 'dashboard':dashboard})
+
+    context = {'profile': profile}
+    context['visitorNum'] = 14 # TODO change hardcoded value
+    context['clapNum'] = 14 # TODO change hardcoded value
+    context['projectNum'] = Project.objects.filter(owner=profile).count()
+    context['messageNum'] = 14 # TODO change hardcoded value
+
+    return render(request, 'dashboard/dashboard.html', context)

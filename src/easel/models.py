@@ -15,16 +15,6 @@ class Profile(models.Model):
     def __unicode__(self):
         return self.user.username
 
-class Dashboard(models.Model):
-    user = models.OneToOneField(User, null=True)
-    visitorNum = models.IntegerField()
-    clapNum = models.IntegerField()
-    projectNum = models.IntegerField()
-    messageNum = models.IntegerField()
-
-    def __unicode__(self):
-        return self.user.username
-
 class Project(models.Model):
     owner = models.ForeignKey(Profile)
     name = models.CharField(max_length=20)

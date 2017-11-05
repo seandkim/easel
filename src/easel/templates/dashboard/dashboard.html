@@ -5,7 +5,7 @@
 <div class="container dashboard">
     <div class="page-header row">
         <div class="col m8">
-            <div class="header">DEAR {{firstname|upper}},</div>
+            <div class="header">DEAR {{profile.user.first_name|upper}},</div>
             <div class="subheader">This is your overview of the day.</div>
         </div>
         <div class="col m4 date">
@@ -15,25 +15,25 @@
     <div class="stats row">
         <div class="col m3">
             <div class="stats-box">
-                <div class="number">{{dashboard.visitorNum}}</div>
+                <div class="number">{{visitorNum}}</div>
                 <div class="number-description">visitors<br>today</div>
             </div>
         </div>
         <div class="col m3">
             <div class="stats-box">
-                <div class="number">{{dashboard.clapNum}}</div>
+                <div class="number">{{clapNum}}</div>
                 <div class="number-description">claps<br>today</div>
             </div>
         </div>
         <div class="col m3">
             <div class="stats-box">
-                <div class="number">{{dashboard.projectNum}}</div>
+                <div class="number">{{projectNum}}</div>
                 <div class="number-description">projects<br>total</div>
             </div>
         </div>
         <div class="col m3">
             <div class="stats-box">
-                <div class="number">{{dashboard.messageNum}}</div>
+                <div class="number">{{messageNum}}</div>
                 <div class="number-description">new<br>messages</div>
             </div>
         </div>
