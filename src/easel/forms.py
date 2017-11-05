@@ -89,16 +89,11 @@ class EditMediaForm(forms.Form):
     # project field is overwritten with choice field
     # it is declared here to display first in the form
     project = forms.CharField(max_length=20)
-    # image = forms.FileField()
+    # image = forms.FileField() TODO
     name = forms.CharField(max_length=20)
     caption = forms.CharField(max_length=1000)
 
-    # image file is not required
+    # TODO image file is not required. Either implement that or delete this
     def is_valid(self):
         valid = super(EditMediaForm, self).is_valid()
-
-        if valid:
-            return True
-
-        print(self)
-        return False
+        return valid

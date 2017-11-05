@@ -44,18 +44,24 @@ $(document).ready(function() {
         li.append(a)
         project_list.append(li)
 
-        loadMedia(project.id)
+        console.log(project.description)
+        loadMedia(project.id, project.description)
       }
     })
   }
 
-  function loadMedia(projectID) {
+  function loadMedia(projectID, description) {
+    var description1 = description
+    // debugger;
+    console.log(description)
     $.get("/easel/getMedia/" + projectID).done(function(data) {
-      console.log(data);
-
+      // debugger;
       var media_div = $("<div></div>").addClass("media-list").addClass("col").addClass("s12")
       media_div.addClass("media-list").attr("id", projectID)
-      media_div.append($('<a href="/easel/projects/'+projectID+'/addMedia">Add Media</a>'))
+      media_div.append($('<span>' + description + '</span>'))
+      media_div.append($('<br>'))
+      media_div.append($('<a href="/easel/projects/'+projectID+'/addMedia"><button>Add Media</button></a>'))
+      media_div.append($('<a href="/easel/projects/'+projectID+'/delete"><button>Delete This Project</button></a>'))
       media_div.append($('<div class="row item-list"></div>'))
       media_div.attr('style', "display: none;")
       $('.project-list > .row').append(media_div)

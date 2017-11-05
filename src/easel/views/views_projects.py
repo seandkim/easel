@@ -54,11 +54,16 @@ def addProject(request):
                           name=form.cleaned_data['project_name'],
                           description=form.cleaned_data['description'])
     new_project.save()
-    dashboard = Dashboard.objects.get(user = request.user)
-    dashboard.projectNum += 1
-    dashboard.save()
     context['message'] = "Your project has been added"
 
+    return HttpResponseRedirect(reverse("projects"))
+
+@login_required
+def deleteProject(request, projectID):
+    project = Project.objects.get(id=projectID)
+    medias = Media.objects.filter(project=project)
+    medias.delete()
+    project.delete()
     return HttpResponseRedirect(reverse("projects"))
 
 @login_required
@@ -77,6 +82,7 @@ def addMedia(request, projectID):
 
     media = form.save(commit=False)
     media.project = Project.objects.get(id=projectID)
+    print("media.image is", media.image)
     media.save()
 
     return HttpResponseRedirect(reverse("projects"))
@@ -99,7 +105,7 @@ def editMedia(request, projectID, mediaID):
     # POST request
     if not 'action' in request.POST or request.POST['action'] == "":
         return HttpResponseRedirect(reverse('projects'))
-     
+
     action = request.POST['action']
     medium = Media.objects.get(id=mediaID)
     if action == 'Save':

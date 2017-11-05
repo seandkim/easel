@@ -31,13 +31,13 @@ class Media(models.Model):
     project = models.ForeignKey(Project)
     # TODO support multi-file
     #media_type = models.CharField(max_length=5)
-    # TODO change upload_to folder
+    # TODO dynmically create upload_to folder
     image = models.ImageField(upload_to='media', blank=True)
     name = models.CharField(max_length=20)
     caption = models.CharField(max_length=1000)
 
     def __unicode__(self):
-        return self.name3
+        return self.name
 
     # TODO
     def getHTML(self):

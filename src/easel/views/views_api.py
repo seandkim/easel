@@ -33,7 +33,6 @@ def getProjects(request):
         return render(request, 'json/projects.json', context, content_type='application/json')
     return HttpResponse('')
 
-
 def getMedia(request, projectID):
     if request.method == "GET":
         project = Project.objects.get(id=int(projectID))
@@ -59,14 +58,16 @@ def uploadPhoto(request):
 
 def getPhoto(request, type, id1):
     if type == 'media':
-        try:
-            medium = Media.objects.get(id=id1)
-            print("medium is", medium)
-            content_type = guess_type(medium.image.name)
-            print("content type is", content_type)
-            return HttpResponse(medium.image, content_type=content_type)
-        except:
-            pass
+        # try:
+        medium = Media.objects.get(id=id1)
+        print("medium is", medium)
+        content_type = guess_type(medium.image.name)
+        print("content type is", content_type)
+        return HttpResponse(medium.image, content_type=content_type)
+        # except:
+        #     print("There was an error: ", medium.image)
+        #     print(medium.image.name)
+        #     pass
 
 	return serveDummyImage();
 
@@ -107,9 +108,6 @@ def makeDefaultProjects(request):
 
     p2 = Project(owner=profile, name='woman', description="my woman painting")
     p2.save()
-    for i in range(3):
-        m1 = Media(project=p2, name="Woman "+str(i), caption="caption "+str(i))
-        m1.save()
 
     return HttpResponseRedirect(reverse('projects'))
 
