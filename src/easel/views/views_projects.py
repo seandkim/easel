@@ -27,10 +27,7 @@ from mimetypes import guess_type
 def home(request):
     context = {}
     profile = Profile.objects.get(user = request.user)
-    projects = Project.objects.filter(owner = profile)
-    context['projects'] = projects
-    context['firstname'] = request.user.first_name
-    context['lastname'] = request.user.last_name
+    context = {'profile': profile}
     return render(request, 'project/project-list.html', context)
 
 @login_required

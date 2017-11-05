@@ -13,7 +13,7 @@
                 <img src="{% static 'img/placeholders/girl.jpeg' %}">
             </div>
             <div class="sidebar-name">
-             	{{firstname|upper}}<br>{{lastname|upper}}
+             	{{profile.user.first_name|upper}}<br>{{profile.user.last_name|upper}}
             </div>
 		</div>
 		<hr class="divider">
