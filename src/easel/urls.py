@@ -29,12 +29,13 @@ from .views import views_public
 
 urlpatterns = [
     # API calls
-    # url(r'^getProjects/(?P<username>\w+)$', views_api.getProjects, {}, name='getProjects'),
-    # url(r'^getMedia/(?P<projectID>\w+)$', views_api.getMedia, {}, name='getMedia'),
+    url(r'^getProjects/$', views_api.getProjects, {}, name='getProjects'),
+    url(r'^getMedia/(?P<projectID>\w+)/$', views_api.getMedia, {}, name='getMedia'),
     # url(r'^getMessages/(?P<username>\w+)$', views_api.getMessages, {}, name='getMessages'),
     # url(r'^getStats/(?P<username>\w+)$', views_api.getStats, {}, name='getStats'),
-    url(r'^getPhoto/(?P<photoID>\w+)$', views_api.getPhoto, {}, name='getPhoto'),
+    url(r'^getPhoto/(?P<type>\w+)/(?P<id1>\w+)/$', views_api.getPhoto, {}, name='getPhoto'),
     url(r'^uploadPhoto/$', views_api.uploadPhoto, {}, name='uploadPhoto'),
+    url(r'^makeDefaultProjects/$', views_api.makeDefaultProjects, {}, name='makeDefaultProjects'),
 
     # login/registration
     url(r'^registration/$', views_user_account.registration, name="registration"),
@@ -48,9 +49,9 @@ urlpatterns = [
 
     # projects
     url(r'^projects/$', views_projects.home, name="projects"), # see list of projects
-    url(r'^projects/add/$', views_projects.addProject, name="addProject"), # form to add project
-    url(r'^projects/(?P<projectID>\w+)/$', views_projects.showMedia, name="showMedia"), # see list of media
-    url(r'^projects/(?P<projectID>\w+)/editor/$', views_projects.projectEditor, name="projectEditor"), # edit projjects
+    url(r'^projects/addProject/$', views_projects.addProject, name="addProject"), # form to add project
+    url(r'^projects/(?P<projectID>\w+)/addMedia/$', views_projects.addMedia, name="addMedia"), # addMedia
+    url(r'^projects/(?P<projectID>\w+)/editMedia/(?P<mediaID>\w+)$', views_projects.editMedia, name="editMedia"), # addMedia
 
     # sites
     url(r'^sites/$', views_sites.home, name="sitesHome"), # list all the sites

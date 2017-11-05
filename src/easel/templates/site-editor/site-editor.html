@@ -1,0 +1,10 @@
+{% extends '../base.html' %}
+{% load static %}
+
+{% block page %}
+{% include '../components/editor.html' %}
+<div id="page-preview">
+	{% include '../site/sample_output.html' %}
+</div>
+{% include '../components/sidebar.html' %}
+{% endblock %}

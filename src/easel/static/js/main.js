@@ -3,7 +3,7 @@ $(function() {
     var sidebarHidden = true;
 
     // hide sidebar
-    $('#sidebar').css('right', '-' + $('#sidebar').outerWidth() + 'px');
+    $('#sidebar').css('right', '-' + $('#sidebar').width() + 'px');
     
     /* event listeners */
     $('#toggle').on('click', sidebarToggle);
@@ -19,7 +19,7 @@ $(function() {
                 easing: 'easeOutQuart'
             });
         } else {
-            $("#sidebar").animate({ right: '-' + $('#sidebar').outerWidth() + 'px' }, {
+            $("#sidebar").animate({ right: '-' + $('#sidebar').width() + 'px' }, {
                 duration: 700,
                 easing: 'easeOutQuart'
             });

@@ -133,7 +133,7 @@
 	}
 }
 
-.project-edit {
+.fixed-container {
 	z-index: -1;
 	position: fixed;
 	width: 45%;
@@ -143,7 +143,9 @@
 	right: 0;
 	top: 0;
 	overflow-y: scroll;
+}
 
+.project-edit {
 	.project-edit-header {
 		font-family: $header-font;
 		.project-title-xl {
@@ -156,6 +158,10 @@
 		font-weight: 300;
 		letter-spacing: 3px;
 		text-decoration: underline;
+	}
+	img {
+		max-width: 100%;
+		margin: 20px 0;
 	}
 	.project-field-list {
 		list-style: none;
@@ -280,19 +286,6 @@
 	    	max-height: 250px;
 	    }
 	}
-	.close-btn {
-		position: absolute;
-	    right: 0;
-	    top: 0;
-	    margin: 10px;
-	    cursor: pointer;
-	    &:hover {
-	    	@include smooth(0.3s);
-	    	i { 
-	    		color: $gray-scale-04 !important;
-	    	}
-	    }
-	}
 	.icon-container {
 		display: inline-block;
 		margin-right: 0 20px;
@@ -363,3 +356,72 @@
 	}
 }
 
+#editor-bar {
+	position: fixed;
+	left: 0;
+	top: 0;
+	height: 100%;
+	width: 35%;
+	padding: 70px 40px;
+	overflow-y: scroll;
+	color: $interface-color-05 !important;
+	box-shadow: 4px 4px 20px rgba(100,100,100,.75);
+
+	.sidebar-title {
+		font-family: $header-font;
+		font-size: 25pt;
+		letter-spacing: 4px;
+		color: $interface-color-07;
+	}
+	.sidebar-description {
+		font-family: $font-family-01;
+		color: $interface-color-07;
+	}
+	.close-btn {
+		color: $interface-color-07;
+	}
+	.tabs {
+		background: none;
+	}
+	.tabs tab a {
+		background: none;
+		color: $interface-color-05;
+	}
+	.editor-body {
+		margin-top: 20px;
+	}
+	#assets {
+		padding: 20px 0;
+	}
+	.asset-description {
+		color: $interface-color-05;
+		font-size: 10pt;
+		font-family: $font-family-01;
+		margin: 5px 0;
+	}
+	.asset {
+		cursor: pointer;
+		&:hover {
+			@include smooth(0.3s);
+			transform: scale(1.05);
+		}
+	}
+}
+#page-preview {
+	position: fixed;
+	width: 65%;
+	height: 100%;
+	right: 0;
+	top: 0;
+	overflow-y: scroll;
+}
+
+
+.dark {
+	background-color: $interface-color-01;
+	color: $interface-color-05;
+}
+
+.light {
+	background-color: $interface-color-06;
+}

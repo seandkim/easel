@@ -51,13 +51,6 @@ def registration(request):
     new_user.save()
     new_profile = Profile(user=new_user)
     new_profile.save()
-    new_dashboard = Dashboard(user=new_user,
-                              visitorNum=0,
-                              clapNum=0,
-                              projectNum=0,
-                              messageNum=0)
-    new_dashboard.save()
-
 
     login(request, new_user)
 

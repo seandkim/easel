@@ -10,6 +10,7 @@
     <title>{% block title %} Easel {% endblock %}</title>
 
     <!-- static files -->
+    {% block prescripts %}{% endblock %}
     <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
     <script src="{% static 'js/materialize.min.js' %}"></script>
     <script src="{% static 'js/jquery.easing.min.js' %}"></script>
@@ -22,7 +23,7 @@
 </head>
 
 <body>
-    {% block page %} 
+    {% block page %}
         <div class="center text-center">
             <h1 class="logo-text">EASEL</h1>
             <h5 class="sublogo-text">Portfolio<br>Creator</h5>

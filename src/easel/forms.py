@@ -1,6 +1,7 @@
 from django import forms
 
 from django.contrib.auth.models import User
+from models import *
 
 # dummy form for checking file
 # TODO delete
@@ -71,12 +72,33 @@ class SettingsForm(forms.Form):
 class AddProjectForm(forms.Form):
     project_name = forms.CharField(max_length=20)
     description = forms.CharField(max_length=1000)
-    
-    def clean(self):
-        cleaned_data = super(AddProjectForm, self).clean()
-        project_name = cleaned_data.get('project_name')
-        description = cleaned_data.get('description')
-        
-        return cleaned_data
 
-    
+class AddMediaForm(forms.ModelForm):
+    class Meta:
+        model = Media
+        exclude = ('project',)
+        widgets = {'image': forms.FileInput()}
+
+class EditMediaForm(forms.Form):
+    def __init__(self, user, *args, **kwargs):
+        super(EditMediaForm, self).__init__(*args, **kwargs)
+        profile = Profile.objects.get(user=user)
+        projects = Project.objects.filter(owner=profile)
+        self.fields['project'] = forms.ModelChoiceField(queryset=projects, empty_label=None)
+
+    # project field is overwritten with choice field
+    # it is declared here to display first in the form
+    project = forms.CharField(max_length=20)
+    # image = forms.FileField()
+    name = forms.CharField(max_length=20)
+    caption = forms.CharField(max_length=1000)
+
+    # image file is not required
+    def is_valid(self):
+        valid = super(EditMediaForm, self).is_valid()
+
+        if valid:
+            return True
+
+        print(self)
+        return False

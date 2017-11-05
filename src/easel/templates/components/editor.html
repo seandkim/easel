@@ -1,0 +1,39 @@
+{% load static %}
+<div id="editor-bar" class="dark">
+	<div class="sidebar-header">
+		<div class="sidebar-title">SITE EDITOR</div>
+		<div class="sidebar-description">
+			Drag and drop componenets to add to your portfolio site.
+		</div>
+		<div class="editor-body">
+	        <!-- tabs -->
+	        <div class="row">
+	            <ul class="tabs tabs-light">
+	                <li class="tab">
+	                	<a class="active" href="#assets">ASSETS</a>
+	                </li>
+	                <li class="tab">
+	                	<a href="#component">COMPONENT</a>
+	                </li>
+	            </ul>
+	            <div id="assets" class="col s12">
+	            	<div class="row">
+	            		<div class="col m6">
+	            			<div class="asset">
+	            				<img class="img-editor" src="{% static 'img/placeholders/church.png' %}"">
+	            				<div class="asset-description">Church Remodel Cover</div>
+	            			</div>
+	            		</div>
+	            		<div class="col m6">
+	            			<div class="asset">
+	            				<img class="img-editor" src="{% static 'img/placeholders/church.png' %}"">
+	            				<div class="asset-description">Church Remodel Cover</div>
+	            			</div>
+	            		</div>s
+	            	</div>
+	            </div>
+	            <div id="component" class="col s12">second tab</div>
+	        </div>
+	    </div>
+	</div>
+</div>
