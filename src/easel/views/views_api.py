@@ -22,12 +22,23 @@ from easel.models import *
 from easel.forms import *
 from time import localtime, strftime
 
-def getProjects(request, username):
+def getProjects(request):
+	if request.method == "GET":
+		profile = Profile.objects.get(user=request.user)
+		projects = Project.objects.filter(owner=profile)
+		context = {"username": profile.user.username, "projects": projects}
+		return render(request, 'json/projects.json', context, content_type='application/json')
+	return HttpResponse('')
 
-	return
+def getMedia(request, projectID):
+    if request.method == "GET":
+        project = Project.objects.get(id=int(projectID))
+        media = Media.objects.filter(project=project).order_by('name')
 
-def getMedia(request, project_id):
-	return
+        context = {"projectID": projectID, "media": media}
+        return render(request, 'json/media.json', context, content_type='application/json')
+
+	return HttpResponse('')
 
 def getMessages(request, username):
 	return
@@ -50,6 +61,10 @@ def getPhoto(request, photoID):
     #
     # content_type = guess_type(profile.picture.name)
     return HttpResponse(profile.picture, content_type=content_type)
+
+def makeDefaultProjects(request):
+
+	return HttpResponse('')
 
 def clearAllUsers(request):
 	User.objects.all().delete()

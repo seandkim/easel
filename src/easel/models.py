@@ -43,6 +43,7 @@ class Media(models.Model):
     # TODO support multi-file
     # TODO change upload_to folder
     image = models.ImageField(upload_to='media', blank=True)
+    name = models.CharField(max_length=20)
     caption = models.CharField(max_length=1000)
 
     def __unicode__(self):

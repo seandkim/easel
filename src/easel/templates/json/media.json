@@ -3,6 +3,8 @@
     [
       {% for medium in media %}
          {
+           "id": "{{medium.id}}",
+           "name": "{{medium.name}}",
            "type": "{{medium.type}}",
            "fileURL": "{{medium.fileURL}}",
            "caption": "{{medium.caption}}"

@@ -71,12 +71,8 @@ class SettingsForm(forms.Form):
 class AddProjectForm(forms.Form):
     project_name = forms.CharField(max_length=20)
     description = forms.CharField(max_length=1000)
-    
-    def clean(self):
-        cleaned_data = super(AddProjectForm, self).clean()
-        project_name = cleaned_data.get('project_name')
-        description = cleaned_data.get('description')
-        
-        return cleaned_data
 
-    
+class AddMediaForm(forms.Form):
+    media = forms.ImageField(label='Media', widget=forms.FileInput(), required=True)
+    title = forms.CharField(max_length=20)
+    description = forms.CharField(max_length=1000)

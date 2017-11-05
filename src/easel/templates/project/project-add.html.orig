@@ -6,7 +6,7 @@
     <form method="post" action="{% url 'addProject' %}">
         <table>
             {% if message %}
-            {{message}}
+                {{message}}
             {% endif %}
             {{form}}
         </table>
@@ -15,4 +15,9 @@
     </form>
 </div>
 
+<<<<<<< HEAD
+</body>
+</html>
+=======
 {% endblock %}
+>>>>>>> 1da977a51c0d1b3f3434efac19f79ad7e03defb3

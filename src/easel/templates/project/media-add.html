@@ -1,0 +1,21 @@
+<html>
+<body>
+    <p>
+    Add Media
+    </p>
+    {% for field, error in form.errors.items %}
+      <span class="error">{{error}}</span>
+    {% endfor %}
+    <form method="post" action="{% url 'addMedia' %}">
+        <table>
+            {% if message %}
+                {{message}}
+            {% endif %}
+            {{form}}
+        </table>
+    {% csrf_token %}
+    <input type="submit" value="Add" />
+    </form>
+
+</body>
+</html>

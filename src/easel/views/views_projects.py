@@ -58,12 +58,15 @@ def addProject(request):
     dashboard.save()
     context['message'] = "Your project has been added"
 
-    return HttpResponseRedirect('/easel/projects/')
+    return HttpResponseRedirect(reverse("projects"))
 
 @login_required
-def showMedia(request, projectID):
-    return render(request, 'project/project-list.html', {}) # TODO
+def addMedia(request):
+    if request.method == 'GET':
+        form = AddMediaForm()
+        return render(request, 'project/media-add.html', {'form': form})
 
-@login_required
-def projectEditor(request, projectID):
-    return render(request, 'project/project-edit.html', {})
+    if not form.is_valid:
+        return render(request, 'project/media-add.html', {'form': form})
+
+    return HttpResponseRedirect(reverse("projects"))
