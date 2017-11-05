@@ -24,11 +24,11 @@ from time import localtime, strftime
 
 @login_required
 def home(request):
-    return HttpResponse('')
+    return HttpResponseRedirect(reverse('siteEditor', kwargs={'siteID': 1}))
 
 @login_required
-def showPages(request):
-    return HttpResponse('')
+def siteEditor(request, siteID):
+    return render(request,'site-editor/site-editor.html', {})
 
 @login_required
 def pageEditor(request):
