@@ -24,7 +24,7 @@ from time import localtime, strftime
 
 # for dev purpose, will delete later
 def testview(request):
-	return render(request,'project/project-edit.html', {})
+	return render(request,'site-editor/site-editor.html', {})
 
 def testform(request):
 	return render(request,'test_pages/form.html', {})
