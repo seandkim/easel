@@ -133,7 +133,7 @@
 	}
 }
 
-.project-edit {
+.fixed-container {
 	z-index: -1;
 	position: fixed;
 	width: 45%;
@@ -143,7 +143,9 @@
 	right: 0;
 	top: 0;
 	overflow-y: scroll;
+}
 
+.project-edit {
 	.project-edit-header {
 		font-family: $header-font;
 		.project-title-xl {
@@ -156,6 +158,10 @@
 		font-weight: 300;
 		letter-spacing: 3px;
 		text-decoration: underline;
+	}
+	img {
+		max-width: 100%;
+		margin: 20px 0;
 	}
 	.project-field-list {
 		list-style: none;
