@@ -33,7 +33,7 @@ def getProjects(request):
 def getMedia(request, projectID):
     if request.method == "GET":
         project = Project.objects.get(id=int(projectID))
-        media = Media.objects.filter(project=project).order_by('name')
+        media = Media.objects.filter(project=project).order_by('id')
 
         context = {"projectID": projectID, "media": media}
         return render(request, 'json/media.json', context, content_type='application/json')

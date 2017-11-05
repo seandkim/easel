@@ -21,6 +21,7 @@ from django.utils.http import urlsafe_base64_decode
 from easel.models import *
 from easel.forms import *
 from time import localtime, strftime
+from mimetypes import guess_type
 
 @login_required
 def home(request):
@@ -61,12 +62,21 @@ def addProject(request):
     return HttpResponseRedirect(reverse("projects"))
 
 @login_required
-def addMedia(request):
+def addMedia(request, projectID):
+    context = {'projectID': projectID}
     if request.method == 'GET':
         form = AddMediaForm()
-        return render(request, 'project/media-add.html', {'form': form})
+        context['form'] = form
+        return render(request, 'project/media-add.html', context)
+
+    form = AddMediaForm(request.POST, request.FILES)
 
     if not form.is_valid:
-        return render(request, 'project/media-add.html', {'form': form})
+        context['form'] = form
+        return render(request, 'project/media-add.html', context)
+
+    media = form.save(commit=False)
+    media.project = Project.objects.get(id=projectID)
+    media.save()
 
     return HttpResponseRedirect(reverse("projects"))

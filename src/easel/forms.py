@@ -1,6 +1,7 @@
 from django import forms
 
 from django.contrib.auth.models import User
+from models import *
 
 # dummy form for checking file
 # TODO delete
@@ -72,7 +73,8 @@ class AddProjectForm(forms.Form):
     project_name = forms.CharField(max_length=20)
     description = forms.CharField(max_length=1000)
 
-class AddMediaForm(forms.Form):
-    media = forms.ImageField(label='Media', widget=forms.FileInput(), required=True)
-    title = forms.CharField(max_length=20)
-    description = forms.CharField(max_length=1000)
+class AddMediaForm(forms.ModelForm):
+    class Meta:
+        model = Media
+        exclude = ('project',)
+        widgets = {'image': forms.FileInput()}

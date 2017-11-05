@@ -27,30 +27,6 @@ $(document).ready(function() {
 
   loadProject()
 
-  // $.get("/easel/getProjects/").done(function(data) {
-  //   console.log(data);
-  //   var projects = data.projects
-  //   var project_list = $('.project-list > .row')
-  //
-  //   for (var i=0; i<projects.length; i++) {
-  //     var project = projects[i]
-  //
-  //     $('<div class="col s12"></div>')
-  //   }
-  // })
-
-  // $('.project-card').click(showMedia)
-  //
-  // function showMedia() {
-  //   console.log(this.id)
-  //
-  // $.post("/easel/getMedia/"+this.id, {projectID: this.id}).done(
-  //     function(data) {
-  //       console.log(data)
-  //     }
-  //   )
-  // }
-
   function loadProject() {
     $.get("/easel/getProjects/").done(function(data) {
       console.log(data);
@@ -63,15 +39,11 @@ $(document).ready(function() {
         var li = $('<li class="tab col s3"></li>')
         var a = $('<a></a>').attr('href', '#'+project.id).html(project.name)
         if (i==0) {
-          a.addClass('active')
+          // a.addClass('active') TODO
         }
         li.append(a)
         project_list.append(li)
 
-        var media_div = $("<div></div>").addClass("media-list").addClass("col").addClass("s12")
-        media_div.addClass("media-list").attr("id", project.id)
-        media_div.append($('<div class="row item-list"></div>'))
-        project_list.append(media_div)
         loadMedia(project.id)
       }
     })
@@ -80,6 +52,14 @@ $(document).ready(function() {
   function loadMedia(projectID) {
     $.get("/easel/getMedia/" + projectID).done(function(data) {
       console.log(data);
+
+      var media_div = $("<div></div>").addClass("media-list").addClass("col").addClass("s12")
+      media_div.addClass("media-list").attr("id", projectID)
+      media_div.append($('<div class="row item-list"></div>'))
+      media_div.attr('style', "display: none;")
+      media_div.append($('<a href="/easel/projects/'+projectID+'/addMedia">Add Media</a>'))
+      $('.project-list > .row').append(media_div)
+
       var media = data.media
       var media_list = $('.media-list#'+projectID+' > .row')
 
@@ -87,9 +67,15 @@ $(document).ready(function() {
         var medium = media[i]
 
         var col = $('<div class="col m6"></div>')
-        var card = $('<div class="project-card"></div>').attr("id", media.id)
-        var name = $('<div class="project-title"></div>').html(media.name)
-        var description = $('<div class="project-description"></div>').html(media.description)
+        var card = $('<div class="project-card"></div>')
+
+        var img_container = $('<div class="project-img-container"></div>')
+        var img = $('<img>').attr("src", "{% static 'img/placeholders/church.png' %}")
+        img_container.append(img)
+
+        var name = $('<div class="project-title"></div>').html(medium.name)
+        var description = $('<div class="project-description"></div>').html(medium.description)
+        card.append(img_container)
         card.append(name)
         card.append(description)
         col.append(card)
