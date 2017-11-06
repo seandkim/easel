@@ -1,4 +1,5 @@
 {
+  "projectID": "{{projectID}}",
   "media":
     [
       {% for medium in media %}

@@ -13,27 +13,22 @@
 	        <!-- tabs -->
 	        <div class="row">
 	            <ul class="tabs tabs-light">
+									{% for project in projects %}
+									{% with project.id|stringformat:"s" as projectID %}
 	                <li class="tab">
-	                	<a class="active" href="#assets">ASSETS</a>
+	                	<a href={{'#'|add:projectID}} >{{project.name|upper}}</a>
 	                </li>
-	                <li class="tab">
-	                	<a href="#component">COMPONENT</a>
-	                </li>
+									{% endwith %}
+									{% endfor %}
 	            </ul>
 
-	            <div id="assets" class="col s12">
+							{% for project in projects %}
+	            <div id={{project.id}} class="project col s12">
 	            	<div class="row">
-	            		<div class="col m6">
-										{% for media in medias %}
-	            			<div class="asset">
-	            				<img class="img-editor" src="{% url 'getPhoto' 'media' media.id %}">
-	            				<div class="asset-description">{{media.name}}</div>
-	            			</div>
-										{% endfor %}
-	            		</div>
+	            		<!-- append media in editor.js -->
 	            	</div>
 	            </div>
-	            <div id="component" class="col s12">second tab</div>
+							{% endfor %}
 	        </div>
 	    </div>
 	</div>

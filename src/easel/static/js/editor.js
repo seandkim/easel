@@ -28,6 +28,36 @@ $(document).ready(function() {
   loadMedias()
 
   function loadMedias() {
+    projects = $('.project')
+    for (var i=0; i<projects.length; i++) {
+      project = projects[i]
 
+      $.get("/easel/getMedia/" + project.getAttribute('id')).done(function(data) {
+        console.log(data)
+        media = data.media
+        projectID = data.projectID
+
+        row = $('.project#'+projectID).find('.row')
+
+        for (var i=0; i<media.length; i++) {
+          var medium = media[i]
+
+          img_path = '/easel/getPhoto/media/' + medium.id
+          row.append('<div class="col m6"> \
+                          <div class="asset"> \
+                            <img class="img-editor" src=' + img_path + '> \
+                            <div class="asset-description">' + medium.name + '</div> \
+                          </div> \
+                        </div> ')
+        }
+      })
+    }
+
+    // '''<div class="col m6">
+    //   <div class="asset">
+    //     <img class="img-editor" src="{% url \'getPhoto\' \'media\' media.id %}">
+    //     <div class="asset-description">{{media.name}}</div>
+    //   </div>
+    // </div>'''
   }
 });
