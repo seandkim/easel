@@ -13,7 +13,7 @@ class RegistrationForm(forms.Form):
     last_name = forms.CharField(max_length=20)
     username = forms.CharField(max_length=20)
     # email = forms.EmailField()
-    email = forms.CharField(max_length=20)  # TODO change to emailField
+    email = forms.CharField(max_length=50)  # TODO change to emailField
     password = forms.CharField(max_length=200,
                                 label='Password',
                                 widget=forms.PasswordInput())
@@ -65,7 +65,8 @@ class SettingsForm(forms.Form):
         password2 = cleaned_data.get('password2')
         if password1 and password2 and password1 != password2:
             raise forms.ValidationError("Passwords did not match.")
-
+        if password1 != '' and password2 == '':
+            raise forms.ValidationError("Please confirm your password.")
         return cleaned_data
 
 

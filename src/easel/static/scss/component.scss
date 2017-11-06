@@ -198,6 +198,7 @@
 	.project-description-paragraph {
 		font-family: $font-family-01;
 		text-indent: 30pt;
+		font-size: 12pt;
 	}
 }
 
@@ -444,6 +445,11 @@
 	overflow-y: scroll;
 	.page-container {
 		margin: 0 50px;
+	}
+}
+.medium-editor-toolbar-actions {
+	b, i, u {
+		color: $interface-color-05 !important;
 	}
 }
 
