@@ -1,6 +1,10 @@
 {% extends '../base.html' %}
 {% load static %}
 
+{% block head %}
+<script src="{% static 'js/site-editor-form.js' %}"></script>
+{% endblock %}
+
 {% block page %}
 {% include './editor.html' %}
 <div id="page-preview">
