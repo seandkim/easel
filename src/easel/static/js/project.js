@@ -33,8 +33,11 @@ $(document).ready(function() {
       var projects = data.projects
       var project_list = $('#project-tab')
 
+      if (projects.length == 0) {
+        project_list.append('<div class="header-text medium-text">No projects currently. Try adding new project?</div>')
+      } 
       for (var i=0; i<projects.length; i++) {
-        var project = projects[i]
+        var project = projects[i];
 
         var li = $('<li class="tab col s3"></li>')
         var a = $('<a></a>').attr('href', '#'+project.id).html(project.name)

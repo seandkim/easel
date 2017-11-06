@@ -22,7 +22,12 @@ figcaption {
 .subheader-text {
 	font-family: $header-font;
 }
-
+.large-text {
+	font-size: 20pt;
+}
+.medium-text {
+	font-size: 16pt;
+}
 
 /* alignment class */
 .center {
