@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block page %}
+<div class="center text-center">       
+<div class="text-center">
+    <h2 class="logo-text">Sign In</h2>
+</div>
+<div class="text-center">
+    <!-- link to dashboard -->
+    <form method="post" action="">
+        <table>
+        {{form}}
+        </table>
+        <button id="register-button" class="btn waves-effect waves-light black" type="submit" name="action">
+            Sign In
+        </button>
+        <!-- link to register page -->
+        <a href="{% url 'registration' %}">Or register</a>
+
+        {% csrf_token %}
+    </form>
+    <br>
+<br>            
+</div>
+{% endblock %}

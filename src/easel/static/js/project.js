@@ -31,7 +31,7 @@ $(document).ready(function() {
     $.get("/easel/getProjects/").done(function(data) {
       console.log(data);
       var projects = data.projects
-      var project_list = $('ul.tabs.header-text')
+      var project_list = $('#project-tab')
 
       for (var i=0; i<projects.length; i++) {
         var project = projects[i]
@@ -39,30 +39,33 @@ $(document).ready(function() {
         var li = $('<li class="tab col s3"></li>')
         var a = $('<a></a>').attr('href', '#'+project.id).html(project.name)
         if (i==0) {
-          // a.addClass('active') TODO
+            li.addClass('active');
         }
-        li.append(a)
-        project_list.append(li)
+        li.append(a);
+        project_list.append(li);
 
-        console.log(project.description)
-        loadMedia(project.id, project.description)
+        console.log(project.description);
+        loadMedia(project.id, project.description);
       }
     })
   }
 
   function loadMedia(projectID, description) {
-    var description1 = description
-    // debugger;
     console.log(description)
     $.get("/easel/getMedia/" + projectID).done(function(data) {
-      // debugger;
-      var media_div = $("<div></div>").addClass("media-list").addClass("col").addClass("s12")
-      media_div.addClass("media-list").attr("id", projectID)
-      media_div.append($('<span>' + description + '</span>'))
-      media_div.append($('<br>'))
-      media_div.append($('<a href="/easel/projects/'+projectID+'/addMedia"><button>Add Media</button></a>'))
-      media_div.append($('<a href="/easel/projects/'+projectID+'/delete"><button>Delete This Project</button></a>'))
-      media_div.append($('<div class="row item-list"></div>'))
+
+      /* create project description bar */
+      var detail_bar = $("<div></div>").addClass("project-detail-bar").addClass("col").addClass("s12");
+      detail_bar.append($('<span class="description"><strong>Description: </strong>' + description + '</span>'));
+      detail_bar.append($('<br>'));
+      detail_bar.append($('<a href="/easel/projects/'+projectID+'/addMedia"><button class="dark-btn-alt"><i class="material-icons tab-icon">file_upload</i> UPLOAD</button></a>'));
+      detail_bar.append($('<a href="/easel/projects/'+projectID+'/delete"><button class="dark-btn-alt"><i class="material-icons tab-icon">delete</i> DELETE</button></a>'));
+
+      /* create media div */
+      var media_div = $("<div></div>").addClass("media-list").addClass("col").addClass("s12");
+      media_div.addClass("media-list").attr("id", projectID);
+      media_div.append(detail_bar);
+      media_div.append($('<div class="row item-list"></div>'));
       media_div.attr('style', "display: none;")
       $('.project-list > .row').append(media_div)
 
@@ -73,7 +76,7 @@ $(document).ready(function() {
         var medium = media[i]
 
         var a = $('<a></a>').attr('href', '/easel/projects/'+projectID+'/editMedia/'+medium.id)
-        var col = $('<div class="col m6"></div>')
+        var col = $('<div class="col m4"></div>')
         var card = $('<div class="project-card"></div>')
 
         var img_container = $('<div class="project-img-container"></div>')
@@ -81,11 +84,11 @@ $(document).ready(function() {
         img_container.append(img)
 
         var name = $('<div class="project-title"></div>').html(medium.name)
-        var description = $('<div class="project-description"></div>').html(medium.caption)
+        var description_div = $('<div class="project-description"></div>').html(medium.caption)
         a.append(card)
         card.append(img_container)
         card.append(name)
-        card.append(description)
+        card.append(description_div)
         col.append(a)
         media_list.append(col)
       }

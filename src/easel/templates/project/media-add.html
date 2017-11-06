@@ -1,8 +1,8 @@
-<html>
-<body>
-    <p>
-    Add Media
-    </p>
+{% extends 'base.html' %}
+{% load static %}
+{% block page %}
+<div class="center text-center paint-as-input">
+    <h2 class="logo-text">Add Media</h2>
     {% for field, error in form.errors.items %}
       <span class="error">{{error}}</span>
     {% endfor %}
@@ -14,8 +14,8 @@
             {{form}}
         </table>
     {% csrf_token %}
-    <input type="submit" value="Add" />
+    <button class="dark-btn-alt" type="submit"> ADD &#10230; </button>
     </form>
+</div>
 
-</body>
-</html>
+{% endblock %}

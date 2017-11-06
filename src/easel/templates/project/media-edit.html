@@ -1,25 +1,33 @@
-<html>
-<body>
-    <p>
-    Edit Media
-    </p>
-    <form method="post" enctype="multipart/form-data" action="{% url 'editMedia' projectID mediaID %}">
-        <table>
-            {% if message %}
-                {{message}}
-            {% endif %}
 
+{% extends 'base.html' %}
+{% load static %}
+{% block page %}
+<div class="center text-center paint-as-input">
+    <h2 class="logo-text">Edit Media</h2>
+    <div class="extra-margin-top row">
+        <div class="col m6">
             <img src="/easel/getPhoto/media/{{mediaID}}"/>
-            {% for field in form.visible_fields %}
-              {{field.label_tag}} {{field}}
-              <br />
-            {% endfor %}
-        </table>
-    {% csrf_token %}
-    <input type="submit" name='action' value="Save" />
-    <input type="submit" name='action' value="Delete" />
-    <input type="submit" name='action' value="Cancel" />
-    </form>
-
-</body>
-</html>
+        </div>
+        <div class="col m6 wide-gutter-col">
+            <form method="post" enctype="multipart/form-data" action="{% url 'editMedia' projectID mediaID %}">
+                <table>
+                    {% if message %}
+                        {{message}}
+                    {% endif %}
+                    {% for field in form.visible_fields %}
+                      {{field.label_tag}} 
+                      {{field}}
+                      <br />
+                    {% endfor %}
+                </table>
+                {% csrf_token %}
+                <div class="extra-margin-top">
+                    <input class="dark-btn-alt" type="submit" name='action' value="Save" />
+                    <input class="dark-btn-alt" type="submit" name='action' value="Delete" />
+                    <input class="dark-btn-alt" type="submit" name='action' value="Cancel" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

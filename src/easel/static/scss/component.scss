@@ -7,6 +7,7 @@
 
 .easel-container {
 	@extend .homepage-container;
+	min-width: 400px;
 	.call-to-action {
 		p {
 			padding: 0;
@@ -15,11 +16,11 @@
 		}
 	}
 }
-
 .form-container {
 	@extend .homepage-container;
 	box-shadow: 4px 4px 20px rgba(100,100,100,.75);
     background-color: #F9F9F9;
+    min-width: 500px;
 
 	.form-header {
 		font-size: 20pt;
@@ -60,7 +61,16 @@
 .project-list {
 	.project-card {
 		.project-img-container {
+			@include smooth(0.3s);
 			margin-bottom: 15px;
+			width: 100%;
+			img { 
+				display: block; 
+			}
+			&:hover {
+				transform: scale(1.05);
+				box-shadow: 0px 0px 20px rgba(100,100,100,.75);
+			}
 		}
 	}
 	.item-list {
@@ -85,6 +95,22 @@
     	text-decoration: underline;
     	&:hover {
     		color: $interface-color-05;
+    	}
+	}
+}
+
+.media-list {
+	.project-detail-bar {
+		padding: 20px 30px;
+    	margin: 20px 0;
+    	background-color: $interface-color-05;
+    	.description {
+    		font-family: $font-family-01;
+    		font-size: 13pt;
+    	}
+    	button {
+    		float: right;
+    		margin: 0 10px;
     	}
 	}
 }

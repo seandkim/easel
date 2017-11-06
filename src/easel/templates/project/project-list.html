@@ -11,11 +11,11 @@
     <!-- page header -->
     <div class="page-header row">
         <div class="col m10">
-            <h1 class="header-text header">MY PROJECTS</h1>
-            <h5 class="subheader-text subheader">Edit and manage your projects.</h5>
+            <h1 class="header-text header">ASSETS LIBRARY</h1>
+            <h5 class="subheader-text subheader">Edit and manage your assets by groups and projects.</h5>
         </div>
         <button class="new-project-btn" onclick="location.href='{% url 'addProject' %}'">
-            <i class="material-icons">add</i><br>NEW<br />Project
+            <i class="material-icons">add</i><br>NEW<br />PROJECT
         </button>
     </div>
 
@@ -23,7 +23,7 @@
         <!-- tabs -->
         <div class="row">
             <div class="col s8">
-                <ul class="tabs header-text">
+                <ul class="tabs header-text tabs-fixed-width" id="project-tab">
                   <!-- project names -->
                 </ul>
             </div>
