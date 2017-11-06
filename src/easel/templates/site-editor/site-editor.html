@@ -20,19 +20,24 @@
 
 	<div class="fixed-size-container">
 		<div class="project-edit">
-        <div class="project-edit-header">
-            <h1 class="project-title-xl">{{profile.user.get_full_name}}</h1>
-            <ul class="project-field-list">
-                <li><strong>DATE: </strong>Oct 29th, 2015</li>
-                <li><strong>TYPE: </strong>Painting <br></li>
-                <li><strong>STATUS: </strong>ACTIVE<br></li>
-            </ul>
-        </div>
 
-        <text class="project-description-paragraph">
-        </text>
-				<text id="cursor" style="border-left: solid 1px black;height: 20px;width: 1px;">
-				</text>
+	    <form method="post" action="{% url 'login' %}">
+	        <div class="project-edit-header editable">
+	            <h1 class="project-title-xl">CHURCH REMODEL</h1>
+	            <ul class="project-field-list">
+	                <li><strong>DATE: </strong>Oct 29th, 2015</li>
+	                <li><strong>TYPE: </strong>ARCHITECTURE <br></li>
+	                <li><strong>STATUS: </strong>ACTIVE<br></li>
+	            </ul>
+	        </div>
+	        <img src="{% static 'img/placeholders/church.png' %}">
+	        <div class="editable">
+	        	<p class="project-description-paragraph">
+		            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Amet volutpat consequat mauris nunc. Donec enim diam vulputate ut pharetra. Nunc mi ipsum faucibus vitae. Sodales ut etiam sit amet nisl. Ultricies integer quis auctor elit sed. Tortor at risus viverra adipiscing at. Volutpat odio facilisis mauris sit amet massa vitae tortor condimentum. Enim diam vulputate ut pharetra sit amet aliquam. Non arcu risus quis varius. Turpis tincidunt id aliquet risus feugiat. Sed cras ornare arcu dui vivamus arcu felis bibendum ut. Mauris pharetra et ultrices neque ornare aenean euismod elementum. Amet risus nullam eget felis eget nunc lobortis. Et odio pellentesque diam volutpat commodo sed egestas egestas. Congue eu consequat ac felis donec et odio. Volutpat ac tincidunt vitae semper. Tempus imperdiet nulla malesuada pellentesque elit. Ut ornare lectus sit amet est. Leo vel fringilla est ullamcorper eget nulla facilisi etiam dignissim.
+		        </p>
+	        </div>
+	    </form>
+
 	</div>
 	</div>
 </div>

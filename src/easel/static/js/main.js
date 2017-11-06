@@ -10,6 +10,8 @@ $(function() {
     $('#toggle').on('click', sidebarToggle);
     $('#slider-exit').on('click', sidebarToggle);
 
+    var editor = new MediumEditor('.editable');
+
     /*
      * Controls hide and show of sidebar
      */
