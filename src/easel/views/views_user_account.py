@@ -96,15 +96,17 @@ def settings(request):
         profile.bio=form.cleaned_data['bio']
     if 'picture' in request.FILES and request.FILES['picture'] != '':
 		profile.profilePic = request.FILES['picture']
+    print('form age =', form.cleaned_data['age'])
+    print('profile age = ', profile.age)
     cur_user.save()
     profile.save()
-    context['message'] = "Your information has been updated" # TODO
+#    context['message'] = "Your information has been updated" # TODO
 
     new_user = authenticate(username=cur_user.username,
                             password=request.user.password)
     login(request, new_user)
 
-    return render(request, 'settings.html', context)
+    return render(request, 'dashboard/dashboard.html', context)
 
 def confirmed(request):
     pass
