@@ -13,9 +13,9 @@
 	        <!-- tabs -->
 	        <div class="row">
 	            <ul class="tabs tabs-light">
-									{% for project in projects %}
-									{% with project.id|stringformat:"s" as projectID %}
-	                <li class="tab">
+					{% for project in projects %}
+					{% with project.id|stringformat:"s" as projectID %}
+	                <li class="tab padding-top">
 	                	<a href={{'#'|add:projectID}} >{{project.name|upper}}</a>
 	                </li>
 									{% endwith %}
