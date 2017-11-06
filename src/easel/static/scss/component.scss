@@ -179,7 +179,6 @@
     		letter-spacing: 5px;
 		}
 	}
-
 	a {
 		font-weight: 300;
 		letter-spacing: 3px;
@@ -426,11 +425,14 @@
 		margin: 5px 0;
 	}
 	.asset {
+		@include smooth(0.3s);
 		cursor: pointer;
 		&:hover {
-			@include smooth(0.3s);
 			transform: scale(1.05);
 		}
+	}
+	.project {
+		padding: 20px 0;
 	}
 }
 #page-preview {
