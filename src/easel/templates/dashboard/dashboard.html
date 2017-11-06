@@ -26,10 +26,12 @@
             </div>
         </div>
         <div class="col m3">
+            <a href="{% url 'projects' %}">
             <div class="stats-box">
                 <div class="number">{{projectNum}}</div>
                 <div class="number-description">projects<br>total</div>
             </div>
+            </a>
         </div>
         <div class="col m3">
             <div class="stats-box">
@@ -39,11 +41,8 @@
         </div>
     </div>
     <div class="data-viz row">
-        <div class="col m6">
-            Some un-determined graph.
-        </div>
-        <div class="col m6">
-            Some un-determined graph.
+        <div class="col m12">
+            <div id="graph1"></div>
         </div>
     </div>
 </div>

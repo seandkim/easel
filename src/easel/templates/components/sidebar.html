@@ -13,7 +13,7 @@
                 <img src="{% static 'img/placeholders/girl.jpeg' %}">
             </div>
             <div class="sidebar-name">
-             	{{firstname|upper}}<br>{{lastname|upper}}
+             	{{profile.user.first_name|upper}}<br>{{profile.user.last_name|upper}}
             </div>
 		</div>
 		<hr class="divider">
@@ -32,11 +32,6 @@
 				<li class="sidebar-item">
 					<a href="{% url 'sitesHome' %}">
 						<i class="tab-icon material-icons">language</i>SITE
-					</a>
-				</li>
-				<li class="sidebar-item">
-					<a href="#">
-						<i class="tab-icon material-icons">inbox</i>INBOX
 					</a>
 				</li>
 			</ul>

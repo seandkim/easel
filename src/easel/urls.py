@@ -26,7 +26,6 @@ from .views import views_projects
 from .views import views_sites
 from .views import views_public
 
-
 urlpatterns = [
     # API calls
     url(r'^getProjects/$', views_api.getProjects, {}, name='getProjects'),
@@ -56,8 +55,7 @@ urlpatterns = [
 
     # sites
     url(r'^sites/$', views_sites.home, name="sitesHome"), # list all the sites
-    url(r'^sites/(?P<siteID>\w+)/pages$', views_sites.showPages, name="showPages"), # list all the pages of the site
-    url(r'^sites/(?P<siteID>\w+)/pages/(?P<pageName>\w+)/editor/$', views_sites.pageEditor, name="pageEditor"), # editor of the page
+    url(r'^sites/(?P<siteID>\w+)/editor$', views_sites.siteEditor, name="siteEditor"),
 
     # public (what public audience sees)
     url(r'^public/(?P<siteID>\w+)$', views_public.home, name="public"), # list all the sites

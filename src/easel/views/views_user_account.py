@@ -63,7 +63,7 @@ def settings(request):
     context = {}
     cur_user = request.user
     profile = Profile.objects.get(user = cur_user)
-    
+
     data={'first_name':cur_user.first_name, 'last_name':cur_user.last_name, 'age':profile.age, 'school':profile.school, 'bio':profile.bio}
     context['form'] = SettingsForm(initial=data)
 

@@ -24,11 +24,17 @@ from time import localtime, strftime
 
 @login_required
 def home(request):
-    return HttpResponse('')
+    return HttpResponseRedirect(reverse('siteEditor', kwargs={'siteID': 1}))
 
 @login_required
-def showPages(request):
-    return HttpResponse('')
+def siteEditor(request, siteID):
+    context = {}
+    profile = Profile.objects.get(user=request.user)
+    projects = Project.objects.filter(owner=profile)
+    medias = Media.objects.filter(project__in=projects)
+    context['profile'] = profile
+    context['medias'] = medias
+    return render(request,'site-editor/site-editor.html', context)
 
 @login_required
 def pageEditor(request):
