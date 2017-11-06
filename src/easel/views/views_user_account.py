@@ -64,8 +64,14 @@ def settings(request):
     cur_user = request.user
     profile = Profile.objects.get(user = cur_user)
 
-    data={'first_name':cur_user.first_name, 'last_name':cur_user.last_name, 'age':profile.age, 'school':profile.school, 'bio':profile.bio}
-    context['form'] = SettingsForm(initial=data)
+    initial={
+        'first_name':cur_user.first_name, 
+        'last_name':cur_user.last_name,
+        'age':profile.age, 
+        'school':profile.school, 
+        'bio':profile.bio
+    }
+    context['form'] = SettingsForm(initial=initial)
 
     # Just display the registration form if this is a GET request.
     if request.method == 'GET':
@@ -76,17 +82,22 @@ def settings(request):
     if not form.is_valid():
         context['form'] = form
         return render(request, 'settings.html', context)
-
-
-    cur_user.first_name = form.cleaned_data['first_name']
-    cur_user.last_name = form.cleaned_data['last_name']
-    cur_user.set_password(form.cleaned_data['password1'])
-    profile.age = form.cleaned_data['age']
-    profile.school=form.cleaned_data['school']
-    profile.bio=form.cleaned_data['bio']
+    if form.cleaned_data['first_name'] != '':
+        cur_user.first_name = form.cleaned_data['first_name']
+    if form.cleaned_data['last_name'] != '':
+        cur_user.last_name = form.cleaned_data['last_name']
+    if form.cleaned_data['password1'] != '':
+        cur_user.set_password(form.cleaned_data['password1'])
+    if form.cleaned_data['age'] != '':
+        profile.age = form.cleaned_data['age']
+    if form.cleaned_data['school'] != '':
+        profile.school=form.cleaned_data['school']
+    if form.cleaned_data['bio'] != '':
+        profile.bio=form.cleaned_data['bio']
     if 'picture' in request.FILES and request.FILES['picture'] != '':
 		profile.profilePic = request.FILES['picture']
-
+    cur_user.save()
+    profile.save()
     context['message'] = "Your information has been updated" # TODO
 
     new_user = authenticate(username=cur_user.username,
