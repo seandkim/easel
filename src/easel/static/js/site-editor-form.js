@@ -25,11 +25,37 @@ $(document).ready(function() {
     }
   });
 
-  $(document).keypress(typeOnForm)
-
-  function typeOnForm(event) {
-    console.log(event.which, c)
-    var c = String.fromCharCode(event.which)
-    $('#cursor').prev().append(c)
-  }
+  $(document).keydown(typeOnForm)
 });
+
+function typeOnForm(event) {
+  console.log(event.which, c, event.shiftKey)
+  var c = String.fromCharCode(event.which)
+
+  builtin = checkBuiltinKey(event)
+
+  if (!builtin) {
+    if (event.shiftKey) {
+      c = c.toUpperCase()
+    } else {
+      c = c.toLowerCase()
+    }
+    var content = $('#cursor').prev().html()
+
+    $('#cursor').prev().html(content+c)
+  }
+}
+
+function checkBuiltinKey(event) {
+  if (event.which == 8) {
+    var content = $('#cursor').prev().html()
+    if (content.length > 0) {
+      $('#cursor').prev().html(content.substr(1))
+      debugger;
+    }
+  } else {
+    return false
+  }
+
+  return true
+}
