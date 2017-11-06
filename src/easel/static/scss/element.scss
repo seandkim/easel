@@ -1,24 +1,24 @@
 @import "global";
 
+*:focus {
+    outline: none;
+}
+
 figcaption {
 	font-family: $font-family-02;
 	font-size: 9pt;
 }
-
 .logo-text {
 	font-family: $logo-font;
 	letter-spacing: 10px;
 }
-
 .sublogo-text {
 	font-family: $sublogo-font;
 	letter-spacing: 4px;
 }
-
 .header-text {
 	font-family: $header-font;
 }
-
 .subheader-text {
 	font-family: $header-font;
 }
@@ -280,6 +280,13 @@ input {
 	input:focus {
 		transform: scale(1.05);
 	}
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
 }
 
 /* nav bar */
