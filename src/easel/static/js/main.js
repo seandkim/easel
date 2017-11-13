@@ -18,12 +18,20 @@ $(function() {
     function sidebarToggle() {
         if (sidebarHidden) {
             $("#sidebar").animate({ right: 0 }, {
-                duration: 700,
+                duration: 900,
+                easing: 'easeOutQuart'
+            });
+            $("#page").animate({ right: '400px' }, {
+                duration: 900,
                 easing: 'easeOutQuart'
             });
         } else {
             $("#sidebar").animate({ right: '-400px' }, {
-                duration: 700,
+                duration: 900,
+                easing: 'easeOutQuart'
+            });
+            $("#page").animate({ right: 0 }, {
+                duration: 900,
                 easing: 'easeOutQuart'
             });
         }

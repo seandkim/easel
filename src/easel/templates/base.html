@@ -27,14 +27,17 @@
 </head>
 
 <body>
-    {% block page %}
-        <div class="center text-center">
-            <h1 class="logo-text">EASEL</h1>
-            <h5 class="sublogo-text">Portfolio<br>Creator</h5>
-            <hr class="half-rule">
-            <p>Let your artistic talent speaks for itself. Create your portfolio now.</p>
-        </div>
-    {% endblock %}
+    <div id="page">
+        {% block page %}
+            <div class="center text-center">
+                <h1 class="logo-text">EASEL</h1>
+                <h5 class="sublogo-text">Portfolio<br>Creator</h5>
+                <hr class="half-rule">
+                <p>Let your artistic talent speaks for itself. Create your portfolio now.</p>
+            </div>
+        {% endblock %}
+    </div>
+    {% block sidebar %}{% endblock %}
 </body>
 
 </html>
