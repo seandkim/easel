@@ -42,14 +42,15 @@ def registration(request):
 
 
 	# TODO to allow email confirmation; set is_active to false and change later
-    new_user = User.objects.create_user(username=form.cleaned_data['username'],
-                                        password=form.cleaned_data['password'],
-                                        first_name=form.cleaned_data['first_name'],
-                                        last_name=form.cleaned_data['last_name'],
-                                        email=form.cleaned_data['email'],
-										is_active=True)
+    new_user = User.objects.create_user(username = form.cleaned_data['username'],
+                                        password = form.cleaned_data['password'],
+                                        first_name = form.cleaned_data['first_name'],
+                                        last_name = form.cleaned_data['last_name'],
+                                        email = form.cleaned_data['email'],
+										is_active = True)
     new_user.save()
-    new_profile = Profile(user=new_user)
+    new_profile = Profile(user = new_user,
+                         profilePic = "/static/img/placeholders/girl.jpeg")
     new_profile.save()
 
     login(request, new_user)

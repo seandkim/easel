@@ -56,6 +56,14 @@ def uploadPhoto(request):
     return
 
 
+def getProfilePhoto(request):
+    profile = Profile.objects.get(user = request.user)
+    if not profile.profilePic:
+        raise Http404
+    content_type = guess_type(profile.profilePic.name)
+    return HttpResponse(profile.profilePic, content_type=content_type)
+
+
 def getPhoto(request, type, id1):
     if type == 'media':
         # try:

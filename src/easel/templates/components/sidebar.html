@@ -10,7 +10,11 @@
 	<div class="sidebar-header">
 		<div class="profile">
 			<div class="icon-container">
-                <img src="{% static 'img/placeholders/girl.jpeg' %}">
+                {% if profile.profilePic %}
+                    <img src="{% url 'getProfilePhoto' %}">
+                {% else %}
+                    <img src="{% static 'img/placeholders/girl.jpeg' %}">
+                {% endif %}
             </div>
             <div class="sidebar-name">
              	{{profile.user.first_name|upper}}<br>{{profile.user.last_name|upper}}
