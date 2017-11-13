@@ -49,8 +49,7 @@ def registration(request):
                                         email = form.cleaned_data['email'],
 										is_active = True)
     new_user.save()
-    new_profile = Profile(user = new_user,
-                         profilePic = "/static/img/placeholders/girl.jpeg")
+    new_profile = Profile(user = new_user)
     new_profile.save()
 
     login(request, new_user)
@@ -107,7 +106,7 @@ def settings(request):
                             password=request.user.password)
     login(request, new_user)
 
-    return render(request, 'dashboard/dashboard.html', context)
+    return HttpResponseRedirect(reverse("dashboard"))
 
 def confirmed(request):
     pass
