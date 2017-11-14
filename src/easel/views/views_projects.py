@@ -27,7 +27,25 @@ from mimetypes import guess_type
 def home(request):
     context = {}
     profile = Profile.objects.get(user = request.user)
-    context = {'profile': profile}
+    context['form'] = AddProjectForm()
+    context['profile'] = profile
+    
+    if request.method == 'POST':
+        print('hi im here')
+        form = AddProjectForm(request.POST)
+        context['form'] = form
+        # Validates the form.
+        if not form.is_valid():
+            return render(request, 'project/project-list.html', context)
+
+#        profile = Profile.objects.get(user = request.user)
+
+        new_project = Project(owner=profile,
+                              name=form.cleaned_data['project_name'],
+                              description=form.cleaned_data['description'])
+        new_project.save()
+        context['message'] = "Your project has been added"
+        
     return render(request, 'project/project-list.html', context)
 
 @login_required

@@ -16,18 +16,10 @@
         </div>
 <!--        <button class="new-project-btn" onclick="location.href='{% url 'addProject' %}'">-->
         <a class="new-project-btn modal-trigger" href="#modal1">
-
             <i class="material-icons">add</i><br>NEW<br />PROJECT
         </a>
-        <div id="modal1" class="modal">
-            <div class="modal-content">
-                <h4>Modal Header</h4>
-                <p>A bunch of text</p>
-            </div>
-            <div class="modal-footer">
-                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
-            </div>
-        </div>
+        
+        
     </div>
     
     
@@ -41,6 +33,30 @@
             </div>
         </div>
     </div>
+
+</div>
+
+<div id="modal1" class="modal add-project-screen">
+    <div class="modal-content">
+        <div class="center text-center paint-as-input">
+            <h2 class="logo-text">Add Project</h2>
+            <form method="post" action="#!">
+                <table>
+                    {% for field, error in form.errors.items %}
+                      <span class="form-error">{{error}}</span>
+                    {% endfor %}
+                    {{form}}
+                </table>
+                {% csrf_token %}
+                <button type="submit" class="dark-btn-alt">ADD &#10230;</button>
+            </form>
+        </div>
+    </div>
+<!--
+    <div class="modal-footer">
+        <a href="#!" type="submit" class="modal-action modal-close dark-btn-alt">ADD &#10230;</a>
+    </div>
+-->
 </div>
 {% endblock %}
 
