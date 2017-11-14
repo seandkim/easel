@@ -40,9 +40,33 @@ def siteEditor(request, siteName):
     context['projects'] = projects
     return render(request,'site-editor/site-editor.html', context)
 
+# requires POST request with the following argument:
+# { 'pageName': <name of the page created> }
 @login_required
-def pageSave(request):
-    return HttpResponse('')
+def addPage(request):
+    if request.method != 'POST':
+        raise Http404("Invalid Request Method")
+
+    if ('pageName' not in request.POST) or (request.POST['pageName'] == ""):
+        raise Http404("Invalid Request Argument")
+
+    # TODO check duplicate page page
+
+    # TODO create new page
+
+# requires POST request with the following argument:
+# { 'pageName': <name of the page saving>,
+#   'html': <html of the new page> }
+@login_required
+def savePage(request, pageName):
+    if request.method != 'POST':
+        raise Http404("Invalid Request Method")
+
+    if ('html' not in request.POST) or (request.POST['html'] == ""):
+        raise Http404("Invalid Request Argument")
+
+    # TODO save the page
+
 
 @login_required
 def sitePublish(request):
