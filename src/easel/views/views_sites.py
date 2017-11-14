@@ -23,12 +23,19 @@ from time import localtime, strftime
 
 @login_required
 def home(request):
-    dummySiteName = 'dummy'
+    profile = Profile.objects.get(user = request.user)
+    if not Site.objects.filter(owner = profile):
+        new_site = Site(owner = profile, name = "dummy",
+                        description = "this is a dummy site",
+                       url = "", numVisitor = "24")
+        new_site.save()
+        return HttpResponseRedirect(reverse('siteEditor', kwargs={'siteName': 'dummy'}))
 
     # make new site called dummy if it doesn't exist
-
+    
     # TODO change
-    return HttpResponseRedirect(reverse('siteEditor', kwargs={'siteName': 'dummy'}))
+    site = Site.objects.get(owner = profile)
+    return HttpResponseRedirect(reverse('siteEditor', kwargs={'siteName': site.name}))
 
 @login_required
 def siteEditor(request, siteName):
