@@ -3,8 +3,7 @@ from __future__ import unicode_literals
 
 # bunch of imports we probably need later on
 from datetime import datetime
-from django.core.mail import EmailMessage
-from django.core.mail import send_mail
+from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate, logout, tokens
 from django.contrib.auth.tokens import default_token_generator
@@ -43,31 +42,76 @@ def siteEditor(request, siteName):
 # requires POST request with the following argument:
 # { 'pageName': <name of the page created> }
 @login_required
-def addPage(request):
+def addPage(request, siteName):
     if request.method != 'POST':
         raise Http404("Invalid Request Method")
 
     if ('pageName' not in request.POST) or (request.POST['pageName'] == ""):
         raise Http404("Invalid Request Argument")
 
-    # TODO check duplicate page page
+    pageName = request.POST['pageName'].lower()
+    try:
+        site = Site.objects.get(owner=request.user, name=siteName)
+    except ObjectDoesNotExist:
+        raise Http404("Site %s does not exist" % siteName)
 
-    # TODO create new page
+    if Page.object.filter(name=pageName, site=site).count() > 0:
+        raise Http404("Page %s already exists in %s" % (pageName, siteName))
+
+    initHTML = "" # TODO change initial template
+    new_page = Page(site=site, name=pageName, html=initHTML)
+    new_page.save()
 
 # requires POST request with the following argument:
 # { 'pageName': <name of the page saving>,
 #   'html': <html of the new page> }
 @login_required
-def savePage(request, pageName):
+def savePage(request, siteName):
     if request.method != 'POST':
         raise Http404("Invalid Request Method")
 
+    if ('pageName' not in request.POST) or (request.POST['pageName'] == ""):
+        raise Http404("Invalid Request Argument")
     if ('html' not in request.POST) or (request.POST['html'] == ""):
         raise Http404("Invalid Request Argument")
 
-    # TODO save the page
+    pageName = request.POST['pageName']
+    html = request.POST['html']
 
+    try:
+        site = Site.objects.get(owner=request.user, name=siteName)
+    except ObjectDoesNotExist:
+        raise Http404("Site %s does not exist" % siteName)
 
+    try:
+        page = Page.object.get(name=pageName, site=site)
+    except ObjectDoesNotExist:
+        raise Http404("Page %s does not exists in %s" % (pageName, siteName))
+
+    page.html = html
+    page.save()
+    return HttpResponse('')
+
+# requires POST request with the following argument:
+# { 'pages': <list of name of pages to be published> }
+# if the `pages` argument is empty, it publishes all pages
 @login_required
-def sitePublish(request):
+def sitePublish(request, siteName):
+    try:
+        site = Site.objects.get(owner=request.user, name=siteName)
+    except ObjectDoesNotExist:
+        raise Http404("Site %s does not exist" % siteName)
+
+    if ('pages' not in request.POST) or (request.POST['pages'] == ""):
+        raise Http404("Invalid Request Argument")
+
+    site = Site.objects.get(name=siteName)
+    pages = request.POST['pages'] # TODO change to list
+    if len(pages) == 0:
+        pages = site.getPages()
+
+    for page in pages:
+        page.published_html = page.html
+        page.save()
+
     return HttpResponse('')

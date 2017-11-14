@@ -43,7 +43,6 @@ class Media(models.Model):
     def getHTML(self):
         return "<img src=''></img>"
 
-
 class Site(models.Model):
     owner = models.ForeignKey(Profile)
     name = models.CharField(max_length=20)
@@ -59,7 +58,7 @@ class Site(models.Model):
 
 class Page(models.Model):
     site = models.ForeignKey(Site)
-    path = models.CharField(max_length=50)
+    name = models.CharField(max_length=50)
     html = models.CharField(max_length=1000000, default="")
     published_html = models.CharField(max_length=1000000, default="")
 
