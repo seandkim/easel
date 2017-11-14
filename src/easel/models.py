@@ -49,6 +49,7 @@ class Site(models.Model):
     name = models.CharField(max_length=20)
     description = models.CharField(max_length=1000)
     url = models.CharField(max_length=100)
+    numVisitor = models.IntegerField(default=0)
 
     def __unicode__(self):
         return self.name
@@ -58,31 +59,9 @@ class Site(models.Model):
 
 class Page(models.Model):
     site = models.ForeignKey(Site)
-    nrow = models.IntegerField()
-    ncol = models.IntegerField()
-    url = models.CharField(max_length=100)
+    path = models.CharField(max_length=50)
+    html = models.CharField(max_length=1000000, default="")
+    published_html = models.CharField(max_length=1000000, default="")
 
     def __unicode__(self):
-        return self.name
-
-    def getComponents(self):
-        return Component.objects.filter(page=self)
-
-    # TODO
-    def getHTML(self):
-        return ""
-
-class Component(models.Model):
-    page = models.ForeignKey(Page)
-    html = models.CharField(max_length=1000) #TODO necessary?
-    nrow = models.IntegerField()
-    ncol = models.IntegerField()
-    row_idx = models.IntegerField()
-    col_idx = models.IntegerField()
-
-    def __unicode__(self):
-        return self.name
-
-    # TODO
-    def getHTML(self):
-        return ""
+        return "%s (%s)" % (self.path, self.site.name)
