@@ -47,7 +47,7 @@ urlpatterns = [
     url(r'^$', views_dashboard.home, name="home"),
     url(r'^dashboard/$', views_dashboard.home, name="dashboard"),
 
-    # projects
+    # projects (TODO change ID to name)
     url(r'^projects/$', views_projects.home, name="projects"), # see list of projects
     url(r'^projects/addProject/$', views_projects.addProject, name="addProject"), # form to add project
     url(r'^projects/(?P<projectID>\w+)/addMedia/$', views_projects.addMedia, name="addMedia"), # addMedia
@@ -56,9 +56,11 @@ urlpatterns = [
 
     # sites
     url(r'^sites/$', views_sites.home, name="sitesHome"), # list all the sites
-    url(r'^sites/(?P<siteID>\w+)/editor$', views_sites.siteEditor, name="siteEditor"),
+    url(r'^sites/(?P<siteName>\w+)/editor/$', views_sites.siteEditor, name="siteEditor"),
+    url(r'^sites/(?P<siteName>\w+)/editor/(?P<pageName>\w+)/save$', views_sites.pageSave, name="pageSave"),
+    url(r'^sites/(?P<siteName>\w+)/publish/$', views_sites.sitePublish, name="sitePublish"),
 
     # public (what public audience sees)
-    url(r'^public/(?P<siteID>\w+)$', views_public.home, name="public"), # list all the sites
+    url(r'^public/(?P<username>\w+)/(?P<siteName>\w+)/$', views_public.home, name="public"), # list all the sites
     url(r'^public/notFound/$', views_public.notFound, name="publicNotFound"), # list all the sites
 ]

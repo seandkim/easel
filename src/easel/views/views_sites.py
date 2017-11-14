@@ -24,10 +24,15 @@ from time import localtime, strftime
 
 @login_required
 def home(request):
-    return HttpResponseRedirect(reverse('siteEditor', kwargs={'siteID': 1}))
+    dummySiteName = 'dummy'
+
+    # make new site called dummy if it doesn't exist
+
+    # TODO change
+    return HttpResponseRedirect(reverse('siteEditor', kwargs={'siteName': 'dummy'}))
 
 @login_required
-def siteEditor(request, siteID):
+def siteEditor(request, siteName):
     context = {}
     profile = Profile.objects.get(user=request.user)
     projects = Project.objects.filter(owner=profile)
@@ -36,5 +41,9 @@ def siteEditor(request, siteID):
     return render(request,'site-editor/site-editor.html', context)
 
 @login_required
-def pageEditor(request):
+def pageSave(request):
+    return HttpResponse('')
+
+@login_required
+def sitePublish(request):
     return HttpResponse('')
