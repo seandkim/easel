@@ -23,18 +23,14 @@ from time import localtime, strftime
 
 @login_required
 def home(request):
-    profile = Profile.objects.get(user = request.user)
-    if not Site.objects.filter(owner = profile):
-        new_site = Site(owner = profile, name = "dummy",
-                        description = "this is a dummy site",
-                       url = "", numVisitor = "24")
+    profile = Profile.objects.get(user=request.user)
+    if not Site.objects.filter(owner=profile):
+        new_site = Site(owner=profile, name="dummy",
+                        description="this is a dummy site", numVisitor="24")
         new_site.save()
         return HttpResponseRedirect(reverse('siteEditor', kwargs={'siteName': 'dummy'}))
 
-    # make new site called dummy if it doesn't exist
-    
-    # TODO change
-    site = Site.objects.get(owner = profile)
+    site = Site.objects.get(owner = profile, name='dummy')
     return HttpResponseRedirect(reverse('siteEditor', kwargs={'siteName': site.name}))
 
 @login_required
@@ -58,7 +54,7 @@ def addPage(request, siteName):
 
     pageName = request.POST['pageName'].lower()
     try:
-        site = Site.objects.get(owner=request.user, name=siteName)
+        site = Site.getSite(request.user, siteName)
     except ObjectDoesNotExist:
         raise Http404("Site %s does not exist" % siteName)
 
@@ -66,7 +62,7 @@ def addPage(request, siteName):
         raise Http404("Page %s already exists in %s" % (pageName, siteName))
 
     initHTML = "" # TODO change initial template
-    new_page = Page(site=site, name=pageName, html=initHTML)
+    new_page = Page.objects.get(site=site, name=pageName, html=initHTML)
     new_page.save()
 
 # requires POST request with the following argument:
@@ -86,7 +82,7 @@ def savePage(request, siteName):
     html = request.POST['html']
 
     try:
-        site = Site.objects.get(owner=request.user, name=siteName)
+        site = Site.getSite(request.user, siteName)
     except ObjectDoesNotExist:
         raise Http404("Site %s does not exist" % siteName)
 
@@ -105,14 +101,13 @@ def savePage(request, siteName):
 @login_required
 def sitePublish(request, siteName):
     try:
-        site = Site.objects.get(owner=request.user, name=siteName)
+        site = Site.getSite(request.user, siteName)
     except ObjectDoesNotExist:
         raise Http404("Site %s does not exist" % siteName)
 
     if ('pages' not in request.POST) or (request.POST['pages'] == ""):
         raise Http404("Invalid Request Argument")
 
-    site = Site.objects.get(name=siteName)
     pages = request.POST['pages'] # TODO change to list
     if len(pages) == 0:
         pages = site.getPages()
