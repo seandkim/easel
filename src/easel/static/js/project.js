@@ -1,4 +1,10 @@
 $(document).ready(function() {
+    
+    
+    
+    // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
+    $('.modal-trigger').leanModal();
+  
   // Periodically refresh stream page
   // CSRF set-up copied from Django docs
   // from code provided during class
