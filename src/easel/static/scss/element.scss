@@ -28,6 +28,12 @@ figcaption {
 .medium-text {
 	font-size: 16pt;
 }
+.light-text {
+	color: $interface-color-05;
+}
+.dark-text {
+	color: $interface-color-01;
+}
 
 /* alignment class */
 .center {
@@ -183,7 +189,12 @@ figcaption {
     max-width: 1280px;
 	width: 85%;
 }
-
+.flexcontainer {
+   display: -webkit-flex;
+   display: flex;
+   -webkit-flex-direction: row;
+   flex-direction: row;
+}
 .fixed-size-container {
 	max-width: 800px;
 	padding: 120px 50px;
@@ -245,6 +256,13 @@ figcaption {
 .tabs-light .indicator {
     background-color: $interface-color-07;
 }
+.tab-indicator {
+	.icon {
+		transform: translate(0, 50%);
+		color: $interface-color-07;
+		font-size: 25pt;
+	}
+}
 
 /* drop down */
 .dropdown-content > li > a {
@@ -291,7 +309,7 @@ button:focus {
 
 /* nav bar */
 nav {
-	background-color: $interface-color-01 !important;
+	background-color: $gray-scale-02 !important;
 	color: $interface-color-05 !important;
 	.brand-logo {
 		margin: 0 50px;

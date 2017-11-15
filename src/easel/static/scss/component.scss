@@ -1,10 +1,123 @@
 @import "global";
 
-#page {
+#editor-page {
 	position: fixed;
     width: 100%;
-    overflow: scroll;
+    overflow: hidden;
     height: 100%;
+    background-color: $interface-color-01;
+    a {
+    	color: $interface-color-07;
+    }
+    i {
+    	color: $interface-color-07;
+    }
+    .add-page-btn {
+    	color: $interface-color-07;
+    	font-size: 20pt;
+    }
+    .editor-bar {
+    	position: fixed;
+    	left: 0;
+    	height: 100%;
+    	width: 35%;
+   		min-width: 500px !important;
+    	padding: 100px 25px;
+    	overflow-y: scroll;
+    }
+    .component-icon {
+		font-size: 40pt;
+		color: $interface-color-07;
+	}
+    .editor-menu {
+    	li {
+    		font-family: $header-font;
+    		color: $interface-color-05;
+    		font-size: 16pt;
+    		margin: 5px;
+    		letter-spacing: 2px;
+    	}
+    }
+    .list {
+    	margin: 20px 0;
+    	display: inline-block;
+    	border-left: thick solid $interface-color-05;
+    }
+    #component-list {
+    	.easel-icon-wrapper {
+    		height: 60px;
+    		margin: 0 auto;
+    	}
+    	.component-container {
+    		@include smooth(0.3s);
+    		float: left;
+    		text-align: center;
+    		width: 110px;
+    		height: 100px;
+    		margin: 10px 5px;
+    		padding: 10px;
+    		&:hover {
+    			background-color: #000;
+    		}
+    	}
+    	img {
+    		max-width: 100%;
+    	}
+    	.icon-name {
+    		color: $interface-color-07;
+    		font-size: 10pt;
+    	}
+    }
+    #page-list {
+    	padding: 0 20px;
+    	color: $interface-color-07;
+    	font-size: 12pt;
+    	line-height: 2.5;
+    	cursor: pointer;
+    	.file {
+    		color: inherit;
+    		font-weight: 100;
+    	}
+    	.directory {
+    		color: inherit;
+    	}
+    	.icon-folder, .icon-file {
+    		@include smooth(0.2s);
+    		color: $gray-scale-03;
+    		&:hover {
+    			color: $interface-color-07;
+    		}
+    	}
+    }
+    .editor-bottom {
+    	margin: 20px;
+    	text-align: left;
+    	position: absolute;
+    	bottom: 0;
+    	width: 100%;
+    }
+    .publish-btn {
+    	@include smooth(0.3s);
+    	color: $interface-color-05;
+    	font-family: $header-font;
+    	border-radius: 0;
+    	letter-spacing: 2px;
+    	padding: 10px 20px;
+    	&:hover {
+			color: $gray-scale-03;
+			border: 1.5px solid $gray-scale-03;
+		}
+    }
+    #page-preview {
+    	position: absolute;
+    	right: 0;
+    	height: 95%;
+    	overflow: scroll;
+    	background-color: $interface-color-07;
+    	box-shadow: 0 0 30px #000;
+    	position: absolute;
+    	margin: 2.5%;
+    }
 }
 
 .homepage-container {
@@ -25,7 +138,7 @@
 }
 .form-container {
 	@extend .homepage-container;
-	box-shadow: 4px 4px 20px rgba(100,100,100,.75);
+	box-shadow: 0 0 20px #000;
     background-color: #F9F9F9;
     min-width: 500px;
 
@@ -393,71 +506,8 @@
 	}
 }
 
-#editor-bar {
-	position: absolute;
-	left: 0;
-	top: 0;
-	height: 100%;
-	width: 35%;
-	padding: 70px 40px;
-	overflow-y: scroll;
-	color: $interface-color-05 !important;
-	box-shadow: 4px 4px 20px rgba(100,100,100,.75);
 
-	.sidebar-title {
-		font-family: $header-font;
-		font-size: 25pt;
-		letter-spacing: 4px;
-		color: $interface-color-07;
-	}
-	.sidebar-description {
-		font-family: $font-family-01;
-		color: $interface-color-07;
-	}
-	.close-btn {
-		color: $interface-color-07;
-	}
-	.tabs {
-		background: none;
-	}
-	.tabs tab a {
-		background: none;
-		color: $interface-color-05;
-	}
-	.editor-body {
-		margin-top: 20px;
-	}
-	#assets {
-		padding: 20px 0;
-	}
-	.asset-description {
-		color: $interface-color-05;
-		font-size: 10pt;
-		font-family: $font-family-01;
-		margin: 5px 0;
-	}
-	.asset {
-		@include smooth(0.3s);
-		cursor: pointer;
-		&:hover {
-			transform: scale(1.05);
-		}
-	}
-	.project {
-		padding: 20px 0;
-	}
-}
-#page-preview {
-	position: absolute;
-	width: 65%;
-	height: 100%;
-	right: 0;
-	top: 0;
-	overflow-y: scroll;
-	.page-container {
-		margin: 0 50px;
-	}
-}
+
 .medium-editor-toolbar-actions {
 	b, i, u {
 		color: $interface-color-05 !important;
