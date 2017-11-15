@@ -30,7 +30,7 @@ class Project(models.Model):
 class Media(models.Model):
     project = models.ForeignKey(Project)
     # TODO support multi-file
-    #media_type = models.CharField(max_length=5)
+    # media_type = models.CharField(max_length=5)
     # TODO dynmically create upload_to folder
     image = models.ImageField(upload_to='media', blank=True)
     name = models.CharField(max_length=20)
@@ -43,12 +43,10 @@ class Media(models.Model):
     def getHTML(self):
         return "<img src=''></img>"
 
-
 class Site(models.Model):
     owner = models.ForeignKey(Profile)
     name = models.CharField(max_length=20)
     description = models.CharField(max_length=1000)
-    url = models.CharField(max_length=100)
     numVisitor = models.IntegerField(default=0)
 
     def __unicode__(self):
@@ -57,9 +55,15 @@ class Site(models.Model):
     def getPages(self):
         return Page.objects.filter(site=self)
 
+    @staticmethod
+    def getSite(self, user, siteName):
+        profile = Profile.objects.get(user=user)
+        site = Site.objects.get(owner=profile, name=siteName)
+        return site
+
 class Page(models.Model):
     site = models.ForeignKey(Site)
-    path = models.CharField(max_length=50)
+    name = models.CharField(max_length=50)
     html = models.CharField(max_length=1000000, default="")
     published_html = models.CharField(max_length=1000000, default="")
 
