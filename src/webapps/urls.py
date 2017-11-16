@@ -21,8 +21,13 @@ from django.conf import settings
 
 from easel import views
 import views_test
+import views_home
+import easel.views
+
 
 urlpatterns = [
+#    url(r'^$', easel.views.views_home.home),
+    url(r'^$', views_home.home),
     url(r'^easel/', include('easel.urls')),
 
     # TODO for dev purpose, remove later

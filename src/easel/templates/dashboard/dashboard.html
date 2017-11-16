@@ -1,6 +1,10 @@
 {% extends '../base.html' %}
 {% load static %}
 
+{% block head %}
+<script src="{% static 'js/graph.js' %}"></script>
+{% endblock %}
+
 {% block page %}
 <div class="container dashboard">
     <div class="page-header row">
