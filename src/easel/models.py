@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.db import models
 from django.contrib.auth.models import User
-
+from django.template.loader import get_template
 
 class Profile(models.Model):
     user = models.OneToOneField(User, null=True)
@@ -17,21 +17,31 @@ class Profile(models.Model):
         return self.user.username
 
     def createSite(self, siteName, description):
-        if Site.objects.filter(name=siteName).count() > 0:
+        if Site.objects.filter(owner=self, name=siteName).count() > 0:
             raise Exception("Site name %s already exists" % siteName)
 
         site = Site(owner=self, name=siteName, description=description,
                     numVisitor=0)
         site.save()
         site.createPage('home')
+        site.createPage('about')
+        site.createPage('projects')
+        site.createPage('project')
+        return site
 
     def deleteSite(self, siteName):
+        try:
+            site = Site.objects.get(owner=self, name=siteName)
+            for page in Page.objects.filter(site=site):
+                page.delete()
+
+            site.delete()
+        except:
+            pass
+
+    def getAllPages(self, siteName):
         site = Site.objects.get(owner=self, name=siteName)
-        for page in Page.objects.filter(site=site):
-            page.delete()
-
-        site.delete()
-
+        return Page.objects.filter(site=site)
 
 # TODO create functions for creating/deleting project/media
 class Project(models.Model):
@@ -73,7 +83,8 @@ class Site(models.Model):
         if Page.objects.filter(name=pageName).count() > 0:
             raise Exception("Page name %s already exists" % pageName)
 
-        initHTML = "" # TODO change!
+        t = get_template('default-pages/project.html')
+        initHTML = t.render({}) # TODO change!
         page = Page(site=self, name=pageName, html=initHTML, published_html="")
         page.save()
         return
@@ -82,15 +93,12 @@ class Site(models.Model):
         Page.objects.get(site=self, name=pageName).delete()
         return
 
-    def getAllPages(self):
-        return Page.objects.filter(site=self)
-
     def getPage(self, pageName):
         return Page.objects.get(site=self, name=pageName)
 
     # raises ObjectDoesNotExist if username/sitename is not found
     @staticmethod
-    def getSite(self, username, siteName):
+    def getSite(username, siteName):
         user = User.objects.get(username=username)
         profile = Profile.objects.get(user=user)
         site = Site.objects.get(owner=profile, name=siteName)
