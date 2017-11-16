@@ -3,6 +3,13 @@
 {% block page %}
 {% load static %}
 
+<div class="half-page-left">
+    <div class="center cover">
+        <img src="{% static 'img/placeholders/cover.png' %}">
+        <h5 class="cover-text">Lora Andreas, Graffiti artist in Brooklyn, made her statement using Easel.</h5>
+    </div>
+</div>
+
 <div class="half-page-right">
     <div class="center text-center easel-container">
         <h1 class="logo-text">EASEL</h1>
@@ -11,11 +18,11 @@
         <div class="call-to-action">
             <p>Let your artistic talent speaks for itself. <br>Create your portfolio now.</p>
         </div>
+        <br>
+        <button class="dark-btn-alt" onclick="location.href='{% url 'login' %}'">START &#10230;</button>
+
     </div>
+
 </div>
-<div class="half-page-left">
-    <div class="center text-center cover">
-        <img src="{% static 'img/placeholders/cover.png' %}">
-    </div>
-</div>
+
 {% endblock %}

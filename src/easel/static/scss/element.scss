@@ -35,6 +35,12 @@ figcaption {
 	color: $interface-color-01;
 }
 
+.cover-text {
+    font-family: $sublogo-font;
+	font-size: 15px;
+    text-align: left;
+}
+
 /* visibility */
 .hidden {
 	display: none;
