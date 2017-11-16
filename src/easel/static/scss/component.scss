@@ -33,7 +33,7 @@
     	left: 0;
     	height: 100%;
     	width: 32%;
-    	padding: 100px 25px;
+    	padding: 25px 25px 100px;
     	overflow-y: scroll;
     }
     .component-icon {
@@ -165,6 +165,18 @@
     	width: 100%;
     	display: inline-block;
     	z-index: -5;
+    	.close-tab {
+    		float: right;
+    		margin: 0 2px;
+    	}
+    	.close-tab span {
+    		@include smooth(0.3s);
+    		color: $gray-scale-03;
+    		font-size: 12pt;
+    		&:hover {
+    			color: $gray-scale-01;
+    		}
+    	}
 
 		ul.cr-tabs {
 		    margin: 0;
@@ -188,7 +200,7 @@
 		    color: $gray-scale-01;
 		}
 
-		ul.cr-tabs>li.hover {
+		.hover {
 			background: #efefef;
 		    color: $gray-scale-01;
 		}
