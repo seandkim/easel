@@ -13,10 +13,15 @@
     	color: $interface-color-07;
     }
     .bar-title {
-    	text-align: left;
-	    color: #666;
-	    font-size: 25pt;
-	    margin: 25px;
+    	@include smooth(0.3s);
+    	text-align: center;
+	    margin: 25px 25px 10px;
+	    img {
+	    	width: 100px;
+	    }
+	    &:hover {
+	    	transform: scale(1.1);
+	    }
     }
     #add-page {
     	@include smooth(0.3s);
