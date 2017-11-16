@@ -1,0 +1,13 @@
+{
+  "owner": "{{site.owner.user.username}}",
+  "name": "{{site.name}}",
+  "description": "{{description}}",
+  "pages":
+    [
+      {% for page in pages %}
+         {
+           "name": "{{page.name}}"
+         }{% if not forloop.last %},{% endif %}
+      {% endfor %}
+    ]
+}

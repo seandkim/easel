@@ -25,14 +25,14 @@ from time import localtime, strftime
 def home(request):
     profile = Profile.objects.get(user=request.user)
     siteName = 'dummy'
-    profile.deletePage(siteName)
-    profile.createPage(siteName)
+    profile.deleteSite(siteName)
+    site = profile.createSite(siteName, "dummydescription")
     # if not Site.objects.filter(owner=profile):
     #     profile.createSite(siteName, "dummydescription")
     #     return HttpResponseRedirect(reverse('siteEditor', kwargs={'siteName': siteName}))
     #
     # site = Site.objects.get(owner = profile, name=siteName)
-    # return HttpResponseRedirect(reverse('siteEditor', kwargs={'siteName': site.name}))
+    return HttpResponseRedirect(reverse('siteEditor', kwargs={'siteName': site.name}))
 
 @login_required
 def siteEditor(request, siteName):
@@ -42,6 +42,14 @@ def siteEditor(request, siteName):
     context['profile'] = profile
     context['projects'] = projects
     return render(request,'site-editor/site-editor.html', context)
+
+# requires GET request to "/sites/(?P<siteName>\w+)/editor/getAllPages/"
+@login_required
+def getAllPages(request, siteName):
+    site = Site.getSite(request.user.username, siteName)
+    pages = Page.objects.filter(site=site)
+    context = {'site':site, 'pages':pages}
+    return render(request, 'json/pages.json', context, content_type='application/json')
 
 # requires POST request with the following argument:
 # { 'pageName': <name of the page created> }
