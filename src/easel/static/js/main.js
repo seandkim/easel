@@ -83,12 +83,16 @@ $(function() {
     }
 
     /* show tab */
-    var componentTabHidden = false;
+    var componentTabHidden = true;
     var pageTabHidden = true;
+    var toolTabHidden = true;
     /* event listeners */
     $('#component-tab').on('click', componentToggle);
     $('#page-tab').on('click', pageToggle);
+    $('#tool-tab').on('click', toolToggle);
     $('#page-list').hide();
+    $('#tool-list').hide();
+    $('#component-list').hide();
 
     /* slide up to begin with */
     function componentToggle() {
@@ -115,6 +119,18 @@ $(function() {
         pageTabHidden = !pageTabHidden;
     }
 
+    function toolToggle() {
+        var ind = $('#tool-tab').find('.tab-indicator');
+        if (toolTabHidden) {
+            $('#tool-list').slideDown('swing');
+            ind.html('<i class="icon icon-down-dir"></i>');
+        } else {
+            $('#tool-list').slideUp('swing');
+            ind.html('<i class="icon icon-right-dir"></i>');
+        }
+        toolTabHidden = !toolTabHidden;
+    }
+
     var editor = new MediumEditor('.editable');
 
    
@@ -137,7 +153,7 @@ $(function() {
        cr_tabs.removeClass('active');
        $(this).addClass('active');
     });
-    
+
     cr_tabs.hover(function() {
        cr_tabs.removeClass('hover');
        $(this).addClass('hover');

@@ -53,8 +53,23 @@
     	margin: 20px 0;
     	display: inline-block;
     	border-left: thick solid $interface-color-05;
+    	.sublist {
+    		display: inline-block;
+    		.sublist-title {
+    			padding: 3px 20px;
+    			background-color: $gray-scale-02;
+    			color: $interface-color-01;
+    			font-family: $header-font;
+    			font-size: 10pt;
+    			letter-spacing: 2px;
+    			display: inline-block;
+    		}
+    		a {
+    			background-color: none;
+    		}
+    	}
     }
-    #component-list {
+    #component-list, #tool-list {
     	.easel-icon-wrapper {
     		height: 60px;
     		margin: 0 auto;
@@ -101,11 +116,20 @@
     	}
     }
     .editor-bottom {
-    	margin: 20px;
-    	text-align: left;
-    	position: absolute;
-    	bottom: 0;
-    	width: 100%;
+    	text-align: center;
+	    position: fixed;
+	    bottom: 0;
+	    width: 32%;
+	    left: 0;
+	    background-color: $interface-color-01;
+	    padding: 20px;
+	    a {
+	    	margin: 0 20px;
+	    	padding: 5px;
+	    }
+	    .icon {
+	    	font-size: 15pt;
+	    }
     }
     .publish-btn {
     	@include smooth(0.3s);
@@ -130,6 +154,7 @@
     	z-index: -15;
     	#page-content {
     		background-color: $interface-color-07;
+    		width: 100%;
     	}
     }
     #tab-bar {

@@ -1,135 +1,186 @@
 {% load static %}
 <div class="editor-bar dark">
-<!-- 	<div id="toolbox" class="round-btn">
+    <!-- 	<div id="toolbox" class="round-btn">
 		<i class="icon icon-tools"></i>
 	</div> -->
-	<div class="bar-title">
-		<h5 class="logo-text">EASEL</h5>
-	</div>
-	<ul class="editor-menu">
-		<li class="editor-item">
-			<a href="#" id="page-tab">
+    <div class="bar-title">
+        <h5 class="logo-text">EASEL</h5>
+    </div>
+    <ul class="editor-menu">
+        <li class="editor-item">
+            <a href="#" id="page-tab">
 				<span class="tab-indicator">
 					<i class="icon icon-right-dir"></i>
 				</span> 
 				PAGES
 			</a>
-			<br>
-			<div class="list" id="page-list">
-				<div class="directory">
-					<i class="icon icon-folder-o"></i> PROJECT 
-				</div>
-				<div class="file">
-					&emsp;&emsp;  <i class="icon icon-file"></i> index.html
-				</div>
-				<div class="file">
-					&emsp;&emsp;  <i class="icon icon-file"></i> some.html
-				</div>
-				<div class="directory">
-					<i class="icon icon-folder"></i> MISC
-				</div>
-			</div>
-		</li>
-		<li class="editor-item">
-			<a href="#" id="component-tab">
+            <br>
+            <div class="list" id="page-list">
+                <div class="directory">
+                    <i class="icon icon-folder-o"></i> PROJECT
+                </div>
+                <div class="file">
+                    &emsp;&emsp; <i class="icon icon-file"></i> index.html
+                </div>
+                <div class="file">
+                    &emsp;&emsp; <i class="icon icon-file"></i> some.html
+                </div>
+                <div class="directory">
+                    <i class="icon icon-folder"></i> MISC
+                </div>
+            </div>
+        </li>
+        <li class="editor-item">
+            <a href="#" id="tool-tab">
 				<span class="tab-indicator">
-					<i class="icon icon-down-dir"></i>
+					<i class="icon icon-right-dir"></i>
+				</span> 
+				TOOLS
+			</a>
+            <div class="list" id="tool-list">
+            	<div class="sublist">
+            		<div class="sublist-title">SITE SETTING</div>
+            		<br>
+            		<a href="#">
+	                    <div class="component-container">
+	                        <div class="easel-icon-wrapper">
+	                            <i class="component-icon icon-ccw"></i>
+	                        </div>
+	                        <div class="icon-name">REVERT</div>
+	                    </div>
+	                </a>
+	                <a href="#">
+	                    <div class="component-container">
+	                        <div class="easel-icon-wrapper">
+	                            <i class="component-icon icon-eye"></i>
+	                        </div>
+	                        <div class="icon-name">VISIBILITY</div>
+	                    </div>
+	                </a>
+	                <a href="#">
+	                    <div class="component-container">
+	                        <div class="easel-icon-wrapper">
+	                            <i class="component-icon icon-site"></i>
+	                        </div>
+	                        <div class="icon-name">VIEW SITE</div>
+	                    </div>
+	                </a>
+            	</div>
+            	<br>
+                <div class="sublist">
+            		<div class="sublist-title">MANAGER</div>
+            		<br>
+            		<a href="#">
+	                    <div class="component-container">
+	                        <div class="easel-icon-wrapper">
+	                            <i class="component-icon icon-media"></i>
+	                        </div>
+	                        <div class="icon-name">MEDIA<br>LIBRARY</div>
+	                    </div>
+	                </a>
+            	</div>
+            </div>
+        </li>
+        <li class="editor-item">
+            <a href="#" id="component-tab">
+				<span class="tab-indicator">
+					<i class="icon icon-right-dir"></i>
 				</span> 
 				COMPONENTS
 			</a>
-			<div class="list" id="component-list">
-				<a href="#">
-					<div class="component-container">
-						<div class="easel-icon-wrapper">
-							<i class="component-icon icon-textbox"></i>
-						</div>
-						<div class="icon-name">TEXTBOX</div>
-					</div>
-				</a>
-				<a href="#">
-					<div class="component-container">
-						<div class="easel-icon-wrapper">
-							<i class="component-icon icon-markdown"></i>
-						</div>
-						<div class="icon-name">MARKDOWN</div>
-					</div>
-				</a>
-				<a href="#">
-					<div class="component-container">
-						<div class="easel-icon-wrapper">
-							<i class="component-icon icon-image"></i>
-						</div>
-						<div class="icon-name">IMAGE</div>
-					</div>
-				</a>
-				<a href="#">
-					<div class="component-container">
-						<div class="easel-icon-wrapper">
-							<i class="component-icon icon-video"></i>
-						</div>
-						<div class="icon-name">VIDEO</div>
-					</div>
-				</a>
-				<a href="#">
-					<div class="component-container">
-						<div class="easel-icon-wrapper">
-							<i class="component-icon icon-quote"></i>
-						</div>
-						<div class="icon-name">QUOTE</div>
-					</div>
-				</a>
-				<a href="#">
-					<div class="component-container">
-						<div class="easel-icon-wrapper">
-							<i class="component-icon icon-space"></i>
-						</div>
-						<div class="icon-name">SPACE</div>
-					</div>
-				</a>
-				<a href="#">
-					<div class="component-container">
-						<div class="easel-icon-wrapper">
-							<i class="component-icon icon-embed"></i>
-						</div>
-						<div class="icon-name">EMBED</div>
-					</div>
-				</a>
-				<a href="#">
-					<div class="component-container">
-						<div class="easel-icon-wrapper">
-							<i class="component-icon icon-rule"></i>
-						</div>
-						<div class="icon-name">RULE</div>
-					</div>
-				</a>
-				<a href="#">
-					<div class="component-container">
-						<div class="easel-icon-wrapper">
-							<i class="component-icon icon-row"></i>
-						</div>
-						<div class="icon-name">ROW</div>
-					</div>
-				</a>
-				<a href="#">
-					<div class="component-container">
-						<div class="easel-icon-wrapper">
-							<i class="component-icon icon-column"></i>
-						</div>
-						<div class="icon-name">COLUMN</div>
-					</div>
-				</a>
-				<a href="#">
-					<div class="component-container">
-						<div class="easel-icon-wrapper">
-							<i class="component-icon icon-grid"></i>
-						</div>
-						<div class="icon-name">GRID</div>
-					</div>
-				</a>
-			</div>
-		</li>
-	</ul>
-	<div class="editor-bottom">
-		<button class="light-btn-outline publish-btn" id="publish">PUBLISH CHANGE</button>
-	</div>
+            <div class="list" id="component-list" class=".grid-list">
+                <a href="#">
+                    <div class="component-container">
+                        <div class="easel-icon-wrapper">
+                            <i class="component-icon icon-textbox"></i>
+                        </div>
+                        <div class="icon-name">TEXTBOX</div>
+                    </div>
+                </a>
+                <a href="#">
+                    <div class="component-container">
+                        <div class="easel-icon-wrapper">
+                            <i class="component-icon icon-markdown"></i>
+                        </div>
+                        <div class="icon-name">MARKDOWN</div>
+                    </div>
+                </a>
+                <a href="#">
+                    <div class="component-container">
+                        <div class="easel-icon-wrapper">
+                            <i class="component-icon icon-image"></i>
+                        </div>
+                        <div class="icon-name">IMAGE</div>
+                    </div>
+                </a>
+                <a href="#">
+                    <div class="component-container">
+                        <div class="easel-icon-wrapper">
+                            <i class="component-icon icon-video"></i>
+                        </div>
+                        <div class="icon-name">VIDEO</div>
+                    </div>
+                </a>
+                <a href="#">
+                    <div class="component-container">
+                        <div class="easel-icon-wrapper">
+                            <i class="component-icon icon-quote"></i>
+                        </div>
+                        <div class="icon-name">QUOTE</div>
+                    </div>
+                </a>
+                <a href="#">
+                    <div class="component-container">
+                        <div class="easel-icon-wrapper">
+                            <i class="component-icon icon-space"></i>
+                        </div>
+                        <div class="icon-name">SPACE</div>
+                    </div>
+                </a>
+                <a href="#">
+                    <div class="component-container">
+                        <div class="easel-icon-wrapper">
+                            <i class="component-icon icon-embed"></i>
+                        </div>
+                        <div class="icon-name">EMBED</div>
+                    </div>
+                </a>
+                <a href="#">
+                    <div class="component-container">
+                        <div class="easel-icon-wrapper">
+                            <i class="component-icon icon-rule"></i>
+                        </div>
+                        <div class="icon-name">RULE</div>
+                    </div>
+                </a>
+                <a href="#">
+                    <div class="component-container">
+                        <div class="easel-icon-wrapper">
+                            <i class="component-icon icon-row"></i>
+                        </div>
+                        <div class="icon-name">ROW</div>
+                    </div>
+                </a>
+                <a href="#">
+                    <div class="component-container">
+                        <div class="easel-icon-wrapper">
+                            <i class="component-icon icon-column"></i>
+                        </div>
+                        <div class="icon-name">COLUMN</div>
+                    </div>
+                </a>
+                <a href="#">
+                    <div class="component-container">
+                        <div class="easel-icon-wrapper">
+                            <i class="component-icon icon-grid"></i>
+                        </div>
+                        <div class="icon-name">GRID</div>
+                    </div>
+                </a>
+            </div>
+        </li>
+    </ul>
+    <div class="editor-bottom">
+        <button class="light-btn-outline publish-btn" id="publish">PUBLISH CHANGE</button>
+    </div>
 </div>
