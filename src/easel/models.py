@@ -87,7 +87,7 @@ class Site(models.Model):
         initHTML = t.render({}) # TODO change!
         page = Page(site=self, name=pageName, html=initHTML, published_html="")
         page.save()
-        return
+        return page
 
     def deletePage(self, pageName):
         Page.objects.get(site=self, name=pageName).delete()

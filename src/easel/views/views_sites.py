@@ -27,6 +27,7 @@ def home(request):
     siteName = 'dummy'
     profile.deleteSite(siteName)
     site = profile.createSite(siteName, "dummydescription")
+    # TODO change
     # if not Site.objects.filter(owner=profile):
     #     profile.createSite(siteName, "dummydescription")
     #     return HttpResponseRedirect(reverse('siteEditor', kwargs={'siteName': siteName}))
@@ -56,23 +57,27 @@ def getAllPages(request, siteName):
 @login_required
 def addPage(request, siteName):
     if request.method != 'POST':
+        print("Invalid Request Method")
         raise Http404("Invalid Request Method")
 
     if ('pageName' not in request.POST) or (request.POST['pageName'] == ""):
+        print("Invalid Request Argument")
         raise Http404("Invalid Request Argument")
 
     pageName = request.POST['pageName'].lower()
     try:
         site = Site.getSite(request.user.username, siteName)
     except ObjectDoesNotExist:
+        print("Site %s does not exist" % siteName)
         raise Http404("Site %s does not exist" % siteName)
 
-    if Page.object.filter(name=pageName, site=site).count() > 0:
+    if Page.objects.filter(name=pageName, site=site).count() > 0:
+        print("Page %s already exists in %s" % (pageName, siteName))
         raise Http404("Page %s already exists in %s" % (pageName, siteName))
 
-    initHTML = "" # TODO change initial template
-    new_page = Page.objects.get(site=site, name=pageName, html=initHTML)
+    new_page = site.createPage(pageName)
     new_page.save()
+    return HttpResponse("")
 
 # requires POST request with the following argument:
 # { 'pageName': <name of the page saving>,
