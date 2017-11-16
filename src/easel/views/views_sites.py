@@ -24,14 +24,15 @@ from time import localtime, strftime
 @login_required
 def home(request):
     profile = Profile.objects.get(user=request.user)
-    if not Site.objects.filter(owner=profile):
-        new_site = Site(owner=profile, name="dummy",
-                        description="this is a dummy site", numVisitor="24")
-        new_site.save()
-        return HttpResponseRedirect(reverse('siteEditor', kwargs={'siteName': 'dummy'}))
-
-    site = Site.objects.get(owner = profile, name='dummy')
-    return HttpResponseRedirect(reverse('siteEditor', kwargs={'siteName': site.name}))
+    siteName = 'dummy'
+    profile.deletePage(siteName)
+    profile.createPage(siteName)
+    # if not Site.objects.filter(owner=profile):
+    #     profile.createSite(siteName, "dummydescription")
+    #     return HttpResponseRedirect(reverse('siteEditor', kwargs={'siteName': siteName}))
+    #
+    # site = Site.objects.get(owner = profile, name=siteName)
+    # return HttpResponseRedirect(reverse('siteEditor', kwargs={'siteName': site.name}))
 
 @login_required
 def siteEditor(request, siteName):
@@ -54,7 +55,7 @@ def addPage(request, siteName):
 
     pageName = request.POST['pageName'].lower()
     try:
-        site = Site.getSite(request.user, siteName)
+        site = Site.getSite(request.user.username, siteName)
     except ObjectDoesNotExist:
         raise Http404("Site %s does not exist" % siteName)
 
@@ -82,7 +83,7 @@ def savePage(request, siteName):
     html = request.POST['html']
 
     try:
-        site = Site.getSite(request.user, siteName)
+        site = Site.getSite(request.user.username, siteName)
     except ObjectDoesNotExist:
         raise Http404("Site %s does not exist" % siteName)
 
@@ -101,7 +102,7 @@ def savePage(request, siteName):
 @login_required
 def sitePublish(request, siteName):
     try:
-        site = Site.getSite(request.user, siteName)
+        site = Site.getSite(request.user.username, siteName)
     except ObjectDoesNotExist:
         raise Http404("Site %s does not exist" % siteName)
 

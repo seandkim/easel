@@ -29,7 +29,7 @@ def home(request):
     profile = Profile.objects.get(user = request.user)
     context['form'] = AddProjectForm()
     context['profile'] = profile
-    
+
     if request.method == 'POST':
         print('hi im here')
         form = AddProjectForm(request.POST)
@@ -45,7 +45,7 @@ def home(request):
                               description=form.cleaned_data['description'])
         new_project.save()
         context['message'] = "Your project has been added"
-        
+
     return render(request, 'project/project-list.html', context)
 
 @login_required
@@ -97,7 +97,6 @@ def addMedia(request, projectID):
 
     media = form.save(commit=False)
     media.project = Project.objects.get(id=projectID)
-    print("media.image is", media.image)
     media.save()
 
     return HttpResponseRedirect(reverse("projects"))
