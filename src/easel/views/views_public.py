@@ -22,8 +22,22 @@ from easel.models import *
 from easel.forms import *
 from time import localtime, strftime
 
-def home(request, siteID):
-    return HttpResponse('')
+def renderHome(request, username, siteName):
+    return renderPage(request, username, siteName, 'home')
+
+def renderPage(request, username, siteName, pageName):
+    try:
+        site = Site.getSite(username, siteName)
+    except:
+        raise Http404("Site %s by %s does not exist" % (siteName, username))
+
+    try:
+        home = site.getPage(pageName)
+    except:
+        raise Http404("Site %s by %s does not have home page" % (siteName, username))
+
+    # TODO change to template where we can render something about easel
+    return HttpResponse(home.published_html)
 
 def notFound(request):
-    return HttpResponse('')
+    return HttpResponse("")

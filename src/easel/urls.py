@@ -62,6 +62,7 @@ urlpatterns = [
     url(r'^sites/(?P<siteName>\w+)/publish/$', views_sites.sitePublish, name="sitePublish"),
 
     # public (what public audience sees)
-    url(r'^public/(?P<username>\w+)/(?P<siteName>\w+)/$', views_public.home, name="public"), # list all the sites
+    url(r'^public/(?P<username>\w+)/(?P<siteName>\w+)/$', views_public.renderHome, name="publicRenderHome"), # list all the sites
+    url(r'^public/(?P<username>\w+)/(?P<siteName>\w+)/(?P<pageName>\w+)/$', views_public.renderPage, name="publicRenderPage"), # list all the sites
     url(r'^public/notFound/$', views_public.notFound, name="publicNotFound"), # list all the sites
 ]

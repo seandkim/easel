@@ -1,10 +1,260 @@
 @import "global";
 
-#page {
+#editor-page {
 	position: fixed;
     width: 100%;
-    overflow: scroll;
+    overflow: hidden;
     height: 100%;
+    background-color: $interface-color-01;
+    a {
+    	color: $interface-color-07;
+    }
+    i {
+    	color: $interface-color-07;
+    }
+    .bar-title {
+    	@include smooth(0.3s);
+    	text-align: center;
+	    margin: 25px 25px 10px;
+	    img {
+	    	width: 100px;
+	    }
+	    &:hover {
+	    	transform: scale(1.1);
+	    }
+    }
+    #add-page {
+    	@include smooth(0.3s);
+    	color: $interface-color-07;
+    	font-size: 20pt;
+    	float: right;
+    	padding: 5px;
+    	&:hover {
+    		color: $interface-color-05;
+    	}
+    }
+    .editor-bar {
+    	position: fixed;
+    	left: 0;
+    	height: 100%;
+    	width: 32%;
+    	padding: 25px 25px 100px;
+    	overflow-y: scroll;
+    }
+    .component-icon {
+		font-size: 40pt;
+		color: $interface-color-07;
+	}
+    .editor-menu {
+    	li {
+    		font-family: $header-font;
+    		color: $interface-color-05;
+    		font-size: 16pt;
+    		margin: 5px;
+    		letter-spacing: 2px;
+    	}
+    }
+    .list {
+    	margin: 20px 0;
+    	display: inline-block;
+    	border-left: thick solid $interface-color-05;
+    	.sublist {
+    		display: inline-block;
+    		.sublist-title {
+    			padding: 3px 20px;
+    			background-color: $gray-scale-02;
+    			color: $interface-color-01;
+    			font-family: $header-font;
+    			font-size: 10pt;
+    			letter-spacing: 2px;
+    			display: inline-block;
+    		}
+    		a {
+    			background-color: none;
+    		}
+    	}
+    }
+    #component-list, #tool-list {
+    	.easel-icon-wrapper {
+    		height: 60px;
+    		margin: 0 auto;
+    	}
+    	.component-container {
+    		@include smooth(0.3s);
+    		float: left;
+    		text-align: center;
+    		width: 110px;
+    		height: 100px;
+    		margin: 10px 5px;
+    		padding: 10px;
+    		&:hover {
+    			background-color: #000;
+    		}
+    	}
+    	img {
+    		max-width: 100%;
+    	}
+    	.icon-name {
+    		color: $interface-color-07;
+    		font-size: 10pt;
+    	}
+    }
+    #page-list {
+    	padding: 0 20px;
+    	color: $interface-color-07;
+    	font-size: 12pt;
+    	line-height: 2.5;
+    	cursor: pointer;
+    	.file {
+    		color: inherit;
+    		font-weight: 100;
+    	}
+    	.directory {
+    		color: inherit;
+    	}
+    	.icon-folder, .icon-file {
+    		@include smooth(0.2s);
+    		color: $gray-scale-03;
+    		&:hover {
+    			color: $interface-color-07;
+    		}
+    	}
+    }
+    .editor-bottom {
+    	text-align: center;
+	    position: fixed;
+	    bottom: 0;
+	    width: 32%;
+	    left: 0;
+	    background-color: $interface-color-01;
+	    padding: 20px;
+	    a {
+	    	margin: 0 20px;
+	    	padding: 5px;
+	    }
+	    .icon {
+	    	font-size: 15pt;
+	    }
+    }
+    .publish-btn {
+    	@include smooth(0.3s);
+    	color: $interface-color-05;
+    	font-family: $header-font;
+    	border-radius: 0;
+    	letter-spacing: 2px;
+    	padding: 10px 20px;
+    	&:hover {
+			color: $gray-scale-03;
+			border: 1.5px solid $gray-scale-03;
+		}
+    }
+    #page-preview {
+    	position: absolute;
+    	right: 0;
+    	height: 90%;
+    	background-color: none;
+    	position: absolute;
+    	margin: 2.5%;
+    	width: 65%;
+    	z-index: -15;
+    	#page-content {
+    		background-color: $interface-color-07;
+    		width: 100%;
+    	}
+    }
+    #tab-bar {
+    	@include smooth(0.3s);
+    	height: 40px;
+    	position: absolute;
+    	top: 0;
+    	width: 100%;
+    	display: inline-block;
+    	z-index: -5;
+    	.close-tab {
+    		float: right;
+    		margin: 0 2px;
+    	}
+    	.close-tab span {
+    		@include smooth(0.3s);
+    		color: $gray-scale-03;
+    		font-size: 12pt;
+    		&:hover {
+    			color: $gray-scale-01;
+    		}
+    	}
+
+		ul.cr-tabs {
+		    margin: 0;
+		    list-style-type: none;
+		    line-height: 40px;
+		    max-height: 40px;
+		    overflow: hidden;
+		    display: inline-block;
+		    padding-right: 20px;
+
+		    /* font */
+		    font-family: $header-font;
+    		color: $interface-color-05;
+    		font-size: 16pt;
+    		letter-spacing: 1px;
+		}
+
+		ul.cr-tabs>li.active {
+		    z-index: 2;
+		    background: #efefef;
+		    color: $gray-scale-01;
+		}
+
+		.hover {
+			background: #efefef;
+		    color: $gray-scale-01;
+		}
+
+		ul.cr-tabs>li {
+		    float: right;
+		    margin: 5px -10px 0;
+		    border-top-right-radius: 25px 170px;
+		    border-top-left-radius: 20px 90px;
+		    padding: 0 30px 0 25px;
+		    height: 170px;
+		    background: #ddd;
+		    position: relative;
+		    box-shadow: 0 10px 20px rgba(0, 0, 0, .5);
+		    max-width: 200px;
+		    color: $gray-scale-03;
+		}
+
+		ul.cr-tabs>li>a {
+		    display: inline-block;
+		    max-width: 100%;
+		    overflow: hidden;
+		    text-overflow: ellipsis;
+		    text-decoration: none;
+		    color: inherit;
+		    font-size: 10pt;
+		    letter-spacing: 2px;
+		}
+
+		/* Clear Fix took for HTML 5 Boilerlate*/
+		.clearfix:before,
+		.clearfix:after {
+		    content: "";
+		    display: table;
+		}
+		.clearfix:after {
+		    clear: both;
+		}
+		.clearfix {
+		    zoom: 1;
+		}
+	}
+	#page-content {
+    	box-shadow: 0 10px 30px $black;
+    	top: 40px;
+		position: absolute;
+		overflow-y: scroll;
+		height: 100%;
+    }
 }
 
 .homepage-container {
@@ -25,7 +275,7 @@
 }
 .form-container {
 	@extend .homepage-container;
-	box-shadow: 4px 4px 20px rgba(100,100,100,.75);
+	box-shadow: 0 0 20px #000;
     background-color: #F9F9F9;
     min-width: 500px;
 
@@ -50,7 +300,6 @@
 		}
 	}
 }
-
 .page-header {
 	margin: 120px 0 50px;
 	.header {
@@ -393,71 +642,8 @@
 	}
 }
 
-#editor-bar {
-	position: absolute;
-	left: 0;
-	top: 0;
-	height: 100%;
-	width: 35%;
-	padding: 70px 40px;
-	overflow-y: scroll;
-	color: $interface-color-05 !important;
-	box-shadow: 4px 4px 20px rgba(100,100,100,.75);
 
-	.sidebar-title {
-		font-family: $header-font;
-		font-size: 25pt;
-		letter-spacing: 4px;
-		color: $interface-color-07;
-	}
-	.sidebar-description {
-		font-family: $font-family-01;
-		color: $interface-color-07;
-	}
-	.close-btn {
-		color: $interface-color-07;
-	}
-	.tabs {
-		background: none;
-	}
-	.tabs tab a {
-		background: none;
-		color: $interface-color-05;
-	}
-	.editor-body {
-		margin-top: 20px;
-	}
-	#assets {
-		padding: 20px 0;
-	}
-	.asset-description {
-		color: $interface-color-05;
-		font-size: 10pt;
-		font-family: $font-family-01;
-		margin: 5px 0;
-	}
-	.asset {
-		@include smooth(0.3s);
-		cursor: pointer;
-		&:hover {
-			transform: scale(1.05);
-		}
-	}
-	.project {
-		padding: 20px 0;
-	}
-}
-#page-preview {
-	position: absolute;
-	width: 65%;
-	height: 100%;
-	right: 0;
-	top: 0;
-	overflow-y: scroll;
-	.page-container {
-		margin: 0 50px;
-	}
-}
+
 .medium-editor-toolbar-actions {
 	b, i, u {
 		color: $interface-color-05 !important;

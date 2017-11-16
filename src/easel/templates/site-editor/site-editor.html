@@ -6,39 +6,49 @@
 {% endblock %}
 
 {% block page %}
-{% include './editor.html' %}
-<div id="page-preview">
-	<nav>
-	    <div class="nav-wrapper">
-	        <a href="#" class="brand-logo header-text">{{profile.user.first_name|upper}}'S PORTFOLIO</a>
-	        <ul id="nav-mobile" class="right hide-on-med-and-down">
-	            <li><a href="#">ABOUT</a></li>
-	            <li><a href="#">PROJECTS</a></li>
-	        </ul>
-	    </div>
-	</nav>
-
-	<div class="fixed-size-container">
-		<div class="project-edit">
-
-	    <form method="post" action="{% url 'login' %}">
-	        <div class="project-edit-header editable">
-	            <h1 class="project-title-xl">CHURCH REMODEL</h1>
-	            <ul class="project-field-list">
-	                <li><strong>DATE: </strong>Oct 29th, 2015</li>
-	                <li><strong>TYPE: </strong>ARCHITECTURE <br></li>
-	                <li><strong>STATUS: </strong>ACTIVE<br></li>
-	            </ul>
-	        </div>
-	        <img src="{% static 'img/placeholders/church.png' %}">
-	        <div class="editable">
-	        	<p class="project-description-paragraph">
-		            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Amet volutpat consequat mauris nunc. Donec enim diam vulputate ut pharetra. Nunc mi ipsum faucibus vitae. Sodales ut etiam sit amet nisl. Ultricies integer quis auctor elit sed. Tortor at risus viverra adipiscing at. Volutpat odio facilisis mauris sit amet massa vitae tortor condimentum. Enim diam vulputate ut pharetra sit amet aliquam. Non arcu risus quis varius. Turpis tincidunt id aliquet risus feugiat. Sed cras ornare arcu dui vivamus arcu felis bibendum ut. Mauris pharetra et ultrices neque ornare aenean euismod elementum. Amet risus nullam eget felis eget nunc lobortis. Et odio pellentesque diam volutpat commodo sed egestas egestas. Congue eu consequat ac felis donec et odio. Volutpat ac tincidunt vitae semper. Tempus imperdiet nulla malesuada pellentesque elit. Ut ornare lectus sit amet est. Leo vel fringilla est ullamcorper eget nulla facilisi etiam dignissim.
-		        </p>
-	        </div>
-	    </form>
-
-	</div>
+<div id="editor-page">
+	{% include './editor.html' %}
+	<div id="page-preview">
+		<div id="tab-bar">
+			<ul class="cr-tabs clearfix">
+				<li class=active tab-target="#starry-night">
+			        <a href=#>STARRY NIGHT</a>
+			        <a href="#" class="close-tab"><span class="icon-close"></span></a>
+			    </li>
+			    <li tab-target="#home-page">
+			        <a href=#>HOME</a>
+			        <a href="#" class="close-tab"><span class="icon-close"></span></a>
+			    </li>
+			    <li tab-target="#about">
+			        <a href=#>ABOUT</a>
+			        <a href="#" class="close-tab"><span class="icon-close"></span></a>
+			    </li>
+			    <li tab-target="#update">
+			        <a href=#>UPDATE</a>
+			        <a href="#" class="close-tab"><span class="icon-close"></span></a>
+			    </li>
+			</ul>
+		</div>
+		<div id="add-page" class="tooltip">
+			<span class="tooltiptext">NEW PAGE</span>
+			<a href="#">
+				<i class="icon-plus"></i>
+			</a>
+		</div>
+		<div id="page-content">
+			<div id="starry-night">
+				{% include '../test_pages/dummy_portfolio.html' %}
+			</div>
+			<div id="about" class="hidden">
+				{% include '../test_pages/dummy_about.html' %}
+			</div>
+			<div id="home-page" class="hidden">
+				{% include '../test_pages/dummy_home.html' %}
+			</div>
+			<div id="update" class="hidden">
+				{% include '../test_pages/dummy_update.html' %}
+			</div>
+		</div>
 	</div>
 </div>
 {% endblock %}
