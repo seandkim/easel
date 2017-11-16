@@ -9,7 +9,31 @@
 <div id="editor-page">
 	{% include './editor.html' %}
 	<div id="page-preview">
-		{% include '../test_pages/dummy_portfolio.html' %}
+		<div id="tab-bar">
+			<ul class="cr-tabs clearfix">
+				<li class=active tab-target="starry-night">
+			        <a href=#>STARRY NIGHT</a>
+			    </li>
+			    <li tab-target="home-page">
+			        <a href=#>HOME</a>
+			    </li>
+			    <li tab-target="about">
+			        <a href=#>ABOUT</a>
+			    </li>
+			    <li tab-target="update">
+			        <a href=#>UPDATE</a>
+			    </li>
+			</ul>
+		</div>
+		<div id="add-page" class="tooltip">
+			<span class="tooltiptext">NEW PAGE</span>
+			<a href="#">
+				<i class="icon-plus"></i>
+			</a>
+		</div>
+		<div id="page-content">
+			{% include '../test_pages/dummy_portfolio.html' %}
+		</div>
 	</div>
 </div>
 {% endblock %}

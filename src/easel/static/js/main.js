@@ -83,12 +83,16 @@ $(function() {
     }
 
     /* show tab */
-    var componentTabHidden = false;
+    var componentTabHidden = true;
     var pageTabHidden = true;
+    var toolTabHidden = true;
     /* event listeners */
     $('#component-tab').on('click', componentToggle);
     $('#page-tab').on('click', pageToggle);
+    $('#tool-tab').on('click', toolToggle);
     $('#page-list').hide();
+    $('#tool-list').hide();
+    $('#component-list').hide();
 
     /* slide up to begin with */
     function componentToggle() {
@@ -115,6 +119,18 @@ $(function() {
         pageTabHidden = !pageTabHidden;
     }
 
+    function toolToggle() {
+        var ind = $('#tool-tab').find('.tab-indicator');
+        if (toolTabHidden) {
+            $('#tool-list').slideDown('swing');
+            ind.html('<i class="icon icon-down-dir"></i>');
+        } else {
+            $('#tool-list').slideUp('swing');
+            ind.html('<i class="icon icon-right-dir"></i>');
+        }
+        toolTabHidden = !toolTabHidden;
+    }
+
     var editor = new MediumEditor('.editable');
 
    
@@ -130,35 +146,56 @@ $(function() {
       });
     });
 
+
+    var cr_tabs = $('.cr-tabs > li');
+
+    cr_tabs.on("click", function() {
+       cr_tabs.removeClass('active');
+       $(this).addClass('active');
+    });
+
+    cr_tabs.hover(function() {
+       cr_tabs.removeClass('hover');
+       $(this).addClass('hover');
+    }, function() {
+       cr_tabs.removeClass('hover');
+    });
+
+    $('#add-page').hover(function() {
+       $(this).find('a').html('<i class="icon-plus-circle"></i>');
+    }, function() {
+       $(this).find('a').html('<i class="icon-plus"></i>');
+    });
+
     /* create graphs in dashboard */
-    var trace1 = {
-      x: ["Mon", "Tue", "Wed", "Thur", "Fri"],
-      y: [1, 6, 3, 6, 1],
-      mode: 'markers',
-      type: 'scatter',
-      name: 'Site A',
-      marker: { size: 12 }
-    };
+    // var trace1 = {
+    //   x: ["Mon", "Tue", "Wed", "Thur", "Fri"],
+    //   y: [1, 6, 3, 6, 1],
+    //   mode: 'markers',
+    //   type: 'scatter',
+    //   name: 'Site A',
+    //   marker: { size: 12 }
+    // };
 
-    var trace2 = {
-      x: ["Mon", "Tue", "Wed", "Thur", "Fri"],
-      y: [4, 1, 7, 1, 4],
-      mode: 'markers',
-      type: 'scatter',
-      name: 'Site B',
-      marker: { size: 12 }
-    };
+    // var trace2 = {
+    //   x: ["Mon", "Tue", "Wed", "Thur", "Fri"],
+    //   y: [4, 1, 7, 1, 4],
+    //   mode: 'markers',
+    //   type: 'scatter',
+    //   name: 'Site B',
+    //   marker: { size: 12 }
+    // };
 
-    var data = [ trace1, trace2 ];
+    // var data = [ trace1, trace2 ];
 
-    var layout = {
-      yaxis: {
-        range: [0, 8]
-      },
-      title:'Visitors from last Week'
-    };
+    // var layout = {
+    //   yaxis: {
+    //     range: [0, 8]
+    //   },
+    //   title:'Visitors from last Week'
+    // };
 
-    Plotly.newPlot('graph1', data, layout);
+    // Plotly.newPlot('graph1', data, layout);
 
 
 });
