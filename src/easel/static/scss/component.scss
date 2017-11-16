@@ -659,3 +659,14 @@
 .light {
 	background-color: $interface-color-06;
 }
+
+
+.cover {
+    width: 620px;
+    height: auto;
+    img {
+        margin-top: 60px;
+        margin-left: 60px;
+        width: 100%;
+    }
+}
