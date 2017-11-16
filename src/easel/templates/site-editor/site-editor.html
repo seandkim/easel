@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block head %}
+<script src="{% static 'js/editor_ajax.js' %}"></script>
 <script src="{% static 'js/site-editor-form.js' %}"></script>
 {% endblock %}
 
@@ -31,7 +32,7 @@
 		</div>
 		<div id="add-page" class="tooltip">
 			<span class="tooltiptext">NEW PAGE</span>
-			<a href="#">
+			<a class="new-page" href="#">
 				<i class="icon-plus"></i>
 			</a>
 		</div>
