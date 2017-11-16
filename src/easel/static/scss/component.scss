@@ -12,16 +12,27 @@
     i {
     	color: $interface-color-07;
     }
-    .add-page-btn {
+    .bar-title {
+    	text-align: left;
+	    color: #666;
+	    font-size: 25pt;
+	    margin: 25px;
+    }
+    #add-page {
+    	@include smooth(0.3s);
     	color: $interface-color-07;
     	font-size: 20pt;
+    	float: right;
+    	padding: 5px;
+    	&:hover {
+    		color: $interface-color-05;
+    	}
     }
     .editor-bar {
     	position: fixed;
     	left: 0;
     	height: 100%;
-    	width: 35%;
-   		min-width: 500px !important;
+    	width: 32%;
     	padding: 100px 25px;
     	overflow-y: scroll;
     }
@@ -111,12 +122,96 @@
     #page-preview {
     	position: absolute;
     	right: 0;
-    	height: 95%;
-    	overflow: scroll;
-    	background-color: $interface-color-07;
-    	box-shadow: 0 0 30px #000;
+    	height: 90%;
+    	background-color: none;
     	position: absolute;
     	margin: 2.5%;
+    	width: 65%;
+    	z-index: -15;
+    	#page-content {
+    		background-color: $interface-color-07;
+    	}
+    }
+    #tab-bar {
+    	@include smooth(0.3s);
+    	height: 40px;
+    	position: absolute;
+    	top: 0;
+    	width: 100%;
+    	display: inline-block;
+    	z-index: -5;
+
+		ul.cr-tabs {
+		    margin: 0;
+		    list-style-type: none;
+		    line-height: 40px;
+		    max-height: 40px;
+		    overflow: hidden;
+		    display: inline-block;
+		    padding-right: 20px;
+
+		    /* font */
+		    font-family: $header-font;
+    		color: $interface-color-05;
+    		font-size: 16pt;
+    		letter-spacing: 1px;
+		}
+
+		ul.cr-tabs>li.active {
+		    z-index: 2;
+		    background: #efefef;
+		    color: $gray-scale-01;
+		}
+
+		ul.cr-tabs>li.hover {
+			background: #efefef;
+		    color: $gray-scale-01;
+		}
+
+		ul.cr-tabs>li {
+		    float: right;
+		    margin: 5px -10px 0;
+		    border-top-right-radius: 25px 170px;
+		    border-top-left-radius: 20px 90px;
+		    padding: 0 30px 0 25px;
+		    height: 170px;
+		    background: #ddd;
+		    position: relative;
+		    box-shadow: 0 10px 20px rgba(0, 0, 0, .5);
+		    max-width: 200px;
+		    color: $gray-scale-03;
+		}
+
+		ul.cr-tabs>li>a {
+		    display: inline-block;
+		    max-width: 100%;
+		    overflow: hidden;
+		    text-overflow: ellipsis;
+		    text-decoration: none;
+		    color: inherit;
+		    font-size: 10pt;
+		    letter-spacing: 2px;
+		}
+
+		/* Clear Fix took for HTML 5 Boilerlate*/
+		.clearfix:before,
+		.clearfix:after {
+		    content: "";
+		    display: table;
+		}
+		.clearfix:after {
+		    clear: both;
+		}
+		.clearfix {
+		    zoom: 1;
+		}
+	}
+	#page-content {
+    	box-shadow: 0 10px 30px $black;
+    	top: 40px;
+		position: absolute;
+		overflow-y: scroll;
+		height: 100%;
     }
 }
 
@@ -163,7 +258,6 @@
 		}
 	}
 }
-
 .page-header {
 	margin: 120px 0 50px;
 	.header {
