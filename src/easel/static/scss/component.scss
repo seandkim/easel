@@ -661,9 +661,10 @@
 .cover {
     width: 620px;
     height: auto;
+    margin-top: 60px;
+    margin-left: 60px;
+    letter-spacing: 1px;
     img {
-        margin-top: 60px;
-        margin-left: 60px;
         width: 100%;
     }
 }
