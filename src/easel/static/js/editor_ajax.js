@@ -14,11 +14,14 @@ $(document).ready(function() {
           const pageName = page['name']
           const pageOpened = (page['opened'] == "True")
           const pageActive = (page['active'] == "True")
-          console.log(pageName, pageOpened)
           if (pageOpened) {
             loadPageHTML(siteName, pageName)
           }
-          break;
+
+          if (pageActive) {
+            // TODO focus on active tab.
+            // TODO assert that there are only one active page?
+          }
         }
       }
   });
@@ -27,11 +30,12 @@ $(document).ready(function() {
 
   /* make ajax call to page actions */
   $( "#publish" ).click(function() {
-    console.log("sent ajax request to publish");
+    pagesToPublish = []
+    console.log("sending ajax request to publish");
     $.ajax({
         url: "/easel/sites/dummy/publish/",
         method: "POST",
-        data: { html : $('#page-content').html() },
+        data: { pages: pagesToPublish },
         success: function(data) {
           console.log("successfully published the page");
         }

@@ -58,7 +58,6 @@ def getPageNames(request, siteName):
 def getPageHTML(request, siteName, pageName):
     site = Site.getSite(request.user.username, siteName)
     page = site.getPage(pageName)
-    print(page.name, page.html)
     context = {'page': page}
     return HttpResponse(page.html)
 
@@ -124,20 +123,26 @@ def savePage(request, siteName):
 # if the `pages` argument is empty, it publishes all pages
 @login_required
 def sitePublish(request, siteName):
+    print("sitePublish start", request.POST)
     try:
         site = Site.getSite(request.user.username, siteName)
     except ObjectDoesNotExist:
+        print("Site %s does not exist" % siteName)
         raise Http404("Site %s does not exist" % siteName)
 
+    profile = Profile.objects.get(user=request.user)
     if ('pages' not in request.POST) or (request.POST['pages'] == ""):
-        raise Http404("Invalid Request Argument")
-
-    pages = request.POST['pages'] # TODO change to list
-    if len(pages) == 0:
-        pages = site.getPages()
+        print("Pages are not specified. Publishing all pages")
+        pages = profile.getAllPages(siteName)
+    else:
+        pageNames = request.POST['pages']
+        pages = []
+        for pageName in pageNames:
+            pages.append(profile.getPage(siteName, pageName))
 
     for page in pages:
         page.published_html = page.html
         page.save()
+        print("published page %s!", page.name)
 
     return HttpResponse('')

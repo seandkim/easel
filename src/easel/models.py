@@ -43,6 +43,10 @@ class Profile(models.Model):
         site = Site.objects.get(owner=self, name=siteName)
         return Page.objects.filter(site=site)
 
+    def getPage(self, siteName, pageName):
+        site = Site.objects.get(owner=self, name=siteName)
+        return Page.objects.get(site=site, name=pageName)
+
 # TODO create functions for creating/deleting project/media
 class Project(models.Model):
     owner = models.ForeignKey(Profile)
