@@ -41,6 +41,12 @@ figcaption {
     text-align: left;
 }
 
+.cover-logo-text {
+    font-size: 6.2rem;
+    font-family: $logo-font;
+	letter-spacing: 10px;
+}
+
 /* visibility */
 .hidden {
 	display: none;

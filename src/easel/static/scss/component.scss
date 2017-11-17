@@ -273,6 +273,20 @@
 		}
 	}
 }
+
+.easel-container {
+	@extend .homepage-container;
+	min-width: 800px;
+    padding-right:20px;
+	.call-to-action {
+		p {
+			padding: 0;
+			margin: 0;
+			font-family: $font-family-01;
+		}
+	}
+}
+
 .form-container {
 	@extend .homepage-container;
 	box-shadow: 5px 5px 20px $gray-scale-03;
