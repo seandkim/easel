@@ -1,21 +1,23 @@
 'use strict';
 
 $(document).ready(function() {
-  const siteName = 'dummy'
+  const siteName = 'dummy';
+  var pageTree;
   // retrieve list of projects
   $.ajax({
       url: "/easel/sites/" + siteName + "/getPageNames/",
       method: "GET",
       success: function(data) {
         console.log("successfully retrieved page names");
+        pageTree = data;
 
         for (var i=0; i<data.pages.length; i++) {
-          const page = data.pages[0]
-          const pageName = page['name']
-          const pageOpened = (page['opened'] == "True")
-          const pageActive = (page['active'] == "True")
+          const page = data.pages[0];
+          const pageName = page['name'];
+          const pageOpened = (page['opened'] == "True");
+          const pageActive = (page['active'] == "True");
           if (pageOpened) {
-            loadPageHTML(siteName, pageName)
+            loadPageHTML(siteName, pageName);
           }
 
           if (pageActive) {
@@ -84,8 +86,16 @@ $(document).ready(function() {
         dataType: "html",
         success: function(data) {
           console.log("successfully retrieved page html");
-          const html = data
+          const html = data;
+          /* append new tab */
+          $('cr.tabs').append(
+            '<li tab-target="#' + pageName + '">' +
+                '<a href=#>UPDATE</a>' +
+                '<a href="#" class="close-tab"><span class="icon-close"></span></a>' +
+            '</li>');
           // TODO replace content with html
+          /* create new page with div */
+          //<div id="home-page" class="hidden">
         },
         error: function(jqXHR, textStatus) {
           console.log("error in loading page", pageName, textStatus);

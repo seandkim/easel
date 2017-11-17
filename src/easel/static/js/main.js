@@ -7,8 +7,6 @@ $(function() {
     // hide sidebar
     // TODO: fix sidebar width using $('#sidebar').outerWidth()
     $('#sidebar').css('right', '-400px');
-
-    /* event listeners */
     $('#toggle').on('click', sidebarToggle);
     $('#slider-exit').on('click', sidebarToggle);
 
