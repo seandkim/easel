@@ -142,8 +142,11 @@ def sitePublish(request, siteName):
             pages.append(profile.getPage(siteName, pageName))
 
     for page in pages:
-        page.published_html = page.html
+        checkStr = 'contenteditable="true"'
+        processed = page.html
+        while checkStr in processed:
+            processed = processed.replace(checkStr, 'contenteditable="false"')
+        page.published_html = processed
         page.save()
-        print("published page %s!", page.name)
 
     return HttpResponse('')

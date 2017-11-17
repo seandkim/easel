@@ -64,6 +64,7 @@ $(document).ready(function() {
   document.addEventListener("keydown", function(e) {
     var current_page = document.getElementsByClassName("active")
     var pageName = $($(current_page).children()[0]).html().toLowerCase()
+    var html = $('#'+pageName).html()
 
     // cmd+s in mac and ctrl+s in other platform
     if (e.keyCode == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
@@ -72,7 +73,7 @@ $(document).ready(function() {
           url: "/easel/sites/dummy/savePage/",
           method: "POST",
           data: { pageName: pageName,
-                  html : $('#page-content').html() },
+                  html : html },
 
           success: function(data) {
             console.log("successful saved the page");
