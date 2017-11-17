@@ -418,3 +418,71 @@ nav {
 		}
 	}
 }
+/* preloader */
+.preloader-overlay {
+    position: fixed;
+    z-index: 50;
+    background-color: $interface-color-08;
+    width: 100%;
+    height: 100%;
+    .loading {
+    	padding: 10px 0;
+    	color: $interface-color-07;
+    	font-family: $header-font;
+    	letter-spacing: 2px;
+    	font-size: 10pt;
+    	text-align: center;
+    	position: absolute;
+    	bottom: -50%;
+    }
+    .spinner-wrapper {
+    	transform: translate(-50%, -50%);
+    	position: absolute;
+	    top: 50%;
+	    left: 50%;
+	    width: 80px;
+	    height: 80px;
+    }
+
+    .double-bounce1,
+    .double-bounce2 {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background-color: $interface-color-07;
+        opacity: 0.6;
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        -webkit-animation: sk-bounce 2.0s infinite ease-in-out;
+        animation: sk-bounce 2.0s infinite ease-in-out;
+    }
+
+    .double-bounce2 {
+        -webkit-animation-delay: -1.0s;
+        animation-delay: -1.0s;
+    }
+
+    @-webkit-keyframes sk-bounce {
+        0%,
+        100% {
+            -webkit-transform: scale(0.0)
+        }
+        50% {
+            -webkit-transform: scale(1.0)
+        }
+    }
+
+    @keyframes sk-bounce {
+        0%,
+        100% {
+            transform: scale(0.0);
+            -webkit-transform: scale(0.0);
+        }
+        50% {
+            transform: scale(1.0);
+            -webkit-transform: scale(1.0);
+        }
+    }
+}

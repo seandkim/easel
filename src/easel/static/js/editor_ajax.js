@@ -3,7 +3,7 @@
 $(document).ready(function() {
     const siteName = 'dummy';
     var pageTree;
-
+    
     // retrieve list of projects
     $.ajax({
         url: "/easel/sites/" + siteName + "/getPageNames/",
@@ -18,22 +18,29 @@ $(document).ready(function() {
                 const pageOpened = (page['opened'] == "True");
                 const pageActive = (page['active'] == "True");
                 if (pageOpened) {
-                    loadPageHTML(siteName, pageName, pageActive);
+                    var result = loadPageHTML(siteName, pageName, pageActive);
                 }
             }
             updatePageTree(pageTree);
+            doneLoading();
         }
     });
 
     /* make ajax call to page actions */
-    $("#publish").click(function() {
-        var pagesToPublish = []
+    $(".publish").click(function() {
+        addLoading();
+        var pagesToPublish = [];
         $.ajax({
             url: "/easel/sites/dummy/publish/",
             method: "POST",
             data: { pages: pagesToPublish },
             success: function(data) {
                 console.log("successfully published the page");
+                doneLoading();
+            },
+            error: function (e) {
+                console.log(e);
+                doneLoading();
             }
         });
     });
@@ -49,8 +56,10 @@ $(document).ready(function() {
             data: { pageName: newPageName },
             success: function(data) {
                 console.log("successfully added the page");
+            },
+            error: function(e) {
+                // TODO display alert message (when same page name exists)
             }
-            // TODO display alert message (when same page name exists)
         });
     });
 
@@ -75,11 +84,13 @@ $(document).ready(function() {
                     pageName: pageName,
                     html: $('#page-content').html()
                 },
-
                 success: function(data) {
                     console.log("successful saved the page");
-                }
-                // TODO add failure case
+                },
+                error: function(e) {
+                    // TODO add error handling
+                    console.log(e);
+                } 
             });
         }
     });
@@ -104,37 +115,28 @@ $(document).ready(function() {
                 if (isActive) {
                     new_el.trigger('click');
                 }
-
-                // if (isActive) {
-
-                //     /* append new tab */
-                //     $('.cr-tabs').prepend(
-                //         '<li tab-target="#' + pageName + '">' +
-                //         '<a href=#>' + pageName + '</a>' +
-                //         '<a href="#" class="close-tab"><span class="icon-close"></span></a>' +
-                //         '</li>');
-                //     $('#page-content').append(
-                //         '<div id="' + pageName + '">' +
-                //         html +
-                //         '</div>');
-
-                // } else {
-                //     /* create new page with div */
-                //     $('.cr-tabs').prepend(
-                //         '<li tab-target="#' + pageName + '">' +
-                //         '<a href=#>' + pageName + '</a>' +
-                //         '<a href="#" class="close-tab"><span class="icon-close"></span></a>' +
-                //         '</li>');
-                //     $('#page-content').append(
-                //         '<div id="' + pageName + '" class="hidden">' +
-                //         html +
-                //         '</div>');
-                // }
             },
             error: function(jqXHR, textStatus) {
                 console.log("error in loading page", pageName, textStatus);
             }
         });
+    }
+
+    function doneLoading() {
+      $('.preload').remove();
+    };
+
+    function addLoading() {
+        $('html').append(
+            '<div class="preload preloader-overlay">' +
+                '<div class="spinner-wrapper">' + 
+                    '<div class="spinner">' +
+                        '<div class="double-bounce1"></div>' +
+                        '<div class="double-bounce2"></div>' +
+                    '</div>' +
+                '<div class="loading">LOADING...</div>' +
+                '</div>' +
+            '</div>');
     }
 
     function updatePageTree(pageTree) {
