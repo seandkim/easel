@@ -32,12 +32,15 @@ def renderPage(request, username, siteName, pageName):
         raise Http404("Site %s by %s does not exist" % (siteName, username))
 
     try:
-        home = site.getPage(pageName)
+        page = site.getPage(pageName)
     except:
-        raise Http404("Site %s by %s does not have home page" % (siteName, username))
+        raise Http404("Site %s by %s does not have page named %s" % (siteName, username, pageName))
+
+    if (page.published_html == ""):
+        return notFound(request)
 
     # TODO change to template where we can render something about easel
-    return HttpResponse(home.published_html)
+    return HttpResponse(page.published_html)
 
 def notFound(request):
-    return HttpResponse("")
+    return HttpResponse("Could not find published page. Are you sure you published the page?")

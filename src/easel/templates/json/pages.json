@@ -6,7 +6,9 @@
     [
       {% for page in pages %}
          {
-           "name": "{{page.name}}"
+           "name": "{{page.name}}",
+           "opened": "{{page.opened}}",
+           "active": "{{page.active}}"
          }{% if not forloop.last %},{% endif %}
       {% endfor %}
     ]
