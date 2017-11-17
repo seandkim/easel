@@ -69,7 +69,6 @@ class Media(models.Model):
     def __unicode__(self):
         return self.name
 
-
 class Site(models.Model):
     owner = models.ForeignKey(Profile)
     name = models.CharField(max_length=20)
@@ -107,6 +106,9 @@ class Site(models.Model):
 class Page(models.Model):
     site = models.ForeignKey(Site)
     name = models.CharField(max_length=50)
+    # whether user has opened this page in workspace
+    opened = models.BooleanField(default=True)
+    active = models.BooleanField(default=False)
     html = models.CharField(max_length=1000000, default="")
     published_html = models.CharField(max_length=1000000, default="")
 

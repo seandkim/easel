@@ -1,55 +1,93 @@
 'use strict';
 
-$(function() {
-    setupAjax()
+$(document).ready(function() {
+  const siteName = 'dummy'
+  // retrieve list of projects
+  $.ajax({
+      url: "/easel/sites/" + siteName + "/getPageNames/",
+      method: "GET",
+      success: function(data) {
+        console.log("successfully retrieved page names");
 
-    /* make ajax call to page actions */
-    $( "#publish" ).click(function() {
-      console.log("sent ajax request to publish");
-      $.ajax({
-          url: "/sites/dummy/publish/",
-          method: "POST",
-          data: { html : $('#page-content').html() },
-          success: function(data) {
-            console.log("successful sent html of page");
+        for (var i=0; i<data.pages.length; i++) {
+          const page = data.pages[0]
+          const pageName = page['name']
+          const pageOpened = (page['opened'] == "True")
+          const pageActive = (page['active'] == "True")
+          console.log(pageName, pageOpened)
+          if (pageOpened) {
+            loadPageHTML(siteName, pageName)
           }
-      });
-    });
-
-    /* make ajax call to page actions */
-    $( ".new-page" ).click(function() {
-      newPageName = 'newPage' //TODO change to real new page name
-      $.ajax({
-          url: "/easel/sites/dummy/addPage/",
-          method: "POST",
-          // TODO change page name
-          data: { pageName : newPageName },
-          success: function(data) {
-             console.log("successfully added the page");
-          }
-          // TODO display alert message (when same page name exists)
-      });
-    });
-
-    document.addEventListener("keydown", function(e) {
-      pageName = "home" //TODO find active page and its name
-      // cmd+s in mac and ctrl+s in other platform
-      if (e.keyCode == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
-        e.preventDefault();
-        $.ajax({
-            url: "/easel/sites/dummy/savePage/",
-            method: "POST",
-            data: { pageName: pageName,
-                    html : $('#page-content').html() },
-
-            success: function(data) {
-              console.log("successful sent html of page");
-            }
-            // TODO add failure case
-        });
+          break;
+        }
       }
-    }, false);
+  });
+
+  setupAjax()
+
+  /* make ajax call to page actions */
+  $( "#publish" ).click(function() {
+    console.log("sent ajax request to publish");
+    $.ajax({
+        url: "/easel/sites/dummy/publish/",
+        method: "POST",
+        data: { html : $('#page-content').html() },
+        success: function(data) {
+          console.log("successfully published the page");
+        }
+    });
+  });
+
+  /* make ajax call to page actions */
+  $( ".new-page" ).click(function() {
+    const newPageName = 'newPage' //TODO change to real new page name
+    $.ajax({
+        url: "/easel/sites/dummy/addPage/",
+        method: "POST",
+        // TODO change page name
+        data: { pageName : newPageName },
+        success: function(data) {
+           console.log("successfully added the page");
+        }
+        // TODO display alert message (when same page name exists)
+    });
+  });
+
+  document.addEventListener("keydown", function(e) {
+    const pageName = "home" //TODO find active page and its name
+    // cmd+s in mac and ctrl+s in other platform
+    if (e.keyCode == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
+      e.preventDefault();
+      $.ajax({
+          url: "/easel/sites/dummy/savePage/",
+          method: "POST",
+          data: { pageName: pageName,
+                  html : $('#page-content').html() },
+
+          success: function(data) {
+            console.log("successful saved the page");
+          }
+          // TODO add failure case
+      });
+    }
+  }, false);
 });
+
+function loadPageHTML(siteName, pageName) {
+  $.ajax({
+      url: "/easel/sites/" + siteName + "/getPageHTML/" + pageName,
+      method: "GET",
+      dataType: "html",
+      success: function(data) {
+        console.log("successfully retrieved page html");
+        const html = data
+        // TODO replace content with html
+      },
+      error: function(jqXHR, textStatus) {
+        console.log("error in loading page", pageName, textStatus);
+      }
+  });
+}
 
 function setupAjax() {
   /* ajax set up */

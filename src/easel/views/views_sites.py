@@ -44,13 +44,23 @@ def siteEditor(request, siteName):
     context['projects'] = projects
     return render(request,'site-editor/site-editor.html', context)
 
-# requires GET request to "/sites/(?P<siteName>\w+)/editor/getAllPages/"
+# requires GET request to "/sites/(?P<siteName>\w+)/editor/getPageNames/"
 @login_required
-def getAllPages(request, siteName):
+def getPageNames(request, siteName):
     site = Site.getSite(request.user.username, siteName)
     pages = Page.objects.filter(site=site)
     context = {'site':site, 'pages':pages}
-    return render(request, 'json/pages.json', context, content_type='application/json')
+    return render(request, 'json/pages.json', context,
+                           content_type='application/json')
+
+# requires GET
+@login_required
+def getPageHTML(request, siteName, pageName):
+    site = Site.getSite(request.user.username, siteName)
+    page = site.getPage(pageName)
+    print(page.name, page.html)
+    context = {'page': page}
+    return HttpResponse(page.html)
 
 # requires POST request with the following argument:
 # { 'pageName': <name of the page created> }
