@@ -398,3 +398,22 @@ nav {
 .errorlist>li {
 	color: rgb(225, 0, 0);
 }
+
+#alert-box {
+	position: fixed;
+	right: 0;
+	top: 20%;
+	padding: 30px;
+	background-color: rgba(0,0,0,0.8);
+	box-shadow: 0 5px 10px rgba(0,0,0,0.5);
+	.close-alert {
+		position: absolute;
+		right: 0;
+		top: 0;
+		margin: 3px;
+		i {
+			font-size: 14pt;
+			color: $interface-color-07;
+		}
+	}
+}
