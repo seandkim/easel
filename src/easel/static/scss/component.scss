@@ -105,6 +105,9 @@
     	font-size: 12pt;
     	line-height: 2.5;
     	cursor: pointer;
+    	.page-name {
+    		color: $interface-color-07;
+    	}
     	.file {
     		color: inherit;
     		font-weight: 100;

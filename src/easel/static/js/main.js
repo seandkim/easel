@@ -1,20 +1,20 @@
 'use strict';
 
 $(function() {
-    /* variable declarations */
-    var sidebarHidden = true;
 
-    // hide sidebar
-    // TODO: fix sidebar width using $('#sidebar').outerWidth()
+    /* initializations */
+    $('.modal').modal();
+    var editor = new MediumEditor('.editable');
+    $('#alert-box').hide();
+
+    /* variable declarations */
+
+    /* side bar */
+    var sidebarHidden = true;
     $('#sidebar').css('right', '-400px');
     $('#toggle').on('click', sidebarToggle);
     $('#slider-exit').on('click', sidebarToggle);
-    
-    /* initialize modal */
-    $('.modal').modal();
-
-    var editor = new MediumEditor('.editable');
-
+  
     /*
      * Controls hide and show of sidebar
      */
@@ -150,5 +150,17 @@ $(function() {
        $(this).find('a').html('<i class="icon-plus"></i>');
     });
 
+    function activateTab(el) {
+      var cr_tabs = $('.cr-tabs > li');
+      // get the unactivated tab
+       var unactivated_tab = $('.cr-tabs').find('.active').attr('tab-target');
+       $( unactivated_tab ).addClass('hidden');
+       cr_tabs.removeClass('active');
+
+       // replace page review with target tab
+       el.addClass('active');
+       var activated_tab = el.attr('tab-target');
+       $(activated_tab).removeClass('hidden');
+    }
 
 });
