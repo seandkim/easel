@@ -275,7 +275,7 @@
 }
 .form-container {
 	@extend .homepage-container;
-	box-shadow: 0 0 20px #000;
+	box-shadow: 5px 5px 20px $gray-scale-03;
     background-color: #F9F9F9;
     min-width: 500px;
 
