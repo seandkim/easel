@@ -61,15 +61,30 @@ $(document).ready(function() {
 
   function loadMedia(projectID, description) {
     console.log(description)
+
     $.get("/easel/getMedia/" + projectID).done(function(data) {
 
+        
       /* create project description bar */
       var detail_bar = $("<div></div>").addClass("project-detail-bar").addClass("col").addClass("s12");
       detail_bar.append($('<span class="description"><strong>Description: </strong>' + description + '</span>'));
       detail_bar.append($('<br>'));
       detail_bar.append($('<a href="/easel/projects/'+projectID+'/addMedia"><button class="dark-btn-alt"><i class="material-icons tab-icon">file_upload</i> UPLOAD</button></a>'));
-      detail_bar.append($('<a href="/easel/projects/'+projectID+'/delete"><button class="dark-btn-alt"><i class="material-icons tab-icon">delete</i> DELETE</button></a>'));
 
+      detail_bar.append($('<a class="modal-trigger" href="#delete-project-modal" projectid="' + projectID + '">' +
+                            '<button class="dark-btn-alt">' +
+                                '<i class="material-icons tab-icon">delete</i>' + 
+                                'DELETE' +
+                            '</button>' +
+                          '</a>'));
+        
+      $(document).on('click', '.modal-trigger', function() {
+          var projectID = $(this).attr('projectid');
+          console.log(projectID + ' is clicked'); 
+          $('#delete-submit').attr('href', projectID + '/delete/');
+      });
+
+    
       /* create media div */
       var media_div = $("<div></div>").addClass("media-list").addClass("col").addClass("s12");
       media_div.addClass("media-list").attr("id", projectID);

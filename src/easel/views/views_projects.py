@@ -76,6 +76,7 @@ def addProject(request):
 def deleteProject(request, projectID):
     project = Project.objects.get(id=projectID)
     medias = Media.objects.filter(project=project)
+    
     medias.delete()
     project.delete()
     return HttpResponseRedirect(reverse("projects"))
