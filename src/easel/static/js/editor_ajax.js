@@ -44,7 +44,8 @@ $(document).ready(function() {
 
   /* make ajax call to page actions */
   $( ".new-page" ).click(function() {
-    const newPageName = 'newPage' //TODO change to real new page name
+    var current_page = document.getElementsByClassName("active")
+    var pageName = $($(current_page).children()[0]).html().toLowerCase()
     $.ajax({
         url: "/easel/sites/dummy/addPage/",
         method: "POST",
@@ -73,44 +74,26 @@ $(document).ready(function() {
           }
           // TODO add failure case
       });
-<<<<<<< HEAD
     }
-  }, false);
-});
-=======
-    });
-
-    document.addEventListener("keydown", function(e) {
-      var current_page = document.getElementsByClassName("active")
-      pageName = $($(current_page).children()[0]).html().toLowerCase()
-
-        // cmd+s in mac and ctrl+s in other platform
-      if (e.keyCode == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
-        e.preventDefault();
-        $.ajax({
-            url: "/easel/sites/dummy/savePage/",
-            method: "POST",
-            data: { pageName: pageName,
-                    html : $('#page-content').html() },
->>>>>>> dace4d572bba769f6f9f336bbf4dffc4aa26865d
-
-function loadPageHTML(siteName, pageName) {
-  $.ajax({
-      url: "/easel/sites/" + siteName + "/getPageHTML/" + pageName,
-      method: "GET",
-      dataType: "html",
-      success: function(data) {
-        console.log("successfully retrieved page html");
-        const html = data
-        // TODO replace content with html
-      },
-      error: function(jqXHR, textStatus) {
-        console.log("error in loading page", pageName, textStatus);
-      }
   });
-}
 
-function setupAjax() {
+  function loadPageHTML(siteName, pageName) {
+    $.ajax({
+        url: "/easel/sites/" + siteName + "/getPageHTML/" + pageName,
+        method: "GET",
+        dataType: "html",
+        success: function(data) {
+          console.log("successfully retrieved page html");
+          const html = data
+          // TODO replace content with html
+        },
+        error: function(jqXHR, textStatus) {
+          console.log("error in loading page", pageName, textStatus);
+        }
+    });
+  }
+
+  function setupAjax() {
   /* ajax set up */
   // set up csrf tokens
   // https://docs.djangoproject.com/en/1.10/ref/csrf/
@@ -145,3 +128,5 @@ function setupAjax() {
       }
   });
 }
+
+});
