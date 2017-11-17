@@ -50,10 +50,10 @@ $(function() {
 
     /* make ajax call to page actions */
     $( ".new-page" ).click(function() {
-      console.log("sending ajax request to add page");
       $.ajax({
           url: "/easel/sites/dummy/addPage/",
           method: "POST",
+          // TODO change page name
           data: { pageName : 'newPage' },
           success: function(data) {
              console.log("successful sent html of page");
@@ -61,14 +61,15 @@ $(function() {
       });
     });
 
-    // TODO for saving page
-    // $.ajax({
-    //     url: "^sites/dummy/addPage/",
-    //     method: "POST",
-    //     data: { html : $('#page-content').html() },
-    //     success: function(data) {
-    //       console.log("successful sent html of page");
-    //     }
-    // });
-
+    document.addEventListener("keypress", function(event) {
+      console.log( "Handler for .keypress() called." );
+      // $.ajax({
+      //     url: "^sites/dummy/addPage/",
+      //     method: "POST",
+      //     data: { html : $('#page-content').html() },
+      //     success: function(data) {
+      //       console.log("successful sent html of page");
+      //     }
+      // });
+    })
 });
