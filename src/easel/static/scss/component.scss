@@ -274,9 +274,9 @@
 	}
 }
 
-.easel-container {
+.easel-cover-container {
 	@extend .homepage-container;
-	min-width: 800px;
+	min-width: 500px;
     padding-right:20px;
 	.call-to-action {
 		p {
