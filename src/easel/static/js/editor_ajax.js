@@ -32,8 +32,10 @@ $(function() {
     });
 
     document.addEventListener("keydown", function(e) {
-      pageName = "home" //TODO find active page and its name
-      // cmd+s in mac and ctrl+s in other platform
+      var current_page = document.getElementsByClassName("active")
+      pageName = $($(current_page).children()[0]).html().toLowerCase()
+
+        // cmd+s in mac and ctrl+s in other platform
       if (e.keyCode == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
         e.preventDefault();
         $.ajax({
