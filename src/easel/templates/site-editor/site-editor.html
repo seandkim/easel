@@ -31,7 +31,7 @@
 		</div>
 		<div id="add-page" class="tooltip">
 			<span class="tooltiptext">NEW PAGE</span>
-			<a class="new-page" href="#">
+			<a class="new-page modal-trigger" href="#add-page-modal">
 				<i class="icon-plus"></i>
 			</a>
 		</div>
@@ -51,6 +51,22 @@
 		</div>
 	</div>
 </div>
+
+<div id="add-page-modal" class="modal add-page-screen">
+    <div class="modal-content">
+        <div class="center text-center paint-as-input">
+            <h2 class="logo-text">Add Page</h2>
+            <form method="post" action="#!">
+                <table>
+                    {{form}}
+                </table>
+                {% csrf_token %}
+                <button id="add-new-page" type="submit" class="dark-btn-alt">ADD &#10230;</button>
+            </form>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
 
 {% block sidebar %}

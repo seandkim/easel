@@ -98,3 +98,17 @@ class EditMediaForm(forms.Form):
     def is_valid(self):
         valid = super(EditMediaForm, self).is_valid()
         return valid
+
+
+class AddPageForm(forms.Form):
+    page_name = forms.CharField(max_length=20)
+    
+    def clean(self):
+        cleaned_data = super(AddPageForm, self).clean()
+        page_name = cleaned_data.get('page_name')
+
+        if Page.objects.filter(name=page_name).count() > 0:
+            raise forms.ValidationError("Page name '%s' already exists" % page_name)
+            
+        return cleaned_data
+    
