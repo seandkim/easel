@@ -1,7 +1,7 @@
 'use strict';
 
 $(function() {
-	  /* variable declarations */
+    /* variable declarations */
     var sidebarHidden = true;
 
     // hide sidebar
@@ -11,6 +11,9 @@ $(function() {
     /* event listeners */
     $('#toggle').on('click', sidebarToggle);
     $('#slider-exit').on('click', sidebarToggle);
+    
+    /* initialize modal */
+    $('.modal').modal();
 
     var editor = new MediumEditor('.editable');
 

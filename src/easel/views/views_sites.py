@@ -40,6 +40,7 @@ def siteEditor(request, siteName):
     context = {}
     profile = Profile.objects.get(user=request.user)
     projects = Project.objects.filter(owner=profile)
+    context['form'] = AddPageForm()
     context['profile'] = profile
     context['projects'] = projects
     return render(request,'site-editor/site-editor.html', context)

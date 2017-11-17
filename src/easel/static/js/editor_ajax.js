@@ -1,6 +1,9 @@
 'use strict';
 
 $(function() {
+    $('.modal').modal();
+
+    
     setupAjax()
 
     /* make ajax call to page actions */
@@ -17,7 +20,7 @@ $(function() {
     });
 
     /* make ajax call to page actions */
-    $( ".new-page" ).click(function() {
+    $( ".add-new-page" ).click(function() {
       newPageName = 'newPage' //TODO change to real new page name
       $.ajax({
           url: "/easel/sites/dummy/addPage/",

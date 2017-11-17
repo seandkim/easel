@@ -31,7 +31,6 @@ def home(request):
     context['profile'] = profile
 
     if request.method == 'POST':
-        print('hi im here')
         form = AddProjectForm(request.POST)
         context['form'] = form
         # Validates the form.
