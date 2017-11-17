@@ -111,7 +111,7 @@ def savePage(request, siteName):
         raise Http404("Site %s does not exist" % siteName)
 
     try:
-        page = Page.object.get(name=pageName, site=site)
+        page = Page.objects.get(name=pageName, site=site)
     except ObjectDoesNotExist:
         raise Http404("Page %s does not exists in %s" % (pageName, siteName))
 

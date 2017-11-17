@@ -37,7 +37,7 @@ def renderPage(request, username, siteName, pageName):
         raise Http404("Site %s by %s does not have page named %s" % (siteName, username, pageName))
 
     if (page.published_html == ""):
-        return notFound(request)
+        HttpResponse("Found the page but published_html was empty. Make sure you publish the page")
 
     # TODO change to template where we can render something about easel
     return HttpResponse(page.published_html)
