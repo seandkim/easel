@@ -22,7 +22,7 @@ $(function() {
         accept: ".drag-component",
         drop: function(event, ui) {
             open_img_selection();
-            console.log('you dropped haha!');
+            console.log('you dropped ' + ui.draggable.prop('id') +' into the page preview!');
         }
     });
 

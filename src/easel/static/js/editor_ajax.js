@@ -117,6 +117,7 @@ $(document).ready(function() {
             changePageStatus(new_pageName, true, true);
         }
       }
+      checkTabPresent();
     });
 
     /* saving by cmd+s */
@@ -155,6 +156,8 @@ $(document).ready(function() {
 
         // hide the current active page
         $('#page-content > div:not(.hidden)').addClass('hidden');
+        // check if need to remove empty message
+        checkActiveTabPresent();
         // append new active tab with empty content
         var content_div = $('#page-content').append(
             '<div id="' + pageName + '" class="hidden"></div>'
@@ -178,6 +181,7 @@ $(document).ready(function() {
                 console.log("error in loading page", pageName, textStatus);
                 new_el.remove(); // remove the opened tab
                 content_div.remove();
+                checkActiveTabPresent();
                 // TODO display error message
             }
         });
@@ -214,6 +218,23 @@ $(document).ready(function() {
                 '<div class="loading">LOADING...</div>' +
                 '</div>' +
             '</div>');
+    }
+
+    // check if there is any tab currently open 
+    function noTab() {
+        return ($('.cr-tabs').children().length === 0);
+    }
+
+    // append empty message if no tab is open
+    function checkTabPresent() {
+        if (noTab()) {
+            $('#empty-workspace-msg').removeClass('hidden');
+        }
+        else {
+            if (!$('#empty-workspace-msg').hasClass('hidden')) {
+                $('#empty-workspace-msg').addClass('hidden');
+            }
+        }
     }
 
     function setupAjax() {
