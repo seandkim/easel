@@ -12,6 +12,9 @@
     i {
     	color: $interface-color-07;
     }
+    .drag-component {
+    	cursor: move;
+    }
     .bar-title {
     	@include smooth(0.3s);
     	text-align: center;
