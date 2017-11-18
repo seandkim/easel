@@ -396,6 +396,20 @@
 	}
 }
 
+.library-modal {
+	width: 80% !important;
+	padding: 60px 50px;
+	max-height: 85%;
+	.modal-header {
+		font-size: 20pt;
+		letter-spacing: 4px;
+	}
+	.tabs {
+		background-color: #FAFAFA !important;
+	}
+}
+
+
 .project-cover {
 	background-image: url('../img/placeholders/church.png');
 	background-size: cover;
