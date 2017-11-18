@@ -137,6 +137,39 @@
     		background-color: $interface-color-07;
     		width: 100%;
     	}
+    	.empty-workspace-msg {
+    		position: absolute;
+    		width: 100%;
+    		height: 100%;
+    		background-color: $interface-color-05;
+    		color: $interface-color-01;
+    		text-align: center;
+    		img {
+    			max-width: 100%;
+    		}
+    		.msg-wrapper {
+    			margin: auto;
+    			transform: translate(0, 50%);
+    			top: 50%;
+    			left: 50%;
+    		}
+    		.easel-logo-mini {
+    			width: 100px;
+    			margin: auto;
+    		}
+    		.header-text {
+    			letter-spacing: 2px;
+    			font-size: 10pt;
+    		}
+    		a {
+    			@include smooth(0.3s);
+    			color: $interface-color-01;
+    			text-decoration: underline;
+    			&:hover {
+    				color: $gray-scale-03;
+    			}
+    		}
+    	}
     }
     #tab-bar {
     	@include smooth(0.3s);
