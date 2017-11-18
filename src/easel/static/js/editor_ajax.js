@@ -165,29 +165,29 @@ $(document).ready(function() {
             }
         }
         // TODO display alert message (when same page name exists)
-    });
-  });
-
-  document.addEventListener("keydown", function(e) {
-    var current_page = document.getElementsByClassName("active")
-    var pageName = $($(current_page).children()[0]).html().toLowerCase()
-    var html = $('#'+pageName).html()
-
-    // cmd+s in mac and ctrl+s in other platform
-    if (e.keyCode == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
-      e.preventDefault();
-      $.ajax({
-          url: "/easel/sites/dummy/savePage/",
-          method: "POST",
-          data: { pageName: pageName,
-                  html : html },
-
-          success: function(data) {
-            console.log("successful saved the page");
-          }
-          // TODO add failure case
-      });
     }
+
+    document.addEventListener("keydown", function(e) {
+        var current_page = document.getElementsByClassName("active")
+        var pageName = $($(current_page).children()[0]).html().toLowerCase()
+        var html = $('#'+pageName).html()
+
+        // cmd+s in mac and ctrl+s in other platform
+        if (e.keyCode == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
+          e.preventDefault();
+          $.ajax({
+              url: "/easel/sites/dummy/savePage/",
+              method: "POST",
+              data: { pageName: pageName,
+                      html : html },
+
+              success: function(data) {
+                console.log("successful saved the page");
+              }
+              // TODO add failure case
+          });
+        }
+    });
 
     function setupAjax() {
         /* ajax set up */
