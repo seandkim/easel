@@ -16,6 +16,31 @@ class Profile(models.Model):
     def __unicode__(self):
         return self.user.username
 
+    def createProject(self, projectName, description):
+        if Project.objects.filter(owner=self, name=projectName).count() > 0:
+            raise Exception("Project name %s already exists" % projectName)
+
+        project = Project(owner=self, name=projectName, description=description)
+        project.save()
+        return project
+
+    def deleteProject(self, projectName):
+        try:
+            project = Project.objects.get(owner=self, name=projectName)
+            for media in Media.objects.filter(project=project):
+                media.delete()
+            project.delete()
+        except:
+            pass
+
+    def getAllProjects(self, projectName):
+        project = Project.objects.get(owner=self, name=projectName)
+        return Media.objects.filter(project=project)
+
+    def getMedia(self, projectName, mediaName):
+        project = Project.objects.get(owner=self, name=projectName)
+        return Media.objects.get(project=project, name=mediaName)
+
     def createSite(self, siteName, description):
         if Site.objects.filter(owner=self, name=siteName).count() > 0:
             raise Exception("Site name %s already exists" % siteName)
@@ -57,18 +82,27 @@ class Project(models.Model):
     def __unicode__(self):
         return self.name
 
-    def getMedia(self):
+    def createMedia(self, mediaName, caption, image):
+        if Media.objects.filter(project=self, name=mediaName).count() > 0:
+            raise Exception("Media name %s already exists" % mediaName)
+
+        media = Media(project=self, name=mediaName, caption=caption,
+                      image=image)
+        media.save()
+        return media
+
+    def getAllMedias(self):
         return Media.objects.filter(project=self)
 
 
 class Media(models.Model):
     project = models.ForeignKey(Project)
+    name = models.CharField(max_length=20)
+    caption = models.CharField(max_length=1000)
     # TODO support multi-file
     # media_type = models.CharField(max_length=5)
     # TODO dynmically create upload_to folder
     image = models.ImageField(upload_to='media', blank=True)
-    name = models.CharField(max_length=20)
-    caption = models.CharField(max_length=1000)
 
     def __unicode__(self):
         return self.name
@@ -87,11 +121,11 @@ class Site(models.Model):
         return s
 
     def createPage(self, pageName, opened=False, active=False):
-        if Page.objects.filter(name=pageName).count() > 0:
+        if Page.objects.filter(site=self, name=pageName).count() > 0:
             raise Exception("Page name %s already exists" % pageName)
 
         filename = 'test_pages/dummy_' + pageName + '.html'
-        t = get_template(filename) # TODO change? dummy file works pretty well...
+        t = get_template(filename)  # TODO change? dummy works pretty well...
         initHTML = t.render({})
         page = Page(site=self, name=pageName, html=initHTML, published_html="",
                     opened=opened, active=active)

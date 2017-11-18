@@ -60,6 +60,7 @@ $(document).ready(function() {
             contentType: false,
             success: function(data) {
                 console.log('successfully uploaded file');
+                // TODO harcoded img path
                 var url = 'http://localhost:8000/easel/getPhoto/media/14/';
                 createImgComponent(url);
             }
@@ -198,7 +199,7 @@ $(document).ready(function() {
             },
             error: function(jqXHR, textStatus) {
                 console.log("error in changing page status", pageName, textStatus);
-                // TODO display error message
+                // TODO display server down error message
             }
         });
     }

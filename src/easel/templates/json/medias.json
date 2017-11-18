@@ -1,0 +1,11 @@
+{
+  "medias":
+    [
+      {% for media in medias %}
+         {
+           "name": "{{media.name}}",
+           "caption": "{{media.caption}}"
+         }{% if not forloop.last %},{% endif %}
+      {% endfor %}
+    ]
+}
