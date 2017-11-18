@@ -19,9 +19,9 @@
                 {% for page in pages %}
                 <div class="file">
                     {% if page.opened %}
-                    <i class="icon icon-file-o"></i>
+                    <i class="{{page.name}} icon icon-file-o"></i>
                     {% else %}
-                    <i class="icon icon-file"></i>
+                    <i class="{{page.name}} icon icon-file"></i>
                     {% endif %}
                     <span class="page-name">{{page.name}}</span>
                 </div>
@@ -99,7 +99,7 @@
             <div class="list" id="component-list" class=".grid-list">
                 <a href="#" draggable="true" class="drag-component">
                     <div class="component-container">
-                        <div class="easel-icon-wrapper"> 
+                        <div class="easel-icon-wrapper">
                             <i class="component-icon icon-textbox"></i>
                         </div>
                         <div class="icon-name">TEXTBOX</div>

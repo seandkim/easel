@@ -67,31 +67,6 @@ $(function() {
        $(activated_tab).removeClass('hidden');
     });
 
-    /* closing tab */
-    $(document).on("click", ".close-tab", function(e) {
-      e.preventDefault();
-      var close_li = $(this).closest('li');
-      var close_tab = close_li.attr('tab-target');
-      var isRemovingActive = close_li.hasClass('active');
-
-      // remove content and tab indicator
-      $(close_tab).remove();
-      close_li.remove();
-
-      var hasActive = $('.cr-tabs > li').hasClass('active');
-      console.log('in close tab handler: ', $('.cr-tabs > li').hasClass('.active'));
-      // select the next open tab
-      if (hasActive === false) {
-        //console.log('in here!');
-        var new_active_tab = $('.cr-tabs>li').last();
-        new_active_tab.trigger('click');
-        var activated_tab = new_active_tab.attr('tab-target');
-        //console.log("tab: ", activated_tab);
-        $(activated_tab).removeClass('hidden');
-        //console.log("tab html: ", $(activated_tab));
-      } 
-    });
-
     // TODO: fix the hovering bug
     var cr_tabs = $('.cr_tabs>li');
     cr_tabs.hover(function() {

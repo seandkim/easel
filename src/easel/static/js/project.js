@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    
+
     // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
   $('.modal').modal();
 
@@ -51,18 +51,13 @@ $(document).ready(function() {
               li.append(a);
               project_list.append(li);
 
-              console.log(project.description);
               loadMedia(project.id, project.description);
           }
       })
   }
 
   function loadMedia(projectID, description) {
-      console.log(description);
-
       $.get("/easel/getMedia/" + projectID).done(function(data) {
-
-
           /* create project description bar */
           var detail_bar = $("<div></div>").addClass("project-detail-bar").addClass("col").addClass("s12");
           detail_bar.append($('<span class="description"><strong>Description: </strong>' + description + '</span>'));
@@ -78,7 +73,6 @@ $(document).ready(function() {
 
           $(document).on('click', '.modal-trigger', function() {
               var projectID = $(this).attr('projectid');
-              console.log(projectID + ' is clicked');
               $('#delete-submit').attr('href', projectID + '/delete/');
           });
 

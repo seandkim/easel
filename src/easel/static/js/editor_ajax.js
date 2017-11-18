@@ -24,6 +24,7 @@ $(document).ready(function() {
         });
     });
 
+    //TODO delete
     /* add new page button */
     $(".add-new-page").click(function() {
         var newPageName = 'new page' //TODO
@@ -42,10 +43,11 @@ $(document).ready(function() {
         });
     });
 
-    /* open new page */
+    /* open new tab */
     $(document).on('click', '.file', function(event) {
        event.preventDefault();
        const pageName = $(this).find('.page-name').html();
+       $('#page-list i.' + pageName).removeClass('icon-file').addClass('icon-file-o')
        const openedTabs = $('ul.cr-tabs a:not(.close-tab)')
        const tabnames = []
        for (var i=0; i<openedTabs.length; i++) {
@@ -54,6 +56,31 @@ $(document).ready(function() {
        if (!tabnames.includes(pageName)) {
            loadPageHTML(siteName, pageName, true, true);
        }
+    });
+
+    /* close new tab */
+    $(document).on("click", ".close-tab", function(e) {
+      e.preventDefault();
+      e.stopPropagation(); // stops event listener for clicking new tab
+      var pageName = $(this).prev().html()
+      var close_li = $(this).closest('li');
+      var isRemovingActive = close_li.hasClass('active');
+
+      // remove content and tab indicator
+      close_li.remove();
+
+      // ajax call to server
+      changePageStatus(pageName, false, false);
+
+      // select the next open tab
+      if (isRemovingActive) {
+        if ($('.cr-tabs > li').length > 0) {
+            var new_active_tab = $('.cr-tabs > li').last();
+            new_active_tab.trigger('click');
+            var new_pageName = new_active_tab.find('a:not(.close-tab)').html();
+            changePageStatus(new_pageName, true, true);
+        }
+      }
     });
 
     /* saving by cmd+s */
@@ -101,8 +128,7 @@ $(document).ready(function() {
 
         $.ajax({
             url: "/easel/sites/" + siteName + "/getPageHTML/" + pageName + '/',
-            method: "POST",
-            data: { isOpened: isOpened, isActive: isActive },
+            method: "GET",
             dataType: "html",
             success: function(data) {
                 console.log("successfully retrieved page html for " + pageName);
@@ -113,6 +139,22 @@ $(document).ready(function() {
                 console.log("error in loading page", pageName, textStatus);
                 new_el.remove() // remove the opened tab
                 content_div.remove()
+                // TODO display error message
+            }
+        });
+        changePageStatus(pageName, true, true)
+    }
+
+    function changePageStatus(pageName, isOpened, isActive) {
+        $.ajax({
+            url: "/easel/sites/" + siteName + "/changePageStatus/" + pageName + '/',
+            method: "POST",
+            data: { isOpened: isOpened, isActive: isActive },
+            success: function(data) {
+                console.log("successfully changed page status", pageName);
+            },
+            error: function(jqXHR, textStatus) {
+                console.log("error in changing page status", pageName, textStatus);
                 // TODO display error message
             }
         });

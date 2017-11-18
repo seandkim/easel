@@ -4,7 +4,7 @@
             {% for page in pages %}
             {% if page.opened %}
                 {% if page.active %}
-                <li class="active" tab-target="{{page.name}}">
+                <li tab-target="#{{page.name}}" class="active">
                 {% else %}
                 <li tab-target="#{{page.name}}">
                 {% endif %}
