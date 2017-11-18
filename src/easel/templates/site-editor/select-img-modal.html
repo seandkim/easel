@@ -1,0 +1,20 @@
+<!-- image-selecting -->
+<div id="select-img-modal" class="modal library-modal">
+    <div class="modal-content">
+        <h4 class="header-text modal-header">SELECT IMAGE</h4>
+		    <form method="post" enctype="multipart/form-data" action="{% url 'addMedia' 7 %}" id="upload-media-form">
+		        <table>
+		            {% if message %}
+		                {{message}}
+		            {% endif %}
+		            {{ upload_media_form }}
+		        </table>
+		    {% csrf_token %}
+		    <button class="dark-btn-alt" type="submit" id="upload-new-media"> ADD &#10230; </button>
+		    </form>
+        <div id="select-from-library"></div>
+    </div>
+    <a href="#!" class="modal-action modal-close modal-close-btn">
+    	<i class="icon-close-big"></i>
+    </a>
+</div>

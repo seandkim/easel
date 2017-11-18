@@ -91,7 +91,7 @@ def addMedia(request, projectID):
 
     form = AddMediaForm(request.POST, request.FILES)
 
-    if not form.is_valid:
+    if not form.is_valid():
         context['form'] = form
         return render(request, 'project/media-add.html', context)
 

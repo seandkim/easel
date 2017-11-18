@@ -42,6 +42,7 @@ def siteEditor(request, siteName):
     pages = profile.getAllPages(siteName)
     context['form'] = AddPageForm()
     context['pages'] = pages
+    context['upload_media_form'] = AddMediaForm()
     for page in pages:
         print(page)
     return render(request,'site-editor/site-editor.html', context)
