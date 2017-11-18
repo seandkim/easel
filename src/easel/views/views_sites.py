@@ -39,10 +39,9 @@ def home(request):
 def siteEditor(request, siteName):
     context = {}
     profile = Profile.objects.get(user=request.user)
-    projects = Project.objects.filter(owner=profile)
+    pages = profile.getAllPages(siteName)
     context['form'] = AddPageForm()
-    context['profile'] = profile
-    context['projects'] = projects
+    context['pages'] = pages
     return render(request,'site-editor/site-editor.html', context)
 
 # requires GET request to "/sites/(?P<siteName>\w+)/editor/getPageNames/"

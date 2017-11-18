@@ -11,23 +11,21 @@
             <a href="#" id="page-tab">
 				<span class="tab-indicator">
 					<i class="icon icon-right-dir"></i>
-				</span> 
+				</span>
 				PAGES
 			</a>
             <br>
             <div class="list" id="page-list">
-                <div class="directory">
-                    <i class="icon icon-folder-o"></i> PROJECT
-                </div>
+                {% for page in pages %}
                 <div class="file">
-                    &emsp;&emsp; <i class="icon icon-file"></i> index.html
+                    {% if page.opened %}
+                    <i class="icon icon-file-o"></i>
+                    {% else %}
+                    <i class="icon icon-file"></i>
+                    {% endif %}
+                    <span class="page-name">{{page.name}}</span>
                 </div>
-                <div class="file">
-                    &emsp;&emsp; <i class="icon icon-file"></i> some.html
-                </div>
-                <div class="directory">
-                    <i class="icon icon-folder"></i> MISC
-                </div>
+                {% endfor %}
             </div>
         </li>
         <!-- tools tab -->
@@ -35,7 +33,7 @@
             <a href="#" id="tool-tab">
 				<span class="tab-indicator">
 					<i class="icon icon-right-dir"></i>
-				</span> 
+				</span>
 				TOOLS
 			</a>
             <div class="list" id="tool-list">
@@ -95,7 +93,7 @@
             <a href="#" id="component-tab">
 				<span class="tab-indicator">
 					<i class="icon icon-right-dir"></i>
-				</span> 
+				</span>
 				COMPONENTS
 			</a>
             <div class="list" id="component-list" class=".grid-list">

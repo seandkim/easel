@@ -3,32 +3,11 @@
 $(document).ready(function() {
     setupAjax();
 
+    // TODO update sitename
     const siteName = 'dummy';
-    var pageTree;
+    doneLoading();
 
-    // retrieve list of projects
-    $.ajax({
-        url: "/easel/sites/" + siteName + "/getPageNames/",
-        method: "GET",
-        success: function(data) {
-            console.log("successfully retrieved page names");
-            pageTree = data.pages;
-
-            for (var i = 0; i < data.pages.length; i++) {
-                const page = data.pages[i];
-                const pageName = page['name'];
-                const pageOpened = (page['opened'] == "True");
-                const pageActive = (page['active'] == "True");
-                if (pageOpened) {
-                    var result = loadPageHTML(siteName, pageName, pageActive);
-                }
-            }
-            updatePageTree(pageTree);
-            doneLoading();
-        }
-    });
-
-    /* make ajax call to page actions */
+    /* publish button */
     $(".publish").click(function() {
         addLoading();
         var pagesToPublish = [];
@@ -47,7 +26,7 @@ $(document).ready(function() {
         });
     });
 
-    /* make ajax call to page actions */
+    /* add new page button */
     $(".add-new-page").click(function() {
         var newPageName = 'new page' //TODO
 
@@ -65,13 +44,14 @@ $(document).ready(function() {
         });
     });
 
-    /* make ajax call to page actions */
+    /* open new page */
     $(document).on('click', '.file', function(event) {
        event.preventDefault();
        console.log($(this).find('.page-name').html());
        loadPageHTML(siteName, $(this).find('.page-name').html(), true);
     });
 
+    /* saving by cmd+s */
     document.addEventListener("keydown", function(e) {
         var current_page = document.getElementsByClassName("active")
         var pageName = $($(current_page).children()[0]).html().toLowerCase()
@@ -139,32 +119,6 @@ $(document).ready(function() {
                 '<div class="loading">LOADING...</div>' +
                 '</div>' +
             '</div>');
-    }
-
-    function updatePageTree(pageTree) {
-        console.log(pageTree);
-        var el = $('#page-list');
-        el.empty();
-        for (var i = 0; i < pageTree.length; i++) {
-            const page = pageTree[i];
-            const pageName = page['name'];
-            const pageOpened = (page['opened'] == "True");
-            const pageActive = (page['active'] == "True");
-            if (pageOpened) {
-                el.append(
-                    '<div class="file">' +
-                    '<i class="icon icon-file-o"></i> ' +
-                    '<span class="page-name">' + pageName + '</span>' +
-                    '</div>');
-            } else {
-                el.append(
-                    '<div class="file">' +
-                    '<i class="icon icon-file"></i> ' +
-                    '<span class="page-name">' + pageName + '</span>' +
-                    '</div>');
-            }
-        }
-        // TODO display alert message (when same page name exists)
     }
 
     document.addEventListener("keydown", function(e) {
