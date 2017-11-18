@@ -118,4 +118,4 @@ class Page(models.Model):
     published_html = models.CharField(max_length=1000000, default="")
 
     def __unicode__(self):
-        return "%s (%s)" % (self.path, self.site.name)
+        return "%s (%s) %s %s" % (self.name, self.site.name, self.opened, self.active)

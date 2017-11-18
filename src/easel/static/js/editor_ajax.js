@@ -52,7 +52,7 @@ $(document).ready(function() {
            tabnames.push(openedTabs[i].innerHTML)
        }
        if (!tabnames.includes(pageName)) {
-           loadPageHTML(siteName, pageName, true);
+           loadPageHTML(siteName, pageName, true, true);
        }
     });
 
@@ -82,7 +82,7 @@ $(document).ready(function() {
         }
     });
 
-    function loadPageHTML(siteName, pageName, isActive) {
+    function loadPageHTML(siteName, pageName, isOpened, isActive) {
         // create tab instantly
         var new_el = $($.parseHTML('<li tab-target="#' + pageName + '">' +
                 '<a href=#>' + pageName + '</a>' +
@@ -100,8 +100,9 @@ $(document).ready(function() {
         }
 
         $.ajax({
-            url: "/easel/sites/" + siteName + "/getPageHTML/" + pageName,
-            method: "GET",
+            url: "/easel/sites/" + siteName + "/getPageHTML/" + pageName + '/',
+            method: "POST",
+            data: { isOpened: isOpened, isActive: isActive },
             dataType: "html",
             success: function(data) {
                 console.log("successfully retrieved page html for " + pageName);
