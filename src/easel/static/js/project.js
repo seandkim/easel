@@ -59,7 +59,6 @@ $(document).ready(function() {
 
   function loadMedia(projectName, description) {
       // TODO allow space
-      print("loadMedia start", projectName, description);
       path = "/easel/projects/"+projectName+'/getAllMedias/'
       $.get(path).done(function(data) {
           /* create project description bar */
@@ -76,44 +75,47 @@ $(document).ready(function() {
               '</a>'));
 
           $(document).on('click', '.modal-trigger', function() {
-              var projectName = $(this).attr('projectName');
+              // TODO is projectName1 needed? or can we just use projectname
+              var projectName1 = $(this).attr('projectName');
               //console.log(projectID + ' is clicked');
-              $('#delete-submit').attr('href', projectName + '/delete/');
+              $('#delete-submit').attr('href', projectName1 + '/delete/');
           });
 
-
           /* create media div */
-          var media_div = $("<div></div>").addClass("media-list").addClass("col").addClass("s12");
-          media_div.addClass("media-list").attr("id", projectName);
-          media_div.append(detail_bar);
-          media_div.append($('<div class="row item-list"></div>'));
-          media_div.attr('style', "display: none;");
-          $('.project-list > .row').append(media_div);
+          var medias_div = $("<div></div>").addClass("media-list").addClass("col").addClass("s12");
+          medias_div.addClass("media-list").attr("id", projectName);
+          medias_div.append(detail_bar);
+          medias_div.append($('<div class="row item-list"></div>'));
+          medias_div.attr('style', "display: none;");
+          $('.project-list > .row').append(medias_div);
 
-          var media = data.media;
-          var media_list = $('.media-list#' + projectName + ' > .row');
+          var medias = data.medias;
+          var medias_list = $('.media-list#' + projectName + ' > .row');
 
-          for (var i = 0; i < media.length; i++) {
-              var medium = media[i];
+          for (var i = 0; i < medias.length; i++) {
+              var media = medias[i];
 
-              var a = $('<a></a>').attr('href', '/easel/projects/' + projectName + '/editMedia/' + medium.name);
+              var a = $('<a></a>').attr('href', '/easel/projects/' + projectName + '/editMedia/' + media.name);
               var col = $('<div class="col m4"></div>');
               var card = $('<div class="project-card"></div>');
 
               var img_container = $('<div class="project-img-container"></div>');
-              var imgPath = $("/easel/projects/getMediaPhoto/" + medium.name + '/')
-              var img = $('<img>').attr("src", path);
+              var imgPath = "/easel/projects/"+projectName+"/getMediaPhoto/"+media.name
+              var img = $('<img>').attr("src", imgPath);
               img_container.append(img);
+              debugger;
 
-              var name = $('<div class="project-title"></div>').html(medium.name);
-              var description_div = $('<div class="project-description"></div>').html(medium.caption);
+              var name = $('<div class="project-title"></div>').html(media.name);
+              var description_div = $('<div class="project-description"></div>').html(media.caption);
               a.append(card);
               card.append(img_container);
               card.append(name);
               card.append(description_div);
               col.append(a);
-              media_list.append(col);
+              medias_list.append(col);
           }
+      }).fail(function() {
+          // TODO display fail message
       })
   }
   });
