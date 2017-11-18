@@ -59,8 +59,21 @@ def getPageNames(request, siteName):
 # requires POST
 @login_required
 def getPageHTML(request, siteName, pageName):
+    if request.method != 'GET':
+        print("getPageHTML requires GET request")
+        raise Http404("Invalid Request Argument")
+
+    site = Site.getSite(request.user.username, siteName)
+    page = site.getPage(pageName)
+    return HttpResponse(page.html)
+
+# requires POST request with the following argument:
+# { 'isOpen': <whether page is opened>,
+#   'isActive': <whether page is active (focused on editor)> }
+@login_required
+def changePageStatus(request, siteName, pageName):
     if request.method != 'POST':
-        print("getPageHTML requires POST request")
+        print("getPageHTML requires GET request")
         raise Http404("Invalid Request Argument")
 
     site = Site.getSite(request.user.username, siteName)
@@ -74,16 +87,21 @@ def getPageHTML(request, siteName, pageName):
     if 'isActive' in request.POST:
         isActive = (request.POST['isActive'] == 'true')
 
+    print(page)
     allPages = Page.objects.filter(site=site)
-    if isOpened:
-        page.opened = True
+    page.opened = isOpened
+    # if page turned active, change other page to false
     if isActive:
         for otherPage in allPages:
             if otherPage.active:
                 otherPage.active = False
                 otherPage.save()
         page.active = True
-        page.save()
+    # if page turned not active
+    else:
+        page.isActive = False
+    page.save()
+    # print(page)
 
     # check that there is only one/zero active tab, depending on whether
     # there is opened tab(s)
@@ -91,7 +109,7 @@ def getPageHTML(request, siteName, pageName):
         assert(allPages.filter(active=True).count() == 0)
     else:
         assert(allPages.filter(active=True).count() == 1)
-    return HttpResponse(page.html)
+    return HttpResponse('')
 
 # requires POST request with the following argument:
 # { 'pageName': <name of the page created> }

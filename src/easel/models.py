@@ -46,6 +46,7 @@ class Profile(models.Model):
         site = Site.objects.get(owner=self, name=siteName)
         return Page.objects.get(site=site, name=pageName)
 
+
 # TODO create functions for creating/deleting project/media
 class Project(models.Model):
     owner = models.ForeignKey(Profile)
@@ -71,6 +72,7 @@ class Media(models.Model):
 
     def __unicode__(self):
         return self.name
+
 
 class Site(models.Model):
     owner = models.ForeignKey(Profile)
@@ -107,6 +109,7 @@ class Site(models.Model):
         profile = Profile.objects.get(user=user)
         site = Site.objects.get(owner=profile, name=siteName)
         return site
+
 
 class Page(models.Model):
     site = models.ForeignKey(Site)
