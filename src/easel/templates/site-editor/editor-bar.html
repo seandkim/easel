@@ -2,7 +2,7 @@
 <div class="editor-bar dark">
     <div class="bar-title">
        <a href="#">
-       		<img src="{% static 'img/logo/ink-light.png' %}">
+            <img src="{% static 'img/logo/ink-light.png' %}">
        </a>
     </div>
     <ul class="editor-menu">
@@ -37,33 +37,33 @@
 				TOOLS
 			</a>
             <div class="list" id="tool-list">
-            	<div class="sublist">
-            		<div class="sublist-title">SITE SETTING</div>
-            		<br>
-            		<a href="#">
-	                    <div class="component-container">
-	                        <div class="easel-icon-wrapper">
-	                            <i class="component-icon icon-ccw"></i>
-	                        </div>
-	                        <div class="icon-name">REVERT</div>
-	                    </div>
-	                </a>
-	                <a href="#">
-	                    <div class="component-container">
-	                        <div class="easel-icon-wrapper">
-	                            <i class="component-icon icon-eye"></i>
-	                        </div>
-	                        <div class="icon-name">VISIBILITY</div>
-	                    </div>
-	                </a>
-	                <a href="#">
-	                    <div class="component-container">
-	                        <div class="easel-icon-wrapper">
-	                            <i class="component-icon icon-site"></i>
-	                        </div>
-	                        <div class="icon-name">VIEW SITE</div>
-	                    </div>
-	                </a>
+                <div class="sublist">
+                    <div class="sublist-title">SITE SETTING</div>
+                    <br>
+                    <a href="#">
+                        <div class="component-container">
+                            <div class="easel-icon-wrapper">
+                                <i class="component-icon icon-ccw"></i>
+                            </div>
+                            <div class="icon-name">REVERT</div>
+                        </div>
+                    </a>
+                    <a href="#">
+                        <div class="component-container">
+                            <div class="easel-icon-wrapper">
+                                <i class="component-icon icon-eye"></i>
+                            </div>
+                            <div class="icon-name">VISIBILITY</div>
+                        </div>
+                    </a>
+                    <a href="#">
+                        <div class="component-container">
+                            <div class="easel-icon-wrapper">
+                                <i class="component-icon icon-site"></i>
+                            </div>
+                            <div class="icon-name">VIEW SITE</div>
+                        </div>
+                    </a>
                     <a href="#" class="publish">
                         <div class="component-container">
                             <div class="easel-icon-wrapper">
@@ -72,20 +72,20 @@
                             <div class="icon-name">PUBLISH</div>
                         </div>
                     </a>
-            	</div>
-            	<br>
+                </div>
+                <br>
                 <div class="sublist">
-            		<div class="sublist-title">MANAGER</div>
-            		<br>
-            		<a class="modal-trigger" href="#media-library-modal">
-	                    <div class="component-container">
-	                        <div class="easel-icon-wrapper">
-	                            <i class="component-icon icon-media"></i>
-	                        </div>
-	                        <div class="icon-name">MEDIA<br>LIBRARY</div>
-	                    </div>
-	                </a>
-            	</div>
+                    <div class="sublist-title">MANAGER</div>
+                    <br>
+                    <a class="modal-trigger" href="#media-library-modal">
+                        <div class="component-container">
+                            <div class="easel-icon-wrapper">
+                                <i class="component-icon icon-media"></i>
+                            </div>
+                            <div class="icon-name">MEDIA<br>LIBRARY</div>
+                        </div>
+                    </a>
+                </div>
             </div>
         </li>
         <!-- component tab -->
@@ -97,15 +97,15 @@
 				COMPONENTS
 			</a>
             <div class="list" id="component-list" class=".grid-list">
-                <a href="#">
+                <a href="#" draggable="true" class="drag-component">
                     <div class="component-container">
-                        <div class="easel-icon-wrapper">
+                        <div class="easel-icon-wrapper"> 
                             <i class="component-icon icon-textbox"></i>
                         </div>
                         <div class="icon-name">TEXTBOX</div>
                     </div>
                 </a>
-                <a href="#">
+                <a href="#" draggable="true" class="drag-component">
                     <div class="component-container">
                         <div class="easel-icon-wrapper">
                             <i class="component-icon icon-markdown"></i>
@@ -113,7 +113,7 @@
                         <div class="icon-name">MARKDOWN</div>
                     </div>
                 </a>
-                <a href="#">
+                <a href="#" draggable="true" class="drag-component" id="img-component">
                     <div class="component-container">
                         <div class="easel-icon-wrapper">
                             <i class="component-icon icon-image"></i>
@@ -121,7 +121,7 @@
                         <div class="icon-name">IMAGE</div>
                     </div>
                 </a>
-                <a href="#">
+                <a href="#" draggable="true" class="drag-component">
                     <div class="component-container">
                         <div class="easel-icon-wrapper">
                             <i class="component-icon icon-video"></i>
@@ -129,7 +129,7 @@
                         <div class="icon-name">VIDEO</div>
                     </div>
                 </a>
-                <a href="#">
+                <a href="#" draggable="true" class="drag-component">
                     <div class="component-container">
                         <div class="easel-icon-wrapper">
                             <i class="component-icon icon-quote"></i>
@@ -137,7 +137,7 @@
                         <div class="icon-name">QUOTE</div>
                     </div>
                 </a>
-                <a href="#">
+                <a href="#" draggable="true" class="drag-component">
                     <div class="component-container">
                         <div class="easel-icon-wrapper">
                             <i class="component-icon icon-space"></i>
@@ -145,7 +145,7 @@
                         <div class="icon-name">SPACE</div>
                     </div>
                 </a>
-                <a href="#">
+                <a href="#" draggable="true" class="drag-component">
                     <div class="component-container">
                         <div class="easel-icon-wrapper">
                             <i class="component-icon icon-embed"></i>
@@ -153,7 +153,7 @@
                         <div class="icon-name">EMBED</div>
                     </div>
                 </a>
-                <a href="#">
+                <a href="#" draggable="true" class="drag-component">
                     <div class="component-container">
                         <div class="easel-icon-wrapper">
                             <i class="component-icon icon-rule"></i>
@@ -161,7 +161,7 @@
                         <div class="icon-name">RULE</div>
                     </div>
                 </a>
-                <a href="#">
+                <a href="#" draggable="true" class="drag-component">
                     <div class="component-container">
                         <div class="easel-icon-wrapper">
                             <i class="component-icon icon-row"></i>
@@ -169,7 +169,7 @@
                         <div class="icon-name">ROW</div>
                     </div>
                 </a>
-                <a href="#">
+                <a href="#" draggable="true" class="drag-component">
                     <div class="component-container">
                         <div class="easel-icon-wrapper">
                             <i class="component-icon icon-column"></i>
@@ -177,7 +177,7 @@
                         <div class="icon-name">COLUMN</div>
                     </div>
                 </a>
-                <a href="#">
+                <a href="#" draggable="true" class="drag-component">
                     <div class="component-container">
                         <div class="easel-icon-wrapper">
                             <i class="component-icon icon-grid"></i>
