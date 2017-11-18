@@ -1,3 +1,4 @@
+{% load static %}
 <div id="page-preview">
     <div id="tab-bar">
         <ul class="cr-tabs clearfix">
@@ -18,10 +19,22 @@
     <div id="add-page" class="tooltip">
         <span class="tooltiptext">NEW PAGE</span>
         <a class="new-page modal-trigger" href="#add-page-modal">
-				<i class="icon-plus"></i>
-			</a>
+			<i class="icon-plus"></i>
+		</a>
     </div>
     <div id="page-content">
+        <!-- TODO: add logic to default page -->
+        <div class="empty-workspace-msg hidden">
+            <div class="msg-wrapper">
+                <div class="easel-logo-mini">
+                    <img src="{% static 'img/logo/ink-dark.png' %}">
+                </div>
+                <div class="header-text">
+                    NO ACTIVE TAB. <br> TRY 
+                    <a class="new-page modal-trigger" href="#add-page-modal">CREATING NEW PAGE</a> OR OPENING EXISTING PAGE.
+                </div>
+            </div>
+        </div>
         {% for page in pages %}
             {% if page.opened %}
                 {% if page.active %}
