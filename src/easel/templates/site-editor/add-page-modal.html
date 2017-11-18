@@ -1,0 +1,14 @@
+<div id="add-page-modal" class="modal add-page-screen">
+    <div class="modal-content">
+        <div class="center text-center paint-as-input">
+            <h2 class="logo-text">Add Page</h2>
+            <form method="post" action="#!">
+                <table>
+                    {{form}}
+                </table>
+                {% csrf_token %}
+                <button id="add-new-page" type="submit" class="dark-btn-alt">ADD &#10230;</button>
+            </form>
+        </div>
+    </div>
+</div>

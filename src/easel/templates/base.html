@@ -15,6 +15,7 @@
     <script src="{% static 'js/materialize.min.js' %}"></script>
     <script src="{% static 'js/jquery.easing.min.js' %}"></script>
     <script src="{% static 'js/plotly-latest.min.js' %}"></script>
+    <script src="{% static 'js/csrf.js' %}"></script>
     <script src="{% static 'js/medium-editor.min.js' %}"></script>
     <script src="{% static 'js/main.js' %}"></script>
     <link rel="stylesheet" href="{% static 'css/materialize.min.css' %}">
@@ -37,12 +38,12 @@
         </div>
     {% endblock %}
     {% block sidebar %}{% endblock %}
-    <div id="alert-box">
+    <!-- <div id="alert-box">
         <a class="close-alert">
             <i class="icon-close"></i>
         </a>
         Some alert message.
-    </div>
+    </div> -->
 </body>
 
 </html>
