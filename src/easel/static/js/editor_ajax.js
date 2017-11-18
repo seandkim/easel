@@ -9,7 +9,7 @@ $(document).ready(function() {
 
     /* publish button */
     $(".publish").click(function() {
-        addLoading();
+        // TODO add loading animation
         var pagesToPublish = [];
         $.ajax({
             url: "/easel/sites/dummy/publish/",
@@ -17,11 +17,9 @@ $(document).ready(function() {
             data: { pages: pagesToPublish },
             success: function(data) {
                 console.log("successfully published the page");
-                doneLoading();
             },
             error: function (e) {
                 console.log(e);
-                doneLoading();
             }
         });
     });
@@ -47,8 +45,15 @@ $(document).ready(function() {
     /* open new page */
     $(document).on('click', '.file', function(event) {
        event.preventDefault();
-       console.log($(this).find('.page-name').html());
-       loadPageHTML(siteName, $(this).find('.page-name').html(), true);
+       const pageName = $(this).find('.page-name').html();
+       const openedTabs = $('ul.cr-tabs a:not(.close-tab)')
+       const tabnames = []
+       for (var i=0; i<openedTabs.length; i++) {
+           tabnames.push(openedTabs[i].innerHTML)
+       }
+       if (!tabnames.includes(pageName)) {
+           loadPageHTML(siteName, pageName, true, true);
+       }
     });
 
     /* saving by cmd+s */
@@ -77,10 +82,27 @@ $(document).ready(function() {
         }
     });
 
-    function loadPageHTML(siteName, pageName, isActive) {
+    function loadPageHTML(siteName, pageName, isOpened, isActive) {
+        // create tab instantly
+        var new_el = $($.parseHTML('<li tab-target="#' + pageName + '">' +
+                '<a href=#>' + pageName + '</a>' +
+                '<a href="#" class="close-tab"><span class="icon-close"></span></a>' +
+                '</li>'));
+        $('.cr-tabs').prepend(new_el);
+
+        // hide the current active page
+        $('#page-content > div:not(.hidden)').addClass('hidden')
+
+        var content_div = $('#page-content').append(
+            '<div id="' + pageName + '" class="hidden"></div>');
+        if (isActive) {
+            $('li[tab-target="#'+ pageName +'"]').trigger('click')
+        }
+
         $.ajax({
-            url: "/easel/sites/" + siteName + "/getPageHTML/" + pageName,
-            method: "GET",
+            url: "/easel/sites/" + siteName + "/getPageHTML/" + pageName + '/',
+            method: "POST",
+            data: { isOpened: isOpened, isActive: isActive },
             dataType: "html",
             success: function(data) {
                 console.log("successfully retrieved page html for " + pageName);
@@ -101,9 +123,13 @@ $(document).ready(function() {
                 // TODO: write generic sortable for page elements
                 $( "#sortable1" ).sortable({ connectWith: '#sortable2, #component-tab'});
                 $( "#sortable2" ).sortable({});
+                $('#page-content > div#' + pageName).append(html);
             },
             error: function(jqXHR, textStatus) {
                 console.log("error in loading page", pageName, textStatus);
+                new_el.remove() // remove the opened tab
+                content_div.remove()
+                // TODO display error message
             }
         });
     }
@@ -124,28 +150,6 @@ $(document).ready(function() {
                 '</div>' +
             '</div>');
     }
-
-    document.addEventListener("keydown", function(e) {
-        var current_page = document.getElementsByClassName("active")
-        var pageName = $($(current_page).children()[0]).html().toLowerCase()
-        var html = $('#'+pageName).html()
-
-        // cmd+s in mac and ctrl+s in other platform
-        if (e.keyCode == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
-          e.preventDefault();
-          $.ajax({
-              url: "/easel/sites/dummy/savePage/",
-              method: "POST",
-              data: { pageName: pageName,
-                      html : html },
-
-              success: function(data) {
-                console.log("successful saved the page");
-              }
-              // TODO add failure case
-          });
-        }
-    });
 
     function setupAjax() {
         /* ajax set up */

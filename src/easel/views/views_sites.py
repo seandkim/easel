@@ -42,6 +42,8 @@ def siteEditor(request, siteName):
     pages = profile.getAllPages(siteName)
     context['form'] = AddPageForm()
     context['pages'] = pages
+    for page in pages:
+        print(page)
     return render(request,'site-editor/site-editor.html', context)
 
 # requires GET request to "/sites/(?P<siteName>\w+)/editor/getPageNames/"
@@ -53,12 +55,41 @@ def getPageNames(request, siteName):
     return render(request, 'json/pages.json', context,
                            content_type='application/json')
 
-# requires GET
+# requires POST
 @login_required
 def getPageHTML(request, siteName, pageName):
+    if request.method != 'POST':
+        print("getPageHTML requires POST request")
+        raise Http404("Invalid Request Argument")
+
     site = Site.getSite(request.user.username, siteName)
     page = site.getPage(pageName)
-    context = {'page': page}
+
+    # change open and active field
+    isOpened = False
+    isActive = False
+    if 'isOpened' in request.POST:
+        isOpened = (request.POST['isOpened'] == 'true')
+    if 'isActive' in request.POST:
+        isActive = (request.POST['isActive'] == 'true')
+
+    allPages = Page.objects.filter(site=site)
+    if isOpened:
+        page.opened = True
+    if isActive:
+        for otherPage in allPages:
+            if otherPage.active:
+                otherPage.active = False
+                otherPage.save()
+        page.active = True
+        page.save()
+
+    # check that there is only one/zero active tab, depending on whether
+    # there is opened tab(s)
+    if (allPages.filter(opened=True).count() == 0):
+        assert(allPages.filter(active=True).count() == 0)
+    else:
+        assert(allPages.filter(active=True).count() == 1)
     return HttpResponse(page.html)
 
 # requires POST request with the following argument:
