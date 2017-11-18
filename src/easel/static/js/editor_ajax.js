@@ -89,14 +89,15 @@ $(document).ready(function() {
                 '<a href="#" class="close-tab"><span class="icon-close"></span></a>' +
                 '</li>'));
         $('.cr-tabs').prepend(new_el);
-        var content_div = $('#page-content').append(
-            '<div id="' + pageName + '" class="hidden"></div>');
-        if (isActive) {
-            new_el.trigger('click');
-        }
 
         // hide the current active page
         $('#page-content > div:not(.hidden)').addClass('hidden')
+
+        var content_div = $('#page-content').append(
+            '<div id="' + pageName + '" class="hidden"></div>');
+        if (isActive) {
+            $('li[tab-target="#'+ pageName +'"]').trigger('click')
+        }
 
         $.ajax({
             url: "/easel/sites/" + siteName + "/getPageHTML/" + pageName,
@@ -105,7 +106,7 @@ $(document).ready(function() {
             success: function(data) {
                 console.log("successfully retrieved page html for " + pageName);
                 const html = data;
-                content_div.append(html);
+                $('#page-content > div#'+pageName).append(html);
             },
             error: function(jqXHR, textStatus) {
                 console.log("error in loading page", pageName, textStatus);
