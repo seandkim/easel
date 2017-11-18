@@ -68,7 +68,7 @@ def getAllMedias(request, projectName):
     return HttpResponse('')
 
 
-def getPhoto(request, type, name):
+def getMediaPhoto(request, projectName, mediaName):
     if type == 'media':
         medium = Media.objects.get(name=name)
         content_type = guess_type(medium.image.name)
