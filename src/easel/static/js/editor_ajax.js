@@ -1,32 +1,13 @@
 'use strict';
 
 $(document).ready(function() {
+    setupAjax();
+
+    // TODO update sitename
     const siteName = 'dummy';
-    var pageTree;
-    
-    // retrieve list of projects
-    $.ajax({
-        url: "/easel/sites/" + siteName + "/getPageNames/",
-        method: "GET",
-        success: function(data) {
-            console.log("successfully retrieved page names");
-            pageTree = data.pages;
+    doneLoading();
 
-            for (var i = 0; i < data.pages.length; i++) {
-                const page = data.pages[i];
-                const pageName = page['name'];
-                const pageOpened = (page['opened'] == "True");
-                const pageActive = (page['active'] == "True");
-                if (pageOpened) {
-                    var result = loadPageHTML(siteName, pageName, pageActive);
-                }
-            }
-            updatePageTree(pageTree);
-            doneLoading();
-        }
-    });
-
-    /* make ajax call to page actions */
+    /* publish button */
     $(".publish").click(function() {
         addLoading();
         var pagesToPublish = [];
@@ -45,7 +26,7 @@ $(document).ready(function() {
         });
     });
 
-    /* make ajax call to page actions */
+    /* add new page button */
     $(".add-new-page").click(function() {
         var newPageName = 'new page' //TODO
 
@@ -63,13 +44,14 @@ $(document).ready(function() {
         });
     });
 
-    /* make ajax call to page actions */
+    /* open new page */
     $(document).on('click', '.file', function(event) {
        event.preventDefault();
        console.log($(this).find('.page-name').html());
        loadPageHTML(siteName, $(this).find('.page-name').html(), true);
     });
 
+    /* saving by cmd+s */
     document.addEventListener("keydown", function(e) {
         var current_page = document.getElementsByClassName("active")
         var pageName = $($(current_page).children()[0]).html().toLowerCase()
@@ -90,7 +72,7 @@ $(document).ready(function() {
                 error: function(e) {
                     // TODO add error handling
                     console.log(e);
-                } 
+                }
             });
         }
     });
@@ -129,7 +111,7 @@ $(document).ready(function() {
     function addLoading() {
         $('html').append(
             '<div class="preload preloader-overlay">' +
-                '<div class="spinner-wrapper">' + 
+                '<div class="spinner-wrapper">' +
                     '<div class="spinner">' +
                         '<div class="double-bounce1"></div>' +
                         '<div class="double-bounce2"></div>' +
@@ -139,30 +121,27 @@ $(document).ready(function() {
             '</div>');
     }
 
-    function updatePageTree(pageTree) {
-        console.log(pageTree);
-        var el = $('#page-list');
-        el.empty();
-        for (var i = 0; i < pageTree.length; i++) {
-            const page = pageTree[i];
-            const pageName = page['name'];
-            const pageOpened = (page['opened'] == "True");
-            const pageActive = (page['active'] == "True");
-            if (pageOpened) {
-                el.append(
-                    '<div class="file">' +
-                    '<i class="icon icon-file-o"></i> ' + 
-                    '<span class="page-name">' + pageName + '</span>' +
-                    '</div>');
-            } else {
-                el.append(
-                    '<div class="file">' +
-                    '<i class="icon icon-file"></i> ' + 
-                    '<span class="page-name">' + pageName + '</span>' +
-                    '</div>');
-            }
+    document.addEventListener("keydown", function(e) {
+        var current_page = document.getElementsByClassName("active")
+        var pageName = $($(current_page).children()[0]).html().toLowerCase()
+        var html = $('#'+pageName).html()
+
+        // cmd+s in mac and ctrl+s in other platform
+        if (e.keyCode == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
+          e.preventDefault();
+          $.ajax({
+              url: "/easel/sites/dummy/savePage/",
+              method: "POST",
+              data: { pageName: pageName,
+                      html : html },
+
+              success: function(data) {
+                console.log("successful saved the page");
+              }
+              // TODO add failure case
+          });
         }
-    }
+    });
 
     function setupAjax() {
         /* ajax set up */
@@ -199,5 +178,4 @@ $(document).ready(function() {
             }
         });
     }
-    setupAjax();
 });

@@ -23,10 +23,10 @@ class Profile(models.Model):
         site = Site(owner=self, name=siteName, description=description,
                     numVisitor=0)
         site.save()
-        site.createPage('home')
-        site.createPage('about')
-        site.createPage('projects')
-        site.createPage('project')
+        site.createPage('home', opened=True, active=False)
+        site.createPage('about', opened=True, active=True)
+        site.createPage('update') # TODO necessary?
+        site.createPage('portfolio')
         return site
 
     def deleteSite(self, siteName):
@@ -34,7 +34,6 @@ class Profile(models.Model):
             site = Site.objects.get(owner=self, name=siteName)
             for page in Page.objects.filter(site=site):
                 page.delete()
-
             site.delete()
         except:
             pass
@@ -82,13 +81,15 @@ class Site(models.Model):
     def __unicode__(self):
         return self.name
 
-    def createPage(self, pageName):
+    def createPage(self, pageName, opened=False, active=False):
         if Page.objects.filter(name=pageName).count() > 0:
             raise Exception("Page name %s already exists" % pageName)
 
-        t = get_template('default-pages/project.html')
-        initHTML = t.render({}) # TODO change!
-        page = Page(site=self, name=pageName, html=initHTML, published_html="")
+        filename = 'test_pages/dummy_' + pageName + '.html'
+        t = get_template(filename) # TODO change? dummy file works pretty well...
+        initHTML = t.render({})
+        page = Page(site=self, name=pageName, html=initHTML, published_html="",
+                    opened=opened, active=active)
         page.save()
         return page
 
@@ -111,7 +112,7 @@ class Page(models.Model):
     site = models.ForeignKey(Site)
     name = models.CharField(max_length=50)
     # whether user has opened this page in workspace
-    opened = models.BooleanField(default=True)
+    opened = models.BooleanField(default=False)
     active = models.BooleanField(default=False)
     html = models.CharField(max_length=1000000, default="")
     published_html = models.CharField(max_length=1000000, default="")

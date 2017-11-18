@@ -39,10 +39,9 @@ def home(request):
 def siteEditor(request, siteName):
     context = {}
     profile = Profile.objects.get(user=request.user)
-    projects = Project.objects.filter(owner=profile)
+    pages = profile.getAllPages(siteName)
     context['form'] = AddPageForm()
-    context['profile'] = profile
-    context['projects'] = projects
+    context['pages'] = pages
     return render(request,'site-editor/site-editor.html', context)
 
 # requires GET request to "/sites/(?P<siteName>\w+)/editor/getPageNames/"
@@ -142,8 +141,11 @@ def sitePublish(request, siteName):
             pages.append(profile.getPage(siteName, pageName))
 
     for page in pages:
-        page.published_html = page.html
+        checkStr = 'contenteditable="true"'
+        processed = page.html
+        while checkStr in processed:
+            processed = processed.replace(checkStr, 'contenteditable="false"')
+        page.published_html = processed
         page.save()
-        print("published page %s!", page.name)
 
     return HttpResponse('')
