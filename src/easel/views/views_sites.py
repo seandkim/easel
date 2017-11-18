@@ -104,6 +104,7 @@ def changePageStatus(request, siteName, pageName):
 
     # check that there is only one/zero active tab, depending on whether
     # there is opened tab(s)
+    print(allPages.filter(opened=True).count(), allPages.filter(active=True).count())
     if (allPages.filter(opened=True).count() == 0):
         assert(allPages.filter(active=True).count() == 0)
     else:
