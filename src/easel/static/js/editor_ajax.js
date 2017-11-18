@@ -97,6 +97,10 @@ $(document).ready(function() {
                 if (isActive) {
                     new_el.trigger('click');
                 }
+
+                // TODO: write generic sortable for page elements
+                $( "#sortable1" ).sortable({ connectWith: '#sortable2, #component-tab'});
+                $( "#sortable2" ).sortable({});
             },
             error: function(jqXHR, textStatus) {
                 console.log("error in loading page", pageName, textStatus);

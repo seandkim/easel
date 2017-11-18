@@ -254,6 +254,16 @@ figcaption {
 	margin: 20px 0 !important;
 }
 
+
+.top {
+  z-index: 100!important;
+  position: relative;
+}
+
+.bottom {
+  z-index: -100!important;
+  position: relative;
+}
 /* tabs */
 .tab {
 	font-family: $header-font !important;
@@ -486,3 +496,37 @@ nav {
         }
     }
 }
+
+
+
+.component-container {
+    @include smooth(0.3s);
+    float: left;
+    text-align: center;
+    width: 110px;
+    height: 100px;
+    margin: 10px 5px;
+    padding: 10px;
+    &:hover {
+        background-color: $black;
+    }
+    .easel-icon-wrapper {
+	    height: 60px;
+	    margin: 0 auto;
+	}
+	.icon-name {
+	    color: $interface-color-07;
+	    font-size: 10pt;
+	    font-family: $header-font;
+		font-size: 10pt;
+		letter-spacing: 2px;
+	}
+	a, i {
+    	color: $interface-color-07;
+    }
+    .component-icon {
+		font-size: 40pt;
+		color: $interface-color-07;
+	}
+}
+
