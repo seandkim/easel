@@ -74,11 +74,13 @@ class AddProjectForm(forms.Form):
     project_name = forms.CharField(max_length=20)
     description = forms.CharField(max_length=1000)
 
+
 class AddMediaForm(forms.ModelForm):
     class Meta:
         model = Media
         exclude = ('project',)
         widgets = {'image': forms.FileInput()}
+
 
 class EditMediaForm(forms.Form):
     def __init__(self, user, *args, **kwargs):
@@ -102,7 +104,7 @@ class EditMediaForm(forms.Form):
 
 class AddPageForm(forms.Form):
     page_name = forms.CharField(max_length=20)
-    
+
     def clean(self):
         cleaned_data = super(AddPageForm, self).clean()
         page_name = cleaned_data.get('page_name')

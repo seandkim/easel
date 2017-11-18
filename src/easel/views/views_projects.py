@@ -59,23 +59,25 @@ def getAllProjects(request):
 
 def getAllMedias(request, projectName):
     if request.method == "GET":
-        project = Project.objects.get(name=projectName)
-        media = Media.objects.filter(project=project).order_by('id')
+        profile = Profile.objects.get(user=request.user)
+        project = Project.objects.get(owner=profile, name=projectName)
+        medias = Media.objects.filter(project=project).order_by('id')
 
-        context = {"projectName": projectName, "media": media}
-        return render(request, 'json/media.json', context, content_type='application/json')
+        context = {"projectName": projectName, "medias": medias}
+        return render(request, 'json/medias.json', context, content_type='application/json')
 
     return HttpResponse('')
 
 
 def getMediaPhoto(request, projectName, mediaName):
-    if type == 'media':
-        medium = Media.objects.get(name=name)
-        content_type = guess_type(medium.image.name)
-        print("content type is", content_type)
-        return HttpResponse(medium.image, content_type=content_type)
+    profile = Profile.objects.get(user=request.user)
+    media = profile.getMedia(projectName, mediaName)
+    content_type = guess_type(media.image.name)
+    print("content type is", content_type)
+    return HttpResponse(media.image, content_type=content_type)
 
-	return serveDummyImage();
+    # TODO serve dummy image?
+    # return serveDummyImage();
 
 @login_required
 def addProject(request):

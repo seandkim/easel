@@ -32,7 +32,7 @@ $(document).ready(function() {
   loadProject();
 
   function loadProject() {
-      $.get("/easel/projects/getProjects/").done(function(data) {
+      $.get("/easel/projects/getAllProjects/").done(function(data) {
           //console.log(data);
           var projects = data.projects;
           var project_list = $('#project-tab');
@@ -59,8 +59,9 @@ $(document).ready(function() {
 
   function loadMedia(projectName, description) {
       // TODO allow space
-
-      $.get("/easel/projects/getMedia/" + projectName).done(function(data) {
+      print("loadMedia start", projectName, description);
+      path = "/easel/projects/"+projectName+'/getAllMedias/'
+      $.get(path).done(function(data) {
           /* create project description bar */
           var detail_bar = $("<div></div>").addClass("project-detail-bar").addClass("col").addClass("s12");
           detail_bar.append($('<span class="description"><strong>Description: </strong>' + description + '</span>'));
@@ -100,7 +101,8 @@ $(document).ready(function() {
               var card = $('<div class="project-card"></div>');
 
               var img_container = $('<div class="project-img-container"></div>');
-              var img = $('<img>').attr("src", "/easel/getPhoto/media/" + medium.name + '/');
+              var imgPath = $("/easel/projects/getMediaPhoto/" + medium.name + '/')
+              var img = $('<img>').attr("src", path);
               img_container.append(img);
 
               var name = $('<div class="project-title"></div>').html(medium.name);
