@@ -133,7 +133,23 @@ $(document).ready(function() {
             success: function(data) {
                 console.log("successfully retrieved page html for " + pageName);
                 const html = data;
-                $('#page-content > div#'+pageName).append(html);
+                var new_el = $($.parseHTML('<li tab-target="#' + pageName + '">' +
+                        '<a href=#>' + pageName + '</a>' +
+                        '<a href="#" class="close-tab"><span class="icon-close"></span></a>' +
+                        '</li>'));
+                $('.cr-tabs').prepend(new_el);
+                $('#page-content').append(
+                        '<div id="' + pageName + '" class="hidden">' +
+                        html +
+                        '</div>');
+                if (isActive) {
+                    new_el.trigger('click');
+                }
+
+                // TODO: write generic sortable for page elements
+                $( "#sortable1" ).sortable({ connectWith: '#sortable2, #component-tab'});
+                $( "#sortable2" ).sortable({});
+                $('#page-content > div#' + pageName).append(html);
             },
             error: function(jqXHR, textStatus) {
                 console.log("error in loading page", pageName, textStatus);

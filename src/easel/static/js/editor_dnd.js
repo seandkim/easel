@@ -2,33 +2,35 @@
 
 $(function() {
 
-  /* drag start handler */
-  function handleDragStart(e) {
-    $( this ).css('opacity', '0.4');
-  }
+    $('.drag-component').draggable({
+        scroll: false,
+        distance: 0,
+        zIndex: 1000000,
+        revert : false,
+        cursorAt: { left: 50, top: 50 },
+        helper: 'clone',
+        appendTo: "body"
+    });
+    $('#page-content').draggable();
 
-  function handleDragOver(e) {
-    $( this ).css('opacity', '0.4');
-  }
+    $(".drag-component").draggable({
+        connectToSortable: "#page-content",
+        helper: "clone",
+        revert: "invalid"
+    });
 
-  function handleDragEnter(e) {
-    $( this ).css('opacity', '0.4');
-  }
+    $("#page-content").droppable({
+        accept: ".drag-component",
+        drop: function(event, ui) {
+            console.log('you dropped haha!');
+        }
+    });
 
-  function handleDragLeave(e) {
-    $( this ).css('opacity', '0.4');
-  }
+    // TODO: currently hard coded, need to replace with real example
+    $("#sortable1").sortable({
+        connectWith: '#sortable2, #component-tab'
+    });
+    $("#sortable2").sortable({
 
-  $( '.drag-component' ).on('dragstart', handleDragStart);
-  //$( '.drag-component' ).on('dragover', handleDragOver);
-  //$( '.drag-component' ).on('dragenter', handleDragEnter);
-  //$( '.drag-component' ).on('dragleave', handleDragLeave);
-
-  // TODO: currently hard coded, need to replace with real example
-  $( "#sortable1" ).sortable({
-    connectWith: '#sortable2, #component-tab'
-  });
-  $( "#sortable2" ).sortable({
-
-  });
+    });
 });

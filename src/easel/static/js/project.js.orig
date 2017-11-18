@@ -51,15 +51,21 @@ $(document).ready(function() {
               li.append(a);
               project_list.append(li);
 
+<<<<<<< HEAD
+=======
               //console.log(project.description);
+>>>>>>> 1a376f86283438d4dca24a7d4e205a2e41802307
               loadMedia(project.id, project.description);
           }
       })
   }
 
   function loadMedia(projectID, description) {
+<<<<<<< HEAD
+=======
       //console.log(description);
 
+>>>>>>> 1a376f86283438d4dca24a7d4e205a2e41802307
       $.get("/easel/getMedia/" + projectID).done(function(data) {
           /* create project description bar */
           var detail_bar = $("<div></div>").addClass("project-detail-bar").addClass("col").addClass("s12");
@@ -76,7 +82,10 @@ $(document).ready(function() {
 
           $(document).on('click', '.modal-trigger', function() {
               var projectID = $(this).attr('projectid');
+<<<<<<< HEAD
+=======
               //console.log(projectID + ' is clicked');
+>>>>>>> 1a376f86283438d4dca24a7d4e205a2e41802307
               $('#delete-submit').attr('href', projectID + '/delete/');
           });
 
