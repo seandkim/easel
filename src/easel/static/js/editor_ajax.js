@@ -100,7 +100,10 @@ $(document).ready(function() {
       var isRemovingActive = close_li.hasClass('active');
 
       // remove content and tab indicator
+      $('#page-content > div#'+pageName).remove()
       close_li.remove();
+      // change file icon to closed
+      $('#page-list i.' + pageName).removeClass('icon-file-o').addClass('icon-file')
 
       // ajax call to server
       changePageStatus(pageName, false, false);
@@ -157,7 +160,7 @@ $(document).ready(function() {
             '<div id="' + pageName + '" class="hidden"></div>'
         );
         // add preloader until done loading
-        addLoading('#' + pageName); 
+        addLoading('#' + pageName);
         // trigger click event on the tab
         if ( isActive ) {
             $('li[tab-target="#'+ pageName +'"]').trigger('click');

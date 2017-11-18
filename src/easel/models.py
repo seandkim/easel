@@ -81,7 +81,10 @@ class Site(models.Model):
     numVisitor = models.IntegerField(default=0)
 
     def __unicode__(self):
-        return self.name
+        s = self.name + '\n'
+        for page in Page.objects.filter(site=self):
+            s += '- ' + str(page) + '\n'
+        return s
 
     def createPage(self, pageName, opened=False, active=False):
         if Page.objects.filter(name=pageName).count() > 0:
@@ -115,7 +118,7 @@ class Page(models.Model):
     site = models.ForeignKey(Site)
     name = models.CharField(max_length=50)
     # whether user has opened this page in workspace
-    opened = models.BooleanField(default=False)
+    opened = models.BooleanField(default=False) # TODO switch to integer to save order of tabs
     active = models.BooleanField(default=False)
     html = models.CharField(max_length=1000000, default="")
     published_html = models.CharField(max_length=1000000, default="")
