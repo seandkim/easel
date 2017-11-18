@@ -25,16 +25,21 @@ class Profile(models.Model):
         return project
 
     def deleteProject(self, projectName):
-        # TODO delete all media within and project reference delete site
-        pass
+        try:
+            project = Project.objects.get(owner=self, name=projectName)
+            for media in Media.objects.filter(project=project):
+                media.delete()
+            project.delete()
+        except:
+            pass
 
     def getAllProjects(self, projectName):
-        # TODO reference getAllPages
-        pass
+        project = Project.objects.get(owner=self, name=projectName)
+        return Media.objects.filter(project=project)
 
     def getMedia(self, projectName, mediaName):
-        # TODO
-        pass
+        project = Project.objects.get(owner=self, name=projectName)
+        return Media.objects.get(project=project, name=mediaName)
 
     def createSite(self, siteName, description):
         if Site.objects.filter(owner=self, name=siteName).count() > 0:
