@@ -37,7 +37,7 @@ def home(request):
         if not form.is_valid():
             return render(request, 'project/project-list.html', context)
 
-#        profile = Profile.objects.get(user = request.user)
+        # profile = Profile.objects.get(user = request.user)
 
         new_project = Project(owner=profile,
                               name=form.cleaned_data['project_name'],
@@ -46,6 +46,36 @@ def home(request):
         context['message'] = "Your project has been added"
 
     return render(request, 'project/project-list.html', context)
+
+
+def getAllProjects(request):
+    if request.method == "GET":
+        profile = Profile.objects.get(user=request.user)
+        projects = Project.objects.filter(owner=profile)
+        context = {"username": profile.user.username, "projects": projects}
+        return render(request, 'json/projects.json', context, content_type='application/json')
+    return HttpResponse('')
+
+
+def getAllMedias(request, projectName):
+    if request.method == "GET":
+        project = Project.objects.get(name=projectName)
+        media = Media.objects.filter(project=project).order_by('id')
+
+        context = {"projectName": projectName, "media": media}
+        return render(request, 'json/media.json', context, content_type='application/json')
+
+    return HttpResponse('')
+
+
+def getPhoto(request, type, name):
+    if type == 'media':
+        medium = Media.objects.get(name=name)
+        content_type = guess_type(medium.image.name)
+        print("content type is", content_type)
+        return HttpResponse(medium.image, content_type=content_type)
+
+	return serveDummyImage();
 
 @login_required
 def addProject(request):
@@ -73,17 +103,17 @@ def addProject(request):
     return HttpResponseRedirect(reverse("projects"))
 
 @login_required
-def deleteProject(request, projectID):
-    project = Project.objects.get(id=projectID)
+def deleteProject(request, projectName):
+    project = Project.objects.get(name=projectName)
     medias = Media.objects.filter(project=project)
-    
+
     medias.delete()
     project.delete()
     return HttpResponseRedirect(reverse("projects"))
 
 @login_required
-def addMedia(request, projectID):
-    context = {'projectID': projectID}
+def addMedia(request, projectName):
+    context = {'projectName': projectName}
     if request.method == 'GET':
         form = AddMediaForm()
         context['form'] = form
@@ -96,16 +126,16 @@ def addMedia(request, projectID):
         return render(request, 'project/media-add.html', context)
 
     media = form.save(commit=False)
-    media.project = Project.objects.get(id=projectID)
+    media.project = Project.objects.get(name=projectName)
     media.save()
 
     return HttpResponseRedirect(reverse("projects"))
 
 @login_required
-def editMedia(request, projectID, mediaID):
-    context = {'projectID': projectID, 'mediaID': mediaID}
+def editMedia(request, projectName, mediaName):
+    context = {'projectName': projectName, 'mediaName': mediaName}
     if request.method == 'GET':
-        medium = Media.objects.get(id=mediaID)
+        medium = Media.objects.get(name=mediaName)
         initial = {
             'name': medium.name,
             'caption': medium.caption,
@@ -121,7 +151,7 @@ def editMedia(request, projectID, mediaID):
         return HttpResponseRedirect(reverse('projects'))
 
     action = request.POST['action']
-    medium = Media.objects.get(id=mediaID)
+    medium = Media.objects.get(name=mediaName)
     if action == 'Save':
         form = EditMediaForm(request.user, request.POST)
         if not form.is_valid():

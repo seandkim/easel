@@ -25,25 +25,6 @@ from mimetypes import guess_type
 from PIL import Image, ImageTk
 import os
 
-def getProjects(request):
-    if request.method == "GET":
-        profile = Profile.objects.get(user=request.user)
-        projects = Project.objects.filter(owner=profile)
-        context = {"username": profile.user.username, "projects": projects}
-        return render(request, 'json/projects.json', context, content_type='application/json')
-    return HttpResponse('')
-
-def getMedia(request, projectID):
-    if request.method == "GET":
-        project = Project.objects.get(id=int(projectID))
-        media = Media.objects.filter(project=project).order_by('id')
-
-        context = {"projectID": projectID, "media": media}
-        return render(request, 'json/media.json', context, content_type='application/json')
-
-    return HttpResponse('')
-
-
 def getMessages(request, username):
     return
 
@@ -62,22 +43,6 @@ def getProfilePhoto(request):
         raise Http404
     content_type = guess_type(profile.profilePic.name)
     return HttpResponse(profile.profilePic, content_type=content_type)
-
-
-def getPhoto(request, type, id1):
-    if type == 'media':
-        # try:
-        medium = Media.objects.get(id=id1)
-        print("medium is", medium)
-        content_type = guess_type(medium.image.name)
-        print("content type is", content_type)
-        return HttpResponse(medium.image, content_type=content_type)
-        # except:
-        #     print("There was an error: ", medium.image)
-        #     print(medium.image.name)
-        #     pass
-
-	return serveDummyImage();
 
 def serveDummyImage():
 	# if dynamic file is not found

@@ -27,12 +27,10 @@ from .views import views_sites
 from .views import views_public
 
 urlpatterns = [
-    # API calls
-    url(r'^getProjects/$', views_api.getProjects, {}, name='getProjects'),
-    url(r'^getMedia/(?P<projectID>\w+)/$', views_api.getMedia, {}, name='getMedia'),
+
     # url(r'^getMessages/(?P<username>\w+)$', views_api.getMessages, {}, name='getMessages'),
     # url(r'^getStats/(?P<username>\w+)$', views_api.getStats, {}, name='getStats'),
-    url(r'^getPhoto/(?P<type>\w+)/(?P<id1>\w+)/$', views_api.getPhoto, {}, name='getPhoto'),
+    url(r'^getMediaPhoto/(?P<type>\w+)/(?P<name>\w+)/$', views_api.getPhoto, {}, name='mediaName'),
     url(r'^uploadPhoto/$', views_api.uploadPhoto, {}, name='uploadPhoto'),
     url(r'^makeDefaultProjects/$', views_api.makeDefaultProjects, {}, name='makeDefaultProjects'),
     url(r'^getProfilePhoto/$', views_api.getProfilePhoto, name='getProfilePhoto'),
@@ -49,15 +47,18 @@ urlpatterns = [
 
     # projects (TODO change ID to name)
     url(r'^projects/$', views_projects.home, name="projects"), # see list of projects
+    url(r'^projects/getAllProjects/$', views_projects.getAllProjects, {}, name='getAllProjects'),
+    url(r'^projects/(?P<projectName>\w+)/getAllMedias/$', views_projects.getAllMedias, {}, name='getAllMedias'),
+    url(r'^projects/(?P<projectName>\w+)/getMediaPhoto/(?P<mediaName>\w+)$', views_projects.getMedia, {}, name='getMedia'),
     url(r'^projects/addProject/$', views_projects.addProject, name="addProject"), # form to add project
-    url(r'^projects/(?P<projectID>\w+)/addMedia/$', views_projects.addMedia, name="addMedia"), # addMedia
-    url(r'^projects/(?P<projectID>\w+)/delete/$', views_projects.deleteProject, name="deleteProject"), # addMedia
-    url(r'^projects/(?P<projectID>\w+)/editMedia/(?P<mediaID>\w+)$', views_projects.editMedia, name="editMedia"), # addMedia
+    url(r'^projects/(?P<projectName>\w+)/addMedia/$', views_projects.addMedia, name="addMedia"), # addMedia
+    url(r'^projects/(?P<projectName>\w+)/delete/$', views_projects.deleteProject, name="deleteProject"), # addMedia
+    url(r'^projects/(?P<projectName>\w+)/editMedia/(?P<mediaName>\w+)$', views_projects.editMedia, name="editMedia"), # addMedia
 
     # sites
     url(r'^sites/$', views_sites.home, name="sitesHome"), # list all the sites
     url(r'^sites/(?P<siteName>\w+)/editor/$', views_sites.siteEditor, name="siteEditor"),
-    url(r'^sites/(?P<siteName>\w+)/getPageNames/$', views_sites.getPageNames, name="getPageNames"),
+    url(r'^sites/(?P<siteName>\w+)/getAPageNames/$', views_sites.getPageNames, name="getPageNames"),
     url(r'^sites/(?P<siteName>\w+)/getPageHTML/(?P<pageName>\w+)/$', views_sites.getPageHTML, name="getPageHTML"),
     url(r'^sites/(?P<siteName>\w+)/changePageStatus/(?P<pageName>\w+)/$', views_sites.changePageStatus, name="changePageStatus"),
     url(r'^sites/(?P<siteName>\w+)/addPage/$', views_sites.addPage, name="addPage"),

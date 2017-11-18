@@ -109,6 +109,5 @@ class AddPageForm(forms.Form):
 
         if Page.objects.filter(name=page_name).count() > 0:
             raise forms.ValidationError("Page name '%s' already exists" % page_name)
-            
+
         return cleaned_data
-    

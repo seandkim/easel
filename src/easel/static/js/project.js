@@ -32,7 +32,7 @@ $(document).ready(function() {
   loadProject();
 
   function loadProject() {
-      $.get("/easel/getProjects/").done(function(data) {
+      $.get("/easel/projects/getProjects/").done(function(data) {
           //console.log(data);
           var projects = data.projects;
           var project_list = $('#project-tab');
@@ -44,7 +44,7 @@ $(document).ready(function() {
               var project = projects[i];
 
               var li = $('<li class="tab col s3"></li>');
-              var a = $('<a></a>').attr('href', '#' + project.id).html(project.name);
+              var a = $('<a></a>').attr('href', '#' + project.name).html(project.name);
               if (i == 0) {
                   li.addClass('active');
               }
@@ -52,22 +52,22 @@ $(document).ready(function() {
               project_list.append(li);
 
               //console.log(project.description);
-              loadMedia(project.id, project.description);
+              loadMedia(project.name, project.description);
           }
       })
   }
 
-  function loadMedia(projectID, description) {
-      //console.log(description);
+  function loadMedia(projectName, description) {
+      // TODO allow space
 
-      $.get("/easel/getMedia/" + projectID).done(function(data) {
+      $.get("/easel/projects/getMedia/" + projectName).done(function(data) {
           /* create project description bar */
           var detail_bar = $("<div></div>").addClass("project-detail-bar").addClass("col").addClass("s12");
           detail_bar.append($('<span class="description"><strong>Description: </strong>' + description + '</span>'));
           detail_bar.append($('<br>'));
-          detail_bar.append($('<a href="/easel/projects/' + projectID + '/addMedia"><button class="dark-btn-alt"><i class="material-icons tab-icon">file_upload</i> UPLOAD</button></a>'));
+          detail_bar.append($('<a href="/easel/projects/' + projectName + '/addMedia"><button class="dark-btn-alt"><i class="material-icons tab-icon">file_upload</i> UPLOAD</button></a>'));
 
-          detail_bar.append($('<a class="modal-trigger" href="#delete-project-modal" projectid="' + projectID + '">' +
+          detail_bar.append($('<a class="modal-trigger" href="#delete-project-modal" projectName="' + projectName + '">' +
                 '<button class="dark-btn-alt">' +
                   '<i class="material-icons tab-icon">delete</i>' +
                   'DELETE' +
@@ -75,32 +75,32 @@ $(document).ready(function() {
               '</a>'));
 
           $(document).on('click', '.modal-trigger', function() {
-              var projectID = $(this).attr('projectid');
+              var projectName = $(this).attr('projectName');
               //console.log(projectID + ' is clicked');
-              $('#delete-submit').attr('href', projectID + '/delete/');
+              $('#delete-submit').attr('href', projectName + '/delete/');
           });
 
 
           /* create media div */
           var media_div = $("<div></div>").addClass("media-list").addClass("col").addClass("s12");
-          media_div.addClass("media-list").attr("id", projectID);
+          media_div.addClass("media-list").attr("id", projectName);
           media_div.append(detail_bar);
           media_div.append($('<div class="row item-list"></div>'));
           media_div.attr('style', "display: none;");
           $('.project-list > .row').append(media_div);
 
           var media = data.media;
-          var media_list = $('.media-list#' + projectID + ' > .row');
+          var media_list = $('.media-list#' + projectName + ' > .row');
 
           for (var i = 0; i < media.length; i++) {
               var medium = media[i];
 
-              var a = $('<a></a>').attr('href', '/easel/projects/' + projectID + '/editMedia/' + medium.id);
+              var a = $('<a></a>').attr('href', '/easel/projects/' + projectName + '/editMedia/' + medium.name);
               var col = $('<div class="col m4"></div>');
               var card = $('<div class="project-card"></div>');
 
               var img_container = $('<div class="project-img-container"></div>');
-              var img = $('<img>').attr("src", "/easel/getPhoto/media/" + medium.id + '/');
+              var img = $('<img>').attr("src", "/easel/getPhoto/media/" + medium.name + '/');
               img_container.append(img);
 
               var name = $('<div class="project-title"></div>').html(medium.name);
