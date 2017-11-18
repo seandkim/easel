@@ -43,7 +43,40 @@ $(document).ready(function() {
         });
     });
 
-    /* open new tab */
+    $("#upload-media-form").submit(upload);
+
+    /* upload file data */
+    function upload(e) {
+        console.log('uploading files');
+        e.preventDefault();
+        var data = new FormData($('form').get(0));
+
+        $.ajax({
+            url: $(this).attr('action'),
+            type: $(this).attr('method'),
+            data: data,
+            cache: false,
+            processData: false,
+            contentType: false,
+            success: function(data) {
+                console.log('successfully uploaded file');
+                var url = 'http://localhost:8000/easel/getPhoto/media/14/';
+                createImgComponent(url);
+            }
+        });
+        return false;
+    }
+
+    function creatImgComponent(url) {
+        var active_tab = $( '.cr-tabs>li' ).find('.active');
+        var active_tab_content = $( active_tab.attr('tab-target') );
+        console.log('creating component ' + '<img src="' + url + '"> in ' + active_tab.attr('tab-target'));
+        active_tab_content.append(
+            '<img src="' + url + '">'
+        );
+    }
+
+    /* open new page */
     $(document).on('click', '.file', function(event) {
        event.preventDefault();
        const pageName = $(this).find('.page-name').html();
@@ -110,7 +143,7 @@ $(document).ready(function() {
     });
 
     function loadPageHTML(siteName, pageName, isOpened, isActive) {
-        // create tab instantly
+        // create tab instantly and add it to page tab
         var new_el = $($.parseHTML('<li tab-target="#' + pageName + '">' +
                 '<a href=#>' + pageName + '</a>' +
                 '<a href="#" class="close-tab"><span class="icon-close"></span></a>' +
@@ -118,43 +151,30 @@ $(document).ready(function() {
         $('.cr-tabs').prepend(new_el);
 
         // hide the current active page
-        $('#page-content > div:not(.hidden)').addClass('hidden')
-
+        $('#page-content > div:not(.hidden)').addClass('hidden');
+        // append new active tab with empty content
         var content_div = $('#page-content').append(
-            '<div id="' + pageName + '" class="hidden"></div>');
-        if (isActive) {
-            $('li[tab-target="#'+ pageName +'"]').trigger('click')
+            '<div id="' + pageName + '" class="hidden"></div>'
+        );
+        // add preloader until done loading
+        addLoading('#' + pageName); 
+        // trigger click event on the tab
+        if ( isActive ) {
+            $('li[tab-target="#'+ pageName +'"]').trigger('click');
         }
 
         $.ajax({
             url: "/easel/sites/" + siteName + "/getPageHTML/" + pageName + '/',
             method: "GET",
             dataType: "html",
-            success: function(data) {
-                console.log("successfully retrieved page html for " + pageName);
-                const html = data;
-                var new_el = $($.parseHTML('<li tab-target="#' + pageName + '">' +
-                        '<a href=#>' + pageName + '</a>' +
-                        '<a href="#" class="close-tab"><span class="icon-close"></span></a>' +
-                        '</li>'));
-                $('.cr-tabs').prepend(new_el);
-                $('#page-content').append(
-                        '<div id="' + pageName + '" class="hidden">' +
-                        html +
-                        '</div>');
-                if (isActive) {
-                    new_el.trigger('click');
-                }
-
-                // TODO: write generic sortable for page elements
-                $( "#sortable1" ).sortable({ connectWith: '#sortable2, #component-tab'});
-                $( "#sortable2" ).sortable({});
-                $('#page-content > div#' + pageName).append(html);
+            success: function(html) {
+                console.log('successfully retrieve html for ' + pageName);
+                $('#page-content > div#' + pageName).empty().append(html);
             },
             error: function(jqXHR, textStatus) {
                 console.log("error in loading page", pageName, textStatus);
-                new_el.remove() // remove the opened tab
-                content_div.remove()
+                new_el.remove(); // remove the opened tab
+                content_div.remove();
                 // TODO display error message
             }
         });
@@ -180,8 +200,8 @@ $(document).ready(function() {
       $('.preload').remove();
     };
 
-    function addLoading() {
-        $('html').append(
+    function addLoading(el) {
+        $( el ).append(
             '<div class="preload preloader-overlay">' +
                 '<div class="spinner-wrapper">' +
                     '<div class="spinner">' +

@@ -169,8 +169,9 @@ figcaption {
 	@extend .btn;
 	color: $gray-scale-01;
 	font-family: $header-font;
-	border: 1.5px solid $gray-scale-01;
+	border: 2px solid $gray-scale-01;
 	letter-spacing: 2px;
+	border-radius: 0;
 	&:hover {
 		background-color: $gray-scale-01;
 		color: $interface-color-06;
@@ -355,6 +356,48 @@ button:focus {
     outline: none;
 }
 
+input {
+    /* overwrite materialize style */
+    height: 1.5rem !important;
+    border-bottom: 1px solid $interface-color-05 !important;
+    margin: 0 0 15px 0 !important;
+}
+
+/* label underline focus color */
+.input-field input:focus {
+    border-bottom: 1px solid $highlight-color-01 !important;
+}
+
+input::-webkit-input-placeholder {
+    /* Chrome/Opera/Safari */
+    color: $gray-scale-06 !important;
+    line-height: 1.5;
+}
+
+input::-moz-placeholder {
+    /* Firefox 19+ */
+    color: $gray-scale-06 !important;
+    line-height: 1.5;
+}
+
+input::-ms-input-placeholder {
+    /* IE 10+ */
+    color: $gray-scale-06 !important;
+    line-height: 1.5;
+}
+
+input::-moz-placeholder {
+    /* Firefox 18- */
+    color: $gray-scale-06 !important;
+    line-height: 1.5;
+}
+
+.input-field textarea:focus + label {
+  font-family: $header-font;
+}
+
+
+
 /* nav bar */
 nav {
 	background-color: $gray-scale-02 !important;
@@ -430,7 +473,7 @@ nav {
 }
 /* preloader */
 .preloader-overlay {
-    position: fixed;
+    position: absolute;
     z-index: 50;
     background-color: $interface-color-08;
     width: 100%;
@@ -530,3 +573,17 @@ nav {
 	}
 }
 
+.modal-close-btn {
+	@include smooth(0.3s);
+	position: absolute;
+	right: 0;
+	top: 0;
+	padding: 25px;
+	color: $interface-color-01;
+	&:hover {
+		color: $gray-scale-03;
+	}
+	i {
+		font-size: 20pt;
+	}
+}
