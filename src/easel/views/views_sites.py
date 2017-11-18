@@ -87,7 +87,6 @@ def changePageStatus(request, siteName, pageName):
     if 'isActive' in request.POST:
         isActive = (request.POST['isActive'] == 'true')
 
-    print(page)
     allPages = Page.objects.filter(site=site)
     page.opened = isOpened
     # if page turned active, change other page to false
@@ -99,9 +98,8 @@ def changePageStatus(request, siteName, pageName):
         page.active = True
     # if page turned not active
     else:
-        page.isActive = False
+        page.active = False
     page.save()
-    # print(page)
 
     # check that there is only one/zero active tab, depending on whether
     # there is opened tab(s)
@@ -109,7 +107,7 @@ def changePageStatus(request, siteName, pageName):
     if (allPages.filter(opened=True).count() == 0):
         assert(allPages.filter(active=True).count() == 0)
     else:
-        assert(allPages.filter(active=True).count() == 1)
+        assert(allPages.filter(active=True).count() < 2)
     return HttpResponse('')
 
 # requires POST request with the following argument:

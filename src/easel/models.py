@@ -81,9 +81,9 @@ class Site(models.Model):
     numVisitor = models.IntegerField(default=0)
 
     def __unicode__(self):
-        s = self.name
-        for page in Page.objects.filter(site=site):
-            s += '-' + str(page) + '\n'
+        s = self.name + '\n'
+        for page in Page.objects.filter(site=self):
+            s += '- ' + str(page) + '\n'
         return s
 
     def createPage(self, pageName, opened=False, active=False):
