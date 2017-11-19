@@ -140,29 +140,34 @@ $(document).ready(function() {
     });
 
     /* when you add page */
-    $('#add-page-modal button').click(function(e) {
-        e.preventDefault();
-        var pageName = $(this).parent().find('input#id_page_name').val();
+    $('#add-page-modal form').submit(function(e,data) {
+        e.preventDefault()
+        var pageName = $(this).find('input#id_pageName').val();
+        var username = $(this).find('input[name="username"]:not(#id_username)').attr('value')
+
         $.ajax({
             url: "/easel/sites/" + siteName + "/addPage/",
             method: "POST",
-            data: { pageName: pageName },
+            data: {username: username, pageName: pageName},
             success: function(data) {
                 console.log("successfully added the page");
-                //TODO small bug; no space next to the icon immediately
                 var file = $('<div class="file">'+
-                                '<i class="'+pageName+' icon icon-file"></i>'+
+                                '<i class="'+pageName+' icon icon-file"></i> '+
                                 '<span class="page-name">'+pageName+'</span>'+
                              '</div>');
                 $('#page-list').append(file);
                 file.trigger('click');
                 $('#add-page-modal').modal('close');
+                // if `pages` menu is closed, open it
+                if ($('#page-tab').find('i').hasClass('icon-right-dir')) {
+                    $('#page-tab').trigger('click')
+                }
             },
             error: function(jqXHR, textStatus) {
-                console.log("failed to add the page");
+                console.error("failed to add the page", textStatus);
             }
         });
-    });
+    })
 
     function loadPageHTML(siteName, pageName, isOpened, isActive) {
         // create tab instantly and add it to page tab

@@ -37,15 +37,11 @@ def home(request):
         if not form.is_valid():
             return render(request, 'project/project-list.html', context)
 
-        
-        
-        # profile = Profile.objects.get(user = request.user)
-
+        print(request.POST)
         new_project = Project(owner=profile,
-                              name=form.cleaned_data['project_name'],
+                              name=form.cleaned_data['projectName'],
                               description=form.cleaned_data['description'])
         new_project.save()
-#        context['message'] = "Your project has been added"
 
     return render(request, 'project/project-list.html', context)
 
@@ -99,7 +95,7 @@ def addProject(request):
     profile = Profile.objects.get(user = request.user)
 
     new_project = Project(owner=profile,
-                          name=form.cleaned_data['project_name'],
+                          name=form.cleaned_data['projectName'],
                           description=form.cleaned_data['description'])
     new_project.save()
     context['message'] = "Your project has been added"

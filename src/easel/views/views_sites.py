@@ -51,7 +51,7 @@ def siteEditor(request, siteName):
     #there is still a bug
 
     if request.method == "POST":
-        if ('page_name' not in request.POST) or (request.POST['page_name'] == ""):
+        if ('pageName' not in request.POST) or (request.POST['pageName'] == ""):
             print("Invalid Request Argument")
             raise Http404("Invalid Request Argument")
 
@@ -61,7 +61,7 @@ def siteEditor(request, siteName):
         if not form.is_valid():
             return render(request, 'site-editor/site-editor.html', context)
 
-        pageName = request.POST['page_name'].lower()
+        pageName = request.POST['pageName'].lower()
 
         try:
             site = Site.getSite(request.user.username, siteName)
@@ -150,20 +150,15 @@ def addPage(request, siteName):
         print("Invalid Request Method")
         raise Http404("Invalid Request Method")
 
-    if ('pageName' not in request.POST) or (request.POST['pageName'] == ""):
-        print("Invalid Request Argument")
-        raise Http404("Invalid Request Argument")
+    print("addPage", request.POST)
 
-    pageName = request.POST['pageName'].lower()
-    try:
-        site = Site.getSite(request.user.username, siteName)
-    except ObjectDoesNotExist:
-        print("Site %s does not exist" % siteName)
-        raise Http404("Site %s does not exist" % siteName)
+    form = AddPageForm(request.POST)
+    # Validates the form.
+    if not form.is_valid():
+        return {'form': form}
 
-    if Page.objects.filter(name=pageName, site=site).count() > 0:
-        print("Page %s already exists in %s" % (pageName, siteName))
-        raise Http404("Page %s already exists in %s" % (pageName, siteName))
+    site = Site.getSite(request.user.username, siteName)
+    pageName = form.cleaned_data['pageName']
 
     new_page = site.createPage(pageName)
     new_page.save()
