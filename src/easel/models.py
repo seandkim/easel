@@ -12,6 +12,7 @@ class Profile(models.Model):
     age = models.IntegerField(default=0, blank=True)
     gender = models.CharField(max_length=10, default="", blank=True)
     profilePic = models.ImageField(upload_to="profilePic", blank=True)
+    visitorNum = models.IntegerField(default=0, blank=True)
 
     def __unicode__(self):
         return self.user.username
@@ -78,7 +79,7 @@ class Project(models.Model):
     name = models.CharField(max_length=20)
     date = models.DateField(auto_now=True)
     description = models.CharField(max_length=1000)
-
+    
     def __unicode__(self):
         return self.name
 

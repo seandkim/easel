@@ -10,10 +10,6 @@
 		padding: 10px;
 		&:hover {
 			background-color: $interface-color-05;
-			/*color: $interface-color-05;
-			.icon, .opt-name {
-				color: $interface-color-05;
-			}*/
 		}
 		.icon {
 			font-size: 40pt;
@@ -25,6 +21,9 @@
 			margin: 10px 0;
 			color: inherit;
 		}
+	}
+	.selected {
+		background-color: $interface-color-05;
 	}
 	.opts-wrapper {
 		margin: auto;

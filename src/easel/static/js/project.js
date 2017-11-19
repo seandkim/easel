@@ -66,7 +66,7 @@ $(document).ready(function() {
           detail_bar.append($('<br>'));
           detail_bar.append($('<a href="/easel/projects/' + projectName + '/addMedia"><button class="dark-btn-alt"><i class="material-icons tab-icon">file_upload</i> UPLOAD</button></a>'));
 
-          detail_bar.append($('<a id="delete-project" class="modal-trigger" href="#delete-project-modal" projectName="' + projectName + '">' +
+            detail_bar.append($('<a id="delete-project" class="modal-trigger" href="#delete-project-modal" projectName="' + projectName + '">' +
                 '<button class="dark-btn-alt">' +
                   '<i class="material-icons tab-icon">delete</i>' +
                   'DELETE' +
@@ -74,7 +74,8 @@ $(document).ready(function() {
               '</a>'));
 
           $(document).on('click', '#delete-project.modal-trigger', function() {
-              $('#delete-submit').attr('href', projectName + '/deleteProject/');
+              var deletename = $(this).attr('projectname')
+              $('#delete-submit').attr('href', deletename + '/deleteProject/');
           });
 
           /* create media div */

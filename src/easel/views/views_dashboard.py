@@ -27,7 +27,13 @@ def home(request):
     context = {}
     profile = Profile.objects.get(user = request.user)
     context = {'profile': profile}
-    context['visitorNum'] = 14 # TODO change hardcoded value
+#    #TODO
+#    profile.visitorNum = 0
+#    profile.save()
+    
+    context['visitorNum'] = profile.visitorNum
+#    context['visitorNum'] = 0
+
     projects = Project.objects.filter(owner=profile)
     mediaNum = 0
     if projects.count() > 0:

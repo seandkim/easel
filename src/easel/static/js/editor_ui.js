@@ -19,7 +19,9 @@ $(function() {
 
     function showUploadForm(e) {
         // hide menu
+        $('.upload-option').removeClass('selected');
         $('#item-menu').addClass('hidden');
+        $(this).addClass('selected');
         // show form
         var upload_form_id = $(this).attr('opt-target');
         var upload_form = $(upload_form_id);
