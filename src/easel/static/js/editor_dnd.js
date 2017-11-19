@@ -30,6 +30,7 @@ $(function() {
         console.log('in img selection');
         var media_library;
         media_library = $('.project-list').clone();
+        debugger;
         $('#media-library-upload').empty();
         console.log('html: ' + $('#media-library-upload').html());
         $('#media-library-upload').append(media_library);
