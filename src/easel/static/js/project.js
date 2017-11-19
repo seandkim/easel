@@ -58,7 +58,6 @@ $(document).ready(function() {
   }
 
   function loadMedia(projectName, description) {
-      // TODO allow space
       path = "/easel/projects/"+projectName+'/getAllMedias/'
       $.get(path).done(function(data) {
           /* create project description bar */
@@ -75,9 +74,6 @@ $(document).ready(function() {
               '</a>'));
 
           $(document).on('click', '.modal-trigger', function() {
-              // TODO is projectName1 needed? or can we just use projectname
-              // var projectName1 = $(this).attr('projectName');
-              //console.log(projectID + ' is clicked');
               $('#delete-submit').attr('href', projectName + '/deleteProject/');
           });
 

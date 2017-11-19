@@ -25,25 +25,6 @@ $(document).ready(function() {
         });
     });
 
-    //TODO delete
-    /* add new page button */
-    $(".add-new-page").click(function() {
-        var newPageName = 'new page' //TODO
-
-        $.ajax({
-            url: "/easel/sites/dummy/addPage/",
-            method: "POST",
-            // TODO change page name
-            data: { pageName: newPageName },
-            success: function(data) {
-                console.log("successfully added the page");
-            },
-            error: function(e) {
-                // TODO display alert message (when same page name exists)
-            }
-        });
-    });
-
     $("#upload-media-form").submit(upload);
 
     /* upload file data */
@@ -232,7 +213,7 @@ $(document).ready(function() {
             '</div>');
     }
 
-    // check if there is any tab currently open 
+    // check if there is any tab currently open
     function noTab() {
         return ($('.cr-tabs').children().length === 0);
     }
