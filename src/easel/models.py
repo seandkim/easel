@@ -49,10 +49,10 @@ class Profile(models.Model):
         site = Site(owner=self, name=siteName, description=description,
                     numVisitor=0)
         site.save()
-        site.createPage('home', opened=True, active=False, profile=self)
-        site.createPage('about', opened=True, active=True, profile=self)
-        site.createPage('update', profile=self) # TODO necessary?
-        site.createPage('portfolio', profile=self)
+        site.createPage('home', opened=True, active=False)
+        site.createPage('about', opened=True, active=True)
+        site.createPage('update') # TODO necessary?
+        site.createPage('portfolio')
         return site
 
     def deleteSite(self, siteName):
@@ -79,7 +79,7 @@ class Project(models.Model):
     name = models.CharField(max_length=20)
     date = models.DateField(auto_now=True)
     description = models.CharField(max_length=1000)
-    
+
     def __unicode__(self):
         return self.name
 
@@ -121,15 +121,17 @@ class Site(models.Model):
             s += '- ' + str(page) + '\n'
         return s
 
-    def createPage(self, pageName, opened=False, active=False, profile=None):
+    def createPage(self, pageName, opened=False, active=False):
         if Page.objects.filter(site=self, name=pageName).count() > 0:
             raise Exception("Page name %s already exists" % pageName)
 
-        initHTML = "boring new page"
-        if profile != None:
-            filename = 'test_pages/dummy_' + pageName + '.html'
-            t = get_template(filename)  # TODO change? dummy works pretty well...
-            initHTML = t.render(context={'profile': profile})
+        defaultPages = ['home', 'about', 'update', 'portfolio']
+        templateName = 'init'
+        if pageName in defaultPages:
+            templateName = pageName
+        filename = 'test_pages/dummy_' + templateName + '.html'
+        t = get_template(filename)  # TODO change? dummy works pretty well...
+        initHTML = t.render(context={'profile': self.owner})
 
         page = Page(site=self, name=pageName, html=initHTML, published_html="",
                     opened=opened, active=active)
