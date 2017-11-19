@@ -30,9 +30,9 @@ $(function() {
         console.log('in img selection');
         var media_library;
         media_library = $('.project-list').clone();
-        $('#select-from-library').empty();
-        console.log('html: ' + $('#select-from-library').html());
-        $('#select-from-library').append(media_library);
+        $('#media-library-upload').empty();
+        console.log('html: ' + $('#media-library-upload').html());
+        $('#media-library-upload').append(media_library);
         $('ul.tabs').tabs();
         $('#select-img-modal').modal('open');
     }
