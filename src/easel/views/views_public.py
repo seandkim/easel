@@ -21,9 +21,29 @@ from django.utils.http import urlsafe_base64_decode
 from easel.models import *
 from easel.forms import *
 from time import localtime, strftime
+from ipware.ip import get_ip
 
+    
 def renderHome(request, username, siteName):
+    ip = get_ip(request)
+    print('ip=', ip)
+    ###TODO: check if a request is made by the same ip address within a certain time interval
+    
+    user = User.objects.get(username=username)
+    profile = Profile.objects.get(user=user)
+    profile.visitorNum += 1
+    profile.save()
+
     return renderPage(request, username, siteName, 'home')
+
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
+
 
 def renderPage(request, username, siteName, pageName):
     try:
