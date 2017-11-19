@@ -71,7 +71,7 @@ $(function() {
         console.log('in img selection');
         var media_library;
         media_library = $('.project-list').clone();
-        $('#cloned-medias').empty();
+        $('#cloned-medias').html("");
         //console.log('html: ' + $('#media-library-upload').html());
         $('#cloned-medias').append(media_library);
         $('ul.tabs').tabs();

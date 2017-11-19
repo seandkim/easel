@@ -1,5 +1,7 @@
 $(document).ready(function() {
 
+  // stored structure of loaded media
+  var media_tree = {};
     // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
   $('.modal').modal();
 
@@ -42,7 +44,7 @@ $(document).ready(function() {
           }
           for (var i = 0; i < projects.length; i++) {
               var project = projects[i];
-
+              media_tree[project.name] = [];
               var li = $('<li class="tab col s3"></li>');
               var a = $('<a></a>').attr('href', '#' + project.name).html(project.name);
               if (i == 0) {
@@ -54,11 +56,13 @@ $(document).ready(function() {
               //console.log(project.description);
               loadMedia(project.name, project.description);
           }
-      })
+          console.log("media_tree", media_tree);
+      });
   }
 
   function loadMedia(projectName, description) {
-      path = "/easel/projects/"+projectName+'/getAllMedias/'
+      var path = "/easel/projects/"+projectName+'/getAllMedias/';
+      var project_list = media_tree[projectName];
       $.get(path).done(function(data) {
           /* create project description bar */
           var detail_bar = $("<div></div>").addClass("project-detail-bar").addClass("col").addClass("s12");
@@ -97,7 +101,7 @@ $(document).ready(function() {
               var card = $('<div class="project-card"></div>');
 
               var img_container = $('<div class="project-img-container"></div>');
-              var imgPath = "/easel/projects/"+projectName+"/getMediaPhoto/"+media.name
+              var imgPath = "/easel/projects/"+projectName+"/getMediaPhoto/"+media.name;
               var img = $('<img>').attr("src", imgPath);
               img_container.append(img);
 
@@ -109,10 +113,10 @@ $(document).ready(function() {
               card.append(description_div);
               col.append(a);
               medias_list.append(col);
+              project_list.push(imgPath);
           }
       }).fail(function() {
           // TODO display fail message
-          console.error("failed to load media", projectName);
       })
   }
   });

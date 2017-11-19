@@ -2,10 +2,10 @@
 
 $(document).ready(function() {
     setupAjax();
+    doneLoading();
 
     // TODO update sitename
     const siteName = 'dummy';
-    doneLoading();
     var files;
 
     /* publish button */
@@ -29,7 +29,7 @@ $(document).ready(function() {
     $("#paste-url-form").submit(addPastedURLimgCmp);
     $(".close-img-upload").click(resetImgForm);
 
-
+    /* react to after user pasting an url for an image */
     function addPastedURLimgCmp(e) {
         e.preventDefault();
         var url = $(this).find('input[name="url"]').val();
