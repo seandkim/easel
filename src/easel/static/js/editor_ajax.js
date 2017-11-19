@@ -35,7 +35,7 @@ $(document).ready(function() {
         var caption = formData.get('caption');
         console.log('uploading media named ' + mediaName);
 
-        for (var [key, value] of formData.entries()) { 
+        for (var [key, value] of formData.entries()) {
           console.log(key, value);
         }
 
@@ -69,7 +69,7 @@ $(document).ready(function() {
         );
     }
 
-    /* open new page */
+    /* open new tab */
     $(document).on('click', '.file', function(event) {
        event.preventDefault();
        const pageName = $(this).find('.page-name').html();
@@ -174,6 +174,8 @@ $(document).ready(function() {
                 console.log("error in loading page", pageName, textStatus);
                 new_el.remove(); // remove the opened tab
                 content_div.remove();
+                var new_active_tab = $('.cr-tabs > li').last();
+                new_active_tab.trigger('click');
                 checkTabPresent();
                 // TODO display error message
             }
