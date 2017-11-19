@@ -25,25 +25,6 @@ $(document).ready(function() {
         });
     });
 
-    //TODO delete
-    /* add new page button */
-    $(".add-new-page").click(function() {
-        var newPageName = 'new page' //TODO
-
-        $.ajax({
-            url: "/easel/sites/dummy/addPage/",
-            method: "POST",
-            // TODO change page name
-            data: { pageName: newPageName },
-            success: function(data) {
-                console.log("successfully added the page");
-            },
-            error: function(e) {
-                // TODO display alert message (when same page name exists)
-            }
-        });
-    });
-
     $("#upload-media-form").submit(upload);
 
     /* upload file data */
@@ -54,7 +35,7 @@ $(document).ready(function() {
         var caption = formData.get('caption');
         console.log('uploading media named ' + mediaName);
 
-        for (var [key, value] of formData.entries()) { 
+        for (var [key, value] of formData.entries()) {
           console.log(key, value);
         }
 
@@ -88,7 +69,7 @@ $(document).ready(function() {
         );
     }
 
-    /* open new page */
+    /* open new tab */
     $(document).on('click', '.file', function(event) {
        event.preventDefault();
        const pageName = $(this).find('.page-name').html();
@@ -193,6 +174,8 @@ $(document).ready(function() {
                 console.log("error in loading page", pageName, textStatus);
                 new_el.remove(); // remove the opened tab
                 content_div.remove();
+                var new_active_tab = $('.cr-tabs > li').last();
+                new_active_tab.trigger('click');
                 checkTabPresent();
                 // TODO display error message
             }
@@ -232,7 +215,7 @@ $(document).ready(function() {
             '</div>');
     }
 
-    // check if there is any tab currently open 
+    // check if there is any tab currently open
     function noTab() {
         return ($('.cr-tabs').children().length === 0);
     }

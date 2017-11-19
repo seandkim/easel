@@ -47,8 +47,8 @@ def siteEditor(request, siteName):
     for page in pages:
         print(page)
 
-######processing the form for adding page#######
-#there is still a bug
+    ######processing the form for adding page#######
+    #there is still a bug
 
     if request.method == "POST":
         if ('page_name' not in request.POST) or (request.POST['page_name'] == ""):
@@ -60,7 +60,7 @@ def siteEditor(request, siteName):
         # Validates the form.
         if not form.is_valid():
             return render(request, 'site-editor/site-editor.html', context)
-        
+
         pageName = request.POST['page_name'].lower()
 
         try:
@@ -97,7 +97,7 @@ def getPageHTML(request, siteName, pageName):
     profile = Profile.objects.get(user=request.user)
     site = Site.getSite(request.user.username, siteName)
     page = site.getPage(pageName)
-    return page.html
+    return HttpResponse(page.html)
 
 # requires POST request with the following argument:
 # { 'isOpen': <whether page is opened>,

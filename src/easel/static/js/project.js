@@ -58,7 +58,6 @@ $(document).ready(function() {
   }
 
   function loadMedia(projectName, description) {
-      // TODO allow space
       path = "/easel/projects/"+projectName+'/getAllMedias/'
       $.get(path).done(function(data) {
           /* create project description bar */
@@ -67,17 +66,14 @@ $(document).ready(function() {
           detail_bar.append($('<br>'));
           detail_bar.append($('<a href="/easel/projects/' + projectName + '/addMedia"><button class="dark-btn-alt"><i class="material-icons tab-icon">file_upload</i> UPLOAD</button></a>'));
 
-          detail_bar.append($('<a class="modal-trigger" href="#delete-project-modal" projectName="' + projectName + '">' +
+          detail_bar.append($('<a id="delete-project" class="modal-trigger" href="#delete-project-modal" projectName="' + projectName + '">' +
                 '<button class="dark-btn-alt">' +
                   '<i class="material-icons tab-icon">delete</i>' +
                   'DELETE' +
                 '</button>' +
               '</a>'));
 
-          $(document).on('click', '.modal-trigger', function() {
-              // TODO is projectName1 needed? or can we just use projectname
-              // var projectName1 = $(this).attr('projectName');
-              //console.log(projectID + ' is clicked');
+          $(document).on('click', '#delete-project.modal-trigger', function() {
               $('#delete-submit').attr('href', projectName + '/deleteProject/');
           });
 

@@ -57,7 +57,7 @@ urlpatterns = [
     # sites
     url(r'^sites/$', views_sites.home, name="sitesHome"), # list all the sites
     url(r'^sites/(?P<siteName>\w+)/editor/$', views_sites.siteEditor, name="siteEditor"),
-    url(r'^sites/(?P<siteName>\w+)/getAPageNames/$', views_sites.getPageNames, name="getPageNames"),
+    url(r'^sites/(?P<siteName>\w+)/getAllPageNames/$', views_sites.getPageNames, name="getPageNames"),
     url(r'^sites/(?P<siteName>\w+)/getPageHTML/(?P<pageName>\w+)/$', views_sites.getPageHTML, name="getPageHTML"),
     url(r'^sites/(?P<siteName>\w+)/changePageStatus/(?P<pageName>\w+)/$', views_sites.changePageStatus, name="changePageStatus"),
     url(r'^sites/(?P<siteName>\w+)/addPage/$', views_sites.addPage, name="addPage"),

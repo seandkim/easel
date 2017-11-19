@@ -81,15 +81,17 @@ class AddProjectForm(forms.Form):
     def clean(self):
         cleaned_data = super(AddProjectForm, self).clean()
         project_name = cleaned_data.get('project_name')
-        
-        if not re.match("^[a-zA-Z0-9_]+$", project_name):
-            #TODO : project name can contain underscore right now
-            raise forms.ValidationError("Project name can only contain alphabets and numbers")
+        description = cleaned_data.get('description')
         username = cleaned_data.get('username')
         user = User.objects.get(username=username)
         profile = Profile.objects.get(user=user)
         if Project.objects.filter(owner=profile, name=project_name).count() > 0:
             raise forms.ValidationError("Project '%s' already exists" % project_name)
+        if not re.match("^[a-zA-Z0-9_]+$", project_name):
+            #TODO : project name can contain underscore right now
+            raise forms.ValidationError("Project name can only contain alphabets and numbers")
+        if '\\' in description:
+            raise forms.ValidationError("Project description cannot contain '\\'")
         return cleaned_data
 
 
@@ -104,11 +106,6 @@ class AddMediaForm(forms.ModelForm):
     def clean(self):
         cleaned_data = super(AddMediaForm, self).clean()
         media_name = cleaned_data.get('name')
-        
-        if not re.match("^[a-zA-Z0-9_]+$", media_name):
-            #TODO : media name can contain underscore right now
-            raise forms.ValidationError("Media name can only contain alphabets and numbers")
-            
         username = cleaned_data.get('username')
         print('username = ', username)
         user = User.objects.get(username=username)
@@ -119,6 +116,9 @@ class AddMediaForm(forms.ModelForm):
         assert(media.count() < 2)
         if media.count() == 1:
             raise forms.ValidationError("Media '%s' already exists" % media_name)
+        if not re.match("^[a-zA-Z0-9_]+$", media_name):
+            #TODO : media name can contain underscore right now
+            raise forms.ValidationError("Media name can only contain alphabets and numbers")
         return cleaned_data
 
 
@@ -144,11 +144,6 @@ class EditMediaForm(forms.Form):
     def clean(self):
         cleaned_data = super(EditMediaForm, self).clean()
         media_name = cleaned_data.get('name')
-        
-        if not re.match("^[a-zA-Z0-9_]+$", media_name):
-            #TODO : media name can contain underscore right now
-            raise forms.ValidationError("Media name can only contain alphabets and numbers")
-            
         username = cleaned_data.get('username')
         print('username = ', username)
         user = User.objects.get(username=username)
@@ -159,6 +154,9 @@ class EditMediaForm(forms.Form):
         assert(media.count() < 2)
         if media.count() == 1:
             raise forms.ValidationError("Media '%s' already exists" % media_name)
+        if not re.match("^[a-zA-Z0-9_]+$", media_name):
+            #TODO : media name can contain underscore right now
+            raise forms.ValidationError("Media name can only contain alphabets and numbers")
         return cleaned_data
 
     
@@ -174,9 +172,6 @@ class AddPageForm(forms.Form):
         cleaned_data = super(AddPageForm, self).clean()
         page_name = cleaned_data.get('page_name')
         print ('page-name = ', page_name)
-        if not re.match("^[a-zA-Z0-9_]+$", page_name):
-            #TODO : media name can contain underscore right now
-            raise forms.ValidationError("Page name can only contain alphabets and numbers")
             
         username = cleaned_data.get('username')
         print('username = ', username)
@@ -188,6 +183,9 @@ class AddPageForm(forms.Form):
         assert(page.count() < 2)
         if page.count() == 1:
             raise forms.ValidationError("Page '%s' already exists" % page_name)
+        if not re.match("^[a-zA-Z0-9_]+$", page_name):
+            #TODO : media name can contain underscore right now
+            raise forms.ValidationError("Page name can only contain alphabets and numbers")
         return cleaned_data
             
 
