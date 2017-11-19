@@ -76,9 +76,9 @@ $(document).ready(function() {
 
           $(document).on('click', '.modal-trigger', function() {
               // TODO is projectName1 needed? or can we just use projectname
-              var projectName1 = $(this).attr('projectName');
+              // var projectName1 = $(this).attr('projectName');
               //console.log(projectID + ' is clicked');
-              $('#delete-submit').attr('href', projectName1 + '/delete/');
+              $('#delete-submit').attr('href', projectName + '/deleteProject/');
           });
 
           /* create media div */
@@ -103,7 +103,6 @@ $(document).ready(function() {
               var imgPath = "/easel/projects/"+projectName+"/getMediaPhoto/"+media.name
               var img = $('<img>').attr("src", imgPath);
               img_container.append(img);
-              debugger;
 
               var name = $('<div class="project-title"></div>').html(media.name);
               var description_div = $('<div class="project-description"></div>').html(media.caption);
