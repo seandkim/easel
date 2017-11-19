@@ -45,6 +45,29 @@ def siteEditor(request, siteName):
     context['upload_media_form'] = AddMediaForm()
     for page in pages:
         print(page)
+    
+######processing the form for adding page#######
+#there is still a bug
+
+    if request.method == "POST":
+        if ('page_name' not in request.POST) or (request.POST['page_name'] == ""):
+            print("Invalid Request Argument")
+            raise Http404("Invalid Request Argument")
+
+        pageName = request.POST['page_name'].lower()
+        try:
+            site = Site.getSite(request.user.username, siteName)
+        except ObjectDoesNotExist:
+            print("Site %s does not exist" % siteName)
+            raise Http404("Site %s does not exist" % siteName)
+
+        if Page.objects.filter(name=pageName, site=site).count() > 0:
+            print("Page %s already exists in %s" % (pageName, siteName))
+            raise Http404("Page %s already exists in %s" % (pageName, siteName))
+
+        new_page = site.createPage(pageName)
+        new_page.save()
+    
     return render(request,'site-editor/site-editor.html', context)
 
 # requires GET request to "/sites/(?P<siteName>\w+)/editor/getPageNames/"
