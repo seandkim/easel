@@ -72,13 +72,14 @@ $(document).ready(function() {
         var active_tab_content = $( active_tab );
         console.log('creating component ' + '<img src="' + url + '"> in ' + active_tab);
         active_tab_content.prepend(
-            '<img src="' + url + '">'
+            '<img class="ud" src="' + url + '">'
         );
         $('#select-img-modal').modal('close');
         resetImgForm();
     }
 
     function resetImgForm() {
+        $('#local-opt, #library-opt, #link-opt').removeClass('selected');
         $('#local-upload, #library-upload, #link-upload').addClass('hidden');
     }
 

@@ -3,7 +3,6 @@
 $(function() {
 
     /* initializations */
-    var editor = new MediumEditor('.editable');
     var componentTabHidden = true;
     var pageTabHidden = true;
     var toolTabHidden = true;
@@ -110,5 +109,36 @@ $(function() {
         var activated_tab = el.attr('tab-target');
         $(activated_tab).removeClass('hidden');
     }
+
+
+    /* --------------- editable setting ------------- */
+    var editor = new MediumEditor('.editable', {
+    toolbar: {
+      buttons: ['b', 'h2', 'warning', 'pop']
+    },
+    extensions: {
+        // compact
+        'b':  new MediumButton({label:'BOLD', start:'<b>', end:'</b>'}),
+        'h2': new MediumButton({label:'h2', start:'<h2>', end:'</h2>'}),
+
+       // expanded
+       'warning': new MediumButton({
+          label: '<i class="icon-link-streamline"></i>',
+          start: '<div class="warning">',
+          end:   '</div>'
+       }),
+
+        // with JavaScript
+        'pop': new MediumButton({
+          label:'POP',
+          action: function(html, mark, parent){
+                    alert('hello :)')
+                    return html
+                  }
+        })
+
+
+    }
+});
 
 });
