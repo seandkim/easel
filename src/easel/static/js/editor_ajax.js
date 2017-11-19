@@ -169,7 +169,7 @@ $(document).ready(function() {
         // hide the current active page
         $('#page-content > div:not(.hidden)').addClass('hidden');
         // check if need to remove empty message
-        checkActiveTabPresent();
+        checkTabPresent();
         // append new active tab with empty content
         var content_div = $('#page-content').append(
             '<div id="' + pageName + '" class="hidden"></div>'
@@ -193,7 +193,7 @@ $(document).ready(function() {
                 console.log("error in loading page", pageName, textStatus);
                 new_el.remove(); // remove the opened tab
                 content_div.remove();
-                checkActiveTabPresent();
+                checkTabPresent();
                 // TODO display error message
             }
         });
