@@ -40,6 +40,7 @@ def siteEditor(request, siteName):
     context = {}
     profile = Profile.objects.get(user=request.user)
     pages = profile.getAllPages(siteName)
+    context['profile'] = profile
     context['form'] = AddPageForm()
     context['pages'] = pages
     context['upload_media_form'] = AddMediaForm()
@@ -54,7 +55,14 @@ def siteEditor(request, siteName):
             print("Invalid Request Argument")
             raise Http404("Invalid Request Argument")
 
+        form = AddPageForm(request.POST)
+        context['form'] = form
+        # Validates the form.
+        if not form.is_valid():
+            return render(request, 'site-editor/site-editor.html', context)
+        
         pageName = request.POST['page_name'].lower()
+
         try:
             site = Site.getSite(request.user.username, siteName)
         except ObjectDoesNotExist:

@@ -38,8 +38,9 @@
                 <table>
                     {{form}}
                 </table>
-                {% csrf_token %}
+                <input type="hidden" name="username" value="{{ profile.user.username }}" />
                 <button type="submit" class="dark-btn-alt">ADD &#10230;</button>
+                {% csrf_token %}
             </form>
         </div>
     </div>
