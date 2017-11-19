@@ -75,9 +75,6 @@ $(document).ready(function() {
               '</a>'));
 
           $(document).on('click', '.modal-trigger', function() {
-              // TODO is projectName1 needed? or can we just use projectname
-              // var projectName1 = $(this).attr('projectName');
-              //console.log(projectID + ' is clicked');
               $('#delete-submit').attr('href', projectName + '/deleteProject/');
           });
 
