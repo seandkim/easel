@@ -155,6 +155,7 @@ def addPage(request, siteName):
     form = AddPageForm(request.POST)
     # Validates the form.
     if not form.is_valid():
+        # TODO handle error case
         return {'form': form}
 
     site = Site.getSite(request.user.username, siteName)

@@ -155,9 +155,11 @@ $(document).ready(function() {
     /* when you add page */
     $('#add-page-modal form').submit(function(e,data) {
         e.preventDefault()
+        // TODO for efficiency, better to append tab beforehand and handle error case
         var pageName = $(this).find('input#id_pageName').val();
         var username = $(this).find('input[name="username"]:not(#id_username)').attr('value')
 
+        $('#add-page-modal').modal('close');
         $.ajax({
             url: "/easel/sites/" + siteName + "/addPage/",
             method: "POST",
@@ -170,7 +172,6 @@ $(document).ready(function() {
                              '</div>');
                 $('#page-list').append(file);
                 file.trigger('click');
-                $('#add-page-modal').modal('close');
                 // if `pages` menu is closed, open it
                 // TODO bug: doesn't work the second time
                 if ($('#page-tab').find('i').hasClass('icon-right-dir')) {
