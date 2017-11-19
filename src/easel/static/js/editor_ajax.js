@@ -26,7 +26,15 @@ $(document).ready(function() {
     });
 
     $("#upload-media-form").submit(upload);
+    $("#paste-url-form").submit(addPastedURLimgCmp);
+    $(".close-img-upload").click(resetImgForm);
 
+
+    function addPastedURLimgCmp(e) {
+        e.preventDefault();
+        var url = $(this).find('input[name="url"]').val();
+        createImgComponent(url);
+    }
     /* upload file data */
     function upload(e) {
         e.preventDefault();
@@ -51,7 +59,6 @@ $(document).ready(function() {
                 // TODO harcoded img path
                 var url = '/easel/projects/Paper/getMediaPhoto/' + mediaName;
                 createImgComponent(url);
-                $('#select-img-modal').modal('close');
             },
             error: function(data) {
                 // TODO error handling
@@ -67,6 +74,12 @@ $(document).ready(function() {
         active_tab_content.prepend(
             '<img src="' + url + '">'
         );
+        $('#select-img-modal').modal('close');
+        resetImgForm();
+    }
+
+    function resetImgForm() {
+        $('#local-upload, #library-upload, #link-upload').addClass('hidden');
     }
 
     /* open new tab */
@@ -138,6 +151,38 @@ $(document).ready(function() {
             });
         }
     });
+
+    /* when you add page */
+    $('#add-page-modal form').submit(function(e,data) {
+        e.preventDefault()
+        // TODO for efficiency, better to append tab beforehand and handle error case
+        var pageName = $(this).find('input#id_pageName').val();
+        var username = $(this).find('input[name="username"]:not(#id_username)').attr('value')
+
+        $('#add-page-modal').modal('close');
+        $.ajax({
+            url: "/easel/sites/" + siteName + "/addPage/",
+            method: "POST",
+            data: {username: username, pageName: pageName},
+            success: function(data) {
+                console.log("successfully added the page");
+                var file = $('<div class="file">'+
+                                '<i class="'+pageName+' icon icon-file"></i> '+
+                                '<span class="page-name">'+pageName+'</span>'+
+                             '</div>');
+                $('#page-list').append(file);
+                file.trigger('click');
+                // if `pages` menu is closed, open it
+                // TODO bug: doesn't work the second time
+                if ($('#page-tab').find('i').hasClass('icon-right-dir')) {
+                    $('#page-tab').trigger('click')
+                }
+            },
+            error: function(jqXHR, textStatus) {
+                console.error("failed to add the page", textStatus);
+            }
+        });
+    })
 
     function loadPageHTML(siteName, pageName, isOpened, isActive) {
         // create tab instantly and add it to page tab
