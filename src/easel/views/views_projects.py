@@ -106,7 +106,8 @@ def addProject(request):
 
 @login_required
 def deleteProject(request, projectName):
-    project = Project.objects.get(name=projectName)
+    profile = Profile.objects.get(user=request.user)
+    project = Project.objects.get(owner=profile, name=projectName)
     medias = Media.objects.filter(project=project)
 
     medias.delete()
@@ -128,7 +129,9 @@ def addMedia(request, projectName):
         return render(request, 'project/media-add.html', context)
 
     media = form.save(commit=False)
-    media.project = Project.objects.get(name=projectName)
+    profile = Profile.objects.get(user=request.user)
+    project = Project.objects.get(owner=profile, name=projectName)
+    media.project = project
     media.save()
 
     return HttpResponseRedirect(reverse("projects"))

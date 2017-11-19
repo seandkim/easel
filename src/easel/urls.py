@@ -49,10 +49,10 @@ urlpatterns = [
     url(r'^projects/getAllProjects/$', views_projects.getAllProjects, {}, name='getAllProjects'),
     url(r'^projects/(?P<projectName>\w+)/getAllMedias/$', views_projects.getAllMedias, {}, name='getAllMedias'),
     url(r'^projects/(?P<projectName>\w+)/getMediaPhoto/(?P<mediaName>\w+)$', views_projects.getMediaPhoto, {}, name='getMediaPhoto'),
-    url(r'^projects/addProject/$', views_projects.addProject, name="addProject"), # form to add project
-    url(r'^projects/(?P<projectName>\w+)/addMedia/$', views_projects.addMedia, name="addMedia"), # addMedia
-    url(r'^projects/(?P<projectName>\w+)/delete/$', views_projects.deleteProject, name="deleteProject"), # addMedia
-    url(r'^projects/(?P<projectName>\w+)/editMedia/(?P<mediaName>\w+)$', views_projects.editMedia, name="editMedia"), # addMedia
+    # url(r'^projects/addProject/$', views_projects.addProject, name="addProject"), # form to add project
+    url(r'^projects/(?P<projectName>\w+)/deleteProject/$', views_projects.deleteProject, name="deleteProject"),
+    url(r'^projects/(?P<projectName>\w+)/addMedia/$', views_projects.addMedia, name="addMedia"),
+    url(r'^projects/(?P<projectName>\w+)/editMedia/(?P<mediaName>\w+)$', views_projects.editMedia, name="editMedia"),
 
     # sites
     url(r'^sites/$', views_sites.home, name="sitesHome"), # list all the sites
