@@ -73,6 +73,13 @@ class SettingsForm(forms.Form):
 class AddProjectForm(forms.Form):
     project_name = forms.CharField(max_length=20)
     description = forms.CharField(max_length=1000)
+    
+    def clean(self):
+        cleaned_data = super(AddProjectForm, self).clean()
+        project_name = cleaned_data.get('project_name')
+        if " " in project_name:
+            raise forms.ValidationError("Project name cannot contain any space")
+        return cleaned_data
 
 
 class AddMediaForm(forms.ModelForm):
@@ -80,6 +87,13 @@ class AddMediaForm(forms.ModelForm):
         model = Media
         exclude = ('project',)
         widgets = {'image': forms.FileInput()}
+        
+    def clean(self):
+        cleaned_data = super(AddMediaForm, self).clean()
+        media_name = cleaned_data.get('name')
+        if " " in media_name:
+            raise forms.ValidationError("Media name cannot contain any space")
+        return cleaned_data
 
 
 class EditMediaForm(forms.Form):
@@ -100,6 +114,15 @@ class EditMediaForm(forms.Form):
     def is_valid(self):
         valid = super(EditMediaForm, self).is_valid()
         return valid
+    
+    def clean(self):
+        cleaned_data = super(EditMediaForm, self).clean()
+        media_name = cleaned_data.get('name')
+        if " " in media_name:
+            raise forms.ValidationError("Media name cannot contain any space")
+        return cleaned_data
+    
+    
 
 
 class AddPageForm(forms.Form):
@@ -111,5 +134,11 @@ class AddPageForm(forms.Form):
 
         if Page.objects.filter(name=page_name).count() > 0:
             raise forms.ValidationError("Page name '%s' already exists" % page_name)
-
+        
+        if " " in page_name:
+            raise forms.ValidationError("Page name cannot contain any space")
+            
         return cleaned_data
+
+    
+    

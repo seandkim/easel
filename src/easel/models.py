@@ -48,10 +48,10 @@ class Profile(models.Model):
         site = Site(owner=self, name=siteName, description=description,
                     numVisitor=0)
         site.save()
-        site.createPage('home', opened=True, active=False)
-        site.createPage('about', opened=True, active=True)
-        site.createPage('update') # TODO necessary?
-        site.createPage('portfolio')
+        site.createPage(self, 'home', opened=True, active=False)
+        site.createPage(self, 'about', opened=True, active=True)
+        site.createPage(self, 'update') # TODO necessary?
+        site.createPage(self, 'portfolio')
         return site
 
     def deleteSite(self, siteName):
@@ -120,13 +120,14 @@ class Site(models.Model):
             s += '- ' + str(page) + '\n'
         return s
 
-    def createPage(self, pageName, opened=False, active=False):
+    def createPage(self, profile, pageName, opened=False, active=False):
         if Page.objects.filter(site=self, name=pageName).count() > 0:
             raise Exception("Page name %s already exists" % pageName)
 
         filename = 'test_pages/dummy_' + pageName + '.html'
         t = get_template(filename)  # TODO change? dummy works pretty well...
-        initHTML = t.render({})
+        initHTML = t.render(context={'profile': profile})
+
         page = Page(site=self, name=pageName, html=initHTML, published_html="",
                     opened=opened, active=active)
         page.save()

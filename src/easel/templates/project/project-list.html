@@ -36,9 +36,6 @@
             <h2 class="logo-text">Add Project</h2>
             <form method="post" action="#!">
                 <table>
-                    {% for field, error in form.errors.items %}
-                      <span class="form-error">{{error}}</span>
-                    {% endfor %}
                     {{form}}
                 </table>
                 {% csrf_token %}
