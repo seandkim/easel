@@ -12,9 +12,20 @@ $(function() {
     $('#component-tab').on('click', componentToggle);
     $('#page-tab').on('click', pageToggle);
     $('#tool-tab').on('click', toolToggle);
-    $('#page-list').hide();
-    $('#tool-list').hide();
-    $('#component-list').hide();
+    $('#page-list, #tool-list, #component-list').hide();
+
+    /* img upload modal */
+    $('#local-opt, #library-opt, #link-opt').on('click', showUploadForm);
+
+    function showUploadForm(e) {
+        // hide menu
+        $('#item-menu').addClass('hidden');
+        // show form
+        var upload_form_id = $(this).attr('opt-target');
+        var upload_form = $(upload_form_id);
+        $('.upload-opt-div').addClass('hidden');
+        upload_form.removeClass('hidden');
+    }
 
     /* slide up and down of editor tab */
     function componentToggle() {
@@ -76,12 +87,13 @@ $(function() {
         cr_tabs.removeClass('hover');
     });
 
+    // TODO fix the hovering state of the button
     /* hovering event of add page button */
-    $('#add-page').hover(function() {
-        $(this).find('a').html('<i class="icon-plus-circle"></i>');
-    }, function() {
-        $(this).find('a').html('<i class="icon-plus"></i>');
-    });
+    // $('#add-page').hover(function() {
+    //     $(this).find('a').html('<i class="icon-plus-circle"></i>');
+    // }, function() {
+    //     $(this).find('a').html('<i class="icon-plus"></i>');
+    // });
 
     /* activate page tab programmatically */
     function activateTab(el) {
