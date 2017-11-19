@@ -1,5 +1,37 @@
 @import "global";
 
+.item-menu {
+	@include smooth(0.3s);
+	.upload-option {
+		width: 150px;
+		margin: 25px;
+		float: left;
+		text-align: center;
+		padding: 10px;
+		&:hover {
+			background-color: $interface-color-05;
+			/*color: $interface-color-05;
+			.icon, .opt-name {
+				color: $interface-color-05;
+			}*/
+		}
+		.icon {
+			font-size: 40pt;
+			color: inherit;
+		}
+		.opt-name {
+			letter-spacing: 2px;
+			font-size: 10pt;
+			margin: 10px 0;
+			color: inherit;
+		}
+	}
+	.opts-wrapper {
+		margin: auto;
+		display: inline-block;
+	}
+}
+
 #editor-page {
 	position: fixed;
     width: 100%;
