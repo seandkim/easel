@@ -213,7 +213,7 @@ figcaption {
 }
 
 /* img */
-.col {
+.col, div {
 	img {
 		max-width: 100%;
 	}
@@ -329,25 +329,6 @@ figcaption {
 input {
 	margin: 0 !important;
 }
-.paint-as-input {
-	@include smooth(0.3s);
-	input[type="text"] {
-		border-bottom: none!important;
-  		box-shadow: none!important;
-	    background: url('../img/form/text_input_long_01.png') no-repeat;
-	    background-size: 100% 100%;
-	}
-	input[type="password"] {
-		border-bottom: none!important;
-  		box-shadow: none!important;
-		background: url('../img/form/text_input_long.png') no-repeat;
-	    background-size: 100% 100%;
-	}
-
-	input:focus {
-		transform: scale(1.05);
-	}
-}
 
 input:focus,
 select:focus,
@@ -358,8 +339,6 @@ button:focus {
 
 input {
     /* overwrite materialize style */
-    height: 1.5rem !important;
-    border-bottom: 1px solid $interface-color-05 !important;
     margin: 0 0 15px 0 !important;
 }
 
@@ -396,7 +375,21 @@ input::-moz-placeholder {
   font-family: $header-font;
 }
 
-
+.paint-as-input {
+	@include smooth(0.3s);
+	input[type="text"] {
+		border-bottom: none!important;
+  		box-shadow: none!important;
+	    background: url('../img/form/text_input_long_01.png') no-repeat;
+	    background-size: 100% 100%;
+	}
+	input[type="password"] {
+		border-bottom: none!important;
+  		box-shadow: none!important;
+		background: url('../img/form/text_input_long.png') no-repeat;
+	    background-size: 100% 100%;
+	}
+}
 
 /* nav bar */
 nav {

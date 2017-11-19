@@ -6,6 +6,7 @@ $(document).ready(function() {
     // TODO update sitename
     const siteName = 'dummy';
     doneLoading();
+    var files;
 
     /* publish button */
     $(".publish").click(function() {
@@ -28,32 +29,42 @@ $(document).ready(function() {
 
     /* upload file data */
     function upload(e) {
-        console.log('uploading files');
         e.preventDefault();
-        var data = new FormData($('form').get(0));
+        var formData = new FormData($(this)[0]);
+        var mediaName = formData.get('name');
+        var caption = formData.get('caption');
+        console.log('uploading media named ' + mediaName);
+
+        for (var [key, value] of formData.entries()) { 
+          console.log(key, value);
+        }
 
         $.ajax({
             url: $(this).attr('action'),
             type: $(this).attr('method'),
-            data: data,
+            data: formData,
             cache: false,
             processData: false,
             contentType: false,
             success: function(data) {
                 console.log('successfully uploaded file');
                 // TODO harcoded img path
-                var url = 'http://localhost:8000/easel/getPhoto/media/14/';
+                var url = '/easel/projects/Paper/getMediaPhoto/' + mediaName;
                 createImgComponent(url);
+                $('#select-img-modal').modal('close');
+            },
+            error: function(data) {
+                // TODO error handling
             }
         });
         return false;
     }
 
-    function creatImgComponent(url) {
-        var active_tab = $( '.cr-tabs>li' ).find('.active');
-        var active_tab_content = $( active_tab.attr('tab-target') );
-        console.log('creating component ' + '<img src="' + url + '"> in ' + active_tab.attr('tab-target'));
-        active_tab_content.append(
+    function createImgComponent(url) {
+        var active_tab = $( '.cr-tabs>li.active' ).attr('tab-target');
+        var active_tab_content = $( active_tab );
+        console.log('creating component ' + '<img src="' + url + '"> in ' + active_tab);
+        active_tab_content.prepend(
             '<img src="' + url + '">'
         );
     }
@@ -139,7 +150,7 @@ $(document).ready(function() {
         // hide the current active page
         $('#page-content > div:not(.hidden)').addClass('hidden');
         // check if need to remove empty message
-        checkActiveTabPresent();
+        checkTabPresent();
         // append new active tab with empty content
         var content_div = $('#page-content').append(
             '<div id="' + pageName + '" class="hidden"></div>'
@@ -163,7 +174,7 @@ $(document).ready(function() {
                 console.log("error in loading page", pageName, textStatus);
                 new_el.remove(); // remove the opened tab
                 content_div.remove();
-                checkActiveTabPresent();
+                checkTabPresent();
                 // TODO display error message
             }
         });
