@@ -135,7 +135,8 @@ class EditMediaForm(forms.Form):
     # image = forms.FileField() TODO
     name = forms.CharField(max_length=20)
     caption = forms.CharField(max_length=1000)
-
+    username = forms.CharField(widget = forms.HiddenInput(), required=False)
+    
     # TODO image file is not required. Either implement that or delete this
     def is_valid(self):
         valid = super(EditMediaForm, self).is_valid()

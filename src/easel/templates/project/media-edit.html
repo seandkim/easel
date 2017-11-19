@@ -9,7 +9,7 @@
             <img src="{% url 'getMediaPhoto' projectName mediaName %}"/>
         </div>
         <div class="col m6 wide-gutter-col">
-            <form method="post" enctype="multipart/form-data" action="{% url 'editMedia' projectName mediaName %}">
+            <form method="post" enctype="multipart/form-data" action="{% url 'projects' %}">
                 <table>
                     {% if message %}
                         {{message}}
