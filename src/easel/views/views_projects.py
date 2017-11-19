@@ -116,17 +116,23 @@ def deleteProject(request, projectName):
 
 @login_required
 def addMedia(request, projectName):
+    print('addMedia start')
+
     context = {'projectName': projectName}
     if request.method == 'GET':
+        print('get request')
         form = AddMediaForm()
         context['form'] = form
         return render(request, 'project/media-add.html', context)
 
     form = AddMediaForm(request.POST, request.FILES)
-
+    print(request.FILES)
     if not form.is_valid():
+        print('form is not valid')
         context['form'] = form
         return render(request, 'project/media-add.html', context)
+
+    print('form is valid')
 
     media = form.save(commit=False)
     profile = Profile.objects.get(user=request.user)
