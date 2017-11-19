@@ -26,7 +26,15 @@ $(document).ready(function() {
     });
 
     $("#upload-media-form").submit(upload);
+    $("#paste-url-form").submit(addPastedURLimgCmp);
+    $(".close-img-upload").click(resetImgForm);
 
+
+    function addPastedURLimgCmp(e) {
+        e.preventDefault();
+        var url = $(this).find('input[name="url"]').val();
+        createImgComponent(url);
+    }
     /* upload file data */
     function upload(e) {
         e.preventDefault();
@@ -51,7 +59,6 @@ $(document).ready(function() {
                 // TODO harcoded img path
                 var url = '/easel/projects/Paper/getMediaPhoto/' + mediaName;
                 createImgComponent(url);
-                $('#select-img-modal').modal('close');
             },
             error: function(data) {
                 // TODO error handling
@@ -67,6 +74,12 @@ $(document).ready(function() {
         active_tab_content.prepend(
             '<img src="' + url + '">'
         );
+        $('#select-img-modal').modal('close');
+        resetImgForm();
+    }
+
+    function resetImgForm() {
+        $('#local-upload, #library-upload, #link-upload').addClass('hidden');
     }
 
     /* open new tab */

@@ -98,6 +98,12 @@ figcaption {
 .scrollable {
 	overflow-y: scroll;
 }
+.float-right {
+	float: right;
+}
+.float-left {
+	float: left;
+}
 
 /* page elements */
 .half-rule {
@@ -373,6 +379,10 @@ input::-moz-placeholder {
 
 .input-field textarea:focus + label {
   font-family: $header-font;
+}
+
+.input-medium {
+	width: 70% !important;
 }
 
 .paint-as-input {
