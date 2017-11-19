@@ -111,6 +111,7 @@ $(document).ready(function() {
           }
       }).fail(function() {
           // TODO display fail message
+          console.error("failed to load media", projectName);
       })
   }
   });
