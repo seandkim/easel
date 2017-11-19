@@ -58,7 +58,6 @@ $(document).ready(function() {
   }
 
   function loadMedia(projectName, description) {
-      // TODO allow space
       path = "/easel/projects/"+projectName+'/getAllMedias/'
       $.get(path).done(function(data) {
           /* create project description bar */
