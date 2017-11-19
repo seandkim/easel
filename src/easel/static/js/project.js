@@ -2,7 +2,7 @@ $(document).ready(function() {
 
   // stored structure of loaded media
   var media_tree = {};
-    // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
+  // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
   $('.modal').modal();
 
   // Periodically refresh stream page
@@ -54,7 +54,7 @@ $(document).ready(function() {
               project_list.append(li);
 
               //console.log(project.description);
-              loadMedia(project.name, project.description);
+              loadMedia(project.name, project.description, i);
           }
           console.log("media_tree", media_tree);
       });
@@ -114,6 +114,10 @@ $(document).ready(function() {
               col.append(a);
               medias_list.append(col);
               project_list.push(imgPath);
+          }
+
+          if (projectIdx == 0) {
+              $('ul.tabs').tabs('select_tab', projectName);
           }
       }).fail(function() {
           // TODO display fail message

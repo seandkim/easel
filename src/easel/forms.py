@@ -133,25 +133,28 @@ class EditMediaForm(forms.Form):
     # image = forms.FileField() TODO
     name = forms.CharField(max_length=20)
     caption = forms.CharField(max_length=1000)
+    username = forms.CharField(widget = forms.HiddenInput(), required=False)
+    oldName = forms.CharField(widget = forms.HiddenInput(), required=False)
 
     # TODO image file is not required. Either implement that or delete this
-    def is_valid(self):
-        valid = super(EditMediaForm, self).is_valid()
-        return valid
+#    def is_valid(self):
+#        valid = super(EditMediaForm, self).is_valid()
+#        return valid
 
     def clean(self):
         cleaned_data = super(EditMediaForm, self).clean()
         mediaName = cleaned_data.get('name')
         username = cleaned_data.get('username')
-        print('username = ', username)
+        oldName = cleaned_data.get('oldName')
         user = User.objects.get(username=username)
         profile = Profile.objects.get(user=user)
         projects = Project.objects.filter(owner=profile)
         media = Media.objects.filter(project__in=projects, name=mediaName)
-
+        
         assert(media.count() < 2)
         if media.count() == 1:
-            raise forms.ValidationError("Media '%s' already exists" % mediaName)
+            if mediaName != oldName:
+                raise forms.ValidationError("Media '%s' already exists" % mediaName)
         if not re.match("^[a-zA-Z0-9_]+$", mediaName):
             #TODO : media name can contain underscore right now
             raise forms.ValidationError("Media name can only contain alphabets and numbers")
