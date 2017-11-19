@@ -111,6 +111,10 @@ figcaption {
 .float-left {
 	float: left;
 }
+.block-elmt {
+	display: block;
+}
+
 
 /* page elements */
 .half-rule {
@@ -229,6 +233,19 @@ figcaption {
 .col, div {
 	img {
 		max-width: 100%;
+	}
+}
+.img-to-upload {
+	@include smooth(0.3s);
+	&:hover {
+		transform: scale(1.05);
+		box-shadow: 5px 5px 10px rgba(150, 150, 150, 0.5);
+	}
+	.media-caption {
+		font-family: $font-family-01;
+		font-size: 12pt;
+		color: $gray-scale-01;
+		margin-top: 5px;
 	}
 }
 

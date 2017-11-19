@@ -28,6 +28,9 @@ $(document).ready(function() {
     $("#upload-media-form").submit(upload);
     $("#paste-url-form").submit(addPastedURLimgCmp);
     $(".close-img-upload").click(resetImgForm);
+    // handler after user select image to upload in library upload form
+    $(document).on('click', '.img-to-upload', addSelectedLibraryMedia);
+
 
     /* react to after user pasting an url for an image */
     function addPastedURLimgCmp(e) {
@@ -35,6 +38,12 @@ $(document).ready(function() {
         var url = $(this).find('input[name="url"]').val();
         createImgComponent(url);
     }
+
+    function addSelectedLibraryMedia() {
+        var url = $( this ).find('img').attr('src');
+        createImgComponent(url);
+    }
+
     /* upload file data */
     function upload(e) {
         e.preventDefault();

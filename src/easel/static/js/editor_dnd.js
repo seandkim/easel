@@ -2,6 +2,8 @@
 
 $(function() {
 
+    var initializedLibraryUpload = false;
+
     $('.drag-component').draggable({
         scroll: false,
         distance: 0,
@@ -23,7 +25,6 @@ $(function() {
         drop: function(event, ui) {
             var cmp = ui.draggable.prop('id');
             var activeId = getActivePageTabContentId();
-            console.log('active page is ' + activeId);
             if (cmp === "img-cmp") {
                 open_img_selection();
             }
@@ -63,19 +64,55 @@ $(function() {
         }
     });
 
+    // get the active page tab content
     function getActivePageTabContentId() {
         return $( '.cr-tabs>li.active' ).attr('tab-target');
     }
 
+    // open image selection modal
     function open_img_selection() {
-        console.log('in img selection');
         var media_library;
-        media_library = $('.project-list').clone();
-        $('#media-library-upload').empty();
-        console.log('html: ' + $('#media-library-upload').html());
-        $('#media-library-upload').append(media_library);
-        $('ul.tabs').tabs();
+        // media_library = $('.project-list').clone();
+        // $('#media-library-upload').empty();
+        if (!initializedLibraryUpload) {
+            initializeLibraryUploadForm();
+            initializedLibraryUpload = true;
+        }
+        // $('ul.tabs').tabs();
         $('#select-img-modal').modal('open');
+    }
+
+    // initialize tab which allows user to upload through library
+    function initializeLibraryUploadForm() {
+        var tab_bar = $('#library-project-tabs');
+        var content = $('#library-contents');
+        // loop through projects stored in lubrary tree
+        for (var project in media_tree) {
+            var li = ('<li class="tab col s3">' +
+                        '<a href="#' + project + '-lib">' + project + '</a>' +
+                        '</li>');
+            tab_bar.append(li);
+            var tab_content = $('<div id="' + project + '-lib" class="row"></div>');
+            if (media_tree.hasOwnProperty(project)) {
+                var medias = media_tree[project];
+                for (var i = 0; i < medias.length; i++) {
+                    var media = medias[i];
+                    var img_url = media['path'];
+                    var name = media['name'];
+                    var caption = media['caption'];
+                    tab_content.append(
+                        '<div class="col s4">' +
+                            '<a href="#" class="img-to-upload">' +
+                                '<img class="block-elmt" src="' + img_url + '">' +
+                                '<div class="media-caption">' + name + ": " + caption + "</div>" +
+                            '</a>' +
+                        '</div>'
+                    );
+                }
+            }
+            content.append(tab_content);
+        }
+        tab_bar.tabs();
     }
 
     // TODO: currently hard coded, need to replace with real example
