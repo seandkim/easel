@@ -22,6 +22,8 @@
                 </table>
                 {% csrf_token %}
                 <div class="extra-margin-top">
+                    <input type="hidden" name="username" value="{{ profile.user.username }}" />
+
                     <input class="dark-btn-alt" type="submit" name='action' value="Save" />
                     <input class="dark-btn-alt" type="submit" name='action' value="Delete" />
                     <input class="dark-btn-alt" type="submit" name='action' value="Cancel" />

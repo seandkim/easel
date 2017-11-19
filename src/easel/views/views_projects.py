@@ -37,13 +37,15 @@ def home(request):
         if not form.is_valid():
             return render(request, 'project/project-list.html', context)
 
+        
+        
         # profile = Profile.objects.get(user = request.user)
 
         new_project = Project(owner=profile,
                               name=form.cleaned_data['project_name'],
                               description=form.cleaned_data['description'])
         new_project.save()
-        context['message'] = "Your project has been added"
+#        context['message'] = "Your project has been added"
 
     return render(request, 'project/project-list.html', context)
 
@@ -116,9 +118,9 @@ def deleteProject(request, projectName):
 
 @login_required
 def addMedia(request, projectName):
-    print('addMedia start')
+    profile = Profile.objects.get(user=request.user)
+    context = {'projectName': projectName, 'profile':profile}
 
-    context = {'projectName': projectName}
     if request.method == 'GET':
         print('get request')
         form = AddMediaForm()
@@ -144,7 +146,8 @@ def addMedia(request, projectName):
 
 @login_required
 def editMedia(request, projectName, mediaName):
-    context = {'projectName': projectName, 'mediaName': mediaName}
+    profile = Profile.objects.get(user=request.user)
+    context = {'projectName': projectName, 'mediaName': mediaName, 'profile':profile}
     if request.method == 'GET':
         medium = Media.objects.get(name=mediaName)
         initial = {

@@ -3,9 +3,6 @@
 {% block page %}
 <div class="center text-center paint-as-input">
     <h2 class="logo-text">Add Media</h2>
-    {% for field, error in form.errors.items %}
-      <span class="error">{{error}}</span>
-    {% endfor %}
     <form method="post" enctype="multipart/form-data" action="{% url 'addMedia' projectName %}">
         <table>
             {% if message %}
@@ -14,6 +11,8 @@
             {{form}}
         </table>
     {% csrf_token %}
+    <input type="hidden" name="username" value="{{ profile.user.username }}" />
+
     <button class="dark-btn-alt" type="submit"> ADD &#10230; </button>
     </form>
 </div>
