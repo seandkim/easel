@@ -45,7 +45,7 @@ def siteEditor(request, siteName):
     context['upload_media_form'] = AddMediaForm()
     for page in pages:
         print(page)
-    
+
 ######processing the form for adding page#######
 #there is still a bug
 
@@ -67,7 +67,7 @@ def siteEditor(request, siteName):
 
         new_page = site.createPage(pageName)
         new_page.save()
-    
+
     return render(request,'site-editor/site-editor.html', context)
 
 # requires GET request to "/sites/(?P<siteName>\w+)/editor/getPageNames/"
@@ -86,9 +86,10 @@ def getPageHTML(request, siteName, pageName):
         print("getPageHTML requires GET request")
         raise Http404("Invalid Request Argument")
 
+    profile = Profile.objects.get(user=request.user)
     site = Site.getSite(request.user.username, siteName)
     page = site.getPage(pageName)
-    return HttpResponse(page.html)
+    return page.html
 
 # requires POST request with the following argument:
 # { 'isOpen': <whether page is opened>,
