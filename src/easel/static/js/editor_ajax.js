@@ -170,7 +170,6 @@ $(document).ready(function() {
                              '</div>');
                 $('#page-list').append(file);
                 file.trigger('click');
-                debugger;
                 $('#add-page-modal').modal('close');
                 // if `pages` menu is closed, open it
                 // TODO bug: doesn't work the second time
