@@ -124,7 +124,7 @@ class Site(models.Model):
         if Page.objects.filter(site=self, name=pageName).count() > 0:
             raise Exception("Page name %s already exists" % pageName)
 
-        initHTML = ""
+        initHTML = "boring new page"
         if profile != None:
             filename = 'test_pages/dummy_' + pageName + '.html'
             t = get_template(filename)  # TODO change? dummy works pretty well...

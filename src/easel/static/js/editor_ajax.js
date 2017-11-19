@@ -139,6 +139,31 @@ $(document).ready(function() {
         }
     });
 
+    /* when you add page */
+    $('#add-page-modal button').click(function(e) {
+        e.preventDefault();
+        var pageName = $(this).parent().find('input#id_page_name').val();
+        $.ajax({
+            url: "/easel/sites/" + siteName + "/addPage/",
+            method: "POST",
+            data: { pageName: pageName },
+            success: function(data) {
+                console.log("successfully added the page");
+                //TODO small bug; no space next to the icon immediately
+                var file = $('<div class="file">'+
+                                '<i class="'+pageName+' icon icon-file"></i>'+
+                                '<span class="page-name">'+pageName+'</span>'+
+                             '</div>');
+                $('#page-list').append(file);
+                file.trigger('click');
+                $('#add-page-modal').modal('close');
+            },
+            error: function(jqXHR, textStatus) {
+                console.log("failed to add the page");
+            }
+        });
+    });
+
     function loadPageHTML(siteName, pageName, isOpened, isActive) {
         // create tab instantly and add it to page tab
         var new_el = $($.parseHTML('<li tab-target="#' + pageName + '">' +
