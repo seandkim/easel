@@ -28,8 +28,13 @@ def home(request):
     profile = Profile.objects.get(user = request.user)
     context = {'profile': profile}
     context['visitorNum'] = 14 # TODO change hardcoded value
-    context['clapNum'] = 14 # TODO change hardcoded value
+    projects = Project.objects.filter(owner=profile)
+    mediaNum = 0
+    if projects.count() > 0:
+        for project in projects:
+            mediaNum += Media.objects.filter(project=project).count()
+    context['mediaNum'] = mediaNum
     context['projectNum'] = Project.objects.filter(owner=profile).count()
-    context['messageNum'] = 14 # TODO change hardcoded value
-
+    context['siteNum'] = Site.objects.filter(owner=profile).count()
+    
     return render(request, 'dashboard/dashboard.html', context)
