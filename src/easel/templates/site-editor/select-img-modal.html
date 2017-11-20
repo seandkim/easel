@@ -40,7 +40,7 @@
 		        </div>
         	</div>
         	<div id="local-upload" class="upload-opt-div hidden">
-			    <form method="post" enctype="multipart/form-data" action="{% url 'addMedia' 'Paper' %}" id="upload-media-form">
+			    <form method="post" enctype="multipart/form-data" action="{% url 'addMedia' 'ungrouped' %}" id="upload-media-form">
 			        <table>
 			            {% if message %}
 			                {{message}}

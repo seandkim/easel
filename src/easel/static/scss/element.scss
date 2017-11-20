@@ -126,10 +126,11 @@ figcaption {
 	display: block;
 }
 .right-top {
-	position: absolute;
-	right: 0;
-	top: 0;
+	float: right;
 	padding: 10px;
+}
+.cursor-hand {
+	cursor: hand !important;
 }
 
 /* page elements */
