@@ -55,7 +55,7 @@ $(document).ready(function() {
             success: function(data) {
                 showAlertMsg('successfully uploaded file');
                 // TODO harcoded img path
-                var url = '/easel/projects/Paper/getMediaPhoto/' + mediaName;
+                var url = '/easel/projects/ungrouped/getMediaPhoto/' + mediaName;
                 createImgComponent(url);
             },
             error: function(data) {

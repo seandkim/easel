@@ -53,7 +53,11 @@ def registration(request):
     new_profile.save()
 
     login(request, new_user)
-
+    # add ungrouped project under user
+    new_project = Project(owner=new_profile,
+                          name='ungrouped',
+                          description='Ungrouped media belongs here.')
+    new_project.save()
     return HttpResponseRedirect(reverse("dashboard"))
 
 
