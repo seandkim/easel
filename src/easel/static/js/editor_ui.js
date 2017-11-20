@@ -57,6 +57,7 @@ $(function() {
     function toolToggle() {
         var ind = $('#tool-tab').find('.tab-indicator');
         if (toolTabHidden) {
+            $('#tool-list').slideDown('swing');
             ind.html('<i class="icon icon-down-dir"></i>');
         } else {
             $('#tool-list').slideUp('swing');
