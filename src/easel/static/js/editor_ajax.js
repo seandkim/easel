@@ -156,7 +156,7 @@ $(document).ready(function() {
                     html: $('#page-content').html()
                 },
                 success: function(data) {
-                    showAlertMsg("Page saved");
+                    showAlertMsg("Page saved!");
                 },
                 error: function(e) {
                     // TODO add error handling
@@ -282,11 +282,15 @@ $(document).ready(function() {
         $("#editable-mode").click(function() {
             console.log("editable mode on");
             editMode = "editable";
+            $(this).addClass('selected');
+            $("#sortable-mode").removeClass('selected');
             $(".sortable").sortable( "option", "disabled", true );
         })
         $("#sortable-mode").click(function() {
             console.log("sortable mode on");
             editMode = "sortable";
+            $(this).addClass('selected');
+            $("#editable-mode").removeClass('selected');
             $(".sortable").sortable( "option", "disabled", false );
         })
     }
