@@ -14,10 +14,10 @@ $(function() {
             focusElement.find('.delete-ud-wrapper').remove();
         }
         $( this ).append(
-            '<div class="right-top circle-icon delete-ud-wrapper">' +
-                '<a class="delete-ud" href="#" title="Delete Component">' +
+            '<div class="right-top circle-icon delete-ud-wrapper cursor-pointer">' +
+                '<div class="delete-ud" href="#" title="Delete Component">' +
                     '<i class="medium-text icon-garbage"></i>' +
-                '</a>' +
+                '</div>' +
             '</div>'
         );
         focusElement = $( this );
