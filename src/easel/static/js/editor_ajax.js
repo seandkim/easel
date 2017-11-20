@@ -32,7 +32,6 @@ $(document).ready(function() {
     // handler after user select image to upload in library upload form
     $(document).on('click', '.img-to-upload', addSelectedLibraryMedia);
 
-
     /* react to after user pasting an url for an image */
     function addPastedURLimgCmp(e) {
         e.preventDefault();
@@ -144,6 +143,10 @@ $(document).ready(function() {
             e.preventDefault();
             var current_page = document.getElementsByClassName("active")
             var pageName = $($(current_page).children()[0]).html().toLowerCase()
+<<<<<<< HEAD
+=======
+
+>>>>>>> a4fab210d68e0a9ddbb7d27a3618e9b1ce36ab30
             $.ajax({
                 url: "/easel/sites/dummy/savePage/",
                 method: "POST",
@@ -224,6 +227,7 @@ $(document).ready(function() {
             success: function(html) {
                 console.log('successfully retrieve html for ' + pageName);
                 $('#page-content > div#' + pageName).empty().append(html);
+                $(".sortable").sortable({disabled: true}); // initialize sortable
                 initializeEditable();
             },
             error: function(jqXHR, textStatus) {

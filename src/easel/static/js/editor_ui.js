@@ -123,7 +123,6 @@ function initializeEditable() {
 }
 
 $(function() {
-
     /* initializations */
     var componentTabHidden = true;
     var pageTabHidden = true;
@@ -219,4 +218,29 @@ $(function() {
     // }, function() {
     //     $(this).find('a').html('<i class="icon-plus"></i>');
     // });
+
+    /* activate page tab programmatically */
+    function activateTab(el) {
+        var cr_tabs = $('.cr-tabs > li');
+        // get the unactivated tab
+        var unactivated_tab = $('.cr-tabs').find('.active').attr('tab-target');
+        $(unactivated_tab).addClass('hidden');
+        cr_tabs.removeClass('active');
+
+        // replace page review with target tab
+        el.addClass('active');
+        var activated_tab = el.attr('tab-target');
+        $(activated_tab).removeClass('hidden');
+    }
+
+    /* editable vs sortable mode */
+    $(".sortable").sortable({disabled: true});
+    $("#editable-mode").click(function() {
+        console.log("editable mode on");
+        $(".sortable").sortable( "option", "disabled", true );
+    })
+    $("#sortable-mode").click(function() {
+        console.log("sortable mode on");
+        $(".sortable").sortable( "option", "disabled", false );
+    })
 });
