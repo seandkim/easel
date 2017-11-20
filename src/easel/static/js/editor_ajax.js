@@ -301,26 +301,29 @@ $(document).ready(function() {
         });
 
         $('#publish-button').click(function() {
-            // TODO add loading animation
-            var pagesToPublish = [];
-            $.ajax({
-                url: "/easel/sites/dummy/publish/",
-                method: "POST",
-                data: { pages: pagesToPublish },
-                success: function(data) {
-                    showAlertMsg("Successfully publish site.");
-                },
-                error: function (e) {
-                    showAlertMsg("Error in publishing.");
-                }
-            });
+            saveCurrentPage(function() {
+                // TODO add loading animation
+                var pagesToPublish = [];
+                $.ajax({
+                    url: "/easel/sites/dummy/publish/",
+                    method: "POST",
+                    data: { pages: pagesToPublish },
+                    success: function(data) {
+                        showAlertMsg("Successfully publish site.");
+                    },
+                    error: function (e) {
+                        showAlertMsg("Error in publishing.");
+                    }
+                });
+            })
         })
 
         // TODO save all pages
         $('#save-button').click(saveCurrentPage);
     }
 
-    function saveCurrentPage() {
+    // TODO refactor successhandler (used in publishing)
+    function saveCurrentPage(successHandler) {
         let pageName = getCurrentActivePageName();
         $.ajax({
             url: "/easel/sites/dummy/savePage/",
@@ -331,6 +334,7 @@ $(document).ready(function() {
             },
             success: function(data) {
                 showAlertMsg("Page saved");
+                successHandler();
             },
             error: function(e) {
                 // TODO add error handling
