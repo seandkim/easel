@@ -1,9 +1,12 @@
 'use strict';
 
+var editMode = "editable";
+
 $(document).ready(function() {
     setupAjax();
     doneLoading();
     checkTabPresent();
+    addModeSwitcher(); // event listener to switch editable/sortable mode
 
     // TODO update sitename
     const siteName = 'dummy';
@@ -226,6 +229,7 @@ $(document).ready(function() {
                 console.log('successfully retrieve html for ' + pageName);
                 $('#page-content > div#' + pageName).empty().append(html);
                 initializeEditable();
+                initializeMode(editMode);
             },
             error: function(jqXHR, textStatus) {
                 console.log("error in loading page", pageName, textStatus);
@@ -270,6 +274,32 @@ $(document).ready(function() {
                 '<div class="loading">LOADING...</div>' +
                 '</div>' +
             '</div>');
+    }
+
+    function addModeSwitcher() {
+        /* editable vs sortable mode */
+        $(".sortable").sortable({disabled: true});
+        $("#editable-mode").click(function() {
+            console.log("editable mode on");
+            editMode = "editable";
+            $(".sortable").sortable( "option", "disabled", true );
+        })
+        $("#sortable-mode").click(function() {
+            console.log("sortable mode on");
+            editMode = "sortable";
+            $(".sortable").sortable( "option", "disabled", false );
+        })
+    }
+
+    function initializeMode(mode) {
+        $(".sortable").sortable({disabled: true});
+        if (mode=="editable") {
+            $(".sortable").sortable( "option", "disabled", true );
+        } else if (mode=="sortable") {
+            $(".sortable").sortable( "option", "disabled", false );
+        } else {
+            console.error("Unrecognizable error mode", mode)
+        }
     }
 
     // check if there is any tab currently open
