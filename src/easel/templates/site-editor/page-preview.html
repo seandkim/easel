@@ -1,5 +1,5 @@
 {% load static %}
-<div id="page-preview">
+<div id="page-preview" data-username="{{username}}" data-siteName={{siteName}}>
     <div id="tab-bar">
         <ul class="cr-tabs clearfix">
             {% for page in pages %}
@@ -30,7 +30,7 @@
                     <img src="{% static 'img/logo/ink-dark.png' %}">
                 </div>
                 <div class="header-text">
-                    NO ACTIVE TAB. <br> TRY 
+                    NO ACTIVE TAB. <br> TRY
                     <a class="new-page modal-trigger" href="#add-page-modal">CREATING NEW PAGE</a> OR OPENING EXISTING PAGE.
                 </div>
             </div>

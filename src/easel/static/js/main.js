@@ -30,6 +30,7 @@ function hideAlertMsg() {
 }
 
 function showAlertMsg(msg) {
+    console.log(msg)
     $('#alert-msg').html(msg);
     $("#alert-box").animate({ right: 0 }, {
         duration: 900,
@@ -42,7 +43,6 @@ function showAlertMsg(msg) {
 
 // main
 $(function() {
-
     /* initializations */
     $('.modal').modal();
     $('.close-alert').click(hideAlertMsg);

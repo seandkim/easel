@@ -23,15 +23,11 @@ from time import localtime, strftime
 
 @login_required
 def home(request):
+    # TODO change
     profile = Profile.objects.get(user=request.user)
     siteName = 'dummy'
     profile.deleteSite(siteName)
     site = profile.createSite(siteName, "dummydescription")
-    # TODO change
-    # if not Site.objects.filter(owner=profile):
-    #     profile.createSite(siteName, "dummydescription")
-    #     return HttpResponseRedirect(reverse('siteEditor', kwargs={'siteName': siteName}))
-    #
     # site = Site.objects.get(owner = profile, name=siteName)
     return HttpResponseRedirect(reverse('siteEditor', kwargs={'siteName': site.name}))
 
@@ -44,38 +40,9 @@ def siteEditor(request, siteName):
     context['form'] = AddPageForm()
     context['pages'] = pages
     context['upload_media_form'] = AddMediaForm()
-    for page in pages:
-        print(page)
 
-    ######processing the form for adding page#######
-    #there is still a bug
-
-    if request.method == "POST":
-        if ('pageName' not in request.POST) or (request.POST['pageName'] == ""):
-            print("Invalid Request Argument")
-            raise Http404("Invalid Request Argument")
-
-        form = AddPageForm(request.POST)
-        context['form'] = form
-        # Validates the form.
-        if not form.is_valid():
-            return render(request, 'site-editor/site-editor.html', context)
-
-        pageName = request.POST['pageName'].lower()
-
-        try:
-            site = Site.getSite(request.user.username, siteName)
-        except ObjectDoesNotExist:
-            print("Site %s does not exist" % siteName)
-            raise Http404("Site %s does not exist" % siteName)
-
-        if Page.objects.filter(name=pageName, site=site).count() > 0:
-            print("Page %s already exists in %s" % (pageName, siteName))
-            raise Http404("Page %s already exists in %s" % (pageName, siteName))
-
-        new_page = site.createPage(pageName)
-        new_page.save()
-
+    context['username'] = request.user.username
+    context['siteName'] = siteName
     return render(request,'site-editor/site-editor.html', context)
 
 # requires GET request to "/sites/(?P<siteName>\w+)/editor/getPageNames/"

@@ -7,27 +7,11 @@ $(document).ready(function() {
     doneLoading();
     checkTabPresent();
     addModeSwitcher(); // event listener to switch editable/sortable mode
+    initializeButtons();
 
     // TODO update sitename
     const siteName = 'dummy';
     var files;
-
-    /* publish button */
-    $(".publish").click(function() {
-        // TODO add loading animation
-        var pagesToPublish = [];
-        $.ajax({
-            url: "/easel/sites/dummy/publish/",
-            method: "POST",
-            data: { pages: pagesToPublish },
-            success: function(data) {
-                showAlertMsg("Successfully publish site.");
-            },
-            error: function (e) {
-                console.log(e);
-            }
-        });
-    });
 
     $("#upload-media-form").submit(upload);
     $("#paste-url-form").submit(addPastedURLimgCmp);
@@ -144,24 +128,7 @@ $(document).ready(function() {
         // cmd+s in mac and ctrl+s in other platform
         if (e.keyCode == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
             e.preventDefault();
-            var current_page = document.getElementsByClassName("active")
-            var pageName = $($(current_page).children()[0]).html().toLowerCase()
-
-            $.ajax({
-                url: "/easel/sites/dummy/savePage/",
-                method: "POST",
-                data: {
-                    pageName: pageName,
-                    html: $('#page-content').html()
-                },
-                success: function(data) {
-                    showAlertMsg("Page saved");
-                },
-                error: function(e) {
-                    // TODO add error handling
-                    console.log(e);
-                }
-            });
+            saveCurrentPage();
         }
     });
 
@@ -229,7 +196,7 @@ $(document).ready(function() {
                 $('#page-content > div#' + pageName).empty().append(html);
                 $(".sortable").sortable({disabled: true}); // initialize sortable
                 initializeEditable();
-                initializeMode(editMode);
+                initializeEditMode(editMode);
             },
             error: function(jqXHR, textStatus) {
                 console.log("error in loading page", pageName, textStatus);
@@ -291,7 +258,7 @@ $(document).ready(function() {
         })
     }
 
-    function initializeMode(mode) {
+    function initializeEditMode(mode) {
         $(".sortable").sortable({disabled: true});
         if (mode=="editable") {
             $(".sortable").sortable( "option", "disabled", true );
@@ -300,6 +267,61 @@ $(document).ready(function() {
         } else {
             console.error("Unrecognizable error mode", mode)
         }
+    }
+
+    function initializeButtons() {
+        $('#view-site-button').click(function() {
+            let pageName = getCurrentActivePageName();
+            let username = $('#page-preview').data()['username'];
+            let siteName = $('#page-preview').data()['sitename'];
+            let path = "/easel/public/"+username+'/'+siteName+'/'+pageName;
+            let url = window.location.origin + path;
+            var redirectWindow = window.open(url, '_blank');
+            redirectWindow.location;
+        });
+
+        $('#publish-button').click(function() {
+            // TODO add loading animation
+            var pagesToPublish = [];
+            $.ajax({
+                url: "/easel/sites/dummy/publish/",
+                method: "POST",
+                data: { pages: pagesToPublish },
+                success: function(data) {
+                    showAlertMsg("Successfully publish site.");
+                },
+                error: function (e) {
+                    showAlertMsg("Error in publishing.");
+                }
+            });
+        })
+
+        // TODO save all pages
+        $('#save-button').click(saveCurrentPage);
+    }
+
+    function saveCurrentPage() {
+        let pageName = getCurrentActivePageName();
+        $.ajax({
+            url: "/easel/sites/dummy/savePage/",
+            method: "POST",
+            data: {
+                pageName: pageName,
+                html: $('#page-content').html()
+            },
+            success: function(data) {
+                showAlertMsg("Page saved");
+            },
+            error: function(e) {
+                // TODO add error handling
+                showAlertMsg("could not save page.");
+            }
+        });
+    }
+
+    function getCurrentActivePageName() {
+        let current_page = document.getElementsByClassName("active");
+        return $($(current_page).children()[0]).html();
     }
 
     // check if there is any tab currently open
