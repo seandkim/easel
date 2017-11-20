@@ -143,10 +143,7 @@ $(document).ready(function() {
             e.preventDefault();
             var current_page = document.getElementsByClassName("active")
             var pageName = $($(current_page).children()[0]).html().toLowerCase()
-<<<<<<< HEAD
-=======
 
->>>>>>> a4fab210d68e0a9ddbb7d27a3618e9b1ce36ab30
             $.ajax({
                 url: "/easel/sites/dummy/savePage/",
                 method: "POST",
