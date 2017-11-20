@@ -118,11 +118,13 @@ def addMedia(request, projectName):
     context = {'projectName': projectName, 'profile':profile}
 
     if request.method == 'GET':
+        # TODO can we delete this now that we use modal?
         print('get request')
         form = AddMediaForm()
         context['form'] = form
         return render(request, 'project/media-add.html', context)
 
+    print(request.POST)
     form = AddMediaForm(request.POST, request.FILES)
     if not form.is_valid():
         print('form is not valid')
