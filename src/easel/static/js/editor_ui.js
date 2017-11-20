@@ -6,6 +6,7 @@ $(function() {
     var componentTabHidden = true;
     var pageTabHidden = true;
     var toolTabHidden = true;
+    var temp_count = 0;
 
     /* event listeners */
     $('#component-tab').on('click', componentToggle);
@@ -56,7 +57,6 @@ $(function() {
     function toolToggle() {
         var ind = $('#tool-tab').find('.tab-indicator');
         if (toolTabHidden) {
-            $('#tool-list').slideDown('swing');
             ind.html('<i class="icon icon-down-dir"></i>');
         } else {
             $('#tool-list').slideUp('swing');
@@ -113,13 +113,83 @@ $(function() {
 
     /* --------------- editable setting ------------- */
     var editor = new MediumEditor('.editable', {
+    anchorPreview: {
+        /* These are the default options for anchor preview,
+           if nothing is passed this is what it used */
+        hideDelay: 500,
+        previewValueSelector: 'a'
+    },
+    anchor: {
+        placeholderText: 'Type or paste url',
+        contentDefault: '<i class="md-sm-text icon-link-bold"></i>',
+        linkValidation: true
+    },
+    indent: {
+        contentDefault: '<i class="md-sm-text icon-indent"></i>'
+    },
+    outdent: {
+        contentDefault: '<i class="md-sm-text icon-indent"></i>'
+    },
+    justifyLeft: {
+        contentDefault: '<i class="md-sm-text icon-align-left"></i>'
+    },
     toolbar: {
-      buttons: ['b', 'h2', 'warning', 'pop']
+      buttons: ['b', 'i', 'u', 
+                'h1', 'h3', 'h5',
+                'anchor', 
+                'justifyLeft', 'justifyRight', 'justifyCenter', 
+                'indent', 'outdent']
     },
     extensions: {
         // compact
-        'b':  new MediumButton({label:'BOLD', start:'<b>', end:'</b>'}),
-        'h2': new MediumButton({label:'h2', start:'<h2>', end:'</h2>'}),
+        'b':  new MediumButton({
+                    label:'<i class="md-sm-text icon-bold"></i>', 
+                    start:'<b>', 
+                    end:'</b>'
+                }),
+        'i': new MediumButton({
+                    label:'<i class="md-sm-text icon-italic"></i>', 
+                    start:'<i>', 
+                    end:'</i>'
+                }),
+        'u': new MediumButton({
+                    label:'<i class="md-sm-text icon-underline"></i>', 
+                    start:'<u>', 
+                    end:'</u>'
+                }),
+        'left' : new MediumButton({
+                    label:
+                        '<i class="md-sm-text icon-align-left"></i>', 
+                        start:'<div class="text-left">',
+                        end:'</div>'
+                }),
+        'right' : new MediumButton({
+                    label:
+                        '<i class="md-sm-text icon-align-right"></i>', 
+                        start:'<div class="text-right">',
+                        end:'</div>'
+                }),
+        'center' : new MediumButton({
+                    label:
+                        '<i class="md-sm-text icon-align-center"></i>', 
+                        start:'<div class="text-center">',
+                        end:'</div>'
+                }),
+        'margin' : new MediumButton({
+                    label:'<i class="md-sm-text icon-margin"></i>', 
+                    start:'<div class="margin-container">', 
+                    end:'</div>'
+                }),
+        'width' : new MediumButton({
+                    label:'<i class="md-sm-text icon-arrows-h"></i>', 
+                    start:'<div class="margin-container">', 
+                    end:'</div>'
+                }),
+        'height' : new MediumButton({
+                    label:'<i class="md-sm-text icon-arrows-v"></i>', 
+                    start:'<div class="margin-container">', 
+                    end:'</div>'
+                }),
 
        // expanded
        'warning': new MediumButton({
@@ -140,5 +210,10 @@ $(function() {
 
     }
 });
-
+    /* change icon content */
+    $('.medium-editor-action-justifyLeft').html('<i class="md-sm-text icon-align-left"></i>');
+    $('.medium-editor-action-justifyRight').html('<i class="md-sm-text icon-align-right"></i>');
+    $('.medium-editor-action-justifyCenter').html('<i class="md-sm-text icon-align-center"></i>');
+    $('.medium-editor-action-indent').html('<i class="md-sm-text icon-indent"></i>');
+    $('.medium-editor-action-outdent').html('<i class="md-sm-text icon-outdent"></i>');
 });

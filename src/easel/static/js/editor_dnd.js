@@ -22,6 +22,8 @@ $(function() {
 
     $("#page-content").droppable({
         accept: ".drag-component",
+        activeClass: "ui-state-default",
+        hoverClass: "ui-state-hover",
         drop: function(event, ui) {
             var cmp = ui.draggable.prop('id');
             var activeId = getActivePageTabContentId();
@@ -57,7 +59,7 @@ $(function() {
             }
             else if (cmp === 'video-cmp') {
                 $(activeId).prepend(
-                    '<quoteblock class="ud">Some code block.</quoteblock>'
+                    '<video class="ud">Some code block.</video>'
                 );
             }
             console.log('you dropped ' + ui.draggable.prop('id') +' into the page preview!');

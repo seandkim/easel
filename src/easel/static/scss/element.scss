@@ -35,23 +35,28 @@ figcaption {
 .medium-text {
 	font-size: 16pt;
 }
+.md-sm-text {
+	font-size: 14pt;
+}
 .light-text {
 	color: $interface-color-05;
 }
 .dark-text {
 	color: $interface-color-01;
 }
-
 .cover-text {
     font-family: $sublogo-font;
 	font-size: 15px;
     text-align: left;
 }
-
 .cover-logo-text {
     font-size: 6.2rem;
     font-family: $logo-font;
 	letter-spacing: 10px;
+}
+.no-style-a {
+	text-decoration: underline;
+	color: #7b98a1 !important;
 }
 
 /* visibility */
@@ -274,6 +279,9 @@ figcaption {
 	max-width: 100%;
 	margin: 0 100px;
 }
+.margin-container {
+	margin: 20px;
+}
 .padding-container {
 	padding-right: 50px;
 }
@@ -284,8 +292,6 @@ figcaption {
 .extra-margin-top {
 	margin: 20px 0 !important;
 }
-
-
 .top {
   z-index: 100!important;
   position: relative;
@@ -300,7 +306,6 @@ figcaption {
 	font-family: $header-font !important;
     letter-spacing: 2px;
 }
-
 .tab-icon {
     transform: translate(0, 25%);
 }

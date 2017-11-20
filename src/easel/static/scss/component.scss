@@ -36,9 +36,6 @@
     width: 100%;
     height: 100%;
     background-color: $interface-color-01;
-    a {
-    	color: $interface-color-07;
-    }
     i {
     	color: $interface-color-07;
     }
@@ -73,6 +70,9 @@
     	width: 32%;
     	padding: 25px 25px 100px;
     	overflow-y: scroll;
+    	a {
+	    	color: $interface-color-07;
+	    }
     }
     .editor-menu {
     	li {
