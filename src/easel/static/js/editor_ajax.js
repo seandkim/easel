@@ -7,6 +7,7 @@ $(document).ready(function() {
     doneLoading();
     checkTabPresent();
     addModeSwitcher(); // event listener to switch editable/sortable mode
+    changeStyleOnMode(true);
 
     // TODO update sitename
     const siteName = 'dummy';
@@ -276,22 +277,33 @@ $(document).ready(function() {
             '</div>');
     }
 
+    function changeStyleOnMode(isEdit) {
+        if (isEdit) {
+            $('#editable-mode').addClass('selected');
+            $("#sortable-mode").removeClass('selected');
+            $('#page-preview').css('cursor', 'text');
+        }
+        else {
+            $('#editable-mode').removeClass('selected');
+            $("#sortable-mode").addClass('selected');
+            $('#page-preview').css('cursor', 'move');
+        }
+    }
+
     function addModeSwitcher() {
         /* editable vs sortable mode */
         $(".sortable").sortable({disabled: true});
         $("#editable-mode").click(function() {
             console.log("editable mode on");
             editMode = "editable";
-            $(this).addClass('selected');
-            $("#sortable-mode").removeClass('selected');
             $(".sortable").sortable( "option", "disabled", true );
+            changeStyleOnMode(true);
         })
         $("#sortable-mode").click(function() {
             console.log("sortable mode on");
             editMode = "sortable";
-            $(this).addClass('selected');
-            $("#editable-mode").removeClass('selected');
             $(".sortable").sortable( "option", "disabled", false );
+            changeStyleOnMode(false);
         })
     }
 
