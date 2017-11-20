@@ -14,7 +14,7 @@ $(document).ready(function() {
     const siteName = 'dummy';
     var files;
 
-    $("#upload-media-form").submit(upload);
+    $("#upload-media-form").submit(uploadMedia);
     $("#paste-url-form").submit(addPastedURLimgCmp);
     $(".close-img-upload").click(resetImgForm);
     // handler after user select image to upload in library upload form
@@ -34,12 +34,13 @@ $(document).ready(function() {
     }
 
     /* upload file data */
-    function upload(e) {
+    function uploadMedia(e) {
         e.preventDefault();
         var formData = new FormData($(this)[0]);
         var mediaName = formData.get('name');
         var caption = formData.get('caption');
-        console.log('uploading media named ' + mediaName);
+        var username = $('#page-preview').data()['username'];
+        formData.append('username', username);
 
         for (var [key, value] of formData.entries()) {
           console.log(key, value);
@@ -67,7 +68,7 @@ $(document).ready(function() {
 
     function createImgComponent(url) {
         var active_tab = $( '.cr-tabs>li.active' ).attr('tab-target');
-        var active_tab_content = $( active_tab );
+        var active_tab_content = $( active_tab ).find('.editable').first();
         console.log('creating component ' + '<img src="' + url + '"> in ' + active_tab);
         active_tab_content.prepend(
             '<div class="ud"><img class="ud" src="' + url + '"><div>'
