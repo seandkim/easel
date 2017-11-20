@@ -6,10 +6,28 @@
 	<script src="{% static 'js/editor_ajax.js' %}"></script>
 	<script src="{% static 'js/editor_dnd.js' %}"></script>
 	<script src="{% static 'js/project.js' %}"></script>
+	<!-- TODO Tiffany make it prettier -->
+	<style>
+	.mode-icon {
+		position: absolute;
+		width: 50px;
+		height: 50px;
+		background-color: gray;
+		font-size: 30px;
+		align: center;
+	}
+	#editable-mode {
+		bottom: 30px;
+		right: 40px;
+	}
+	#sortable-mode {
+		bottom: 30px;
+		right: 110px;
+	}
+	</style>
 {% endblock %}
 
 {% block page %}
-
 	<!-- preloader for site editor -->
 	{% include '../components/preloader.html' %}
 
@@ -18,13 +36,16 @@
 		{% include './editor-bar.html' %}
 		{% include './page-preview.html' %}
 	</div>
+	<!-- TODO Tiffany make it prettier -->
+	<div id="editable-mode" class="mode-icon">E</div>
+	<div id="sortable-mode" class="mode-icon">S</div>
 
 	<!-- modals -->
 	{% include './add-page-modal.html' %}
 	{% include './media-modal.html' %}
 	{% include './select-img-modal.html' %}
 	{% include './general-input-modal.html' %}
-	
+
 {% endblock %}
 
 {% block sidebar %}
