@@ -3,6 +3,7 @@
 $(document).ready(function() {
     setupAjax();
     doneLoading();
+    checkTabPresent();
 
     // TODO update sitename
     const siteName = 'dummy';
@@ -224,6 +225,7 @@ $(document).ready(function() {
             success: function(html) {
                 console.log('successfully retrieve html for ' + pageName);
                 $('#page-content > div#' + pageName).empty().append(html);
+                initializeEditable();
             },
             error: function(jqXHR, textStatus) {
                 console.log("error in loading page", pageName, textStatus);
@@ -235,7 +237,7 @@ $(document).ready(function() {
                 // TODO display error message
             }
         });
-        changePageStatus(pageName, true, true)
+        changePageStatus(pageName, true, true);
     }
 
     function changePageStatus(pageName, isOpened, isActive) {
