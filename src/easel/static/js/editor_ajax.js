@@ -8,6 +8,7 @@ $(document).ready(function() {
     checkTabPresent();
     addModeSwitcher(); // event listener to switch editable/sortable mode
     initializeButtons();
+    changeStyleOnMode(true);
 
     // TODO update sitename
     const siteName = 'dummy';
@@ -18,6 +19,7 @@ $(document).ready(function() {
     $(".close-img-upload").click(resetImgForm);
     // handler after user select image to upload in library upload form
     $(document).on('click', '.img-to-upload', addSelectedLibraryMedia);
+
 
     /* react to after user pasting an url for an image */
     function addPastedURLimgCmp(e) {
@@ -125,6 +127,9 @@ $(document).ready(function() {
 
     /* saving by cmd+s */
     document.addEventListener("keydown", function(e) {
+        var current_page = document.getElementsByClassName("active")
+        var pageName = $($(current_page).children()[0]).html().toLowerCase()
+
         // cmd+s in mac and ctrl+s in other platform
         if (e.keyCode == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
             e.preventDefault();
@@ -194,7 +199,6 @@ $(document).ready(function() {
             success: function(html) {
                 console.log('successfully retrieve html for ' + pageName);
                 $('#page-content > div#' + pageName).empty().append(html);
-                $(".sortable").sortable({disabled: true}); // initialize sortable
                 initializeEditable();
                 initializeEditMode(editMode);
             },
@@ -243,6 +247,19 @@ $(document).ready(function() {
             '</div>');
     }
 
+    function changeStyleOnMode(isEdit) {
+        if (isEdit) {
+            $('#editable-mode').addClass('selected');
+            $("#sortable-mode").removeClass('selected');
+            $('#page-preview').css('cursor', 'text');
+        }
+        else {
+            $('#editable-mode').removeClass('selected');
+            $("#sortable-mode").addClass('selected');
+            $('#page-preview').css('cursor', 'move');
+        }
+    }
+
     function addModeSwitcher() {
         /* editable vs sortable mode */
         $(".sortable").sortable({disabled: true});
@@ -250,11 +267,13 @@ $(document).ready(function() {
             console.log("editable mode on");
             editMode = "editable";
             $(".sortable").sortable( "option", "disabled", true );
+            changeStyleOnMode(true);
         })
         $("#sortable-mode").click(function() {
             console.log("sortable mode on");
             editMode = "sortable";
             $(".sortable").sortable( "option", "disabled", false );
+            changeStyleOnMode(false);
         })
     }
 

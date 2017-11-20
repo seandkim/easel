@@ -45,39 +45,40 @@ $(function() {
         hoverClass: "ui-state-hover",
         drop: function(event, ui) {
             var cmp = ui.draggable.prop('id');
-            var activeId = getActivePageTabContentId();
+            var active_id_name = getActivePageTabContentId();
+            var activeId = $(active_id_name).find('.editable').first();
             if (cmp === "img-cmp") {
                 open_img_selection();
             }
             else if (cmp === 'textbox-cmp') {
-                $(activeId).prepend(
+                activeId.prepend(
                     '<div class="editable header-text ud">Lorem Ipsom some text ksdfbgljfa.</div>'
                 );
                 var editor = new MediumEditor('.editable');
             }
             else if (cmp === 'rule-cmp') {
-                $(activeId).prepend(
+                activeId.prepend(
                     '<div class="ud"><br><hr><br></div>'
                 );
             }
             else if (cmp === 'space-cmp') {
-                $(activeId).prepend(
+                activeId.prepend(
                     '<div class="ud space"></div>'
                 );
             }
             else if (cmp === 'quote-cmp') {
-                $(activeId).prepend(
+                activeId.prepend(
                     '<div class="ud"><quoteblock class="ud">Some code block.</quoteblock></div>'
                 );
             }
             else if (cmp === 'embed-cmp') {
                 $('#general-modal').modal('open');
-                $(activeId).prepend(
+                activeId.prepend(
                     '<div class="ud"><quoteblock class="ud">Some embed text</quoteblock></div>'
                 );
             }
             else if (cmp === 'video-cmp') {
-                $(activeId).prepend(
+                activeId.prepend(
                     '<div class="ud"><<video class="ud">Some code block.</video></div>'
                 );
             }

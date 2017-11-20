@@ -6,25 +6,6 @@
 	<script src="{% static 'js/editor_ajax.js' %}"></script>
 	<script src="{% static 'js/editor_dnd.js' %}"></script>
 	<script src="{% static 'js/project.js' %}"></script>
-	<!-- TODO Tiffany make it prettier -->
-	<style>
-	.mode-icon {
-		position: absolute;
-		width: 50px;
-		height: 50px;
-		background-color: gray;
-		font-size: 30px;
-		align: center;
-	}
-	#editable-mode {
-		bottom: 30px;
-		right: 40px;
-	}
-	#sortable-mode {
-		bottom: 30px;
-		right: 110px;
-	}
-	</style>
 {% endblock %}
 
 {% block page %}
@@ -37,14 +18,31 @@
 		{% include './page-preview.html' %}
 	</div>
 	<!-- TODO Tiffany make it prettier -->
-	<div id="editable-mode" class="mode-icon">E</div>
-	<div id="sortable-mode" class="mode-icon">S</div>
+	<div id="mode-bar">
+		<a href="#">
+		<div id="editable-mode" class="mode-icon text-center">
+			<i class="md-lg-text icon-pencil"></i>
+			<div class="header-text">EDIT</div>
+		</div>
+		<div id="sortable-mode" class="mode-icon text-center">
+			<i class="md-lg-text icon-hand"></i>
+			<div class="header-text">DRAG</div>
+		</div>
+	</div>
 
 	<!-- modals -->
 	{% include './add-page-modal.html' %}
 	{% include './media-modal.html' %}
 	{% include './select-img-modal.html' %}
 	{% include './general-input-modal.html' %}
+
+	<!-- alert box -->
+	<div id="alert-box">
+        <a class="close-alert" href="#">
+            <i class="icon-close"></i>
+        </a>
+        <div id="alert-msg">Some alert message.</div>
+    </div>
 
 {% endblock %}
 

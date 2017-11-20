@@ -23,6 +23,7 @@ function sidebarToggle() {
 }
 
 function hideAlertMsg() {
+    console.log('hiding alert');
     $("#alert-box").animate({ right: '-300px' }, {
         duration: 900,
         easing: 'easeOutQuart'
