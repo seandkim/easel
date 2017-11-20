@@ -295,8 +295,8 @@ $(document).ready(function() {
         $(".sortable").sortable({disabled: true});
         if (mode=="editable") {
             $(".sortable").sortable( "option", "disabled", true );
-        } else if (mode=="sortable"){
-$           (".sortable").sortable( "option", "disabled", false );
+        } else if (mode=="sortable") {
+            $(".sortable").sortable( "option", "disabled", false );
         } else {
             console.error("Unrecognizable error mode", mode)
         }
