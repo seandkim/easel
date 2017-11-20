@@ -6,25 +6,6 @@
 	<script src="{% static 'js/editor_ajax.js' %}"></script>
 	<script src="{% static 'js/editor_dnd.js' %}"></script>
 	<script src="{% static 'js/project.js' %}"></script>
-	<!-- TODO Tiffany make it prettier -->
-	<style>
-	.mode-icon {
-		position: absolute;
-		width: 50px;
-		height: 50px;
-		background-color: gray;
-		font-size: 30px;
-		align: center;
-	}
-	#editable-mode {
-		bottom: 30px;
-		right: 40px;
-	}
-	#sortable-mode {
-		bottom: 30px;
-		right: 110px;
-	}
-	</style>
 {% endblock %}
 
 {% block page %}
@@ -38,12 +19,13 @@
 	</div>
 	<!-- TODO Tiffany make it prettier -->
 	<div id="mode-bar">
+		<a href="#">
 		<div id="editable-mode" class="mode-icon text-center">
-			<i class="medium-text icon-pen"></i>
+			<i class="md-lg-text icon-pencil"></i>
 			<div class="header-text">EDIT</div>
 		</div>
 		<div id="sortable-mode" class="mode-icon text-center">
-			<i class="medium-text icon-hand"></i>
+			<i class="md-lg-text icon-hand"></i>
 			<div class="header-text">DRAG</div>
 		</div>
 	</div>
