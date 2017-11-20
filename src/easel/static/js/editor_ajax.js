@@ -18,7 +18,7 @@ $(document).ready(function() {
             method: "POST",
             data: { pages: pagesToPublish },
             success: function(data) {
-                console.log("successfully published the page");
+                showAlertMsg("Successfully publish site.");
             },
             error: function (e) {
                 console.log(e);
@@ -65,7 +65,7 @@ $(document).ready(function() {
             processData: false,
             contentType: false,
             success: function(data) {
-                console.log('successfully uploaded file');
+                showAlertMsg('successfully uploaded file');
                 // TODO harcoded img path
                 var url = '/easel/projects/Paper/getMediaPhoto/' + mediaName;
                 createImgComponent(url);
@@ -153,7 +153,7 @@ $(document).ready(function() {
                     html: $('#page-content').html()
                 },
                 success: function(data) {
-                    console.log("successful saved the page");
+                    showAlertMsg("Page saved");
                 },
                 error: function(e) {
                     // TODO add error handling

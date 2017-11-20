@@ -492,6 +492,10 @@ nav {
 	background-color: rgba(0,0,0,0.8);
 	box-shadow: 0 5px 10px rgba(0,0,0,0.5);
 	color: $interface-color-07;
+	margin: 0 20px;
+    border-radius: 5px;
+    width: 200px;
+    right: -300px;
 	.close-alert {
 		position: absolute;
 		right: 0;
@@ -501,6 +505,9 @@ nav {
 			font-size: 14pt;
 			color: $interface-color-07;
 		}
+	}
+	#alert-msg {
+		color: $interface-color-07;
 	}
 }
 /* preloader */
