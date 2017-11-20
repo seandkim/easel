@@ -116,10 +116,4 @@ $(function() {
         }
         tab_bar.tabs();
     }
-
-    // TODO: currently hard coded, need to replace with real example
-    $("#sortable1").sortable({
-        connectWith: '#sortable2, #component-tab'
-    });
-    $("#sortable2").sortable({});
 });

@@ -139,12 +139,11 @@ $(document).ready(function() {
 
     /* saving by cmd+s */
     document.addEventListener("keydown", function(e) {
-        var current_page = document.getElementsByClassName("active")
-        var pageName = $($(current_page).children()[0]).html().toLowerCase()
-
         // cmd+s in mac and ctrl+s in other platform
         if (e.keyCode == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
             e.preventDefault();
+            var current_page = document.getElementsByClassName("active")
+            var pageName = $($(current_page).children()[0]).html().toLowerCase()
             $.ajax({
                 url: "/easel/sites/dummy/savePage/",
                 method: "POST",
