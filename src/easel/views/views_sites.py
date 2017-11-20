@@ -20,6 +20,7 @@ from django.utils.http import urlsafe_base64_decode
 from easel.models import *
 from easel.forms import *
 from time import localtime, strftime
+from bs4 import BeautifulSoup
 
 @login_required
 def home(request):
@@ -185,11 +186,18 @@ def sitePublish(request, siteName):
             pages.append(profile.getPage(siteName, pageName))
 
     for page in pages:
-        checkStr = 'contenteditable="true"'
-        processed = page.html
-        while checkStr in processed:
-            processed = processed.replace(checkStr, 'contenteditable="false"')
-        page.published_html = processed
+        soup = BeautifulSoup(page.html, 'html.parser')
+        print("beautifulsoup parsing")
+        for div in soup.find_all('div', {"contenteditable", "true"}):
+            print(div)
+            div['contenteditable'] = 'false'
+            print("=>", div)
+        for ud in soup.find_all('', class_="ud"):
+            print(ud)
+            ud['class'].remove('ud')
+            print("=>", ud)
+
+        page.published_html = str(soup)
         page.save()
 
     return HttpResponse('')
