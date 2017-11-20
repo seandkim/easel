@@ -22,9 +22,9 @@ from easel.models import *
 from easel.forms import *
 from time import localtime, strftime
 
-# for dev purpose, will delete later
+# TODO for dev purpose, will delete later
 def testview(request):
-	return render(request,'site-editor/site-editor.html', {})
+	return render(request,'test_pages/dummy_portfolio.html', {})
 
 def testform(request):
 	return render(request,'test_pages/form.html', {})

@@ -1,7 +1,6 @@
 'use strict';
 
 $(function() {
-
     /* initializations */
     var editor = new MediumEditor('.editable');
     var componentTabHidden = true;
@@ -111,4 +110,14 @@ $(function() {
         $(activated_tab).removeClass('hidden');
     }
 
+    /* editable vs sortable mode */
+    $(".sortable").sortable({disabled: true});
+    $("#editable-mode").click(function() {
+        console.log("editable mode on");
+        $(".sortable").sortable( "option", "disabled", true );
+    })
+    $("#sortable-mode").click(function() {
+        console.log("sortable mode on");
+        $(".sortable").sortable( "option", "disabled", false );
+    })
 });

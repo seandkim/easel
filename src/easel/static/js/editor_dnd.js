@@ -1,7 +1,6 @@
 'use strict';
 
 $(function() {
-
     $('.drag-component').draggable({
         scroll: false,
         distance: 0,
@@ -30,17 +29,10 @@ $(function() {
         console.log('in img selection');
         var media_library;
         media_library = $('.project-list').clone();
-        debugger;
         $('#media-library-upload').empty();
         console.log('html: ' + $('#media-library-upload').html());
         $('#media-library-upload').append(media_library);
         $('ul.tabs').tabs();
         $('#select-img-modal').modal('open');
     }
-
-    // TODO: currently hard coded, need to replace with real example
-    $("#sortable1").sortable({
-        connectWith: '#sortable2, #component-tab'
-    });
-    $("#sortable2").sortable({});
 });
