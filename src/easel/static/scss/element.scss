@@ -4,6 +4,13 @@
     outline: none;
 }
 
+h2 {
+	font-size: 30pt;
+}
+h3 {
+	font-size: 25pt;
+}
+
 figcaption {
 	font-family: $font-family-02;
 	font-size: 9pt;
@@ -28,23 +35,28 @@ figcaption {
 .medium-text {
 	font-size: 16pt;
 }
+.md-sm-text {
+	font-size: 14pt;
+}
 .light-text {
 	color: $interface-color-05;
 }
 .dark-text {
 	color: $interface-color-01;
 }
-
 .cover-text {
     font-family: $sublogo-font;
 	font-size: 15px;
     text-align: left;
 }
-
 .cover-logo-text {
     font-size: 6.2rem;
     font-family: $logo-font;
 	letter-spacing: 10px;
+}
+.no-style-a {
+	text-decoration: underline;
+	color: #7b98a1 !important;
 }
 
 /* visibility */
@@ -104,6 +116,10 @@ figcaption {
 .float-left {
 	float: left;
 }
+.block-elmt {
+	display: block;
+}
+
 
 /* page elements */
 .half-rule {
@@ -224,6 +240,19 @@ figcaption {
 		max-width: 100%;
 	}
 }
+.img-to-upload {
+	@include smooth(0.3s);
+	&:hover {
+		transform: scale(1.05);
+		box-shadow: 5px 5px 10px rgba(150, 150, 150, 0.5);
+	}
+	.media-caption {
+		font-family: $font-family-01;
+		font-size: 12pt;
+		color: $gray-scale-01;
+		margin-top: 5px;
+	}
+}
 
 .wide-gutter-col {
 	padding: 0 20px !important;
@@ -250,6 +279,9 @@ figcaption {
 	max-width: 100%;
 	margin: 0 100px;
 }
+.margin-container {
+	margin: 20px;
+}
 .padding-container {
 	padding-right: 50px;
 }
@@ -260,8 +292,6 @@ figcaption {
 .extra-margin-top {
 	margin: 20px 0 !important;
 }
-
-
 .top {
   z-index: 100!important;
   position: relative;
@@ -276,7 +306,6 @@ figcaption {
 	font-family: $header-font !important;
     letter-spacing: 2px;
 }
-
 .tab-icon {
     transform: translate(0, 25%);
 }
@@ -463,6 +492,10 @@ nav {
 	background-color: rgba(0,0,0,0.8);
 	box-shadow: 0 5px 10px rgba(0,0,0,0.5);
 	color: $interface-color-07;
+	margin: 0 20px;
+    border-radius: 5px;
+    width: 200px;
+    right: -300px;
 	.close-alert {
 		position: absolute;
 		right: 0;
@@ -472,6 +505,9 @@ nav {
 			font-size: 14pt;
 			color: $interface-color-07;
 		}
+	}
+	#alert-msg {
+		color: $interface-color-07;
 	}
 }
 /* preloader */

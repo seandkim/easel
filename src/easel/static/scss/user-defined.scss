@@ -1,0 +1,14 @@
+@import "global";
+.ud {
+	&:hover {
+		outline: 2px solid #ff931e;
+	}
+}
+
+.ud.selected {
+	outline: 2px solid #ff931e;
+}
+
+.ud.space {
+	height: 50px;
+}

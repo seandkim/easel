@@ -2,10 +2,11 @@
 
 $(document).ready(function() {
     setupAjax();
+    doneLoading();
+    checkTabPresent();
 
     // TODO update sitename
     const siteName = 'dummy';
-    doneLoading();
     var files;
 
     /* publish button */
@@ -17,7 +18,7 @@ $(document).ready(function() {
             method: "POST",
             data: { pages: pagesToPublish },
             success: function(data) {
-                console.log("successfully published the page");
+                showAlertMsg("Successfully publish site.");
             },
             error: function (e) {
                 console.log(e);
@@ -28,12 +29,21 @@ $(document).ready(function() {
     $("#upload-media-form").submit(upload);
     $("#paste-url-form").submit(addPastedURLimgCmp);
     $(".close-img-upload").click(resetImgForm);
+    // handler after user select image to upload in library upload form
+    $(document).on('click', '.img-to-upload', addSelectedLibraryMedia);
 
+    /* react to after user pasting an url for an image */
     function addPastedURLimgCmp(e) {
         e.preventDefault();
         var url = $(this).find('input[name="url"]').val();
         createImgComponent(url);
     }
+
+    function addSelectedLibraryMedia() {
+        var url = $( this ).find('img').attr('src');
+        createImgComponent(url);
+    }
+
     /* upload file data */
     function upload(e) {
         e.preventDefault();
@@ -54,7 +64,7 @@ $(document).ready(function() {
             processData: false,
             contentType: false,
             success: function(data) {
-                console.log('successfully uploaded file');
+                showAlertMsg('successfully uploaded file');
                 // TODO harcoded img path
                 var url = '/easel/projects/Paper/getMediaPhoto/' + mediaName;
                 createImgComponent(url);
@@ -71,13 +81,14 @@ $(document).ready(function() {
         var active_tab_content = $( active_tab );
         console.log('creating component ' + '<img src="' + url + '"> in ' + active_tab);
         active_tab_content.prepend(
-            '<img src="' + url + '">'
+            '<img class="ud" src="' + url + '">'
         );
         $('#select-img-modal').modal('close');
         resetImgForm();
     }
 
     function resetImgForm() {
+        $('#local-opt, #library-opt, #link-opt').removeClass('selected');
         $('#local-upload, #library-upload, #link-upload').addClass('hidden');
     }
 
@@ -141,7 +152,7 @@ $(document).ready(function() {
                     html: $('#page-content').html()
                 },
                 success: function(data) {
-                    console.log("successful saved the page");
+                    showAlertMsg("Page saved");
                 },
                 error: function(e) {
                     // TODO add error handling
@@ -214,6 +225,7 @@ $(document).ready(function() {
                 console.log('successfully retrieve html for ' + pageName);
                 $('#page-content > div#' + pageName).empty().append(html);
                 $(".sortable").sortable({disabled: true}); // initialize sortable
+                initializeEditable();
             },
             error: function(jqXHR, textStatus) {
                 console.log("error in loading page", pageName, textStatus);
@@ -225,7 +237,7 @@ $(document).ready(function() {
                 // TODO display error message
             }
         });
-        changePageStatus(pageName, true, true)
+        changePageStatus(pageName, true, true);
     }
 
     function changePageStatus(pageName, isOpened, isActive) {
