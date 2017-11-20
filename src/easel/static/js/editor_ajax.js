@@ -32,6 +32,7 @@ $(document).ready(function() {
     // handler after user select image to upload in library upload form
     $(document).on('click', '.img-to-upload', addSelectedLibraryMedia);
 
+
     /* react to after user pasting an url for an image */
     function addPastedURLimgCmp(e) {
         e.preventDefault();
@@ -138,12 +139,12 @@ $(document).ready(function() {
 
     /* saving by cmd+s */
     document.addEventListener("keydown", function(e) {
+        var current_page = document.getElementsByClassName("active")
+        var pageName = $($(current_page).children()[0]).html().toLowerCase()
+
         // cmd+s in mac and ctrl+s in other platform
         if (e.keyCode == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
             e.preventDefault();
-            var current_page = document.getElementsByClassName("active")
-            var pageName = $($(current_page).children()[0]).html().toLowerCase()
-
             $.ajax({
                 url: "/easel/sites/dummy/savePage/",
                 method: "POST",
@@ -224,7 +225,6 @@ $(document).ready(function() {
             success: function(html) {
                 console.log('successfully retrieve html for ' + pageName);
                 $('#page-content > div#' + pageName).empty().append(html);
-                $(".sortable").sortable({disabled: true}); // initialize sortable
                 initializeEditable();
             },
             error: function(jqXHR, textStatus) {

@@ -23,6 +23,7 @@ function sidebarToggle() {
 }
 
 function hideAlertMsg() {
+    console.log('hiding alert');
     $("#alert-box").animate({ right: '-300px' }, {
         duration: 900,
         easing: 'easeOutQuart'
@@ -30,6 +31,7 @@ function hideAlertMsg() {
 }
 
 function showAlertMsg(msg) {
+    console.log('showing alert');
     $('#alert-msg').html(msg);
     $("#alert-box").animate({ right: 0 }, {
         duration: 900,
