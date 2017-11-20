@@ -3,11 +3,30 @@
 $(function() {
 
     var initializedLibraryUpload = false;
+    var focusElement;
+
+    $(document).on('click', '.delete-ud', function() {
+        var ud_to_close = $(this).closest('.ud');
+        ud_to_close.remove();
+    });
+    $(document).on('click', '.ud', function() {
+        if (focusElement) {
+            focusElement.find('.delete-ud-wrapper').remove();
+        }
+        $( this ).append(
+            '<div class="right-top circle-icon delete-ud-wrapper">' +
+                '<a class="delete-ud" href="#" title="Delete Component">' +
+                    '<i class="medium-text icon-garbage"></i>' +
+                '</a>' +
+            '</div>'
+        );
+        focusElement = $( this );
+    });
 
     $('.drag-component').draggable({
         scroll: false,
         distance: 0,
-        zIndex: 1000000,
+        zIndex: 1000,
         revert : false,
         cursorAt: { left: 50, top: 50 },
         helper: 'clone',
@@ -38,7 +57,7 @@ $(function() {
             }
             else if (cmp === 'rule-cmp') {
                 $(activeId).prepend(
-                    '<br><hr class="ud"><br>'
+                    '<div class="ud"><br><hr><br></div>'
                 );
             }
             else if (cmp === 'space-cmp') {
@@ -48,18 +67,18 @@ $(function() {
             }
             else if (cmp === 'quote-cmp') {
                 $(activeId).prepend(
-                    '<quoteblock class="ud">Some code block.</quoteblock>'
+                    '<div class="ud"><quoteblock class="ud">Some code block.</quoteblock></div>'
                 );
             }
             else if (cmp === 'embed-cmp') {
                 $('#general-modal').modal('open');
                 $(activeId).prepend(
-                    '<quoteblock class="ud">Some code block.</quoteblock>'
+                    '<div class="ud"><quoteblock class="ud">Some embed text</quoteblock></div>'
                 );
             }
             else if (cmp === 'video-cmp') {
                 $(activeId).prepend(
-                    '<video class="ud">Some code block.</video>'
+                    '<div class="ud"><<video class="ud">Some code block.</video></div>'
                 );
             }
             console.log('you dropped ' + ui.draggable.prop('id') +' into the page preview!');
@@ -73,14 +92,10 @@ $(function() {
 
     // open image selection modal
     function open_img_selection() {
-        var media_library;
-        // media_library = $('.project-list').clone();
-        // $('#media-library-upload').empty();
         if (!initializedLibraryUpload) {
             initializeLibraryUploadForm();
             initializedLibraryUpload = true;
         }
-        // $('ul.tabs').tabs();
         $('#select-img-modal').modal('open');
     }
 

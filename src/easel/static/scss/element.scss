@@ -42,7 +42,10 @@ figcaption {
 	color: $interface-color-05;
 }
 .dark-text {
-	color: $interface-color-01;
+	color: $interface-color-01 !important;
+}
+.gray-text {
+	color: $gray-scale-03 !important;
 }
 .cover-text {
     font-family: $sublogo-font;
@@ -119,7 +122,12 @@ figcaption {
 .block-elmt {
 	display: block;
 }
-
+.right-top {
+	position: absolute;
+	right: 0;
+	top: 0;
+	padding: 10px;
+}
 
 /* page elements */
 .half-rule {
@@ -232,6 +240,32 @@ figcaption {
     	border: 2px solid $interface-color-07;
     	transform: scale(1.05);
     }
+}
+.circle-icon {
+	@include smooth(0.3s);
+    background-color: #EAEAEA;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    margin: 0 10px;
+    padding-top: 15px;
+    text-align: center;
+    box-shadow: 5px 5px 5px rgba(50, 50, 50, 0.5);
+    i {
+    	color: $interface-color-01 !important;
+    }
+    &:hover {
+    	background-color: $interface-color-01;
+    	color: $interface-color-05;
+    	i {
+    		color: $interface-color-05 !important;
+    	}
+    }
+}
+.dangling-left {
+	left: -80px;
+	position: absolute;
+	top: 0;
 }
 
 /* img */

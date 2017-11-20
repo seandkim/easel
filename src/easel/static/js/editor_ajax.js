@@ -82,7 +82,7 @@ $(document).ready(function() {
         var active_tab_content = $( active_tab );
         console.log('creating component ' + '<img src="' + url + '"> in ' + active_tab);
         active_tab_content.prepend(
-            '<img class="ud" src="' + url + '">'
+            '<div class="ud"><img class="ud" src="' + url + '"><div>'
         );
         $('#select-img-modal').modal('close');
         resetImgForm();
