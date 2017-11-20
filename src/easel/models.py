@@ -103,7 +103,7 @@ class Media(models.Model):
     # TODO support multi-file
     # media_type = models.CharField(max_length=5)
     # TODO dynmically create upload_to folder
-    image = models.ImageField(upload_to='media', blank=True)
+    image = models.ImageField(upload_to='media')
 
     def __unicode__(self):
         return self.name
