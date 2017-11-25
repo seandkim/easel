@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 
 html = """
+<!DOCTYPE html>
 <html>
  <head>
   <title>
@@ -13,46 +14,55 @@ html = """
     The Dormouse's story
    </b>
   </p>
-  <p class="story">
-   Once upon a time there were three little sisters; and their names were
-   <a class="sister" href="http://example.com/elsie" id="link1">
-    Elsie
-   </a>
-   ,
-   <a class="sister" href="http://example.com/lacie" id="link2">
-    Lacie
-   </a>
-   and
-   <a class="sister" href="http://example.com/tillie" id="link3">
-    Tillie
-   </a>
-   ;
-and they lived at the bottom of a well.
-  </p>
   <p class="ud title">
    hello
   </p>
   <div contenteditable="true">
+    <p>hello</p>
   </div>
-  <div hello="1"></div>
+  <div id="1"></div>
   <a href="google.com"></a>
   </body>
   </html>
 """
 
 soup = BeautifulSoup(html, "html.parser")
+
+def confirm(elem): 
+  if elem.name != 'div': 
+    return False
+
+  print(elem)
+
+  try: 
+    return elem['contenteditable'] == 'true'
+  except: 
+    return False
+
+res = soup.find_all(confirm)
+for e in res: 
+  e['contenteditable'] = 'false'
+print(res)
 print(soup.prettify())
 
 
+# def confirm(tag): 
+#   try: 
+#     print(tag.attrs)
+#     print(tag['valign'] == 'top')
+#     return tag['valign'] == 'top'
+#   except: 
+#     return False
 
-html2 = '<div contenteditable="true"></div>\
-        <td width="580" valign="top">hello1</td>\
-        <td>hello2</td>'
+# html2 = '<td width="580" valign="top">hello1</td>\
+#         <td valign="top">hello2</td>'
 
-soup2 = BeautifulSoup(html2, "html.parser")
+# soup2 = BeautifulSoup(html2, "html.parser")
 
+# print(soup2.find_all('td', {'valign', 'top'}))
 
-
+# td_tag_list = soup2.find_all(confirm)
+# print(td_tag_list)
 
 
 
