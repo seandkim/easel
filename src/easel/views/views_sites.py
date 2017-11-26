@@ -185,17 +185,24 @@ def sitePublish(request, siteName):
         for pageName in pageNames:
             pages.append(profile.getPage(siteName, pageName))
 
+    def filterEditable(elem):
+        try:
+            return elem['contenteditable'] == 'true'
+        # if attribute is not present, raises keyError
+        except KeyError:
+            return False
+
     for page in pages:
         soup = BeautifulSoup(page.html, 'html.parser')
         print("beautifulsoup parsing")
-        for div in soup.find_all('div', {"contenteditable", "true"}):
+        for div in soup.find_all(filterEditable):
             print(div)
             div['contenteditable'] = 'false'
-            print("=>", div)
+            print(div)
         for ud in soup.find_all('', class_="ud"):
             print(ud)
             ud['class'].remove('ud')
-            print("=>", ud)
+            print(ud)
 
         page.published_html = str(soup)
         page.save()

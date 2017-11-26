@@ -60,6 +60,11 @@ def renderPage(request, username, siteName, pageName):
         HttpResponse("Found the page but published_html was empty. Make sure you publish the page")
 
     # TODO change to template where we can render something about easel
+    user = User.objects.get(username=username)
+    profile = Profile.objects.get(user=user)
+    profile.visitorNum += 1
+    profile.save()
+    
     return HttpResponse(page.published_html)
 
 def notFound(request):
