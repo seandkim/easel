@@ -218,6 +218,9 @@ def sitePublish(request, siteName):
     for page in pages:
         soup = BeautifulSoup(page.html, 'html.parser')
         print("beautifulsoup parsing")
+        for div in soup.find_all('div', class_='empty-workspace-msg'):
+            print(div)
+            div.decompose()
         for div in soup.find_all(filterEditable):
             print(div)
             div['contenteditable'] = 'false'

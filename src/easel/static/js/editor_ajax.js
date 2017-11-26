@@ -21,7 +21,7 @@ function initializeAddNewPageModal() {
         el.append(
             '<li>' +
                 '<a href="#">' +
-                    '<i class="icon-file-o"></i>' + pages[i] + 
+                    '<i class="icon-file-o"></i>' + pages[i] +
                 '</a>' +
             '</li>'
         );
@@ -275,11 +275,13 @@ function saveCurrentPage(successHandler) {
         method: "POST",
         data: {
             pageName: pageName,
-            html: $('#page-content').html()
+            html: $('#page-content > #'+pageName).html()
         },
         success: function(data) {
             showAlertMsg("Page saved");
-            successHandler();
+            if (successHandler != null) {
+                successHandler();
+            }
         },
         error: function(e) {
             // TODO add error handling
