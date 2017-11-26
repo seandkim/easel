@@ -9,7 +9,7 @@
                     <div class="opt-wrapper">
                         <div class="opt-icon-wrapper">
                             <i class="icon icon-link-streamline"></i>
-                        </div>  
+                        </div>
                         <div class="opt-name header-text">
                             EXTERNAL URL
                         </div>
@@ -20,7 +20,7 @@
                     <div class="opt-wrapper">
                         <div class="opt-icon-wrapper">
                             <i class="icon icon-page"></i>
-                        </div>  
+                        </div>
                         <div class="opt-name header-text">
                             EXISITNG PAGES
                         </div>
@@ -35,11 +35,18 @@
             </form>
         </div>
         <div id="existing-page" class='hidden upload-opt-div'>
-            Existing page selection
-        </div>
-        <!-- modal close button -->
-        <a href="#!" class="modal-action modal-close modal-close-btn close-img-upload">
+            <div class="input-field col s12">
+                <form method="post" action="#" id="select-link-page-form">
+                    <input type="text" id="autocomplete-input" class="autocomplete" autocomplete="off">
+                    <label for="autocomplete-input">Search for Existing Page</label>
+                    <button class="dark-btn-alt float-right" type="submit"> LINK &#10230; </button>
+                </form>
+            </div>
+            <div class="page-opt-list"></div>
+            <!-- modal close button -->
+            <a href="#!" class="modal-action modal-close modal-close-btn close-img-upload">
             <i class="icon-close-big"></i>
         </a>
+        </div>
     </div>
 </div>

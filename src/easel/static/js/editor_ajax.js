@@ -8,24 +8,49 @@ var files;
 const siteName = 'dummy';
 
 /* open add new page modal, initializing all page options */
-function initializeAddNewPageModal() {
+function initializeLinkNewPageModal() {
     var pages = pageTree;
-    var el = $('#existing-page').empty();
+    var menu = $('#page-opt-list').empty();
+    var settings = {};
 
-    // add page name to selection
-    el.append('<ul>');
+    // // add page name to selection
+    // var el = $('<ul class="page-selection"></ul>');
+    // for (var i = 0; i < pages.length; i++) {
+    //     var name = pages[i];
+    //     el.append(
+    //         '<li>' +
+    //             '<a href="#" class="page-choice" url-target="#' + name + '">' +
+    //                 '<i class="icon-file"></i> ' + 
+    //                 '<span class="page-name">' + name + '</span>' +
+    //             '</a>' +
+    //         '</li>'
+    //     );
+    // }
+    // menu.append(el);
     for (var i = 0; i < pages.length; i++) {
-        el.append(
-            '<li>' +
-                '<a href="#">' +
-                    '<i class="icon-file-o"></i>' + pages[i] +
-                '</a>' +
-            '</li>'
-        );
+        var name = pages[i];
+        settings[name] = null;
     }
-    el.append('</ul>');
-    // open madal
+
+    $('input.autocomplete').autocomplete({
+        data: settings,
+        limit: 20, // The max amount of results that can be shown at once. Default: Infinity.
+        onAutocomplete: function(val) {
+          // Callback function when value is autcompleted.
+        },
+        minLength: 0, // The minimum length of the input for the autocomplete to start. Default: 1.
+    });
+       
+    // open modal
     $('#link-page-modal').modal('open');
+}
+
+/* add newly chosen href to the anchor tag */
+function addHrefToAnchor(url) {
+    var el = $('#link-page-target');
+    el.attr('href', url);
+    el.removeAttr('id');
+    $('#link-page-modal').modal('close');
 }
 
 /* update the page tree of current user */
@@ -232,7 +257,7 @@ function initializeEditMode(mode) {
     } else if (mode == "sortable") {
         $(".sortable").sortable("option", "disabled", false);
     } else {
-        console.error("Unrecognizable error mode", mode)
+        console.error("Unrecognizable error mode", mode);
     }
 }
 
@@ -443,6 +468,12 @@ $(document).ready(function() {
         }
     });
 
+    $(document).on('click', '.page-choice', function() {
+        var url = $(this).attr('url-target');
+        console.log('you clicked on page-choice:' + url);
+        addHrefToAnchor(url);
+    });
+
     /* close new tab */
     $(document).on("click", ".close-tab", function(e) {
         e.preventDefault();
@@ -485,6 +516,12 @@ $(document).ready(function() {
                 console.error("failed to add the page", textStatus);
             }
         });
+    });
+
+    $('#select-link-page-form').submit(function(e) {
+        var url = "#" + $('#autocomplete-input').val();
+        e.preventDefault();
+        addHrefToAnchor(url);
     });
 
 });

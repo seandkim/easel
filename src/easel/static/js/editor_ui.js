@@ -54,10 +54,14 @@ var editable_settings = {
             end: '</u>'
         }),
         'link': new MediumButton({
-            label: '<i class="md-sm-text icon-link"></i>',
+            label: 'A',
             action: function(html, mark, parent) {
                 //$('#page-preview').trigger('click');
-                updatePageTree(initializeAddNewPageModal);
+                // console.log(html);
+                // console.log(mark);
+                // console.log(parent);
+                updatePageTree(initializeLinkNewPageModal);
+                return '<a id="link-page-target" href="#">' + html + '</html>';
             }
         }),
         'left': new MediumButton({
@@ -240,6 +244,12 @@ $(function() {
 
     /* initialize editable */
     initializeEditable();
+
+    /* add close modal handler */
+    // TODO: fix the fact that closing doesn't trigger complete
+    $("#link-page-modal").modal({
+        complete : function() { console.log('you closed modal'); $('#link-page-target').removeAttr('id'); }
+    });
 
     /* page tab: open and close on active and inactive */
     $(document).on("click", ".cr-tabs > li", function(e) {
