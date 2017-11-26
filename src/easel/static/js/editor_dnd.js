@@ -1,35 +1,45 @@
 'use strict';
 
 $(function() {
-
     var initializedLibraryUpload = false;
     var focusElement;
 
-    $(document).on('click', '.delete-ud', function() {
+     $(document).on('click', '.delete-ud', function() {
         var ud_to_close = $(this).closest('.ud');
         ud_to_close.remove();
     });
-    $(document).on('click', '.ud', function() {
-        if (focusElement) {
-            focusElement.find('.delete-ud-wrapper').remove();
-        }
-        const right = this.getBoundingClientRect().right
-        const bottom = this.getBoundingClientRect().bottom
+
+    $('.ud').mouseenter(function() {
+        const radius = 70;
+        const left = $(this).position()['left'] + $(this).width() - radius;
+        const top = $('#page-content').scrollTop() + $(this).position()['top']
+                    + $(this).height() - radius;
 
         const styleStr = 'style="position: absolute; left:' +
-                        right + 'px; top:' + bottom +'px;"'
+                        left + 'px; top:' + top +'px;"';
 
-        const trashCan = "" +
-        '<div class="right-top circle-icon delete-ud-wrapper cursor-pointer" ' +
+        const trashCan = $('<div class="delete-ud-wrapper" contenteditable="false">' +
+        '<div class="right-top circle-icon cursor-pointer" ' +
             styleStr + '>' +
             '<div class="delete-ud" href="#" title="Delete Component">' +
                 '<i class="medium-text icon-garbage"></i>' +
             '</div>' +
-        '</div>'
-        debugger;
-        $( this ).append(trashCan);
+        '</div></div>');
+        trashCan.hide();
+        $(this).append(trashCan);
+        trashCan.fadeIn('fast', 'swing');
         focusElement = $( this );
     });
+
+    // delete trash can when it exits
+    $('.ud').mouseleave(function() {
+        if (focusElement) {
+            const trashCan = focusElement.find('.delete-ud-wrapper');
+            trashCan.fadeOut('fast', 'swing', function() {
+                trashCan.remove();
+            });
+        }
+    })
 
     $('.drag-component').draggable({
         scroll: false,

@@ -9,7 +9,7 @@ var sidebarHidden = true;
  */
 function sidebarToggle(e) {
     if (sidebarHidden) {
-        showSideBar();
+       showSideBar();
     } else {
        hideSideBar();
     }
