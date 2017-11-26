@@ -13,13 +13,21 @@ $(function() {
         if (focusElement) {
             focusElement.find('.delete-ud-wrapper').remove();
         }
-        $( this ).append(
-            '<div class="right-top circle-icon delete-ud-wrapper cursor-pointer">' +
-                '<div class="delete-ud" href="#" title="Delete Component">' +
-                    '<i class="medium-text icon-garbage"></i>' +
-                '</div>' +
-            '</div>'
-        );
+        const right = this.getBoundingClientRect().right
+        const bottom = this.getBoundingClientRect().bottom
+
+        const styleStr = 'style="position: absolute; left:' +
+                        right + 'px; top:' + bottom +'px;"'
+
+        const trashCan = "" +
+        '<div class="right-top circle-icon delete-ud-wrapper cursor-pointer" ' +
+            styleStr + '>' +
+            '<div class="delete-ud" href="#" title="Delete Component">' +
+                '<i class="medium-text icon-garbage"></i>' +
+            '</div>' +
+        '</div>'
+        debugger;
+        $( this ).append(trashCan);
         focusElement = $( this );
     });
 
