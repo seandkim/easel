@@ -22,6 +22,7 @@ $(document).ready(function() {
     return values;
   }
 
+  // add project form
   $("#add-project-modal").on('click', 'button', function(e) {
     e.preventDefault();
     const fieldNames = ['projectName', 'description', 'username'];
@@ -32,10 +33,22 @@ $(document).ready(function() {
         method: "POST",
         data: values,
         success: function(data) {
-            console.log("successfully added the project");
+            console.log("successfully added the project", data);
+            loadProject(data['projects'][0], true);
+            $('.modal').modal('close');
         },
         error: function(jqXHR, textStatus) {
-            console.error("failed to add the project", textStatus);
+            // remove existing error message
+            $('#add-project-modal ul.errorlist').parent().parent().remove()
+
+            const data = jqXHR.responseJSON; // array of error messages
+            console.error("failed to add the project", data);
+            const error_list = $('<tr><td colspan="2"><ul class="errorlist nonfield"></ul></td></tr>');
+            for (let i=0; i<data['errors'].length; i++) {
+              const error = data['errors'][i];
+              error_list.find("ul").append("<li>"+ error +"</li>");
+            }
+            $('#add-project-modal tbody').prepend(error_list);
         }
     });
   });
@@ -59,41 +72,39 @@ $(document).ready(function() {
   }
 
   var csrftoken = getCookie('csrftoken');
+
   $.ajaxSetup({
       beforeSend: function(xhr, settings) {
           xhr.setRequestHeader("X-CSRFToken", csrftoken);
       }
   });
 
-  loadProject();
+  // load projects
+  $.get("/easel/projects/getAllProjects/").done(function(data) {
+      //console.log(data);
+      var projects = data.projects;
+      if (projects.length == 0) {
+          $('#project-tab').append('<div class="header-text medium-text">No projects currently. Try adding new project?</div>');
+      }
+      for (var i = 0; i < projects.length; i++) {
+          var project = projects[i];
+          const isSelected = (i==0) ? true : false;
+          loadProject(project, isSelected);
+      }
+  });
 
-  function loadProject() {
-      $.get("/easel/projects/getAllProjects/").done(function(data) {
-          //console.log(data);
-          var projects = data.projects;
-          var project_list = $('#project-tab');
-
-          if (projects.length == 0) {
-              project_list.append('<div class="header-text medium-text">No projects currently. Try adding new project?</div>');
-          }
-          for (var i = 0; i < projects.length; i++) {
-              var project = projects[i];
-              media_tree[project.name] = [];
-              var li = $('<li class="tab col s3"></li>');
-              var a = $('<a></a>').attr('href', '#' + project.name).html(project.name);
-              if (i == 0) {
-                  li.addClass('active');
-              }
-              li.append(a);
-              project_list.append(li);
-
-              //console.log(project.description);
-              loadMedia(project.name, project.description, i);
-          }
-      });
+  // helper function that loads one project
+  function loadProject(project, isSelected) {
+    media_tree[project.name] = [];
+    var li = $('<li class="tab col s3"></li>');
+    var a = $('<a></a>').attr('href', '#' + project.name).html(project.name);
+    li.append(a);
+    $('#project-tab').append(li);
+    loadMedia(project.name, project.description, isSelected);
   }
 
-  function loadMedia(projectName, description) {
+  // helper function that loads all the media within one project
+  function loadMedia(projectName, description, isSelected) {
       var path = "/easel/projects/"+projectName+'/getAllMedias/';
       var project_list = media_tree[projectName];
       $.get(path).done(function(data) {
@@ -147,8 +158,7 @@ $(document).ready(function() {
               medias_list.append(col);
               project_list.push({path: imgPath, name: media.name, caption: media.caption});
           }
-
-          if (i == 0) {
+          if (isSelected) {
               $('ul.tabs').tabs('select_tab', projectName);
           }
       }).fail(function() {

@@ -31,9 +31,6 @@ soup = BeautifulSoup(html, "html.parser")
 def confirm(elem): 
   if elem.name != 'div': 
     return False
-
-  print(elem)
-
   try: 
     return elem['contenteditable'] == 'true'
   except: 

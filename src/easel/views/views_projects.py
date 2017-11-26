@@ -52,7 +52,7 @@ def getAllProjects(request):
         projects = Project.objects.filter(owner=profile)
         context = {"username": profile.user.username, "projects": projects}
         return render(request, 'json/projects.json', context, content_type='application/json')
-    return HttpResponse('')
+    return Http404('Unsupported method')
 
 @login_required
 def getAllMedias(request, projectName):
@@ -79,27 +79,26 @@ def getMediaPhoto(request, projectName, mediaName):
 
 @login_required
 def addProject(request):
-    context = {}
-
     # Just display the add-project form if this is a GET request.
     if request.method == 'GET':
         raise Http404("Invalid Request Argument")
 
     form = AddProjectForm(request.POST)
-    context['form'] = form
     # Validates the form.
     if not form.is_valid():
-        return JsonResponse({"success": False, "error": "there was an error"})
+        response = JsonResponse({"errors": form.errors['__all__']})
+        response.status_code = 400  # Bad Request
+        return response
 
-    profile = Profile.objects.get(user = request.user)
+    profile = Profile.objects.get(user=request.user)
 
     new_project = Project(owner=profile,
                           name=form.cleaned_data['projectName'],
                           description=form.cleaned_data['description'])
     new_project.save()
-    context['message'] = "Your project has been added"
 
-    return JsonResponse({"success": True})
+    context = {"username": request.user.username, "projects": [new_project]}
+    return render(request, 'json/projects.json', context, content_type='application/json')
 
 @login_required
 def deleteProject(request, projectName):
