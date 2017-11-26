@@ -294,18 +294,50 @@ function copyPage(pageName) {
 
 function deletePage(pageName) {
     console.log('sending ajax request to delete page ' + pageName );
+    var close_li, isRemovingActive;
+    close_li = $('.cr-tabs > li[tab-target="#' + pageName + '"]');
+    isRemovingActive = close_li.hasClass('active');
     $.ajax({
         url: "/easel/sites/" + siteName + "/deletePage/",
         method: "POST",
         data: { pageName: pageName },
         success: function(data) {
             console.log("successfully deleted the page " + pageName);
-            // TODO: delete page from work space
+            // delete page from workspace
+            closeTab(pageName, close_li, isRemovingActive, true);
+            showAlertMsg("Deleted page - " + pageName);
         },
         error: function(jqXHR, textStatus) {
             console.error("failed to delete the page", textStatus);
+            showAlertMsg("Error in deleting page. <br> Please try again.");
         }
     });
+}
+
+function closeTab(pageName, close_li, isRemovingActive, isDelete) {
+    // remove content and tab indicator
+    $('#page-content > div#' + pageName).remove();
+    close_li.remove();
+    // change file icon to closed
+    if (isDelete) {
+        // delete pageTab
+        $('.file[file-name="' + pageName + '"]').remove();
+    }
+    else {
+        $('#page-list i.' + pageName).removeClass('icon-file-o').addClass('icon-file');
+        changePageStatus(pageName, false, false); // ajax call to server
+    }
+    
+    // select the next open tab
+    if (isRemovingActive) {
+        if ($('.cr-tabs > li').length > 0) {
+            var new_active_tab = $('.cr-tabs > li').last();
+            new_active_tab.trigger('click');
+            var new_pageName = new_active_tab.find('a:not(.close-tab)').html();
+            changePageStatus(new_pageName, true, true);
+        }
+    }
+    checkTabPresent();
 }
 
 
@@ -343,29 +375,10 @@ $(document).ready(function() {
     $(document).on("click", ".close-tab", function(e) {
         e.preventDefault();
         e.stopPropagation(); // stops event listener for clicking new tab
-        var pageName = $(this).prev().html()
+        var pageName = $(this).prev().html();
         var close_li = $(this).closest('li');
         var isRemovingActive = close_li.hasClass('active');
-
-        // remove content and tab indicator
-        $('#page-content > div#' + pageName).remove()
-        close_li.remove();
-        // change file icon to closed
-        $('#page-list i.' + pageName).removeClass('icon-file-o').addClass('icon-file')
-
-        // ajax call to server
-        changePageStatus(pageName, false, false);
-
-        // select the next open tab
-        if (isRemovingActive) {
-            if ($('.cr-tabs > li').length > 0) {
-                var new_active_tab = $('.cr-tabs > li').last();
-                new_active_tab.trigger('click');
-                var new_pageName = new_active_tab.find('a:not(.close-tab)').html();
-                changePageStatus(new_pageName, true, true);
-            }
-        }
-        checkTabPresent();
+        closeTab(pageName, close_li, isRemovingActive, false);
     });
 
     /* saving by cmd+s */
@@ -394,7 +407,7 @@ $(document).ready(function() {
             data: { username: username, pageName: pageName },
             success: function(data) {
                 console.log("successfully added the page");
-                var file = $('<div class="file">' +
+                var file = $('<div class="file" file-name="' + pageName +'">' +
                     '<i class="' + pageName + ' icon icon-file"></i> ' +
                     '<span class="page-name">' + pageName + '</span>' +
                     '</div>');

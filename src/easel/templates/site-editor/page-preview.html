@@ -3,15 +3,15 @@
     <div id="tab-bar">
         <ul class="cr-tabs clearfix">
             {% for page in pages %}
-            {% if page.opened %}
-                {% if page.active %}
-                <li tab-target="#{{page.name}}" class="active">
-                {% else %}
-                <li tab-target="#{{page.name}}">
-                {% endif %}
-                    <a href=#>{{page.name}}</a>
-                    <a href="#" class="close-tab"><span class="icon-close"></span></a>
-                </li>
+                {% if page.opened %}
+                    {% if page.active %}
+                    <li tab-target="#{{page.name}}" class="active">
+                    {% else %}
+                    <li tab-target="#{{page.name}}">
+                    {% endif %}
+                        <a href=#>{{page.name}}</a>
+                        <a href="#" class="close-tab"><span class="icon-close"></span></a>
+                    </li>
                 {% endif %}
             {% endfor %}
         </ul>

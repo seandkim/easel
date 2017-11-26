@@ -28,7 +28,7 @@
             <br>
             <div class="list" id="page-list">
                 {% for page in pages %}
-                <div class="file">
+                <div class="file" file-name="{{page.name}}">
                     {% if page.opened %}
                     <i class="{{page.name}} icon icon-file-o"></i>
                     {% else %}
