@@ -133,6 +133,35 @@ def addPage(request, siteName):
     new_page.save()
     return HttpResponse("")
 
+# requires POST request with the following argument:
+# { 'pageName': <name of the page created>,
+#  'pageToCopy': <name of the page to be copied> }
+@login_required
+def copyPage(request, siteName):
+    if request.method != 'POST':
+        raise Http404("Invalid Request Method")
+
+    if (('pageName' not in request.POST) or (request.POST['pageName'] == "") or
+        ('pageToCopy' not in request.POST) or (request.POST['pageToCopy'] == "")):
+        raise Http404("Invalid Request Argument")
+
+    pageName = request.POST['pageName']
+    pageToCopy = request.POST['pageToCopy']
+
+    try:
+        site = Site.getSite(request.user.username, siteName)
+    except ObjectDoesNotExist:
+        raise Http404("Site %s does not exist" % siteName)
+
+    try:
+        page = Page.objects.get(name=pageToCopy , site=site)
+    except ObjectDoesNotExist:
+        raise Http404("Page %s does not exists in %s" % (pageName, siteName))
+
+    new_page = site.createPageWithHtml(pageName, page.html)
+    new_page.save()
+    return HttpResponse(new_page.html)
+
 @login_required
 def deletePage(request, siteName):
     if request.method != 'POST':
