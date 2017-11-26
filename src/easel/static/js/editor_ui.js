@@ -1,9 +1,16 @@
 'use strict';
 
+/* editor_ui.js - handling page interactions */
+
+/* initializations */
+var componentTabHidden = true;
+var pageTabHidden = true;
+var toolTabHidden = true;
+var editor;
+
+/* --------------- editable setting ------------- */
 var editable_settings = {
     anchorPreview: {
-        /* These are the default options for anchor preview,
-           if nothing is passed this is what it used */
         hideDelay: 500,
         previewValueSelector: 'a'
     },
@@ -16,7 +23,7 @@ var editable_settings = {
         contentDefault: '<i class="md-sm-text icon-indent"></i>'
     },
     outdent: {
-        contentDefault: '<i class="md-sm-text icon-indent"></i>'
+        contentDefault: '<i class="md-sm-text icon-outdent"></i>'
     },
     justifyLeft: {
         contentDefault: '<i class="md-sm-text icon-align-left"></i>'
@@ -102,7 +109,29 @@ var editable_settings = {
     }
 };
 
-/* activate page tab programmatically */
+/* initialize editable area in page preview */
+function initializeEditable() {
+    editor = new MediumEditor('.editable', editable_settings);
+    /* change icon content */
+    $('.medium-editor-action-justifyLeft').html('<i class="md-sm-text icon-align-left"></i>');
+    $('.medium-editor-action-justifyRight').html('<i class="md-sm-text icon-align-right"></i>');
+    $('.medium-editor-action-justifyCenter').html('<i class="md-sm-text icon-align-center"></i>');
+    $('.medium-editor-action-indent').html('<i class="md-sm-text icon-indent"></i>');
+    $('.medium-editor-action-outdent').html('<i class="md-sm-text icon-outdent"></i>');
+}
+
+/* return html string of a given icon name */
+function getLabel(iconName) {
+    return '<i class="md-sm-text icon-' + iconName + '></i>';
+}
+
+
+/* --------------- Page Tab ------------- */
+/*
+ * activateTab: activate page tab programmatically
+ * 
+ * input: el - tab li element to be activated
+ */
 function activateTab(el) {
     var cr_tabs = $('.cr-tabs > li');
     // get the unactivated tab
@@ -116,17 +145,25 @@ function activateTab(el) {
     $(activated_tab).removeClass('hidden');
 }
 
+/*
+ * getCurrentActivePageName : return the page name of active tab
+ */
 function getCurrentActivePageName() {
-    let current_page = document.getElementsByClassName("active");
-    return $($(current_page).children()[0]).html();
+    let current_page = $("active");
+    return $(current_page.children()[0]).html();
 }
 
-// check if there is any tab currently open
+
+/*
+ * noTab : check if there is any tab currently open, returns bool
+ */
 function noTab() {
     return ($('.cr-tabs').children().length === 0);
 }
 
-// append empty message if no tab is open
+/*
+ * checkTabPresent : append empty message if no tab open
+ */
 function checkTabPresent() {
     if (noTab()) {
         $('#empty-workspace-msg').removeClass('hidden');
@@ -137,26 +174,59 @@ function checkTabPresent() {
     }
 }
 
-
-/* --------------- editable setting ------------- */
-var editor;
-
-function initializeEditable() {
-    editor = new MediumEditor('.editable', editable_settings);
-    /* change icon content */
-    $('.medium-editor-action-justifyLeft').html('<i class="md-sm-text icon-align-left"></i>');
-    $('.medium-editor-action-justifyRight').html('<i class="md-sm-text icon-align-right"></i>');
-    $('.medium-editor-action-justifyCenter').html('<i class="md-sm-text icon-align-center"></i>');
-    $('.medium-editor-action-indent').html('<i class="md-sm-text icon-indent"></i>');
-    $('.medium-editor-action-outdent').html('<i class="md-sm-text icon-outdent"></i>');
+/* display upload form for image component */
+function showUploadForm(e) {
+    // hide menu
+    $('.upload-option').removeClass('selected');
+    $(this).addClass('selected');
+    // show form
+    var upload_form_id = $(this).attr('opt-target');
+    var upload_form = $(upload_form_id);
+    $('.upload-opt-div').addClass('hidden');
+    upload_form.removeClass('hidden');
 }
 
+/* slide up and down of editor tab */
+function componentToggle() {
+    var ind = $('#component-tab').find('.tab-indicator');
+    if (componentTabHidden) {
+        $('#component-list').slideDown('swing');
+        ind.html('<i class="icon icon-down-dir"></i>');
+    } else {
+        $('#component-list').slideUp('swing');
+        ind.html('<i class="icon icon-right-dir"></i>');
+    }
+    componentTabHidden = !componentTabHidden;
+}
+
+/* toggle page tab in editor-bar */
+function pageToggle() {
+    var ind = $('#page-tab').find('.tab-indicator');
+    if (pageTabHidden) {
+        $('#page-list').slideDown('swing');
+        ind.html('<i class="icon icon-down-dir"></i>');
+    } else {
+        $('#page-list').slideUp('swing');
+        ind.html('<i class="icon icon-right-dir"></i>');
+    }
+    pageTabHidden = !pageTabHidden;
+}
+
+/* toggle tool tab in editor-bar */
+function toolToggle() {
+    var ind = $('#tool-tab').find('.tab-indicator');
+    if (toolTabHidden) {
+        $('#tool-list').slideDown('swing');
+        ind.html('<i class="icon icon-down-dir"></i>');
+    } else {
+        $('#tool-list').slideUp('swing');
+        ind.html('<i class="icon icon-right-dir"></i>');
+    }
+    toolTabHidden = !toolTabHidden;
+}
+
+
 $(function() {
-    /* initializations */
-    var componentTabHidden = true;
-    var pageTabHidden = true;
-    var toolTabHidden = true;
-    var temp_count = 0;
 
     /* event listeners */
     $('#component-tab').on('click', componentToggle);
@@ -167,55 +237,9 @@ $(function() {
     /* img upload modal */
     $('#exteral-url-opt, #existing-page-opt').on('click', showUploadForm);
     $('#local-opt, #library-opt, #link-opt').on('click', showUploadForm);
+
+    /* initialize editable */
     initializeEditable();
-
-    function showUploadForm(e) {
-        // hide menu
-        $('.upload-option').removeClass('selected');
-        $(this).addClass('selected');
-        // show form
-        var upload_form_id = $(this).attr('opt-target');
-        var upload_form = $(upload_form_id);
-        $('.upload-opt-div').addClass('hidden');
-        upload_form.removeClass('hidden');
-    }
-
-    /* slide up and down of editor tab */
-    function componentToggle() {
-        var ind = $('#component-tab').find('.tab-indicator');
-        if (componentTabHidden) {
-            $('#component-list').slideDown('swing');
-            ind.html('<i class="icon icon-down-dir"></i>');
-        } else {
-            $('#component-list').slideUp('swing');
-            ind.html('<i class="icon icon-right-dir"></i>');
-        }
-        componentTabHidden = !componentTabHidden;
-    }
-
-    function pageToggle() {
-        var ind = $('#page-tab').find('.tab-indicator');
-        if (pageTabHidden) {
-            $('#page-list').slideDown('swing');
-            ind.html('<i class="icon icon-down-dir"></i>');
-        } else {
-            $('#page-list').slideUp('swing');
-            ind.html('<i class="icon icon-right-dir"></i>');
-        }
-        pageTabHidden = !pageTabHidden;
-    }
-
-    function toolToggle() {
-        var ind = $('#tool-tab').find('.tab-indicator');
-        if (toolTabHidden) {
-            $('#tool-list').slideDown('swing');
-            ind.html('<i class="icon icon-down-dir"></i>');
-        } else {
-            $('#tool-list').slideUp('swing');
-            ind.html('<i class="icon icon-right-dir"></i>');
-        }
-        toolTabHidden = !toolTabHidden;
-    }
 
     /* page tab: open and close on active and inactive */
     $(document).on("click", ".cr-tabs > li", function(e) {
@@ -231,42 +255,11 @@ $(function() {
         $(activated_tab).removeClass('hidden');
     });
 
-    // TODO: fix the hovering bug
-    var cr_tabs = $('.cr_tabs>li');
-    cr_tabs.hover(function() {
-        cr_tabs.removeClass('hover');
-        $(this).addClass('hover');
-    }, function() {
-        cr_tabs.removeClass('hover');
-    });
-
-    // TODO fix the hovering state of the button
-    /* hovering event of add page button */
-    // $('#add-page').hover(function() {
-    //     $(this).find('a').html('<i class="icon-plus-circle"></i>');
-    // }, function() {
-    //     $(this).find('a').html('<i class="icon-plus"></i>');
-    // });
-
-    /* activate page tab programmatically */
-    function activateTab(el) {
-        var cr_tabs = $('.cr-tabs > li');
-        // get the unactivated tab
-        var unactivated_tab = $('.cr-tabs').find('.active').attr('tab-target');
-        $(unactivated_tab).addClass('hidden');
-        cr_tabs.removeClass('active');
-
-        // replace page review with target tab
-        el.addClass('active');
-        var activated_tab = el.attr('tab-target');
-        $(activated_tab).removeClass('hidden');
-    }
-
+    /* page list: right click shows menu */
     $(document).on("contextmenu", ".file", function(event) {
         // Avoid the real one
         event.preventDefault();
         // add attr to custom-menu
-        console.log($(this).find('.page-name').text());
         $(".custom-menu > li").attr('page-name', $(this).find('.page-name').text());
         // Show contextmenu
         $(".custom-menu").finish().toggle(100).
@@ -277,7 +270,6 @@ $(function() {
         });
     });
 
-
     // If the document is clicked somewhere
     $(document).bind("mousedown", function(e) {
         // If the clicked element is not the menu
@@ -286,10 +278,9 @@ $(function() {
         }
     });
 
-
     // If the menu element is clicked
     $(".custom-menu li").click(function() {
-        var targetPage = $( this ).attr('page-name'); 
+        var targetPage = $(this).attr('page-name');
         switch ($(this).attr("data-action")) {
             case "delete":
                 console.log('clicked delete ' + targetPage);
