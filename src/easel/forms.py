@@ -150,7 +150,7 @@ class EditMediaForm(forms.Form):
         profile = Profile.objects.get(user=user)
         projects = Project.objects.filter(owner=profile)
         media = Media.objects.filter(project__in=projects, name=mediaName)
-        
+
         assert(media.count() < 2)
         if media.count() == 1:
             if mediaName != oldName:

@@ -10,7 +10,7 @@ from django.contrib.auth import login, authenticate, logout, tokens
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth.models import User
 from django.db import transaction
-from django.http import HttpResponse, Http404, HttpResponseRedirect
+from django.http import HttpResponse, JsonResponse, Http404, HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template import Context
 from django.template.loader import get_template
@@ -89,7 +89,7 @@ def addProject(request):
     context['form'] = form
     # Validates the form.
     if not form.is_valid():
-        return render(request, 'project/project-add.html', context)
+        return JsonResponse({"success": False, "error": "there was an error"})
 
     profile = Profile.objects.get(user = request.user)
 
@@ -99,7 +99,7 @@ def addProject(request):
     new_project.save()
     context['message'] = "Your project has been added"
 
-    return HttpResponseRedirect(reverse("projects"))
+    return JsonResponse({"success": True})
 
 @login_required
 def deleteProject(request, projectName):

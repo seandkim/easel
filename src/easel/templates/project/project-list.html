@@ -36,10 +36,11 @@
             <h2 class="logo-text">Add Project</h2>
             <form method="post" action="#!">
                 <table>
+                  <!-- TODO only visible field to avoid duplicate username? -->
                     {{form}}
                 </table>
                 <input type="hidden" name="username" value="{{ profile.user.username }}" />
-                <button type="submit" class="dark-btn-alt">ADD &#10230;</button>
+                <button class="dark-btn-alt">ADD &#10230;</button>
                 {% csrf_token %}
             </form>
         </div>
