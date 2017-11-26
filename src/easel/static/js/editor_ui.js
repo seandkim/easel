@@ -24,7 +24,7 @@ var editable_settings = {
     toolbar: {
         buttons: ['b', 'i', 'u',
             'h1', 'h3', 'h5',
-            'anchor',
+            'anchor', 'link',
             'justifyLeft', 'justifyRight', 'justifyCenter',
             'indent', 'outdent'
         ]
@@ -45,6 +45,13 @@ var editable_settings = {
             label: '<i class="md-sm-text icon-underline"></i>',
             start: '<u>',
             end: '</u>'
+        }),
+        'link': new MediumButton({
+            label: '<i class="md-sm-text icon-link"></i>',
+            action: function(html, mark, parent) {
+                //$('#page-preview').trigger('click');
+                updatePageTree(initializeAddNewPageModal);
+            }
         }),
         'left': new MediumButton({
             label: '<i class="md-sm-text icon-align-left"></i>',
@@ -112,6 +119,7 @@ function activateTab(el) {
 
 /* --------------- editable setting ------------- */
 var editor;
+
 function initializeEditable() {
     editor = new MediumEditor('.editable', editable_settings);
     /* change icon content */
@@ -136,13 +144,13 @@ $(function() {
     $('#page-list, #tool-list, #component-list').hide();
 
     /* img upload modal */
+    $('#exteral-url-opt, #existing-page-opt').on('click', showUploadForm);
     $('#local-opt, #library-opt, #link-opt').on('click', showUploadForm);
     initializeEditable();
 
     function showUploadForm(e) {
         // hide menu
         $('.upload-option').removeClass('selected');
-        $('#item-menu').addClass('hidden');
         $(this).addClass('selected');
         // show form
         var upload_form_id = $(this).attr('opt-target');
@@ -232,4 +240,47 @@ $(function() {
         var activated_tab = el.attr('tab-target');
         $(activated_tab).removeClass('hidden');
     }
+
+    $(document).on("contextmenu", ".file", function(event) {
+        // Avoid the real one
+        event.preventDefault();
+        // Show contextmenu
+        $(".custom-menu").finish().toggle(100).
+        // In the right position (the mouse)
+        css({
+            top: event.pageY + "px",
+            left: event.pageX + "px"
+        });
+    });
+
+
+    // If the document is clicked somewhere
+    $(document).bind("mousedown", function(e) {
+        // If the clicked element is not the menu
+        if (!$(e.target).parents(".custom-menu").length > 0) {
+            $(".custom-menu").hide(100);
+        }
+    });
+
+
+    // If the menu element is clicked
+    $(".custom-menu li").click(function() {
+
+        // This is the triggered action name
+        switch ($(this).attr("data-action")) {
+            // A case for each action. Your actions here
+            case "first":
+                alert("first");
+                break;
+            case "second":
+                alert("second");
+                break;
+            case "third":
+                alert("third");
+                break;
+        }
+
+        // Hide it AFTER the action was triggered
+        $(".custom-menu").hide(100);
+    });
 });
