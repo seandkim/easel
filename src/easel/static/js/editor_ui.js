@@ -116,6 +116,27 @@ function activateTab(el) {
     $(activated_tab).removeClass('hidden');
 }
 
+function getCurrentActivePageName() {
+    let current_page = document.getElementsByClassName("active");
+    return $($(current_page).children()[0]).html();
+}
+
+// check if there is any tab currently open
+function noTab() {
+    return ($('.cr-tabs').children().length === 0);
+}
+
+// append empty message if no tab is open
+function checkTabPresent() {
+    if (noTab()) {
+        $('#empty-workspace-msg').removeClass('hidden');
+    } else {
+        if (!$('#empty-workspace-msg').hasClass('hidden')) {
+            $('#empty-workspace-msg').addClass('hidden');
+        }
+    }
+}
+
 
 /* --------------- editable setting ------------- */
 var editor;
@@ -244,6 +265,9 @@ $(function() {
     $(document).on("contextmenu", ".file", function(event) {
         // Avoid the real one
         event.preventDefault();
+        // add attr to custom-menu
+        console.log($(this).find('.page-name').text());
+        $(".custom-menu > li").attr('page-name', $(this).find('.page-name').text());
         // Show contextmenu
         $(".custom-menu").finish().toggle(100).
         // In the right position (the mouse)
@@ -265,22 +289,18 @@ $(function() {
 
     // If the menu element is clicked
     $(".custom-menu li").click(function() {
-
-        // This is the triggered action name
+        var targetPage = $( this ).attr('page-name'); 
         switch ($(this).attr("data-action")) {
-            // A case for each action. Your actions here
-            case "first":
-                alert("first");
+            case "delete":
+                console.log('clicked delete ' + targetPage);
+                deletePage(targetPage);
                 break;
-            case "second":
-                alert("second");
-                break;
-            case "third":
-                alert("third");
+            case "copy":
+                console.log('clicked copy ' + targetPage);
+                copyPage(targetPage);
                 break;
         }
-
-        // Hide it AFTER the action was triggered
+        // Hide it after the action was triggered
         $(".custom-menu").hide(100);
     });
 });

@@ -288,25 +288,24 @@ function saveCurrentPage(successHandler) {
     });
 }
 
-function getCurrentActivePageName() {
-    let current_page = document.getElementsByClassName("active");
-    return $($(current_page).children()[0]).html();
+function copyPage(pageName) {
+    // TODO: create handler for create page
 }
 
-// check if there is any tab currently open
-function noTab() {
-    return ($('.cr-tabs').children().length === 0);
-}
-
-// append empty message if no tab is open
-function checkTabPresent() {
-    if (noTab()) {
-        $('#empty-workspace-msg').removeClass('hidden');
-    } else {
-        if (!$('#empty-workspace-msg').hasClass('hidden')) {
-            $('#empty-workspace-msg').addClass('hidden');
+function deletePage(pageName) {
+    console.log('sending ajax request to delete page ' + pageName );
+    $.ajax({
+        url: "/easel/sites/" + siteName + "/deletePage/",
+        method: "POST",
+        data: { pageName: pageName },
+        success: function(data) {
+            console.log("successfully deleted the page " + pageName);
+            // TODO: delete page from work space
+        },
+        error: function(jqXHR, textStatus) {
+            console.error("failed to delete the page", textStatus);
         }
-    }
+    });
 }
 
 
