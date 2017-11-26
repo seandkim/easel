@@ -1,0 +1,45 @@
+<!-- chose page to link to  -->
+<div id="link-page-modal" class="modal library-modal">
+    <div class="modal-content">
+        <h4 class="header-text modal-header">SELECT A PAGE TO LINK TO</h4>
+        <div class="item-menu">
+            <div class="opts-wrapper">
+                <!-- local upload -->
+                <a href="#" class="upload-option" id="exteral-url-opt" opt-target="#external-url">
+                    <div class="opt-wrapper">
+                        <div class="opt-icon-wrapper">
+                            <i class="icon icon-link-streamline"></i>
+                        </div>  
+                        <div class="opt-name header-text">
+                            EXTERNAL URL
+                        </div>
+                    </div>
+                </a>
+                <!-- choose from library -->
+                <a href="#" class="upload-option" id="existing-page-opt" opt-target="#existing-page">
+                    <div class="opt-wrapper">
+                        <div class="opt-icon-wrapper">
+                            <i class="icon icon-page"></i>
+                        </div>  
+                        <div class="opt-name header-text">
+                            EXISITNG PAGES
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div id="external-url" class="hidden upload-opt-div">
+            <form method="post" action="#" id="choose-url-link">
+                <input name="url" class="input-medium" placeholder="Paste url here">
+                <button class="dark-btn-alt float-right" type="submit"> LINK &#10230; </button>
+            </form>
+        </div>
+        <div id="existing-page" class='hidden upload-opt-div'>
+            Existing page selection
+        </div>
+        <!-- modal close button -->
+        <a href="#!" class="modal-action modal-close modal-close-btn close-img-upload">
+            <i class="icon-close-big"></i>
+        </a>
+    </div>
+</div>

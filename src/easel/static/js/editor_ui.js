@@ -24,7 +24,7 @@ var editable_settings = {
     toolbar: {
         buttons: ['b', 'i', 'u',
             'h1', 'h3', 'h5',
-            'anchor',
+            'anchor', 'link',
             'justifyLeft', 'justifyRight', 'justifyCenter',
             'indent', 'outdent'
         ]
@@ -45,6 +45,13 @@ var editable_settings = {
             label: '<i class="md-sm-text icon-underline"></i>',
             start: '<u>',
             end: '</u>'
+        }),
+        'link': new MediumButton({
+            label: '<i class="md-sm-text icon-link"></i>',
+            action: function(html, mark, parent) {
+                //$('#page-preview').trigger('click');
+                updatePageTree(initializeAddNewPageModal);
+            }
         }),
         'left': new MediumButton({
             label: '<i class="md-sm-text icon-align-left"></i>',
@@ -109,9 +116,31 @@ function activateTab(el) {
     $(activated_tab).removeClass('hidden');
 }
 
+function getCurrentActivePageName() {
+    let current_page = document.getElementsByClassName("active");
+    return $($(current_page).children()[0]).html();
+}
+
+// check if there is any tab currently open
+function noTab() {
+    return ($('.cr-tabs').children().length === 0);
+}
+
+// append empty message if no tab is open
+function checkTabPresent() {
+    if (noTab()) {
+        $('#empty-workspace-msg').removeClass('hidden');
+    } else {
+        if (!$('#empty-workspace-msg').hasClass('hidden')) {
+            $('#empty-workspace-msg').addClass('hidden');
+        }
+    }
+}
+
 
 /* --------------- editable setting ------------- */
 var editor;
+
 function initializeEditable() {
     editor = new MediumEditor('.editable', editable_settings);
     /* change icon content */
@@ -136,13 +165,13 @@ $(function() {
     $('#page-list, #tool-list, #component-list').hide();
 
     /* img upload modal */
+    $('#exteral-url-opt, #existing-page-opt').on('click', showUploadForm);
     $('#local-opt, #library-opt, #link-opt').on('click', showUploadForm);
     initializeEditable();
 
     function showUploadForm(e) {
         // hide menu
         $('.upload-option').removeClass('selected');
-        $('#item-menu').addClass('hidden');
         $(this).addClass('selected');
         // show form
         var upload_form_id = $(this).attr('opt-target');
@@ -232,4 +261,46 @@ $(function() {
         var activated_tab = el.attr('tab-target');
         $(activated_tab).removeClass('hidden');
     }
+
+    $(document).on("contextmenu", ".file", function(event) {
+        // Avoid the real one
+        event.preventDefault();
+        // add attr to custom-menu
+        console.log($(this).find('.page-name').text());
+        $(".custom-menu > li").attr('page-name', $(this).find('.page-name').text());
+        // Show contextmenu
+        $(".custom-menu").finish().toggle(100).
+        // In the right position (the mouse)
+        css({
+            top: event.pageY + "px",
+            left: event.pageX + "px"
+        });
+    });
+
+
+    // If the document is clicked somewhere
+    $(document).bind("mousedown", function(e) {
+        // If the clicked element is not the menu
+        if (!$(e.target).parents(".custom-menu").length > 0) {
+            $(".custom-menu").hide(100);
+        }
+    });
+
+
+    // If the menu element is clicked
+    $(".custom-menu li").click(function() {
+        var targetPage = $( this ).attr('page-name'); 
+        switch ($(this).attr("data-action")) {
+            case "delete":
+                console.log('clicked delete ' + targetPage);
+                deletePage(targetPage);
+                break;
+            case "copy":
+                console.log('clicked copy ' + targetPage);
+                copyPage(targetPage);
+                break;
+        }
+        // Hide it after the action was triggered
+        $(".custom-menu").hide(100);
+    });
 });
