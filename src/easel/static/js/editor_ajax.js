@@ -330,11 +330,13 @@ $(document).ready(function() {
             method: "POST",
             data: {
                 pageName: pageName,
-                html: $('#page-content').html()
+                html: $('#page-content > #'+pageName).html()
             },
             success: function(data) {
                 showAlertMsg("Page saved");
-                successHandler();
+                if (successHandler != null) {
+                    successHandler();
+                }
             },
             error: function(e) {
                 // TODO add error handling
