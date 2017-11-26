@@ -420,7 +420,7 @@ input {
 
 /* label underline focus color */
 .input-field input:focus {
-    border-bottom: 1px solid $highlight-color-01 !important;
+    border-bottom: 1px solid $interface-color-01 !important;
 }
 
 input::-webkit-input-placeholder {
@@ -453,6 +453,13 @@ input::-moz-placeholder {
 
 .input-medium {
 	width: 70% !important;
+}
+
+textarea:focus {
+  border-bottom: 1px solid $interface-color-01;
+  -webkit-box-shadow: 0 1px 0 0 $interface-color-01;
+  -moz-box-shadow: 0 1px 0 0 $interface-color-01;
+  box-shadow: 0 1px 0 0 $interface-color-01;
 }
 
 .paint-as-input {
@@ -665,4 +672,16 @@ nav {
 	i {
 		font-size: 20pt;
 	}
+}
+
+ul {
+	padding-left: 0;
+    list-style-type: none;
+    list-style: none;
+}
+
+.autocomplete-content {
+	color: $interface-color-01;
+    overflow: visible;
+    width: 80%;
 }
