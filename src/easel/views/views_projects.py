@@ -102,6 +102,9 @@ def addProject(request):
 
 @login_required
 def deleteProject(request, projectName):
+    if request.method == 'GET':
+        return Http404("Unsupported method")
+
     profile = Profile.objects.get(user=request.user)
     project = Project.objects.get(owner=profile, name=projectName)
     medias = Media.objects.filter(project=project)

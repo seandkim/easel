@@ -53,6 +53,31 @@ $(document).ready(function() {
     });
   });
 
+  // delete project form
+  function initializeDeleteButton($button, projectName) {
+    $button.click(function() {
+      $deleteBtn = $("#delete-project-modal button:not(.modal-close)");
+      $deleteBtn.off(); // removes all event handlers
+
+      $deleteBtn.click(function() {
+        $.ajax({
+            url: "/easel/projects/"+projectName+"/deleteProject/",
+            method: "POST",
+            data: {},
+            success: function(data) {
+              $("li a[href='#" + projectName + "']").parent().remove();
+              $("div#"+projectName).remove();
+              $('.modal').modal('close');
+              // select random tab
+            },
+            error: function(jqXHR, textStatus) {
+              // display error message
+            }
+        });
+      });
+    });
+  }
+
   // CSRF set-up copied from Django docs
   // from code provided during class
   function getCookie(name) {
@@ -120,10 +145,8 @@ $(document).ready(function() {
               '</button>' +
             '</a>'));
 
-          $(document).on('click', '.delete-project.modal-trigger', function() {
-              var deletename = $(this).attr('projectname')
-              $('#delete-submit').attr('href', deletename + '/deleteProject/');
-          });
+          // delete project button
+          initializeDeleteButton(detail_bar.find('button'), projectName);
 
           /* create media div */
           var medias_div = $("<div></div>").addClass("media-list").addClass("col").addClass("s12");
