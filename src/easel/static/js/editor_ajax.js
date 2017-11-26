@@ -7,13 +7,10 @@ var files;
 // TODO update sitename
 const siteName = 'dummy';
 
-// get new all exisitng pages
+/* open add new page modal, initializing all page options */
 function initializeAddNewPageModal() {
-    var pages;
-    var el = $('#existing-page');
-
-    el.empty();
-    pages = pageTree;
+    var pages = pageTree;
+    var el = $('#existing-page').empty();
 
     // add page name to selection
     el.append('<ul>');
@@ -27,24 +24,22 @@ function initializeAddNewPageModal() {
         );
     }
     el.append('</ul>');
-
     // open madal
     $('#link-page-modal').modal('open');
 }
 
+/* update the page tree of current user */
 function updatePageTree(handler) {
     pageTree = [];
     $.ajax({
         url: "/easel/sites/" + siteName + "/getAllPageNames/",
         method: "POST",
         success: function(data) {
-            console.log("successfully retrieve page tree");
             var pages = data["pages"];
             var len = pages.length;
             for (var i = 0; i < len; i++) {
                 pageTree.push(pages[i]["name"]);
             }
-            console.log("pagetree is ", pageTree);
             if (handler) { handler() };
         },
         error: function(e) {
@@ -53,17 +48,25 @@ function updatePageTree(handler) {
     });
 }
 
-/* react to after user pasting an url for an image */
+/* create img component from pasted url */
 function addPastedURLimgCmp(e) {
     e.preventDefault();
     var url = $(this).find('input[name="url"]').val();
     createImgComponent(url);
 }
 
+/* create img component from media library */
 function addSelectedLibraryMedia() {
     var url = $(this).find('img').attr('src');
     createImgComponent(url);
 }
+
+/* reset the form for image upload */
+function resetImgForm() {
+    $('#local-opt, #library-opt, #link-opt').removeClass('selected');
+    $('#local-upload, #library-upload, #link-upload').addClass('hidden');
+}
+
 
 /* upload file data */
 function uploadMedia(e) {
@@ -95,6 +98,7 @@ function uploadMedia(e) {
     return false;
 }
 
+/* create image component to page preview */
 function createImgComponent(url) {
     var active_tab = $('.cr-tabs>li.active').attr('tab-target');
     var active_tab_content = $(active_tab).find('.editable').first();
@@ -104,11 +108,6 @@ function createImgComponent(url) {
     );
     $('#select-img-modal').modal('close');
     resetImgForm();
-}
-
-function resetImgForm() {
-    $('#local-opt, #library-opt, #link-opt').removeClass('selected');
-    $('#local-upload, #library-upload, #link-upload').addClass('hidden');
 }
 
 function resetUrlForm() {
@@ -177,6 +176,7 @@ function changePageStatus(pageName, isOpened, isActive) {
     });
 }
 
+// remove preloader
 function doneLoading() {
     $('.preload').remove();
 };
@@ -184,16 +184,17 @@ function doneLoading() {
 function addLoading(el) {
     $(el).append(
         '<div class="preload preloader-overlay">' +
-        '<div class="spinner-wrapper">' +
-        '<div class="spinner">' +
-        '<div class="double-bounce1"></div>' +
-        '<div class="double-bounce2"></div>' +
-        '</div>' +
-        '<div class="loading">LOADING...</div>' +
-        '</div>' +
+            '<div class="spinner-wrapper">' +
+                '<div class="spinner">' +
+                    '<div class="double-bounce1"></div>' +
+                    '<div class="double-bounce2"></div>' +
+                '</div>' +
+                '<div class="loading">LOADING...</div>' +
+            '</div>' +
         '</div>');
 }
 
+// check styling depending on page editing mode
 function changeStyleOnMode(isEdit) {
     if (isEdit) {
         $('#editable-mode').addClass('selected');
@@ -206,6 +207,7 @@ function changeStyleOnMode(isEdit) {
     }
 }
 
+// add logic for editing mode switiching
 function addModeSwitcher() {
     /* editable vs sortable mode */
     $(".sortable").sortable({ disabled: true });
@@ -291,12 +293,34 @@ function saveCurrentPage(successHandler) {
     });
 }
 
-function copyPage(pageName) {
-    // TODO: create handler for create page
+// handler for copying existing page
+function copyPage(pageToCopy) {
+    var pageName;
+    // store page to copy in form
+    $("#page-to-copy-stored").val(pageToCopy);
+    $('#copy-page-modal').modal('open');
+    // get new page name and create it
+    $('#copy-page-form').submit(function(e) {
+        e.preventDefault();
+        pageName = $('#copy-page-new-name').val();
+        $.ajax({
+            url: "/easel/sites/" + siteName + "/copyPage/",
+            method: "POST",
+            data: { pageName: pageName, pageToCopy: pageToCopy},
+            success: function(data) {
+                // delete page from workspace
+                showAlertMsg("Added new page: " + pageName);
+                openFile(pageName);
+            },
+            error: function(jqXHR, textStatus) {
+                console.error("failed to create new page", textStatus);
+                showAlertMsg("Error occured when copying page. <br> Please try again.");
+            }
+        });
+    });
 }
 
 function deletePage(pageName) {
-    console.log('sending ajax request to delete page ' + pageName );
     var close_li, isRemovingActive;
     close_li = $('.cr-tabs > li[tab-target="#' + pageName + '"]');
     isRemovingActive = close_li.hasClass('active');
@@ -305,14 +329,13 @@ function deletePage(pageName) {
         method: "POST",
         data: { pageName: pageName },
         success: function(data) {
-            console.log("successfully deleted the page " + pageName);
             // delete page from workspace
             closeTab(pageName, close_li, isRemovingActive, true);
             showAlertMsg("Deleted page - " + pageName);
         },
         error: function(jqXHR, textStatus) {
             console.error("failed to delete the page", textStatus);
-            showAlertMsg("Error in deleting page. <br> Please try again.");
+            showAlertMsg("Error occured when deleting page. <br> Please try again.");
         }
     });
 }
@@ -343,6 +366,53 @@ function closeTab(pageName, close_li, isRemovingActive, isDelete) {
     checkTabPresent();
 }
 
+/* handling page event when user opens new file */
+function openFile(pageName) {
+    var file = $('<div class="file" file-name="' + pageName +'">' +
+                    '<i class="' + pageName + ' icon icon-file"></i> ' +
+                    '<span class="page-name">' + pageName + '</span>' +
+                    '</div>');
+    $('#page-list').append(file);
+    file.trigger('click');
+    // if `pages` menu is closed, open it
+    // TODO bug: doesn't work the second time
+    if ($('#page-tab').find('i').hasClass('icon-right-dir')) {
+        $('#page-tab').trigger('click');
+    }
+}
+
+function setupAjax() {
+    /* ajax set up */
+    // set up csrf tokens
+    // https://docs.djangoproject.com/en/1.10/ref/csrf/
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    var csrftoken = getCookie('csrftoken');
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+    $.ajaxSetup({
+        beforeSend: function(xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
+}
 
 // on page load
 $(document).ready(function() {
@@ -385,9 +455,9 @@ $(document).ready(function() {
     });
 
     /* saving by cmd+s */
-    document.addEventListener("keydown", function(e) {
-        var current_page = document.getElementsByClassName("active")
-        var pageName = $($(current_page).children()[0]).html().toLowerCase()
+    $(document).on("keydown", function(e) {
+        var current_page = $(".active");
+        var pageName = $(current_page.children()[0]).html().toLowerCase()
 
         // cmd+s in mac and ctrl+s in other platform
         if (e.keyCode == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
@@ -410,17 +480,7 @@ $(document).ready(function() {
             data: { username: username, pageName: pageName },
             success: function(data) {
                 console.log("successfully added the page");
-                var file = $('<div class="file" file-name="' + pageName +'">' +
-                    '<i class="' + pageName + ' icon icon-file"></i> ' +
-                    '<span class="page-name">' + pageName + '</span>' +
-                    '</div>');
-                $('#page-list').append(file);
-                file.trigger('click');
-                // if `pages` menu is closed, open it
-                // TODO bug: doesn't work the second time
-                if ($('#page-tab').find('i').hasClass('icon-right-dir')) {
-                    $('#page-tab').trigger('click')
-                }
+                openFile(pageName);
             },
             error: function(jqXHR, textStatus) {
                 console.error("failed to add the page", textStatus);
@@ -428,39 +488,4 @@ $(document).ready(function() {
         });
     });
 
-    function setupAjax() {
-        /* ajax set up */
-        // set up csrf tokens
-        // https://docs.djangoproject.com/en/1.10/ref/csrf/
-        function getCookie(name) {
-            var cookieValue = null;
-            if (document.cookie && document.cookie !== '') {
-                var cookies = document.cookie.split(';');
-                for (var i = 0; i < cookies.length; i++) {
-                    var cookie = jQuery.trim(cookies[i]);
-                    // Does this cookie string begin with the name we want?
-                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                        break;
-                    }
-                }
-            }
-            return cookieValue;
-        }
-
-        var csrftoken = getCookie('csrftoken');
-
-        function csrfSafeMethod(method) {
-            // these HTTP methods do not require CSRF protection
-            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-        }
-
-        $.ajaxSetup({
-            beforeSend: function(xhr, settings) {
-                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
-                }
-            }
-        });
-    }
 });

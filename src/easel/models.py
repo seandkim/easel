@@ -138,6 +138,15 @@ class Site(models.Model):
         page.save()
         return page
 
+    def createPageWithHtml(self, pageName, html, opened=False, active=False):
+        if Page.objects.filter(site=self, name=pageName).count() > 0:
+            raise Exception("Page name %s already exists" % pageName)
+
+        page = Page(site=self, name=pageName, html=html, published_html="",
+                    opened=opened, active=active)
+        page.save()
+        return page
+
     def deletePage(self, pageName):
         Page.objects.get(site=self, name=pageName).delete()
         return
