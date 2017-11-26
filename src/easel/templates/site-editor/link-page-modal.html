@@ -2,9 +2,8 @@
 <div id="link-page-modal" class="modal library-modal">
     <div class="modal-content">
         <h4 class="header-text modal-header">SELECT A PAGE TO LINK TO</h4>
-        <div class="item-menu">
+        <!-- <div class="item-menu">
             <div class="opts-wrapper">
-                <!-- local upload -->
                 <a href="#" class="upload-option" id="exteral-url-opt" opt-target="#external-url">
                     <div class="opt-wrapper">
                         <div class="opt-icon-wrapper">
@@ -15,7 +14,6 @@
                         </div>
                     </div>
                 </a>
-                <!-- choose from library -->
                 <a href="#" class="upload-option" id="existing-page-opt" opt-target="#existing-page">
                     <div class="opt-wrapper">
                         <div class="opt-icon-wrapper">
@@ -33,20 +31,20 @@
                 <input name="url" class="input-medium" placeholder="Paste url here">
                 <button class="dark-btn-alt float-right" type="submit"> LINK &#10230; </button>
             </form>
-        </div>
-        <div id="existing-page" class='hidden upload-opt-div'>
+        </div> -->
+        <div id="existing-page" class='upload-opt-div'>
             <div class="input-field col s12">
                 <form method="post" action="#" id="select-link-page-form">
                     <input type="text" id="autocomplete-input" class="autocomplete" autocomplete="off">
-                    <label for="autocomplete-input">Search for Existing Page</label>
                     <button class="dark-btn-alt float-right" type="submit"> LINK &#10230; </button>
                 </form>
             </div>
             <div class="page-opt-list"></div>
             <!-- modal close button -->
-            <a href="#!" class="modal-action modal-close modal-close-btn close-img-upload">
-            <i class="icon-close-big"></i>
-        </a>
         </div>
+
     </div>
+    <a href="#!" class="modal-action modal-close modal-close-btn close-img-upload">
+    <i class="icon-close-big"></i>
+    </a>
 </div>

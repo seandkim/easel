@@ -19,12 +19,6 @@ var editable_settings = {
         contentDefault: '<i class="md-sm-text icon-link-bold"></i>',
         linkValidation: true
     },
-    indent: {
-        contentDefault: '<i class="md-sm-text icon-indent"></i>'
-    },
-    outdent: {
-        contentDefault: '<i class="md-sm-text icon-outdent"></i>'
-    },
     justifyLeft: {
         contentDefault: '<i class="md-sm-text icon-align-left"></i>'
     },
@@ -54,7 +48,7 @@ var editable_settings = {
             end: '</u>'
         }),
         'link': new MediumButton({
-            label: 'A',
+            label: '<i class="md-sm-text icon-file-o"></i>',
             action: function(html, mark, parent) {
                 //$('#page-preview').trigger('click');
                 // console.log(html);
@@ -120,8 +114,11 @@ function initializeEditable() {
     $('.medium-editor-action-justifyLeft').html('<i class="md-sm-text icon-align-left"></i>');
     $('.medium-editor-action-justifyRight').html('<i class="md-sm-text icon-align-right"></i>');
     $('.medium-editor-action-justifyCenter').html('<i class="md-sm-text icon-align-center"></i>');
-    $('.medium-editor-action-indent').html('<i class="md-sm-text icon-indent"></i>');
-    $('.medium-editor-action-outdent').html('<i class="md-sm-text icon-outdent"></i>');
+    $('.medium-editor-action-indent').html('<i class="md-sm-text icon-outdent"></i>');
+    $('.medium-editor-action-outdent').html('<i class="md-sm-text icon-indent"></i>');
+    $('.medium-editor-toolbar-save').html('<i class="md-sm-text light-text icon-check"></i>');
+    $('.medium-editor-toolbar-close').html('<i class="md-sm-text light-text icon-close"></i>')
+                                     .css('color', '#fff');
 }
 
 /* return html string of a given icon name */
