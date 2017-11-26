@@ -269,6 +269,7 @@ function initializeButtons() {
 
 // TODO refactor successhandler (used in publishing)
 function saveCurrentPage(successHandler) {
+    $('.delete-ud-wrapper').remove(); //gets rid of trashCan
     let pageName = getCurrentActivePageName();
     $.ajax({
         url: "/easel/sites/dummy/savePage/",
@@ -329,7 +330,7 @@ function closeTab(pageName, close_li, isRemovingActive, isDelete) {
         $('#page-list i.' + pageName).removeClass('icon-file-o').addClass('icon-file');
         changePageStatus(pageName, false, false); // ajax call to server
     }
-    
+
     // select the next open tab
     if (isRemovingActive) {
         if ($('.cr-tabs > li').length > 0) {
