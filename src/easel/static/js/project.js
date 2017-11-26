@@ -2,9 +2,10 @@
 var media_tree = {};
 
 $(document).ready(function() {
-
   // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
   $('.modal').modal();
+
+  
 
   // Periodically refresh stream page
   // CSRF set-up copied from Django docs
@@ -69,13 +70,12 @@ $(document).ready(function() {
           detail_bar.append($('<span class="description"><strong>Description: </strong>' + description + '</span>'));
           detail_bar.append($('<br>'));
           detail_bar.append($('<a href="/easel/projects/' + projectName + '/addMedia"><button class="dark-btn-alt"><i class="material-icons tab-icon">file_upload</i> UPLOAD</button></a>'));
-
-            detail_bar.append($('<a id="delete-project" class="modal-trigger" href="#delete-project-modal" projectName="' + projectName + '">' +
-                '<button class="dark-btn-alt">' +
-                  '<i class="material-icons tab-icon">delete</i>' +
-                  'DELETE' +
-                '</button>' +
-              '</a>'));
+          detail_bar.append($('<a id="delete-project" class="modal-trigger" href="#delete-project-modal" projectName="' + projectName + '">' +
+              '<button class="dark-btn-alt">' +
+                '<i class="material-icons tab-icon">delete</i>' +
+                'DELETE' +
+              '</button>' +
+            '</a>'));
 
           $(document).on('click', '#delete-project.modal-trigger', function() {
               var deletename = $(this).attr('projectname')

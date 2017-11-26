@@ -45,7 +45,7 @@ def home(request):
 
     return render(request, 'project/project-list.html', context)
 
-
+@login_required
 def getAllProjects(request):
     if request.method == "GET":
         profile = Profile.objects.get(user=request.user)
@@ -54,7 +54,7 @@ def getAllProjects(request):
         return render(request, 'json/projects.json', context, content_type='application/json')
     return HttpResponse('')
 
-
+@login_required
 def getAllMedias(request, projectName):
     if request.method == "GET":
         profile = Profile.objects.get(user=request.user)
@@ -66,7 +66,7 @@ def getAllMedias(request, projectName):
 
     return HttpResponse('')
 
-
+@login_required
 def getMediaPhoto(request, projectName, mediaName):
     profile = Profile.objects.get(user=request.user)
     media = profile.getMedia(projectName, mediaName)
@@ -83,8 +83,7 @@ def addProject(request):
 
     # Just display the add-project form if this is a GET request.
     if request.method == 'GET':
-        context['form'] = AddProjectForm()
-        return render(request, 'project/project-add.html', context)
+        raise Http404("Invalid Request Argument")
 
     form = AddProjectForm(request.POST)
     context['form'] = form
