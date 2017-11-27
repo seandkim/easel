@@ -191,11 +191,13 @@ class AddPageForm(forms.Form):
 class AddSiteForm(forms.Form):
     siteName = forms.CharField(max_length=20)
     username = forms.CharField(widget = forms.HiddenInput(), required=False)
+    description = forms.CharField(max_length=1000)
 
     def clean(self):
         cleaned_data = super(AddSiteForm, self).clean()
         siteName = cleaned_data.get('siteName').lower()
         username = cleaned_data.get('username')
+        description = cleaned_data.get('description')
         user = User.objects.get(username=username)
         profile = Profile.objects.get(user=user)
         sites = Site.objects.filter(owner=profile, name=siteName.lower())

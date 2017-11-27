@@ -1,1 +1,29 @@
-No site to show! Create new?
+{% extends '../base.html' %}
+{% load static %}
+
+{% block page %}
+	<div class="center text-center">
+        <div class="msg-wrapper">
+            <div class="easel-logo-mini">
+                <img src="{% static 'img/logo/ink-dark.png' %}">
+            </div>
+            <div class="header-text">
+                YOU DON'T HAVE A SITE YET. <br>
+                CREATE A ONE NOW.
+            </div>
+            <br>
+            <div class="paint-as-input">
+            	<form id="new-site-form" method="post" action="{% url 'addSite' %}">
+	            	{% if message %} {{message}} {% endif %}
+	        		{{form}}
+	        		{% csrf_token %}
+				     <button type="submit" class="dark-btn-alt">CREATE &#10230;</button>
+        		</form>
+            </div>
+        </div>
+	</div>
+{% endblock %}
+
+{% block sidebar %}
+    {% include '../components/sidebar.html' %}
+{% endblock %}

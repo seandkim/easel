@@ -26,25 +26,26 @@ from bs4 import BeautifulSoup
 @login_required
 def home(request):
     # TODO change
-    profile = Profile.objects.get(user=request.user)
-    siteName = 'dummy'
-    profile.deleteSite(siteName)
-    site = profile.createSite(siteName, "dummydescription")
+    # profile = Profile.objects.get(user=request.user)
+    # siteName = 'dummy'
+    # profile.deleteSite(siteName)
+    # site = profile.createSite(siteName, "dummydescription")
     # site = Site.objects.get(owner = profile, name=siteName)
     # return HttpResponseRedirect(reverse('siteEditor', kwargs={'siteName': site.name}))
 
 
-    # TODO should work but doesn't
     profile = Profile.objects.get(user=request.user)
     sites = Site.objects.filter(owner=profile)
     siteCount = sites.count()
     if siteCount == 0:
-        return render(request, 'site-editor/no_site.html', {})
+        form = AddSiteForm()
+        return render(request, 'site-editor/no-site.html', {'form': form})
     elif siteCount == 1:
         site = sites.first()
         return HttpResponseRedirect(reverse('siteEditor', kwargs={'siteName': site.name}))
     else:
-        return render(request, 'site-editor/site_menu.html', { 'sites': sites })
+        form = AddSiteForm()
+        return render(request, 'site-editor/site-menu.html', { 'sites': sites, 'form': form })
 
 @login_required
 def siteEditor(request, siteName):
@@ -289,7 +290,7 @@ def addSite(request):
     profile = Profile.objects.get(user=request.user)
     new_site = profile.createSite(siteName, description)
     new_site.save()
-    return HttpResponse('Successfully added site')
+    return HttpResponseRedirect(reverse('siteEditor', kwargs={'siteName': siteName}))
 
 @login_required
 def deleteSite(request):
