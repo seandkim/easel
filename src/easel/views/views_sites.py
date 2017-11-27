@@ -26,26 +26,26 @@ from bs4 import BeautifulSoup
 @login_required
 def home(request):
     # TODO change
-    # profile = Profile.objects.get(user=request.user)
-    # siteName = 'dummy'
-    # profile.deleteSite(siteName)
-    # site = profile.createSite(siteName, "dummydescription")
-    # site = Site.objects.get(owner = profile, name=siteName)
-    # return HttpResponseRedirect(reverse('siteEditor', kwargs={'siteName': site.name}))
-
-
     profile = Profile.objects.get(user=request.user)
-    sites = Site.objects.filter(owner=profile)
-    siteCount = sites.count()
-    if siteCount == 0:
-        form = AddSiteForm()
-        return render(request, 'site-editor/no-site.html', {'form': form})
-    elif siteCount == 1:
-        site = sites.first()
-        return HttpResponseRedirect(reverse('siteEditor', kwargs={'siteName': site.name}))
-    else:
-        form = AddSiteForm()
-        return render(request, 'site-editor/site-menu.html', { 'sites': sites, 'form': form })
+    siteName = 'dummy'
+    profile.deleteSite(siteName)
+    site = profile.createSite(siteName, "dummydescription")
+    site = Site.objects.get(owner = profile, name=siteName)
+    return HttpResponseRedirect(reverse('siteEditor', kwargs={'siteName': site.name}))
+
+
+    # profile = Profile.objects.get(user=request.user)
+    # sites = Site.objects.filter(owner=profile)
+    # siteCount = sites.count()
+    # if siteCount == 0:
+    #     form = AddSiteForm()
+    #     return render(request, 'site-editor/no-site.html', {'form': form})
+    # elif siteCount == 1:
+    #     site = sites.first()
+    #     return HttpResponseRedirect(reverse('siteEditor', kwargs={'siteName': site.name}))
+    # else:
+    #     form = AddSiteForm()
+    #     return render(request, 'site-editor/site-menu.html', { 'sites': sites, 'form': form })
 
 @login_required
 def siteEditor(request, siteName):
@@ -124,7 +124,8 @@ def changePageStatus(request, siteName, pageName):
     return HttpResponse('')
 
 # requires POST request with the following argument:
-# { 'pageName': <name of the page created> }
+# { 'pageName': <name of the page created>
+#   'html': <html of new page; if empty, uses default template>}
 # returns json response of newly added page
 @login_required
 def addPage(request, siteName):
@@ -143,40 +144,20 @@ def addPage(request, siteName):
     pageName = form.cleaned_data['pageName']
 
     new_page = site.createPage(pageName)
+    if ('copyPageName' in request.POST and request.POST['copyPageName'] != ""):
+        copyPageName = request.POST['copyPageName']
+        try:
+            copyPage = site.getPage(copyPageName)
+        except KeyError:
+            HttpResponseBadRequest()
+
+        new_page.html = copyPage.html
+
     new_page.save()
 
     context = {'site':site, 'pages':[new_page]}
     return render(request, 'json/pages.json', context,
                            content_type='application/json')
-
-# requires POST request with the following argument:
-# { 'pageName': <name of the page created>,
-#  'pageToCopy': <name of the page to be copied> }
-@login_required
-def copyPage(request, siteName):
-    if request.method != 'POST':
-        return HttpResponseNotAllowed('POST')
-
-    if (('pageName' not in request.POST) or (request.POST['pageName'] == "") or
-        ('pageToCopy' not in request.POST) or (request.POST['pageToCopy'] == "")):
-        return HttpResponseBadRequest('Missing arguments')
-
-    pageName = request.POST['pageName']
-    pageToCopy = request.POST['pageToCopy']
-
-    try:
-        site = Site.getSite(request.user.username, siteName)
-    except ObjectDoesNotExist:
-        return HttpResponseBadRequest()
-
-    try:
-        page = Page.objects.get(name=pageToCopy , site=site)
-    except ObjectDoesNotExist:
-        return HttpResponseBadRequest("Page %s does not exists in %s" % (pageName, siteName))
-
-    new_page = site.createPageWithHtml(pageName, page.html)
-    new_page.save()
-    return HttpResponse(new_page.html)
 
 @login_required
 def deletePage(request, siteName):

@@ -174,6 +174,7 @@ function shortcutKeyboardHandler(e) {
 }
 
 function savePage(pageName, needPublishing) {
+    setupAjax();
     console.assert(pagesInfo[pageName]['opened']);
     if (!pageName) {
       console.error("could not save page because pageName was null");
@@ -209,37 +210,6 @@ function savePage(pageName, needPublishing) {
             // TODO add error handling
             showAlertMsg("could not save page.");
         }
-    });
-}
-
-// handler for copying existing page
-// TODO change the logic of backend => same as add page but specifies html
-function copyPage(pageToCopy) {
-    var pageName;
-    // store page to copy in form
-    $("#page-to-copy-stored").val(pageToCopy);
-    $('#copy-page-modal').modal('open');
-    // get new page name and create it
-    $('#copy-page-form').submit(function(e) {
-        e.preventDefault();
-        pageName = $('#copy-page-new-name').val();
-        $.ajax({
-            url: "/easel/sites/" + siteName + "/copyPage/",
-            method: "POST",
-            data: {
-                pageName: pageName,
-                pageToCopy: pageToCopy
-            },
-            success: function(data) {
-                // delete page from workspace
-                showAlertMsg("Added new page: " + pageName);
-                openFile(pageName);
-            },
-            error: function(jqXHR, textStatus) {
-                console.error("failed to create new page", textStatus);
-                showAlertMsg("Error occured when copying page. <br> Please try again.");
-            }
-        });
     });
 }
 
@@ -310,20 +280,17 @@ function pageOptionHandler(e) {
     $(".custom-menu").hide(100);
 }
 
-function addNewPageFormHandler(e, data) {
+function createPage(pageName, copyPageName) {
     setupAjax();
-    e.preventDefault()
     // TODO for efficiency, better to append tab beforehand and handle error case
-    var pageName = $(this).find('input#id_pageName').val();
-    var username = $(this).find('input[name="username"]:not(#id_username)').attr('value')
-
     $('#add-page-modal').modal('close');
     $.ajax({
         url: "/easel/sites/" + siteName + "/addPage/",
         method: "POST",
         data: {
-            username: username,
-            pageName: pageName
+            username: $('#page-preview').data()['username'],
+            pageName: pageName,
+            copyPageName: copyPageName
         },
         success: function(data) {
             console.log("successfully added the page");
@@ -347,6 +314,24 @@ function addNewPageFormHandler(e, data) {
             console.error("failed to add the page", textStatus);
         }
     });
+}
+
+function addNewPageFormHandler(e) {
+  e.preventDefault();
+  var pageName = $(this).find('input#id_pageName').val();
+  createPage(pageName, "");
+}
+
+function copyPage(copyPageName) {
+  // store page to copy in form
+  $("#page-to-copy-stored").val(copyPageName);
+  $('#copy-page-modal').modal('open');
+  // get new page name and create it
+  $('#copy-page-form').submit(function(e) {
+      e.preventDefault();
+      const pageName = $('#copy-page-new-name').val();
+      createPage(pageName, copyPageName);
+  });
 }
 
 function selectExistingPageHandler(e) {
