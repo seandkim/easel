@@ -1,6 +1,10 @@
-/* for setting up ajax calls */
-$(document).ready(function() {
-    // using jQuery
+/*
+ * csrf.js: for setting up ajax call
+ */
+function setupAjax() {
+    /* ajax set up */
+    // set up csrf tokens
+    // https://docs.djangoproject.com/en/1.10/ref/csrf/
     function getCookie(name) {
         var cookieValue = null;
         if (document.cookie && document.cookie !== '') {
@@ -16,7 +20,6 @@ $(document).ready(function() {
         }
         return cookieValue;
     }
-
     var csrftoken = getCookie('csrftoken');
     function csrfSafeMethod(method) {
         // these HTTP methods do not require CSRF protection
@@ -29,5 +32,4 @@ $(document).ready(function() {
             }
         }
     });
-
-});
+}

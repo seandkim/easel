@@ -5,20 +5,20 @@
 <head>
     <!-- meta data -->
     <meta charset="UTF-8">
-    <meta name="description" content="Free Web tutorials">
+    <meta name="description" content="Portfolio Builder">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %} Easel {% endblock %}</title>
 
     <!-- static files -->
     {% block prescripts %}{% endblock %}
-    <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
-    <script src="{% static 'js/jquery-ui-1.12.1.js' %}"></script>
-    <script src="{% static 'js/materialize.min.js' %}"></script>
-    <script src="{% static 'js/jquery.easing.min.js' %}"></script>
-    <script src="{% static 'js/plotly-latest.min.js' %}"></script>
+    <script src="{% static 'js/lib/jquery-3.2.1.min.js' %}"></script>
+    <script src="{% static 'js/lib/jquery-ui-1.12.1.js' %}"></script>
+    <script src="{% static 'js/lib/materialize.min.js' %}"></script>
+    <script src="{% static 'js/lib/jquery.easing.min.js' %}"></script>
+    <script src="{% static 'js/lib/plotly-latest.min.js' %}"></script>
     <script src="{% static 'js/csrf.js' %}"></script>
-    <script src="{% static 'js/medium-editor.min.js' %}"></script>
-    <script src="{% static 'js/medium-button.min.js' %}"></script>
+    <script src="{% static 'js/lib/medium-editor.min.js' %}"></script>
+    <script src="{% static 'js/lib/medium-button.min.js' %}"></script>
     <script src="{% static 'js/main.js' %}"></script>
     <link rel="stylesheet" href="{% static 'css/materialize.min.css' %}">
     <link href="{% static 'css/materialize.icon.css' %}" rel="stylesheet">
