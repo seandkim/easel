@@ -1,1 +1,30 @@
-Site menu with nothing!
+{% extends '../base.html' %}
+{% load static %}
+
+{% block page %}
+    <div class="fixed-size-container">
+        <ul>
+    	{% for site in sites %}
+            <li>
+            <a href="/easel/sites/{{site.name}}/editor/">
+                {{ site.name }}
+            </a>:
+                {{ site.description }}
+            </li>
+        {% endfor %}
+        </ul>
+    </div>
+    <div class="paint-as-input fixed-size-container">
+        <h5 class="header-text">CRAPPY CREATE NEW SITE FORM</h5>
+        <form id="new-site-form" method="post" action="{% url 'addSite' %}">
+            {% if message %} {{message}} {% endif %}
+            {{form}}
+            {% csrf_token %}
+             <button type="submit" class="dark-btn-alt">CREATE &#10230;</button>
+        </form>
+    </div>
+{% endblock %}
+
+{% block sidebar %}
+    {% include '../components/sidebar.html' %}
+{% endblock %}
