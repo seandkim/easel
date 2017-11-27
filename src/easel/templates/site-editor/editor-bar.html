@@ -198,10 +198,77 @@
                 </a>
             </div>
         </li>
+        <!-- style tab -->
+        <li class="editor-item">
+            <a href="#" id="style-tab">
+                <span class="tab-indicator">
+                    <i class="icon icon-right-dir"></i>
+                </span>
+                STYLE
+            </a>
+            <br>
+            <div class="list" id="style-list">
+                <div class="style-opt">
+                    <span class="icon-name sm-text light-text">TEXT COLOR: </span>
+                    <input class="jscolor" value="7b98a1">
+                </div>
+                <div class="style-opt">
+                    <span class="icon-name sm-text light-text">BACKGROUND: </span>
+                    <input class="jscolor" value="7b98a1">
+                </div>
+                <div class="style-opt">
+                    <span class="icon-name sm-text light-text">FONT SIZE: </span>
+                    <p class="range-field">
+                      <input type="range" id="test5" min="0" max="100" />
+                    </p>
+                </div>
+                <div class="style-opt">
+                    <span class="icon-name sm-text light-text">FONT FAMILY: </span>
+                    <select class="sm-text">
+                        <optgroup label="Serif">
+                            <option value="Garamond">Garamond</option>
+                            <option value="Times New roman">Times New Roman</option>
+                        </optgroup>
+                        <optgroup label="San Serif">
+                            <option value="Arial">Arial</option>
+                            <option value="Futura">Futura</option>
+                            <option value="Verdana">Verdana</option>
+                        </optgroup>
+                        <optgroup label="Fixed Width">
+                            <option value="Courier New">Courier New</option>
+                        </optgroup>
+                    </select>
+                </div>
+            </div>
+        </li>
     </ul>
     <div class="editor-bottom">
+        <a href="#" class="header-text dropdown-button" data-activates="site-menu1" id="current-site">{{ siteName|upper }}</a>
+        <ul id="site-menu1" class="dropdown-content">
+            <li><a href="#!">one</a></li>
+            <li><a href="#!">two</a></li>
+            <li class="divider"></li>
+            <li><a href="#!">three</a></li>
+            <li><a href="#!"><i class="material-icons">view_module</i>four</a></li>
+            <li><a href="#!"><i class="material-icons">cloud</i>five</a></li>
+        </ul>
         <button id="save-button" class="light-btn-outline publish-btn publish">
-            SAVE ALL CHANGES
+            SAVE / &#8984;+S
         </button>
     </div>
+</div>
+<div id="site-menu" class="text-center hidden">
+    <div class="center">
+        <h5 class="header-text loose-spacing light-text no-wrap">SWITCH SITE</h5>
+        <ul>
+            {% for site in sites %}
+                <li>
+                    <a href="/easel/sites/{{ site.name }}/editor/" class="gray-text header-text small-text hover-underline">{{ site.name|upper }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <a id="close-site-menu" class="modal-close-btn">
+        <i class="icon-close-big light-text"></i>
+    </a>
 </div>
