@@ -462,6 +462,10 @@ textarea:focus {
   box-shadow: 0 1px 0 0 $interface-color-01;
 }
 
+select {
+  display: initial !important;
+}
+
 .paint-as-input {
 	@include smooth(0.3s);
 	input[type="text"] {

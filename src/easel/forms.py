@@ -125,11 +125,11 @@ class EditMediaForm(forms.Form):
         super(EditMediaForm, self).__init__(*args, **kwargs)
         profile = Profile.objects.get(user=user)
         projects = Project.objects.filter(owner=profile)
-        self.fields['project'] = forms.ModelChoiceField(queryset=projects, empty_label=None)
+        self.fields['project'].queryset = projects
 
     # project field is overwritten with choice field
     # it is declared here to display first in the form
-    project = forms.CharField(max_length=20)
+    project = forms.ModelChoiceField(queryset=None, empty_label=None)
     # image = forms.FileField() TODO
     name = forms.CharField(max_length=20)
     caption = forms.CharField(max_length=1000)
@@ -143,6 +143,7 @@ class EditMediaForm(forms.Form):
 
     def clean(self):
         cleaned_data = super(EditMediaForm, self).clean()
+        project = cleaned_data.get('project')
         mediaName = cleaned_data.get('name')
         username = cleaned_data.get('username')
         oldName = cleaned_data.get('oldName')

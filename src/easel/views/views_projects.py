@@ -152,7 +152,7 @@ def editMedia(request, projectName, mediaName):
             'project': medium.project
         }
 
-        form = EditMediaForm(request.user, initial=initial)
+        form = EditMediaForm(user=request.user, initial=initial)
         context['form'] = form
         return render(request, 'project/media-edit.html', context)
 
