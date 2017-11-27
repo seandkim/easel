@@ -33,19 +33,19 @@ def home(request):
     site = Site.objects.get(owner = profile, name=siteName)
     return HttpResponseRedirect(reverse('siteEditor', kwargs={'siteName': site.name}))
 
-
-    # profile = Profile.objects.get(user=request.user)
-    # sites = Site.objects.filter(owner=profile)
-    # siteCount = sites.count()
-    # if siteCount == 0:
-    #     form = AddSiteForm()
-    #     return render(request, 'site-editor/no-site.html', {'form': form})
-    # elif siteCount == 1:
-    #     site = sites.first()
-    #     return HttpResponseRedirect(reverse('siteEditor', kwargs={'siteName': site.name}))
-    # else:
-    #     form = AddSiteForm()
-    #     return render(request, 'site-editor/site-menu.html', { 'sites': sites, 'form': form })
+    
+#    profile = Profile.objects.get(user=request.user)
+#    sites = Site.objects.filter(owner=profile)
+#    siteCount = sites.count()
+#    if siteCount == 0:
+#        form = AddSiteForm()
+#        return render(request, 'site-editor/no-site.html', {'form': form, 'profile': profile})
+#    elif siteCount == 1:
+#        site = sites.first()
+#        return HttpResponseRedirect(reverse('siteEditor', kwargs={'siteName': site.name}))
+#    else:
+#        form = AddSiteForm()
+#        return render(request, 'site-editor/site-menu.html', { 'sites': sites, 'form': form, 'profile': profile})
 
 @login_required
 def siteEditor(request, siteName):
@@ -269,6 +269,17 @@ def sitePublish(request, siteName):
 def addSite(request):
     if request.method != 'POST':
         return HttpResponseNotAllowed('POST')
+    
+    form = AddSiteForm(request.POST)
+    profile = Profile.objects.get(user=request.user)
+    sites = Site.objects.filter(owner=profile)
+    siteCount = sites.count()
+    # Validates the form.
+    if not form.is_valid():
+        if siteCount == 0:
+            return render(request, 'site-editor/no-site.html', {'form': form, 'profile': profile})
+        else:
+            return render(request, 'site-editor/site-menu.html', { 'sites': sites, 'form': form, 'profile':profile })
 
     if (('siteName' not in request.POST) or (request.POST['siteName'] == "") or
         ('description' not in request.POST) or (request.POST['description'] == "") ):
