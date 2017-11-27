@@ -88,6 +88,7 @@ def addProject(request):
     # Validates the form.
     if not form.is_valid():
         response = JsonResponse({"errors": form.errors['__all__']})
+        print(form.errors['__all__'])
         response.status_code = 400  # Bad Request
         return response
 
