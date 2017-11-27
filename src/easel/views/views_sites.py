@@ -106,8 +106,6 @@ def changePageStatus(request, siteName, pageName):
     print(allPages.filter(opened=True).count(), allPages.filter(active=True).count())
     if (allPages.filter(opened=True).count() == 0):
         assert(allPages.filter(active=True).count() == 0)
-    else:
-        assert(allPages.filter(active=True).count() < 2)
     return HttpResponse('')
 
 # requires POST request with the following argument:

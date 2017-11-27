@@ -96,7 +96,7 @@ $(function() {
     changeStyleOnMode(true);
     initializePagesInfo();
     initializeEditable();
-
+    
     /*
      * ------------------------ Editor Bar Tab
      */

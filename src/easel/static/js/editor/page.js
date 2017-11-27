@@ -3,14 +3,63 @@
  * file.js - file operations: handling opening, saving, and deleting files
  */
 
+ // updatePages : update the tab/page/icon element after `pagesInfo` changes.
+ // when page status changes, you should update `pagesInfo` and call this method
+ // instead of changing elements directly.
+ // ex) see openTabHandler/closeTabHandler
+ function updatePages() {
+   // if there is opened pages and no active page, make the first opened page active
+   if (!getActivePageName()) {
+     for (let name in pagesInfo) {
+       if (pagesInfo[name]['opened']) {
+         pagesInfo[name]['active'] = true;
+         break;
+       }
+     }
+   }
+   for (let name in pagesInfo) {
+     // close any unclosed page (closed but present in tabs)
+     if (!pagesInfo[name]['opened'] && $('#page-content > #'+name+'').length == 1) {
+       get$tab(name).remove();
+       get$content(name).remove();
+       $('#page-list i.' + name).removeClass('icon-file-o').addClass('icon-file');
+       changePageStatus(name, false, false); // ajax call to server
+     }
+     // open any unopened page
+     if (pagesInfo[name]['opened'] && $('#page-content > #'+name+'').length == 0) {
+       $('#page-list i.' + name).removeClass('icon-file').addClass('icon-file-o');
+       loadPageHTML(siteName, name);
+     }
+  }
+
+  // update active tab
+  // get the unactivated tab
+  $('#page-content > div').addClass('hidden');
+  $('.cr-tabs > li').removeClass('active');
+
+  // replace page review with target tab
+  const activeName = getActivePageName();
+  if (activeName) {
+    get$tab(activeName).addClass('active');
+    get$content(activeName).removeClass('hidden');
+    changePageStatus(activeName, true, true); // ajax call to server
+  } else {
+    $('div.empty-workspace-msg').removeClass('hidden');
+  }
+}
+
 // handler after file name in file tab is clicked
 function openPageEventHandler(e) {
     e.preventDefault();
+    for (let name in pagesInfo) {
+      pagesInfo[name]['active'] = false;
+    }
+
     // open first, then make it active by calling switchTabHandler
     const pageName = $(this).find('.page-name').html();
     pagesInfo[pageName]['opened'] = true;
+    pagesInfo[pageName]['active'] = true;
     updatePages();
-    get$tab(pageName).trigger('click');
 }
 
 /* update the page tree of current user */
@@ -27,6 +76,7 @@ function initializePagesInfo() {
                             'saved': true}
                 pagesInfo[name] = info;
             }
+            updatePages();
         },
         error: function(e) {
             console.error("failed to load the page tree: ", e);
@@ -34,8 +84,8 @@ function initializePagesInfo() {
     });
 }
 
-
 function changePageStatus(pageName, isOpened, isActive) {
+    setupAjax();
     $.ajax({
         url: "/easel/sites/" + siteName + "/changePageStatus/" + pageName + '/',
         method: "POST",
