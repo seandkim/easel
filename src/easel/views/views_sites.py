@@ -26,12 +26,14 @@ from bs4 import BeautifulSoup
 @login_required
 def home(request):
     # TODO change
-    # profile = Profile.objects.get(user=request.user)
-    # siteName = 'dummy'
-    # profile.deleteSite(siteName)
-    # site = profile.createSite(siteName, "dummydescription")
-    # # site = Site.objects.get(owner = profile, name=siteName)
+    profile = Profile.objects.get(user=request.user)
+    siteName = 'dummy'
+    profile.deleteSite(siteName)
+    site = profile.createSite(siteName, "dummydescription")
+    # site = Site.objects.get(owner = profile, name=siteName)
     # return HttpResponseRedirect(reverse('siteEditor', kwargs={'siteName': site.name}))
+
+
     # TODO should work but doesn't
     profile = Profile.objects.get(user=request.user)
     sites = Site.objects.filter(owner=profile)
@@ -118,8 +120,6 @@ def changePageStatus(request, siteName, pageName):
     print(allPages.filter(opened=True).count(), allPages.filter(active=True).count())
     if (allPages.filter(opened=True).count() == 0):
         assert(allPages.filter(active=True).count() == 0)
-    else:
-        assert(allPages.filter(active=True).count() < 2)
     return HttpResponse('')
 
 # requires POST request with the following argument:

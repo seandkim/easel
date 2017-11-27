@@ -1,18 +1,12 @@
 'use strict';
 
 /* initializations */
-var componentTabHidden = true;
-var pageTabHidden = true;
-var toolTabHidden = true;
-var editor;
-var editMode = "editable";
-var pageTree = [];
-var files;
-var settings = {};
-var d = {};
+var hiddenTabs = {'pages': true, 'tools': true, 'components': true}; // right side tabs
+var editor; // TODO needed?
+var editMode = "editable"; // editable vs sortable
+var pagesInfo = {}; //initialized in loadpages
 var initializedLibraryUpload = false;
 var focusElement;
-
 
 // TODO update sitename
 const siteName = 'dummy';
@@ -67,15 +61,6 @@ function savePage(e) {
     }
 }
 
-function closeTabHandler(e) {
-	e.preventDefault();
-    e.stopPropagation(); // stops event listener for clicking new tab
-    var pageName = $(this).prev().html();
-    var close_li = $(this).closest('li');
-    var isRemovingActive = close_li.hasClass('active');
-    closeTab(pageName, close_li, isRemovingActive, false);
-}
-
 function addNewPageFormHandler(e, data) {
     e.preventDefault()
     // TODO for efficiency, better to append tab beforehand and handle error case
@@ -104,36 +89,32 @@ function selectExistingPageHandler(e) {
 }
 
 $(function() {
-
-	/* initialization */
-	setupAjax();
+  	/* initialization */
+  	setupAjax();
     doneLoading();
-    checkTabPresent();
     addModeSwitcher(); // event listener to switch editable/sortable mode
     changeStyleOnMode(true);
-    updatePageTree();
+    initializePagesInfo();
     initializeEditable();
-
-    /* 
+    
+    /*
      * ------------------------ Editor Bar Tab
      */
     $('#component-tab').on('click', componentToggle);
     $('#page-tab').on('click', pageToggle);
     $('#tool-tab').on('click', toolToggle);
     $('#page-list, #tool-list, #component-list').hide();
-    
 
     /* add close modal handler */
     // TODO: fix the fact that closing doesn't trigger complete
     $("#link-page-modal").modal({
-        complete : function() { 
-        	console.log('you closed modal'); 
-        	$('#link-page-target').removeAttr('id'); 
+        complete : function() {
+        	console.log('you closed modal');
+        	$('#link-page-target').removeAttr('id');
         }
     });
-    
 
-    /* 
+    /*
      * ------------------------ Page Menu (Copy and Delete)
      */
     $(document).on("contextmenu", ".file", showPageOptionMenu);		// show menu
@@ -141,7 +122,7 @@ $(function() {
     $(".custom-menu li").click(pageOptionHandler);					// menu option clicked
 
 
-    /* 
+    /*
      * ------------------------ Components
      */
     // image component
@@ -158,10 +139,10 @@ $(function() {
     //     addHrefToAnchor(url);
     // });
 
-    // ------------------------ Page Tab 
+    // ------------------------ Page Tab
     $(document).on('click', '.file', openPageEventHandler);  	// open file
     $(document).on("click", ".close-tab", closeTabHandler);		// close tab
-    $(document).on("click", ".cr-tabs > li", openTabHandler);	// switch active tab
+    $(document).on("click", ".cr-tabs > li", switchTabHandler);	// switch active tab
 
     // ------------------------ Page Save and Publishing
     $(document).on("keydown", savePage);		// cmd+s save page

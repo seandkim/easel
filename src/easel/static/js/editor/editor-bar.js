@@ -1,45 +1,44 @@
 'use strict';
 
-/* 
- * editor-bar.js - controlling tabs in site editor side bar 
+/*
+ * editor-bar.js - controlling tabs in site editor side bar
  */
 
 /* slide up and down of editor tab */
 function componentToggle() {
     var ind = $('#component-tab').find('.tab-indicator');
-    if (componentTabHidden) {
+    if (hiddenTabs['components']) {
         $('#component-list').slideDown('swing');
         ind.html('<i class="icon icon-down-dir"></i>');
     } else {
         $('#component-list').slideUp('swing');
         ind.html('<i class="icon icon-right-dir"></i>');
     }
-    componentTabHidden = !componentTabHidden;
+    hiddenTabs['components'] = !hiddenTabs['components'];
 }
 
 /* toggle page tab in editor-bar */
 function pageToggle() {
     var ind = $('#page-tab').find('.tab-indicator');
-    if (pageTabHidden) {
+    if (hiddenTabs['pages']) {
         $('#page-list').slideDown('swing');
         ind.html('<i class="icon icon-down-dir"></i>');
     } else {
         $('#page-list').slideUp('swing');
         ind.html('<i class="icon icon-right-dir"></i>');
     }
-    pageTabHidden = !pageTabHidden;
+    hiddenTabs['pages'] = !hiddenTabs['pages'];
 }
 
 /* toggle tool tab in editor-bar */
 function toolToggle() {
     var ind = $('#tool-tab').find('.tab-indicator');
-    if (toolTabHidden) {
+    if (hiddenTabs['tools']) {
         $('#tool-list').slideDown('swing');
         ind.html('<i class="icon icon-down-dir"></i>');
     } else {
         $('#tool-list').slideUp('swing');
         ind.html('<i class="icon icon-right-dir"></i>');
     }
-    toolTabHidden = !toolTabHidden;
+    hiddenTabs['tools'] = !hiddenTabs['tools'];
 }
-

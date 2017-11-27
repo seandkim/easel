@@ -1,36 +1,82 @@
 /*
+ * TODO @Tiffany update the header
  * file.js - file operations: handling opening, saving, and deleting files
  */
 
+ // updatePages : update the tab/page/icon element after `pagesInfo` changes.
+ // when page status changes, you should update `pagesInfo` and call this method
+ // instead of changing elements directly.
+ // ex) see openTabHandler/closeTabHandler
+ function updatePages() {
+   // if there is opened pages and no active page, make the first opened page active
+   if (!getActivePageName()) {
+     for (let name in pagesInfo) {
+       if (pagesInfo[name]['opened']) {
+         pagesInfo[name]['active'] = true;
+         break;
+       }
+     }
+   }
+   for (let name in pagesInfo) {
+     // close any unclosed page (closed but present in tabs)
+     if (!pagesInfo[name]['opened'] && $('#page-content > #'+name+'').length == 1) {
+       get$tab(name).remove();
+       get$content(name).remove();
+       $('#page-list i.' + name).removeClass('icon-file-o').addClass('icon-file');
+       changePageStatus(name, false, false); // ajax call to server
+     }
+     // open any unopened page
+     if (pagesInfo[name]['opened'] && $('#page-content > #'+name+'').length == 0) {
+       $('#page-list i.' + name).removeClass('icon-file').addClass('icon-file-o');
+       loadPageHTML(siteName, name);
+     }
+  }
+
+  // update active tab
+  // get the unactivated tab
+  $('#page-content > div').addClass('hidden');
+  $('.cr-tabs > li').removeClass('active');
+
+  // replace page review with target tab
+  const activeName = getActivePageName();
+  if (activeName) {
+    get$tab(activeName).addClass('active');
+    get$content(activeName).removeClass('hidden');
+    changePageStatus(activeName, true, true); // ajax call to server
+  } else {
+    $('div.empty-workspace-msg').removeClass('hidden');
+  }
+}
 
 // handler after file name in file tab is clicked
 function openPageEventHandler(e) {
     e.preventDefault();
+    for (let name in pagesInfo) {
+      pagesInfo[name]['active'] = false;
+    }
+
+    // open first, then make it active by calling switchTabHandler
     const pageName = $(this).find('.page-name').html();
-    $('#page-list i.' + pageName).removeClass('icon-file').addClass('icon-file-o');
-    const openedTabs = $('ul.cr-tabs a:not(.close-tab)');
-    const tabnames = [];
-    for (var i = 0; i < openedTabs.length; i++) {
-        tabnames.push(openedTabs[i].innerHTML);
-    }
-    if (!tabnames.includes(pageName)) {
-        loadPageHTML(siteName, pageName, true, true);
-    }
+    pagesInfo[pageName]['opened'] = true;
+    pagesInfo[pageName]['active'] = true;
+    updatePages();
 }
 
 /* update the page tree of current user */
-function updatePageTree(handler) {
-    pageTree = [];
+function initializePagesInfo() {
     $.ajax({
         url: "/easel/sites/" + siteName + "/getAllPageNames/",
         method: "POST",
         success: function(data) {
             var pages = data["pages"];
-            var len = pages.length;
-            for (var i = 0; i < len; i++) {
-                pageTree.push(pages[i]["name"]);
+            for (var i = 0; i < pages.length; i++) {
+                let name = pages[i]['name'];
+                let info = {'opened': pages[i]['opened'] == 'True',
+                            'active': pages[i]['active'] == 'True',
+                            'saved': true}
+                pagesInfo[name] = info;
             }
-            if (handler) { handler() };
+            updatePages();
         },
         error: function(e) {
             console.error("failed to load the page tree: ", e);
@@ -38,8 +84,8 @@ function updatePageTree(handler) {
     });
 }
 
-
 function changePageStatus(pageName, isOpened, isActive) {
+    setupAjax();
     $.ajax({
         url: "/easel/sites/" + siteName + "/changePageStatus/" + pageName + '/',
         method: "POST",
@@ -54,7 +100,7 @@ function changePageStatus(pageName, isOpened, isActive) {
     });
 }
 
-function loadPageHTML(siteName, pageName, isOpened, isActive) {
+function loadPageHTML(siteName, pageName) {
     // create tab instantly and add it to page tab
     var new_el = $($.parseHTML('<li tab-target="#' + pageName + '">' +
         '<a href=#>' + pageName + '</a>' +
@@ -62,21 +108,12 @@ function loadPageHTML(siteName, pageName, isOpened, isActive) {
         '</li>'));
     $('.cr-tabs').prepend(new_el);
 
-    // hide the current active page
-    $('#page-content > div:not(.hidden)').addClass('hidden');
-    // check if need to remove empty message
-    checkTabPresent();
     // append new active tab with empty content
     var content_div = $('#page-content').append(
         '<div id="' + pageName + '" class="hidden"></div>'
     );
     // add preloader until done loading
     addLoading('#' + pageName);
-    // trigger click event on the tab
-    if (isActive) {
-        $('li[tab-target="#' + pageName + '"]').trigger('click');
-    }
-
     $.ajax({
         url: "/easel/sites/" + siteName + "/getPageHTML/" + pageName + '/',
         method: "GET",
@@ -88,23 +125,21 @@ function loadPageHTML(siteName, pageName, isOpened, isActive) {
             initializeEditMode(editMode);
         },
         error: function(jqXHR, textStatus) {
+          // TODO what should be done in error case?
             console.log("error in loading page", pageName, textStatus);
             new_el.remove(); // remove the opened tab
             content_div.remove();
             var new_active_tab = $('.cr-tabs > li').last();
             new_active_tab.trigger('click');
-            checkTabPresent();
-            // TODO display error message
         }
     });
-    changePageStatus(pageName, true, true);
 }
 
 
 // TODO refactor successhandler (used in publishing)
 function saveCurrentPage(successHandler) {
     $('.delete-ud-wrapper').remove(); //gets rid of trashCan
-    let pageName = getCurrentActivePageName();
+    let pageName = getActivePageName();
     $.ajax({
         url: "/easel/sites/dummy/savePage/",
         method: "POST",
@@ -207,7 +242,7 @@ function publishPageHandler() {
 }
 
 function viewSiteHandler() {
-    let pageName = getCurrentActivePageName();
+    let pageName = getActivePageName();
     let username = $('#page-preview').data()['username'];
     let siteName = $('#page-preview').data()['sitename'];
     let path = "/easel/public/" + username + '/' + siteName + '/' + pageName;
