@@ -283,7 +283,7 @@ function pageOptionHandler(e) {
 function createPage(pageName, copyPageName) {
     setupAjax();
     // TODO for efficiency, better to append tab beforehand and handle error case
-    $('#add-page-modal').modal('close');
+    $('.modal').modal('close');
     $.ajax({
         url: "/easel/sites/" + siteName + "/addPage/",
         method: "POST",
