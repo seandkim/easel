@@ -14,20 +14,21 @@ $(document).ready(function() {
         var d = new Date();
         var today = d.getDay();
         weekday = new Array(7);
-        weekday[0] = "Sun";
-        weekday[1] = "Mon";
-        weekday[2] = "Tue";
-        weekday[3] = "Wed";
-        weekday[4] = "Thur";
-        weekday[5] = "Fri";
-        weekday[6] = "Sat";
+        weekday[0] = "Mon";
+        weekday[1] = "Tue";
+        weekday[2] = "Wed";
+        weekday[3] = "Thur";
+        weekday[4] = "Fri";
+        weekday[5] = "Sat";
+        weekday[6] = "Sun";
 
         lastfivedays = new Array(5);
         lastfivevis = new Array(5);
-
+        var offset = 5;
+        var len = 7;
         for (i = 0; i < 5; i++){
-            lastfivedays[i] = weekday[((((today - 4 + i) % 7) + 7) % 7)];
-            lastfivevis[i] = visitors[((((today - 4 + i) % 7) + 7) % 7)];
+            lastfivedays[i] = weekday[((((today - offset + i) % len) + len) % len)];
+            lastfivevis[i] = visitors[((((today - offset + i) % len) + len) % len)];
         }
     }
     
