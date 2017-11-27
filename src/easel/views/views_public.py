@@ -63,7 +63,10 @@ def renderPage(request, username, siteName, pageName):
     # TODO change to template where we can render something about easel
     user = User.objects.get(username=username)
     profile = Profile.objects.get(user=user)
-    
+    if user == request.user:
+        print("me myself and I !!!!!!!!!!!")
+        return HttpResponse(page.published_html)
+
     profile.cumVisitorNum += 1  #cumulative visitor
     profile.save()
     
