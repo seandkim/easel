@@ -78,7 +78,7 @@ class AddProjectForm(forms.Form):
 
     def clean(self):
         cleaned_data = super(AddProjectForm, self).clean()
-        projectName = cleaned_data.get('projectName')
+        projectName = cleaned_data.get('projectName').lower()
         description = cleaned_data.get('description')
         username = cleaned_data.get('username')
         user = User.objects.get(username=username)
@@ -103,7 +103,7 @@ class AddMediaForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super(AddMediaForm, self).clean()
-        mediaName = cleaned_data.get('name')
+        mediaName = cleaned_data.get('name').lower()
         username = cleaned_data.get('username')
         print('username = ', username)
         user = User.objects.get(username=username)
@@ -113,7 +113,7 @@ class AddMediaForm(forms.ModelForm):
 
         assert(media.count() < 2)
         if media.count() == 1:
-            raise forms.ValidationError("Media '%s' already exists" % mediaName)
+            raise forms.ValidationError("Media '%s' already exists" % mediaName.lower())
         if not re.match("^[a-zA-Z0-9_]+$", mediaName):
             #TODO : media name can contain underscore right now
             raise forms.ValidationError("Media name can only contain alphabets and numbers")
@@ -144,7 +144,7 @@ class EditMediaForm(forms.Form):
     def clean(self):
         cleaned_data = super(EditMediaForm, self).clean()
         project = cleaned_data.get('project')
-        mediaName = cleaned_data.get('name')
+        mediaName = cleaned_data.get('name').lower()
         username = cleaned_data.get('username')
         oldName = cleaned_data.get('oldName')
         user = User.objects.get(username=username)
@@ -155,7 +155,7 @@ class EditMediaForm(forms.Form):
         assert(media.count() < 2)
         if media.count() == 1:
             if mediaName != oldName:
-                raise forms.ValidationError("Media '%s' already exists" % mediaName)
+                raise forms.ValidationError("Media '%s' already exists" % mediaName.lower())
         if not re.match("^[a-zA-Z0-9_]+$", mediaName):
             #TODO : media name can contain underscore right now
             raise forms.ValidationError("Media name can only contain alphabets and numbers")
@@ -168,9 +168,8 @@ class AddPageForm(forms.Form):
 
     def clean(self):
         cleaned_data = super(AddPageForm, self).clean()
-        pageName = cleaned_data.get('pageName')
+        pageName = cleaned_data.get('pageName').lower()
         username = cleaned_data.get('username')
-        print(username)
         user = User.objects.get(username=username)
         profile = Profile.objects.get(user=user)
         sites = Site.objects.filter(owner=profile)
@@ -178,8 +177,29 @@ class AddPageForm(forms.Form):
 
         assert(page.count() < 2)
         if page.count() == 1:
-            raise forms.ValidationError("Page '%s' already exists" % pageName)
+            raise forms.ValidationError("Page '%s' already exists" % pageName.lower())
         if not re.match("^[a-zA-Z0-9_]+$", pageName):
             #TODO : media name can contain underscore right now
             raise forms.ValidationError("Page name can only contain alphabets and numbers")
+        return cleaned_data
+
+
+class AddSiteForm(forms.Form):
+    siteName = forms.CharField(max_length=20)
+    username = forms.CharField(widget = forms.HiddenInput(), required=False)
+
+    def clean(self):
+        cleaned_data = super(AddSiteForm, self).clean()
+        siteName = cleaned_data.get('siteName').lower()
+        username = cleaned_data.get('username')
+        user = User.objects.get(username=username)
+        profile = Profile.objects.get(user=user)
+        sites = Site.objects.filter(owner=profile, name=siteName.lower())
+
+        assert(sites.count() < 2)
+        if sites.count() == 1:
+            raise forms.ValidationError("Site '%s' already exists" % siteName.lower())
+        if not re.match("^[a-zA-Z0-9_]+$", siteName):
+            #TODO : media name can contain underscore right now
+            raise forms.ValidationError("Site name can only contain alphabets and numbers")
         return cleaned_data
