@@ -3,6 +3,46 @@
  * file.js - file operations: handling opening, saving, and deleting files
  */
 
+ // updatePages : update the tab/page/icon element after `pagesInfo` changes.
+ // when page status changes, you should update `pagesInfo` and call this method
+ // instead of changing elements directly.
+ // ex) see openTabHandler/closeTabHandler
+ function updatePages() {
+   // if there is opened pages and no active page, make the first opened page active
+   if (!getActivePageName()) {
+      for (let name in pagesInfo) {
+        if (pagesInfo[name]['opened']) {
+          pagesInfo[name]['active'] = true;
+          break;
+        }
+      }
+   }
+
+   // close any unclosed page
+   for (let name in pagesInfo) {
+     // if closed but present in tabs, remove it
+     if (!pagesInfo[name]['opened'] && $('#page-content > #'+name+'').length == 1) {
+       get$tab(name).remove();
+       get$content(name).remove();
+       $('#page-list i.' + name).removeClass('icon-file-o').addClass('icon-file');
+       changePageStatus(name, false, false); // ajax call to server
+     }
+   }
+
+   // update active tab
+   // get the unactivated tab
+   $('#page-content > div').addClass('hidden');
+   $('.cr-tabs > li').removeClass('active');
+
+   // replace page review with target tab
+   const activeName = getActivePageName();
+   if (activeName) {
+     get$tab(activeName).addClass('active');
+     get$content(activeName).removeClass('hidden');
+   } else {
+     $('div.empty-workspace-msg').removeClass('hidden');
+   }
+ }
 
 // handler after file name in file tab is clicked
 function openPageEventHandler(e) {
@@ -42,8 +82,6 @@ function initializePagesInfo() {
 
 
 function changePageStatus(pageName, isOpened, isActive) {
-    // for (let i=0; i++; i)
-
     $.ajax({
         url: "/easel/sites/" + siteName + "/changePageStatus/" + pageName + '/',
         method: "POST",
@@ -109,7 +147,7 @@ function loadPageHTML(siteName, pageName, isOpened, isActive) {
 // TODO refactor successhandler (used in publishing)
 function saveCurrentPage(successHandler) {
     $('.delete-ud-wrapper').remove(); //gets rid of trashCan
-    let pageName = getCurrentActivePageName();
+    let pageName = getActivePageName();
     $.ajax({
         url: "/easel/sites/dummy/savePage/",
         method: "POST",
@@ -212,7 +250,7 @@ function publishPageHandler() {
 }
 
 function viewSiteHandler() {
-    let pageName = getCurrentActivePageName();
+    let pageName = getActivePageName();
     let username = $('#page-preview').data()['username'];
     let siteName = $('#page-preview').data()['sitename'];
     let path = "/easel/public/" + username + '/' + siteName + '/' + pageName;

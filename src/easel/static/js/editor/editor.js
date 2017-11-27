@@ -61,15 +61,6 @@ function savePage(e) {
     }
 }
 
-function closeTabHandler(e) {
-	e.preventDefault();
-    e.stopPropagation(); // stops event listener for clicking new tab
-    var pageName = $(this).prev().html();
-    var close_li = $(this).closest('li');
-    var isRemovingActive = close_li.hasClass('active');
-    closeTab(pageName, close_li, isRemovingActive, false);
-}
-
 function addNewPageFormHandler(e, data) {
     e.preventDefault()
     // TODO for efficiency, better to append tab beforehand and handle error case
@@ -101,7 +92,6 @@ $(function() {
   	/* initialization */
   	setupAjax();
     doneLoading();
-    checkTabPresent();
     addModeSwitcher(); // event listener to switch editable/sortable mode
     changeStyleOnMode(true);
     initializePagesInfo();

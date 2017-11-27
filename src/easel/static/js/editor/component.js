@@ -1,4 +1,4 @@
-/* 
+/*
  * component.js - initialization and interaction of drag-drop components
  */
 
@@ -6,7 +6,7 @@
 // handler after components are dropped onto page
 function componentDropHandler(event, ui) {
 	var cmp = ui.draggable.prop('id');
-    var active_id_name = getActivePageTabContentId();
+    var active_id_name = '#' + getActivePageName();
     var activeId = $(active_id_name).find('.editable').first();
     if (cmp === "img-cmp") {
         open_img_selection();
@@ -197,6 +197,3 @@ function deleteTrashcanButton() {
         });
     }
 }
-
-
-
