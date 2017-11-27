@@ -1,6 +1,8 @@
 'use strict';
 
-/* main.js: for initialization and common component across site */
+/*
+ * main.js: for initialization and common component across site 
+ */
 var alertBoxEase = 2000;
 var sidebarHidden = true;
 
@@ -47,6 +49,25 @@ function showAlertMsg(msg) {
     // hide after 2 seconds (2000ms)
     setTimeout(hideAlertMsg, alertBoxEase);
 }
+
+// remove preloader
+function doneLoading() {
+    $('.preload').remove();
+};
+
+function addLoading(el) {
+    $(el).append(
+        '<div class="preload preloader-overlay">' +
+            '<div class="spinner-wrapper">' +
+                '<div class="spinner">' +
+                    '<div class="double-bounce1"></div>' +
+                    '<div class="double-bounce2"></div>' +
+                '</div>' +
+                '<div class="loading">LOADING...</div>' +
+            '</div>' +
+        '</div>');
+}
+
 
 // main
 $(function() {
