@@ -83,8 +83,8 @@ class AddProjectForm(forms.Form):
         username = cleaned_data.get('username')
         user = User.objects.get(username=username)
         profile = Profile.objects.get(user=user)
-        if Project.objects.filter(owner=profile, name=projectName).count() > 0:
-            raise forms.ValidationError("Project '%s' already exists" % projectName)
+        if Project.objects.filter(owner=profile, name=projectName.lower()).count() > 0:
+            raise forms.ValidationError("Project '%s' already exists" % projectName.lower())
         if not re.match("^[a-zA-Z0-9_]+$", projectName):
             #TODO : project name can contain underscore right now
             raise forms.ValidationError("Project name can only contain alphabets and numbers")

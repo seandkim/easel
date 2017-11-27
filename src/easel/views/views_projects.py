@@ -93,7 +93,7 @@ def addProject(request):
     profile = Profile.objects.get(user=request.user)
 
     new_project = Project(owner=profile,
-                          name=form.cleaned_data['projectName'],
+                          name=form.cleaned_data['projectName'].lower(),
                           description=form.cleaned_data['description'])
     new_project.save()
 
