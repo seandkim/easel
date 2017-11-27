@@ -1,18 +1,12 @@
 'use strict';
 
 /* initializations */
-var componentTabHidden = true;
-var pageTabHidden = true;
-var toolTabHidden = true;
-var editor;
-var editMode = "editable";
-var pageTree = [];
-var files;
-var settings = {};
-var d = {};
+var hiddenTabs = {'pages': true, 'tools': true, 'components': true}; // right side tabs
+var editor; // TODO needed?
+var editMode = "editable"; // editable vs sortable
+var pagesInfo = {}; //initialized in loadpages
 var initializedLibraryUpload = false;
 var focusElement;
-
 
 // TODO update sitename
 const siteName = 'dummy';
@@ -104,36 +98,33 @@ function selectExistingPageHandler(e) {
 }
 
 $(function() {
-
-	/* initialization */
-	setupAjax();
+  	/* initialization */
+  	setupAjax();
     doneLoading();
     checkTabPresent();
     addModeSwitcher(); // event listener to switch editable/sortable mode
     changeStyleOnMode(true);
-    updatePageTree();
+    initializePagesInfo();
     initializeEditable();
 
-    /* 
+    /*
      * ------------------------ Editor Bar Tab
      */
     $('#component-tab').on('click', componentToggle);
     $('#page-tab').on('click', pageToggle);
     $('#tool-tab').on('click', toolToggle);
     $('#page-list, #tool-list, #component-list').hide();
-    
 
     /* add close modal handler */
     // TODO: fix the fact that closing doesn't trigger complete
     $("#link-page-modal").modal({
-        complete : function() { 
-        	console.log('you closed modal'); 
-        	$('#link-page-target').removeAttr('id'); 
+        complete : function() {
+        	console.log('you closed modal');
+        	$('#link-page-target').removeAttr('id');
         }
     });
-    
 
-    /* 
+    /*
      * ------------------------ Page Menu (Copy and Delete)
      */
     $(document).on("contextmenu", ".file", showPageOptionMenu);		// show menu
@@ -141,7 +132,7 @@ $(function() {
     $(".custom-menu li").click(pageOptionHandler);					// menu option clicked
 
 
-    /* 
+    /*
      * ------------------------ Components
      */
     // image component
@@ -158,7 +149,7 @@ $(function() {
     //     addHrefToAnchor(url);
     // });
 
-    // ------------------------ Page Tab 
+    // ------------------------ Page Tab
     $(document).on('click', '.file', openPageEventHandler);  	// open file
     $(document).on("click", ".close-tab", closeTabHandler);		// close tab
     $(document).on("click", ".cr-tabs > li", openTabHandler);	// switch active tab

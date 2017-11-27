@@ -1,4 +1,5 @@
 /*
+ * TODO @Tiffany update the header
  * file.js - file operations: handling opening, saving, and deleting files
  */
 
@@ -19,18 +20,19 @@ function openPageEventHandler(e) {
 }
 
 /* update the page tree of current user */
-function updatePageTree(handler) {
-    pageTree = [];
+function initializePagesInfo() {
     $.ajax({
         url: "/easel/sites/" + siteName + "/getAllPageNames/",
         method: "POST",
         success: function(data) {
             var pages = data["pages"];
-            var len = pages.length;
-            for (var i = 0; i < len; i++) {
-                pageTree.push(pages[i]["name"]);
+            for (var i = 0; i < pages.length; i++) {
+                let name = pages[i]['name'];
+                let info = {'opened': pages[i]['opened'] == 'True',
+                            'active': pages[i]['active'] == 'True',
+                            'saved': true}
+                pagesInfo[name] = info;
             }
-            if (handler) { handler() };
         },
         error: function(e) {
             console.error("failed to load the page tree: ", e);
@@ -40,6 +42,8 @@ function updatePageTree(handler) {
 
 
 function changePageStatus(pageName, isOpened, isActive) {
+    // for (let i=0; i++; i)
+
     $.ajax({
         url: "/easel/sites/" + siteName + "/changePageStatus/" + pageName + '/',
         method: "POST",
@@ -97,7 +101,8 @@ function loadPageHTML(siteName, pageName, isOpened, isActive) {
             // TODO display error message
         }
     });
-    changePageStatus(pageName, true, true);
+    // TODO check that it is correct (previously true, true)
+    changePageStatus(pageName, isOpened, isActive);
 }
 
 

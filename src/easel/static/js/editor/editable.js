@@ -45,7 +45,7 @@ var editable_settings = {
                 // console.log(html);
                 // console.log(mark);
                 // console.log(parent);
-                updatePageTree(initializeLinkNewPageModal);
+                initializeLinkNewPageModal();
                 return '<a id="link-page-target" href="#">' + html + '</html>';
             }
         }),
@@ -116,7 +116,11 @@ function initializeEditable() {
 /* ------------------ Linking anchor tag to exiting page or url */
 /* open add new page modal, initializing all page options */
 function initializeLinkNewPageModal() {
-    var pages = pageTree;
+    var pages = [];
+    for (let key in pagesInfo) {
+      pages.push(key);
+    }
+
     var menu = $('#page-opt-list').empty();
     var settings = {};
 
@@ -127,7 +131,7 @@ function initializeLinkNewPageModal() {
     //     el.append(
     //         '<li>' +
     //             '<a href="#" class="page-choice" url-target="#' + name + '">' +
-    //                 '<i class="icon-file"></i> ' + 
+    //                 '<i class="icon-file"></i> ' +
     //                 '<span class="page-name">' + name + '</span>' +
     //             '</a>' +
     //         '</li>'
@@ -147,7 +151,7 @@ function initializeLinkNewPageModal() {
         },
         minLength: 0, // The minimum length of the input for the autocomplete to start. Default: 1.
     });
-       
+
     // open modal
     $('#link-page-modal').modal('open');
 }

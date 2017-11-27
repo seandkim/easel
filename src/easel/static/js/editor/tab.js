@@ -3,28 +3,13 @@
  */
 
 
-/*
- * activateTab: activate page tab programmatically
- * 
- * input: el - tab li element to be activated
- */
-function activateTab(el) {
-    var cr_tabs = $('.cr-tabs > li');
-    // get the unactivated tab
-    var unactivated_tab = $('.cr-tabs').find('.active').attr('tab-target');
-    $(unactivated_tab).addClass('hidden');
-    cr_tabs.removeClass('active');
-
-    // replace page review with target tab
-    el.addClass('active');
-    var activated_tab = el.attr('tab-target');
-    $(activated_tab).removeClass('hidden');
-}
-
 // getCurrentActivePageName : return the page name of active tab
 function getCurrentActivePageName() {
-    let current_page = $("active");
-    return $(current_page.children()[0]).html();
+    for (let page in pagesInfo) {
+      if (page['active']) {
+        return page['name'];
+      }
+    }
 }
 
 // noTab : check if there is any tab currently open, returns bool
