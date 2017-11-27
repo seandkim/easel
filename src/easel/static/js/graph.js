@@ -1,7 +1,5 @@
 $(document).ready(function() {
-    var visitors;
     var sites;
-    var weekday;
     var lastfivedays;
     var lastfivevis;
     var graph_data = [];
@@ -9,20 +7,12 @@ $(document).ready(function() {
 
     
     $.get("/easel/dashboard/getProfile/").done(function(data) {
-          console.log("hi");
-          console.log("data = ", data);
-          visitors = data.weekdays;
-          sites = data.sites;
-          console.log("visitors = ", visitors);
-          console.log('sites = ', sites);
-          console.log('len = ', sites.length);
-          makeArray(visitors);
-          console.log('lastdays = ', lastfivedays);
-          console.log('lastvis = ', lastfivevis);
+          sites = data.sites; 
           for (i = 0; i < sites.length; i++){
               var site = sites[i];
               var site_name = site.name;
-              console.log('name = ', site_name)
+              var visitors = site.weekdays;
+              makeArray(visitors);            
               graph(lastfivedays, lastfivevis, site_name);
           }
           plot();
