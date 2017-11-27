@@ -138,12 +138,14 @@ $(document).ready(function() {
           detail_bar.append($('<span class="description"><strong>Description: </strong>' + description + '</span>'));
           detail_bar.append($('<br>'));
           detail_bar.append($('<a href="/easel/projects/' + projectName + '/addMedia"><button class="dark-btn-alt"><i class="material-icons tab-icon">file_upload</i> UPLOAD</button></a>'));
-          detail_bar.append($('<a class="delete-project modal-trigger" href="#delete-project-modal" projectName="' + projectName + '">' +
-              '<button class="dark-btn-alt">' +
-                '<i class="material-icons tab-icon">delete</i>' +
-                'DELETE' +
-              '</button>' +
-            '</a>'));
+          if (projectName != "ungrouped"){
+              detail_bar.append($('<a class="delete-project modal-trigger" href="#delete-project-modal" projectName="' + projectName + '">' +
+                  '<button class="dark-btn-alt">' +
+                    '<i class="material-icons tab-icon">delete</i>' +
+                    'DELETE' +
+                  '</button>' +
+                '</a>'));
+          }
 
           // delete project button
           initializeDeleteButton(detail_bar.find('button'), projectName);

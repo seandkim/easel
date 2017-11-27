@@ -5,12 +5,8 @@ $(document).ready(function() {
     var lastfivevis;
     
     $.get("/easel/dashboard/getProfile/").done(function(data) {
-          console.log(data);
           visitors = data;
-          console.log(visitors)
           makeArray(visitors);
-          console.log('lastfivedays = ', lastfivedays)
-          console.log('lastfivevis = ', lastfivevis)
           graph(lastfivedays, lastfivevis)
     });
       
@@ -38,7 +34,6 @@ $(document).ready(function() {
     function graph(lastfivedays, lastfivevis){
         var trace1 = {
           x: lastfivedays,
-    //      y: [, 6, 3, 2, 1],
           y: lastfivevis,
           mode: 'markers',
           type: 'scatter',
@@ -46,17 +41,8 @@ $(document).ready(function() {
           marker: { size: 12 }
         };
 
-        var trace2 = {
-          x: ["Mon", "Tue", "Wed", "Thur", "Fri"],
-          y: [4, 1, 7, 1, 4],
-          mode: 'markers',
-          type: 'scatter',
-          name: 'Site B',
-          marker: { size: 12 }
-        };
-
         var data = [trace1];
-
+        
         var layout = {
           yaxis: {
             range: [0, 10]
