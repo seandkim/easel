@@ -68,13 +68,13 @@ $(function() {
     $(document).on("click", ".cr-tabs > li", switchTabHandler);	// switch active tab
 
     // ------------------------ Page Save and Publishing
-    $(document).on("keydown", shortcutKeyboardHandler);		// cmd+s save page
+    $(document).on("keydown", keyboardHandler);		// cmd+s save page
     $('#view-site-button').click(viewSiteHandler);
-    $('#publish-button').click(function() {savePage(getActivePageName(), true)}); // TODO publish only the current active page
+    $('#publish-button').click(publishPageHandler);
     $('#save-button').click(function() {
       // save all opened pages
       for (var name in pagesInfo) {
-        if (pagesInfo[name]['opened']) {savePage(name, false);}
+        if (pagesInfo[name]['opened']) {savePage(name);}
       }});
 
     // ------------------------ Add Page

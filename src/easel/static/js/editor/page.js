@@ -9,18 +9,19 @@ function updatePages() {
     const icons = $('#page-list').children();
     const deleteNames = []
     if (Object.keys(pagesInfo).length != icons.length) {
-      for (let i=0; i<icons.length; i++) {
-        const name = $(icons[i]).attr('file-name');
-        if (!(name in pagesInfo)) {
-          deleteNames.push(name);
+        for (let i = 0; i < icons.length; i++) {
+            const name = $(icons[i]).attr('file-name');
+            if (!(name in pagesInfo)) {
+                deleteNames.push(name);
+            }
         }
-      }
     }
-    for (let i=0; i<deleteNames.length; i++) {
-      const name = deleteNames[i];
-      get$tab(name).remove();
-      get$content(name).remove();
-      get$icon(name).remove();
+
+    for (let i = 0; i < deleteNames.length; i++) {
+        const name = deleteNames[i];
+        get$tab(name).remove();
+        get$content(name).remove();
+        get$icon(name).remove();
     }
 
     // if there is opened pages and no active page, make the first opened page active
@@ -36,11 +37,8 @@ function updatePages() {
     for (let name in pagesInfo) {
         // create closed icon if not created (for page that has been created)
         if (get$icon(name).length == 0) {
-          var file = $('<div class="file" file-name="' + name + '">' +
-                         '<i class="' + name + ' icon icon-file"></i> ' +
-                         '<span class="page-name">' + name + '</span>' +
-                       '</div>');
-          $('#page-list').append(file);
+            var file = $('<div class="file" file-name="' + name + '">' + '<i class="' + name + ' icon icon-file"></i> ' + '<span class="page-name">' + name + '</span>' + '</div>');
+            $('#page-list').append(file);
         }
 
         // close any unclosed page (closed but present in tabs)
@@ -56,6 +54,14 @@ function updatePages() {
             get$icon(name).find('i').removeClass('icon-file').addClass('icon-file-o');
             loadPageHTML(siteName, name);
         }
+
+        // remove dot for saved tab
+        if (pagesInfo[name]['saved']) {
+          let span = get$tab(name).find('span');
+          $(span).removeClass('icon-hand');
+          $(span).addClass('icon-close');
+          $(span).off('mouseenter mouseleave'); // remove hover event of toggling icon
+        }
     }
 
     // update active tab
@@ -66,9 +72,19 @@ function updatePages() {
     // replace page review with target tab
     const activeName = getActivePageName();
     if (activeName) {
+        if (!pagesInfo[activeName]['saved']) {
+          // display dot for unsaved tab
+          let span = get$tab(activeName).find('span');
+          $(span).removeClass('icon-close');
+          $(span).addClass('icon-hand'); // TODO change to diff icon
+          $(span).hover(function() {
+              $(span).toggleClass('icon-close icon-hand');
+          });
+        }
+
         get$tab(activeName).addClass('active');
         get$content(activeName).removeClass('hidden');
-        changePageStatus(activeName, true, true); // ajax call to server
+        changePageStatus(activeName, true, true); // ajax call to server TODO every time?
     } else {
         $('div.empty-workspace-msg').removeClass('hidden');
     }
@@ -161,7 +177,7 @@ function openPageEventHandler(e) {
     updatePages();
 }
 
-function shortcutKeyboardHandler(e) {
+function keyboardHandler(e) {
     // cmd+s in mac and ctrl+s in other platform
     if (e.keyCode == 83 && (
         navigator.platform.match("Mac")
@@ -169,15 +185,23 @@ function shortcutKeyboardHandler(e) {
         : e.ctrlKey)) {
         e.preventDefault();
         var pageName = getActivePageName();
-        savePage(pageName, false);
+        savePage(pageName);
+
+        // mark active page as unsaved TODO only when meta key is not pressed?
+    } else {
+        console.log("keyboard handler else case")
+        if (pagesInfo[getActivePageName()]['saved']) {
+            pagesInfo[getActivePageName()]['saved'] = false;
+            updatePages();
+        }
     }
 }
 
-function savePage(pageName, needPublishing) {
+function savePage(pageName, successHandler) {
     setupAjax();
     console.assert(pagesInfo[pageName]['opened']);
     if (!pageName) {
-      console.error("could not save page because pageName was null");
+        console.error("could not save page because pageName was null");
     }
 
     $('.delete-ud-wrapper').remove(); //gets rid of all trashCans
@@ -190,20 +214,12 @@ function savePage(pageName, needPublishing) {
         },
         success: function(data) {
             showAlertMsg("Page saved");
-            if (needPublishing) {
-                // TODO add loading animation
-                // TODO publish all saved pages at once (one by one is inefficient)
-                $.ajax({
-                    url: "/easel/sites/dummy/publish/",
-                    method: "POST",
-                    data: {pages: [pageName]},
-                    success: function(data) {
-                        showAlertMsg("Successfully publish site.");
-                    },
-                    error: function(e) {
-                        showAlertMsg("Error in publishing.");
-                    }
-                })
+            if (!pagesInfo[pageName]['saved']) {
+                pagesInfo[pageName]['saved'] = true;
+                updatePages();
+            }
+            if (successHandler) {
+              successHandler();
             }
         },
         error: function(e) {
@@ -231,6 +247,26 @@ function deletePage(pageName) {
             console.error("failed to delete the page", textStatus);
             showAlertMsg("Error occured when deleting page. <br> Please try again.");
         }
+    });
+}
+
+function publishPageHandler(e) {
+    savePage(getActivePageName(), function() {
+        // TODO add loading animation
+        // TODO publish all saved pages at once (one by one is inefficient)
+        $.ajax({
+            url: "/easel/sites/dummy/publish/",
+            method: "POST",
+            data: {
+                pages: [pageName]
+            },
+            success: function(data) {
+                showAlertMsg("Successfully publish site.");
+            },
+            error: function(e) {
+                showAlertMsg("Error in publishing.");
+            }
+        })
     });
 }
 
@@ -317,21 +353,21 @@ function createPage(pageName, copyPageName) {
 }
 
 function addNewPageFormHandler(e) {
-  e.preventDefault();
-  var pageName = $(this).find('input#id_pageName').val();
-  createPage(pageName, "");
+    e.preventDefault();
+    var pageName = $(this).find('input#id_pageName').val();
+    createPage(pageName, "");
 }
 
 function copyPage(copyPageName) {
-  // store page to copy in form
-  $("#page-to-copy-stored").val(copyPageName);
-  $('#copy-page-modal').modal('open');
-  // get new page name and create it
-  $('#copy-page-form').submit(function(e) {
-      e.preventDefault();
-      const pageName = $('#copy-page-new-name').val();
-      createPage(pageName, copyPageName);
-  });
+    // store page to copy in form
+    $("#page-to-copy-stored").val(copyPageName);
+    $('#copy-page-modal').modal('open');
+    // get new page name and create it
+    $('#copy-page-form').submit(function(e) {
+        e.preventDefault();
+        const pageName = $('#copy-page-new-name').val();
+        createPage(pageName, copyPageName);
+    });
 }
 
 function selectExistingPageHandler(e) {
