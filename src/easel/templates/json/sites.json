@@ -1,0 +1,11 @@
+{
+  "sites":
+    [
+      {% for site in sites %}
+         {
+           "name": "{{site.name}}",
+           "description": "{{site.description}}"
+         }{% if not forloop.last %},{% endif %}
+      {% endfor %}
+    ]
+}

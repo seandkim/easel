@@ -1,13 +1,21 @@
 $(document).ready(function() {
-    var visitors;
-    var weekday;
+    var sites;
     var lastfivedays;
     var lastfivevis;
+    var graph_data = [];
+    var layout;
+
     
     $.get("/easel/dashboard/getProfile/").done(function(data) {
-          visitors = data;
-          makeArray(visitors);
-          graph(lastfivedays, lastfivevis)
+          sites = data.sites; 
+          for (i = 0; i < sites.length; i++){
+              var site = sites[i];
+              var site_name = site.name;
+              var visitors = site.weekdays;
+              makeArray(visitors);            
+              graph(lastfivedays, lastfivevis, site_name);
+          }
+          plot();
     });
       
     function makeArray(visitors){
@@ -32,26 +40,29 @@ $(document).ready(function() {
         }
     }
     
-    function graph(lastfivedays, lastfivevis){
-        var trace1 = {
+    function graph(lastfivedays, lastfivevis, site_name){
+        var trace = {
           x: lastfivedays,
           y: lastfivevis,
-          mode: 'markers',
+          mode: 'lines+markers',
           type: 'scatter',
-          name: 'Site A',
+          name: site_name,
           marker: { size: 12 }
         };
-
-        var data = [trace1];
-        
-        var layout = {
+    
+        graph_data.push(trace);
+ 
+        layout = {
           yaxis: {
             range: [0, 10]
           },
           title:'Visitors from last 5 days'
-        };
-
-        Plotly.newPlot('graph1', data, layout);
+        };   
     }
+    
+    function plot(){
+        Plotly.newPlot('graph1', graph_data, layout);
+    }
+    
     
 });

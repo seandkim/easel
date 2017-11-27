@@ -33,7 +33,6 @@ $(document).ready(function() {
         method: "POST",
         data: values,
         success: function(data) {
-            console.log("successfully added the project", data);
             loadProject(data['projects'][0], true);
             $('.modal').modal('close');
         },
@@ -58,7 +57,7 @@ $(document).ready(function() {
     $button.click(function() {
       $deleteBtn = $("#delete-project-modal button:not(.modal-close)");
       $deleteBtn.off(); // removes all event handlers
-
+        
       $deleteBtn.click(function() {
         $.ajax({
             url: "/easel/projects/"+projectName+"/deleteProject/",
@@ -67,10 +66,11 @@ $(document).ready(function() {
             success: function(data) {
               $("li a[href='#" + projectName + "']").parent().remove();
               $("div#"+projectName).remove();
-              $('.modal').modal('close');
-              // select random tab
+              $('ul.tabs').tabs('select_tab', 'ungrouped');
+              $('.modal').modal('close');              
             },
             error: function(jqXHR, textStatus) {
+                console.log('error');
               // display error message
             }
         });

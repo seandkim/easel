@@ -65,36 +65,31 @@ def renderPage(request, username, siteName, pageName):
     profile = Profile.objects.get(user=user)
     
     profile.cumVisitorNum += 1  #cumulative visitor
+    profile.save()
     
     if datetime.datetime.today().weekday() == 0:  #Monday
-        profile.tue = 0
-        profile.mon += 1
+        site.tue = 0
+        site.mon += 1
     if datetime.datetime.today().weekday() == 1:  #Tuesday
-        profile.wed = 0
-        profile.tue += 1
+        site.wed = 0
+        site.tue += 1
     if datetime.datetime.today().weekday() == 2:  #Wednesday
-        profile.thur = 0
-        profile.wed += 1
+        site.thur = 0
+        site.wed += 1
     if datetime.datetime.today().weekday() == 3:  #Thursday
-        profile.fri = 0
-        profile.thu += 1
+        site.fri = 0
+        site.thu += 1
     if datetime.datetime.today().weekday() == 4:  #Friday
-        profile.sat = 0
-        profile.fri += 1
+        site.sat = 0
+        site.fri += 1
     if datetime.datetime.today().weekday() == 5:  #Saturday
-        print("saturday")
-        print(datetime.datetime.today().weekday())
-        profile.sun = 0
-        profile.sat += 1
+        site.sun = 0
+        site.sat += 1
     if datetime.datetime.today().weekday() == 6:  #Sunday
-        print("sunday")
-        print(datetime.datetime.today().weekday())
-        profile.mon = 0
-        profile.sun += 1
-        
-#    profile.todayVisitorNum += 1
-    
-    profile.save()
+        site.mon = 0
+        site.sun += 1
+
+    site.save()
     
     return HttpResponse(page.published_html)
 

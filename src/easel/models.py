@@ -13,13 +13,6 @@ class Profile(models.Model):
     gender = models.CharField(max_length=10, default="", blank=True)
     profilePic = models.ImageField(upload_to="profilePic", blank=True)
     cumVisitorNum = models.IntegerField(default=0, blank=True)
-    mon = models.IntegerField(default=0, blank=True)
-    tue = models.IntegerField(default=0, blank=True)
-    wed = models.IntegerField(default=0, blank=True)
-    thu = models.IntegerField(default=0, blank=True)
-    fri = models.IntegerField(default=0, blank=True)
-    sat = models.IntegerField(default=0, blank=True)
-    sun = models.IntegerField(default=0, blank=True)
 
     def __unicode__(self):
         return self.user.username
@@ -53,8 +46,7 @@ class Profile(models.Model):
         if Site.objects.filter(owner=self, name=siteName).count() > 0:
             raise Exception("Site name %s already exists" % siteName)
 
-        site = Site(owner=self, name=siteName, description=description,
-                    numVisitor=0)
+        site = Site(owner=self, name=siteName, description=description)
         site.save()
         site.createPage('home', opened=True, active=False)
         site.createPage('about', opened=True, active=True)
@@ -120,8 +112,14 @@ class Site(models.Model):
     owner = models.ForeignKey(Profile)
     name = models.CharField(max_length=20)
     description = models.CharField(max_length=1000)
-    numVisitor = models.IntegerField(default=0)
-
+    mon = models.IntegerField(default=0, blank=True)
+    tue = models.IntegerField(default=0, blank=True)
+    wed = models.IntegerField(default=0, blank=True)
+    thu = models.IntegerField(default=0, blank=True)
+    fri = models.IntegerField(default=0, blank=True)
+    sat = models.IntegerField(default=0, blank=True)
+    sun = models.IntegerField(default=0, blank=True)
+    
     def __unicode__(self):
         s = self.name + '\n'
         for page in Page.objects.filter(site=self):

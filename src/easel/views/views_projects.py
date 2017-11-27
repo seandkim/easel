@@ -20,6 +20,7 @@ from django.utils.encoding import force_text
 from django.utils.http import urlsafe_base64_decode
 from easel.models import *
 from easel.forms import *
+from easel.error import Http400, Http405
 from time import localtime, strftime
 from mimetypes import guess_type
 
@@ -52,7 +53,7 @@ def getAllProjects(request):
         projects = Project.objects.filter(owner=profile)
         context = {"username": profile.user.username, "projects": projects}
         return render(request, 'json/projects.json', context, content_type='application/json')
-    return Http404('Unsupported method')
+    return Http405()
 
 @login_required
 def getAllMedias(request, projectName):
@@ -93,7 +94,7 @@ def addProject(request):
     profile = Profile.objects.get(user=request.user)
 
     new_project = Project(owner=profile,
-                          name=form.cleaned_data['projectName'],
+                          name=form.cleaned_data['projectName'].lower(),
                           description=form.cleaned_data['description'])
     new_project.save()
 
@@ -103,7 +104,7 @@ def addProject(request):
 @login_required
 def deleteProject(request, projectName):
     if request.method == 'GET':
-        return Http404("Unsupported method")
+        return Http405()
 
     profile = Profile.objects.get(user=request.user)
     project = Project.objects.get(owner=profile, name=projectName)

@@ -50,7 +50,6 @@ def home(request):
 def getProfile(request):
     if request.method == "GET":
         profile = Profile.objects.get(user=request.user)
-        context = {"mon": profile.mon, "tue": profile.tue, "wed": profile.wed, 
-                   "thu": profile.thu, "fri": profile.fri, "sat": profile.sat, "sun": profile.sun}
+        context = {"sites": Site.objects.filter(owner=profile)}
         return render(request, 'json/stats.json', context, content_type='application/json')
     return Http404('Unsupported method')
