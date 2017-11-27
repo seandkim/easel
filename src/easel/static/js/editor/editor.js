@@ -142,7 +142,7 @@ $(function() {
     // ------------------------ Page Tab
     $(document).on('click', '.file', openPageEventHandler);  	// open file
     $(document).on("click", ".close-tab", closeTabHandler);		// close tab
-    $(document).on("click", ".cr-tabs > li", openTabHandler);	// switch active tab
+    $(document).on("click", ".cr-tabs > li", switchTabHandler);	// switch active tab
 
     // ------------------------ Page Save and Publishing
     $(document).on("keydown", savePage);		// cmd+s save page

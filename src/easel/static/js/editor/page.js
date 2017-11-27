@@ -3,60 +3,14 @@
  * file.js - file operations: handling opening, saving, and deleting files
  */
 
- // updatePages : update the tab/page/icon element after `pagesInfo` changes.
- // when page status changes, you should update `pagesInfo` and call this method
- // instead of changing elements directly.
- // ex) see openTabHandler/closeTabHandler
- function updatePages() {
-   // if there is opened pages and no active page, make the first opened page active
-   if (!getActivePageName()) {
-      for (let name in pagesInfo) {
-        if (pagesInfo[name]['opened']) {
-          pagesInfo[name]['active'] = true;
-          break;
-        }
-      }
-   }
-
-   // close any unclosed page
-   for (let name in pagesInfo) {
-     // if closed but present in tabs, remove it
-     if (!pagesInfo[name]['opened'] && $('#page-content > #'+name+'').length == 1) {
-       get$tab(name).remove();
-       get$content(name).remove();
-       $('#page-list i.' + name).removeClass('icon-file-o').addClass('icon-file');
-       changePageStatus(name, false, false); // ajax call to server
-     }
-   }
-
-   // update active tab
-   // get the unactivated tab
-   $('#page-content > div').addClass('hidden');
-   $('.cr-tabs > li').removeClass('active');
-
-   // replace page review with target tab
-   const activeName = getActivePageName();
-   if (activeName) {
-     get$tab(activeName).addClass('active');
-     get$content(activeName).removeClass('hidden');
-   } else {
-     $('div.empty-workspace-msg').removeClass('hidden');
-   }
- }
-
 // handler after file name in file tab is clicked
 function openPageEventHandler(e) {
     e.preventDefault();
+    // open first, then make it active by calling switchTabHandler
     const pageName = $(this).find('.page-name').html();
-    $('#page-list i.' + pageName).removeClass('icon-file').addClass('icon-file-o');
-    const openedTabs = $('ul.cr-tabs a:not(.close-tab)');
-    const tabnames = [];
-    for (var i = 0; i < openedTabs.length; i++) {
-        tabnames.push(openedTabs[i].innerHTML);
-    }
-    if (!tabnames.includes(pageName)) {
-        loadPageHTML(siteName, pageName, true, true);
-    }
+    pagesInfo[pageName]['opened'] = true;
+    updatePages();
+    get$tab(pageName).trigger('click');
 }
 
 /* update the page tree of current user */
@@ -96,7 +50,7 @@ function changePageStatus(pageName, isOpened, isActive) {
     });
 }
 
-function loadPageHTML(siteName, pageName, isOpened, isActive) {
+function loadPageHTML(siteName, pageName) {
     // create tab instantly and add it to page tab
     var new_el = $($.parseHTML('<li tab-target="#' + pageName + '">' +
         '<a href=#>' + pageName + '</a>' +
@@ -104,21 +58,12 @@ function loadPageHTML(siteName, pageName, isOpened, isActive) {
         '</li>'));
     $('.cr-tabs').prepend(new_el);
 
-    // hide the current active page
-    $('#page-content > div:not(.hidden)').addClass('hidden');
-    // check if need to remove empty message
-    checkTabPresent();
     // append new active tab with empty content
     var content_div = $('#page-content').append(
         '<div id="' + pageName + '" class="hidden"></div>'
     );
     // add preloader until done loading
     addLoading('#' + pageName);
-    // trigger click event on the tab
-    if (isActive) {
-        $('li[tab-target="#' + pageName + '"]').trigger('click');
-    }
-
     $.ajax({
         url: "/easel/sites/" + siteName + "/getPageHTML/" + pageName + '/',
         method: "GET",
@@ -130,17 +75,14 @@ function loadPageHTML(siteName, pageName, isOpened, isActive) {
             initializeEditMode(editMode);
         },
         error: function(jqXHR, textStatus) {
+          // TODO what should be done in error case?
             console.log("error in loading page", pageName, textStatus);
             new_el.remove(); // remove the opened tab
             content_div.remove();
             var new_active_tab = $('.cr-tabs > li').last();
             new_active_tab.trigger('click');
-            checkTabPresent();
-            // TODO display error message
         }
     });
-    // TODO check that it is correct (previously true, true)
-    changePageStatus(pageName, isOpened, isActive);
 }
 
 
