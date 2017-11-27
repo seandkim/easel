@@ -1,5 +1,17 @@
 @import "global";
 
+#site-menu {
+	background-color: #000;
+	color: $interface-color-07;
+	opacity: 0.9;
+	position: fixed;
+	left: 0;
+	height: 100%;
+	width: 32%;
+	padding: 25px 25px 100px;
+	overflow-y: scroll;
+}
+
 .page-selection {
 	padding: 0 20px;
 	color: $interface-color-01;
@@ -212,9 +224,12 @@
     		}
     	}
     }
+    #style-list {
+    	padding: 0 20px;
+    }
     .editor-bottom {
-    	text-align: center;
 	    position: fixed;
+	    text-align: right;
 	    bottom: 0;
 	    width: 32%;
 	    left: 0;

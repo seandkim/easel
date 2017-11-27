@@ -43,6 +43,24 @@ function componentDropHandler(event, ui) {
             '<div class="ud"><<video class="ud">Some code block.</video></div>'
         );
     }
+    else if (cmp === 'row-cmp') {
+        activeId.prepend(
+            '<div class="row selector">' +
+            	'<div class="col s3">' +
+            		'<div class="editable ud">This is a column</div>' +
+            	'</div>' +
+            	'<div class="col s3">' +
+            		'<div class="editable ud">This is a column</div>' +
+            	'</div>' +
+            	'<div class="col s3">' +
+            		'<div class="editable ud">This is a column</div>' +
+            	'</div>' +
+            '</div>'
+        );
+        $( ".selector" ).sortable({
+		  appendTo: document.body
+		});
+    }
     console.log('you dropped ' + ui.draggable.prop('id') +' into the page preview!');
 }
 

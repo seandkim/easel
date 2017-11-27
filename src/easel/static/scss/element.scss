@@ -58,6 +58,12 @@ figcaption {
 	font-size: 15px;
     text-align: left;
 }
+.loose-spacing {
+	letter-spacing: 3px;
+}
+.no-wrap {
+	white-space: nowrap;
+}
 .cover-logo-text {
     font-size: 6.2rem;
     font-family: $logo-font;
@@ -70,6 +76,11 @@ figcaption {
 .easel-logo-mini {
 	width: 100px;
 	margin: auto;
+}
+.hover-underline {
+	&:hover {
+		text-decoration: underline;
+	}
 }
 
 /* visibility */
@@ -85,6 +96,7 @@ figcaption {
 	left: 50%;
 }
 .float-center {
+	display: block;
 	margin: auto;
 }
 .bottom {

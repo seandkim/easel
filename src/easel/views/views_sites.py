@@ -26,31 +26,32 @@ from bs4 import BeautifulSoup
 @login_required
 def home(request):
     # TODO change
-    profile = Profile.objects.get(user=request.user)
-    siteName = 'dummy'
-    profile.deleteSite(siteName)
-    site = profile.createSite(siteName, "dummydescription")
-    site = Site.objects.get(owner = profile, name=siteName)
-    return HttpResponseRedirect(reverse('siteEditor', kwargs={'siteName': site.name}))
-
-
     # profile = Profile.objects.get(user=request.user)
-    # sites = Site.objects.filter(owner=profile)
-    # siteCount = sites.count()
-    # if siteCount == 0:
-    #     form = AddSiteForm()
-    #     return render(request, 'site-editor/no-site.html', {'form': form})
-    # elif siteCount == 1:
-    #     site = sites.first()
-    #     return HttpResponseRedirect(reverse('siteEditor', kwargs={'siteName': site.name}))
-    # else:
-    #     form = AddSiteForm()
-    #     return render(request, 'site-editor/site-menu.html', { 'sites': sites, 'form': form })
+    # siteName = 'dummy'
+    # profile.deleteSite(siteName)
+    # site = profile.createSite(siteName, "dummydescription")
+    # site = Site.objects.get(owner = profile, name=siteName)
+    # return HttpResponseRedirect(reverse('siteEditor', kwargs={'siteName': site.name}))
+
+
+    profile = Profile.objects.get(user=request.user)
+    sites = Site.objects.filter(owner=profile)
+    siteCount = sites.count()
+    if siteCount == 0:
+        form = AddSiteForm()
+        return render(request, 'site-editor/no-site.html', {'form': form})
+    elif siteCount == 1:
+        site = sites.first()
+        return HttpResponseRedirect(reverse('siteEditor', kwargs={'siteName': site.name}))
+    else:
+        form = AddSiteForm()
+        return render(request, 'site-editor/site-menu.html', { 'sites': sites, 'form': form })
 
 @login_required
 def siteEditor(request, siteName):
     context = {}
     profile = Profile.objects.get(user=request.user)
+    sites = Site.objects.filter(owner=profile)
     pages = profile.getAllPages(siteName)
     context['profile'] = profile
     context['form'] = AddPageForm()
@@ -59,6 +60,7 @@ def siteEditor(request, siteName):
 
     context['username'] = request.user.username
     context['siteName'] = siteName
+    context['sites'] = sites
     return render(request,'site-editor/site-editor.html', context)
 
 # requires GET request to "/sites/(?P<siteName>\w+)/editor/getPageNames/"

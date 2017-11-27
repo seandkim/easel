@@ -46,6 +46,7 @@ var editable_settings = {
                 // console.log(mark);
                 // console.log(parent);
                 initializeLinkNewPageModal();
+                $('#link-page-target').removeAttr('id'); // removed uncleaned up ids
                 return '<a id="link-page-target" href="#">' + html + '</html>';
             }
         }),
@@ -79,22 +80,13 @@ var editable_settings = {
             start: '<div class="margin-container">',
             end: '</div>'
         }),
-
-        // expanded
-        'warning': new MediumButton({
-            label: '<i class="icon-link-streamline"></i>',
-            start: '<div class="warning">',
-            end: '</div>'
-        }),
-
-        // with JavaScript
-        'pop': new MediumButton({
-            label: 'POP',
+        'color': new MediumButton({
+            label: '<i class="md-sm-text icon-palette"></i>',
             action: function(html, mark, parent) {
-                alert('hello :)')
-                return html
+                initializeLinkNewPageModal();
+                return '<a id="link-page-target" href="#">' + html + '</html>';
             }
-        })
+        }),
     }
 };
 

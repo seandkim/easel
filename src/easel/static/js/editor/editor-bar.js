@@ -42,3 +42,16 @@ function toolToggle() {
     }
     hiddenTabs['tools'] = !hiddenTabs['tools'];
 }
+
+/* toggle tool tab in editor-bar */
+function styleToggle() {
+    var ind = $('#style-tab').find('.tab-indicator');
+    if (hiddenTabs['styles']) {
+        $('#style-list').slideDown('swing');
+        ind.html('<i class="icon icon-down-dir"></i>');
+    } else {
+        $('#style-list').slideUp('swing');
+        ind.html('<i class="icon icon-right-dir"></i>');
+    }
+    hiddenTabs['styles'] = !hiddenTabs['styles'];
+}

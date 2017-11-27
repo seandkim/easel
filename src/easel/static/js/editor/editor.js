@@ -1,7 +1,7 @@
 'use strict';
 
 /* initializations */
-var hiddenTabs = {'pages': true, 'tools': true, 'components': true}; // right side tabs
+var hiddenTabs = {'pages': true, 'tools': true, 'components': true, 'styles': true}; // right side tabs
 var editor; // TODO needed?
 var editMode = "editable"; // editable vs sortable
 var pagesInfo = {}; //initialized in loadpages
@@ -26,7 +26,8 @@ $(function() {
     $('#component-tab').on('click', componentToggle);
     $('#page-tab').on('click', pageToggle);
     $('#tool-tab').on('click', toolToggle);
-    $('#page-list, #tool-list, #component-list').hide();
+    $('#style-tab').on('click', styleToggle);
+    $('#page-list, #tool-list, #component-list, #style-list').hide();
 
     /* add close modal handler */
     // TODO: fix the fact that closing doesn't trigger complete
@@ -44,6 +45,11 @@ $(function() {
     $(document).bind("mousedown", hidePageOptionMenu);				// close menu
     $(".custom-menu li").click(pageOptionHandler);					// menu option clicked
 
+    /*
+     * ------------------------ Site Menu (Switch between sites)
+     */
+    $('#current-site').click(function() { $('#site-menu').removeClass('hidden'); });
+    $('#close-site-menu').click(function() { $('#site-menu').addClass('hidden'); });
 
     /*
      * ------------------------ Components
