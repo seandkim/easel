@@ -11,83 +11,6 @@ var focusElement;
 // TODO update sitename
 const siteName = 'dummy';
 
-function showPageOptionMenu(e) {
-    e.preventDefault();
-    // add attr to custom-menu
-    $(".custom-menu > li").attr('page-name', $(this).find('.page-name').text());
-    // Show contextmenu
-    $(".custom-menu").finish().toggle(100).
-    // In the right position (the mouse)
-    css({
-        top: e.pageY + "px",
-        left: e.pageX + "px"
-    });
-}
-
-function hidePageOptionMenu(e) {
-	// If the clicked element is not the menu
-    if (!$(e.target).parents(".custom-menu").length > 0) {
-        $(".custom-menu").hide(100);
-    }
-}
-
-function pageOptionHandler(e) {
-	var targetPage = $(this).attr('page-name');
-    switch ($(this).attr("data-action")) {
-        case "delete":
-            console.log('clicked delete ' + targetPage);
-            deletePage(targetPage);
-            break;
-        case "copy":
-            console.log('clicked copy ' + targetPage);
-            copyPage(targetPage);
-            break;
-    }
-    // Hide it after the action was triggered
-    $(".custom-menu").hide(100);
-}
-
-
-
-function savePage(e) {
-	// TODO: sloppy element getter, might have multiple active tab
-    var current_page = $(".active");
-    var pageName = $(current_page.children()[0]).html().toLowerCase()
-
-    // cmd+s in mac and ctrl+s in other platform
-    if (e.keyCode == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
-        e.preventDefault();
-        saveCurrentPage();
-    }
-}
-
-function addNewPageFormHandler(e, data) {
-    e.preventDefault()
-    // TODO for efficiency, better to append tab beforehand and handle error case
-    var pageName = $(this).find('input#id_pageName').val();
-    var username = $(this).find('input[name="username"]:not(#id_username)').attr('value')
-
-    $('#add-page-modal').modal('close');
-    $.ajax({
-        url: "/easel/sites/" + siteName + "/addPage/",
-        method: "POST",
-        data: { username: username, pageName: pageName },
-        success: function(data) {
-            console.log("successfully added the page");
-            openFile(pageName);
-        },
-        error: function(jqXHR, textStatus) {
-            console.error("failed to add the page", textStatus);
-        }
-    });
-}
-
-function selectExistingPageHandler(e) {
-    var url = "#" + $('#autocomplete-input').val();
-    e.preventDefault();
-    addHrefToAnchor(url);
-}
-
 $(function() {
   	/* initialization */
   	setupAjax();
@@ -96,7 +19,7 @@ $(function() {
     changeStyleOnMode(true);
     initializePagesInfo();
     initializeEditable();
-    
+
     /*
      * ------------------------ Editor Bar Tab
      */
@@ -145,11 +68,14 @@ $(function() {
     $(document).on("click", ".cr-tabs > li", switchTabHandler);	// switch active tab
 
     // ------------------------ Page Save and Publishing
-    $(document).on("keydown", savePage);		// cmd+s save page
+    $(document).on("keydown", shortcutKeyboardHandler);		// cmd+s save page
     $('#view-site-button').click(viewSiteHandler);
-    $('#publish-button').click(publishPageHandler);
-    // TODO save all pages
-    $('#save-button').click(saveCurrentPage);
+    $('#publish-button').click(function() {savePage(getActivePageName(), true)}); // publish only the current active page
+    $('#save-button').click(function() {
+      // save all opened pages
+      for (var name in pagesInfo) {
+        if (pagesInfo[name]['opened']) {savePage(name, false);}
+      }});
 
     // ------------------------ Add Page
     $('#add-page-modal form').submit(addNewPageFormHandler);

@@ -9,7 +9,7 @@ from django.contrib.auth import login, authenticate, logout, tokens
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth.models import User
 from django.db import transaction
-from django.http import HttpResponse, Http404, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseBadRequest, HttpResponseNotAllowed
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template import Context
 from django.template.loader import get_template
@@ -151,11 +151,11 @@ def addPage(request, siteName):
 @login_required
 def copyPage(request, siteName):
     if request.method != 'POST':
-        return Http405()
+        return HttpResponseNotAllowed('POST')
 
     if (('pageName' not in request.POST) or (request.POST['pageName'] == "") or
         ('pageToCopy' not in request.POST) or (request.POST['pageToCopy'] == "")):
-        return Http400()
+        return HttpResponseBadRequest('Missing arguments')
 
     pageName = request.POST['pageName']
     pageToCopy = request.POST['pageToCopy']
@@ -163,12 +163,12 @@ def copyPage(request, siteName):
     try:
         site = Site.getSite(request.user.username, siteName)
     except ObjectDoesNotExist:
-        return Http400()
+        return HttpResponseBadRequest()
 
     try:
         page = Page.objects.get(name=pageToCopy , site=site)
     except ObjectDoesNotExist:
-        raise Http404("Page %s does not exists in %s" % (pageName, siteName))
+        return HttpResponseBadRequest("Page %s does not exists in %s" % (pageName, siteName))
 
     new_page = site.createPageWithHtml(pageName, page.html)
     new_page.save()
@@ -177,22 +177,22 @@ def copyPage(request, siteName):
 @login_required
 def deletePage(request, siteName):
     if request.method != 'POST':
-        return Http405()
+        return HttpResponseNotAllowed('POST')
 
     if ('pageName' not in request.POST) or (request.POST['pageName'] == ""):
-        return Http404()
+        return HttpResponseBadRequest('Missing arguments')
 
     pageName = request.POST['pageName']
 
     try:
         site = Site.getSite(request.user.username, siteName)
     except ObjectDoesNotExist:
-        raise Http404("Site %s does not exist" % siteName)
+        return HttpResponseBadRequest("Site %s does not exist" % siteName)
 
     try:
         page = Page.objects.get(name=pageName, site=site)
     except ObjectDoesNotExist:
-        raise Http404("Page %s does not exists in %s" % (pageName, siteName))
+        return HttpResponseBadRequest("Page %s does not exists in %s" % (pageName, siteName))
 
     page.delete()
     return HttpResponse('Successfully delete page')
@@ -203,12 +203,15 @@ def deletePage(request, siteName):
 @login_required
 def savePage(request, siteName):
     if request.method != 'POST':
-        raise Http404("Invalid Request Method")
+        return HttpResponseNotAllowed("POST")
 
     if ('pageName' not in request.POST) or (request.POST['pageName'] == ""):
-        raise Http404("Invalid Request Argument")
+        print("pageName not in represent in the arguments")
+        return HttpResponseBadRequest("Invalid Request Argument")
     if ('html' not in request.POST) or (request.POST['html'] == ""):
-        raise Http404("Invalid Request Argument")
+        print(request.POST)
+        print("html not in represent in the arguments")
+        return HttpResponseBadRequest("Invalid Request Argument")
 
     pageName = request.POST['pageName']
     html = request.POST['html']
@@ -216,12 +219,13 @@ def savePage(request, siteName):
     try:
         site = Site.getSite(request.user.username, siteName)
     except ObjectDoesNotExist:
-        raise Http404("Site %s does not exist" % siteName)
-
+        print("Site %s does not exist" % siteName)
+        return HttpResponseBadRequest("Site %s does not exist" % siteName)
     try:
         page = Page.objects.get(name=pageName, site=site)
     except ObjectDoesNotExist:
-        raise Http404("Page %s does not exists in %s" % (pageName, siteName))
+        print("Page %s does not exists in %s" % (pageName, siteName))
+        return HttpResponseBadRequest("Page %s does not exists in %s" % (pageName, siteName))
 
     page.html = html
     page.save()
@@ -237,7 +241,7 @@ def sitePublish(request, siteName):
         site = Site.getSite(request.user.username, siteName)
     except ObjectDoesNotExist:
         print("Site %s does not exist" % siteName)
-        raise Http404("Site %s does not exist" % siteName)
+        return HttpResponseBadRequest("Site %s does not exist" % siteName)
 
     profile = Profile.objects.get(user=request.user)
     if ('pages' not in request.POST) or (request.POST['pages'] == ""):
@@ -279,11 +283,11 @@ def sitePublish(request, siteName):
 @login_required
 def addSite(request):
     if request.method != 'POST':
-        return Http405()
+        return HttpResponseNotAllowed('POST')
 
     if (('siteName' not in request.POST) or (request.POST['siteName'] == "") or
         ('description' not in request.POST) or (request.POST['description'] == "") ):
-        raise Http404("Invalid Request Argument")
+        return HttpResponseBadRequest("Missing Argument")
 
     siteName = request.POST['siteName']
     description = request.POST['description']
@@ -295,9 +299,9 @@ def addSite(request):
 @login_required
 def deleteSite(request):
     if request.method != 'POST':
-        return Http405()
+        return HttpResponseNotAllowed('POST')
     if ('siteName' not in request.POST) or (request.POST['siteName'] == ""):
-        return Http400()
+        return HttpResponseBadRequest('Missing arguments')
     profile = Profile.objects.get(user=request.user)
     siteName = request.POST['siteName']
     profile.deleteSite(siteName)
