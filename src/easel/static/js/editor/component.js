@@ -2,6 +2,52 @@
  * component.js - initialization and interaction of drag-drop components
  */
 
+
+// handler after components are dropped onto page
+function componentDropHandler(event, ui) {
+	var cmp = ui.draggable.prop('id');
+    var active_id_name = getActivePageTabContentId();
+    var activeId = $(active_id_name).find('.editable').first();
+    if (cmp === "img-cmp") {
+        open_img_selection();
+    }
+    else if (cmp === 'textbox-cmp') {
+        activeId.prepend(
+            '<div class="editable header-text ud">Lorem Ipsom some text ksdfbgljfa.</div>'
+        );
+        editor = new MediumEditor('.editable', editable_settings);
+    }
+    else if (cmp === 'rule-cmp') {
+        activeId.prepend(
+            '<div class="ud"><br><hr><br></div>'
+        );
+    }
+    else if (cmp === 'space-cmp') {
+        activeId.prepend(
+            '<div class="ud space"></div>'
+        );
+    }
+    else if (cmp === 'quote-cmp') {
+        activeId.prepend(
+            '<div class="ud"><quoteblock class="ud">Some code block.</quoteblock></div>'
+        );
+    }
+    else if (cmp === 'embed-cmp') {
+        $('#general-modal').modal('open');
+        activeId.prepend(
+            '<div class="ud"><quoteblock class="ud">Some embed text</quoteblock></div>'
+        );
+    }
+    else if (cmp === 'video-cmp') {
+        activeId.prepend(
+            '<div class="ud"><<video class="ud">Some code block.</video></div>'
+        );
+    }
+    console.log('you dropped ' + ui.draggable.prop('id') +' into the page preview!');
+}
+
+
+/* --------------------- Img Component */
  // img component local upload
 function showUploadForm(e) {
     // hide menu
@@ -56,84 +102,6 @@ function open_img_selection() {
     $('#select-img-modal').modal('open');
 }
 
-// handler after components are dropped onto page
-function componentDropHandler(event, ui) {
-	var cmp = ui.draggable.prop('id');
-    var active_id_name = getActivePageTabContentId();
-    var activeId = $(active_id_name).find('.editable').first();
-    if (cmp === "img-cmp") {
-        open_img_selection();
-    }
-    else if (cmp === 'textbox-cmp') {
-        activeId.prepend(
-            '<div class="editable header-text ud">Lorem Ipsom some text ksdfbgljfa.</div>'
-        );
-        var editor = new MediumEditor('.editable');
-    }
-    else if (cmp === 'rule-cmp') {
-        activeId.prepend(
-            '<div class="ud"><br><hr><br></div>'
-        );
-    }
-    else if (cmp === 'space-cmp') {
-        activeId.prepend(
-            '<div class="ud space"></div>'
-        );
-    }
-    else if (cmp === 'quote-cmp') {
-        activeId.prepend(
-            '<div class="ud"><quoteblock class="ud">Some code block.</quoteblock></div>'
-        );
-    }
-    else if (cmp === 'embed-cmp') {
-        $('#general-modal').modal('open');
-        activeId.prepend(
-            '<div class="ud"><quoteblock class="ud">Some embed text</quoteblock></div>'
-        );
-    }
-    else if (cmp === 'video-cmp') {
-        activeId.prepend(
-            '<div class="ud"><<video class="ud">Some code block.</video></div>'
-        );
-    }
-    console.log('you dropped ' + ui.draggable.prop('id') +' into the page preview!');
-}
-
-// add trashcan button to focus element
-function addTrashcanButton() {
-	const radius = 70;
-    const left = $(this).position()['left'] + $(this).width() - radius;
-    const top = $('#page-content').scrollTop() + $(this).position()['top']
-                + $(this).height() - radius;
-
-    const styleStr = 'style="position: absolute; left:' +
-                    left + 'px; top:' + top +'px;"';
-
-    const trashCan = $('<div class="delete-ud-wrapper" contenteditable="false">' +
-    '<div class="right-top circle-icon cursor-pointer" ' +
-        styleStr + '>' +
-        '<div class="delete-ud" href="#" title="Delete Component">' +
-            '<i class="medium-text icon-garbage"></i>' +
-        '</div>' +
-    '</div></div>');
-    trashCan.hide();
-    $(this).append(trashCan);
-    trashCan.fadeIn('fast', 'swing');
-    focusElement = $( this );
-}
-
-
-function deleteTrashcanButton() {
-	if (focusElement) {
-        const trashCan = focusElement.find('.delete-ud-wrapper');
-        trashCan.fadeOut('fast', 'swing', function() {
-            trashCan.remove();
-        });
-    }
-}
-
-
-
 /* create img component from pasted url */
 function addPastedURLimgCmp(e) {
     e.preventDefault();
@@ -154,7 +122,7 @@ function resetImgForm() {
 }
 
 
-/* upload file data */
+/* upload media into ungrouped file */
 function uploadMedia(e) {
     e.preventDefault();
     var formData = new FormData($(this)[0]);
@@ -196,8 +164,39 @@ function createImgComponent(url) {
     resetImgForm();
 }
 
-function resetUrlForm() {
-    $('#exteral-url-opt, #existing-page-opt').removeClass('selected');
-    $('#external-url, #existing-page').addClass('hidden');
+/* --------------------------- allow deletion of element */
+
+// add trashcan button to focus element
+function addTrashcanButton() {
+	const radius = 70;
+    const left = $(this).position()['left'] + $(this).width() - radius;
+    const top = $('#page-content').scrollTop() + $(this).position()['top']
+                + $(this).height() - radius;
+
+    const styleStr = 'style="position: absolute; left:' +
+                    left + 'px; top:' + top +'px;"';
+
+    const trashCan = $('<div class="delete-ud-wrapper" contenteditable="false">' +
+    '<div class="right-top circle-icon cursor-pointer" ' +
+        styleStr + '>' +
+        '<div class="delete-ud" href="#" title="Delete Component">' +
+            '<i class="medium-text icon-garbage"></i>' +
+        '</div>' +
+    '</div></div>');
+    trashCan.hide();
+    $(this).append(trashCan);
+    trashCan.fadeIn('fast', 'swing');
+    focusElement = $( this );
 }
+
+function deleteTrashcanButton() {
+	if (focusElement) {
+        const trashCan = focusElement.find('.delete-ud-wrapper');
+        trashCan.fadeOut('fast', 'swing', function() {
+            trashCan.remove();
+        });
+    }
+}
+
+
 

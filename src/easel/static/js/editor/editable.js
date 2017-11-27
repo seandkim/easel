@@ -113,6 +113,7 @@ function initializeEditable() {
 }
 
 
+/* ------------------ Linking anchor tag to exiting page or url */
 /* open add new page modal, initializing all page options */
 function initializeLinkNewPageModal() {
     var pages = pageTree;
@@ -160,3 +161,8 @@ function addHrefToAnchor(url) {
     $('#link-page-modal').modal('close');
 }
 
+
+function resetUrlForm() {
+    $('#exteral-url-opt, #existing-page-opt').removeClass('selected');
+    $('#external-url, #existing-page').addClass('hidden');
+}

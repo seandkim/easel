@@ -89,8 +89,6 @@ function closeTab(pageName, close_li, isRemovingActive, isDelete) {
     checkTabPresent();
 }
 
-
-
 function closeTabHandler(e) {
     e.preventDefault();
     e.stopPropagation(); // stops event listener for clicking new tab
