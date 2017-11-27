@@ -19,18 +19,30 @@ from django.utils.encoding import force_text
 from django.utils.http import urlsafe_base64_decode
 from easel.models import *
 from easel.forms import *
+from easel.error import Http400, Http405, Http500
 from time import localtime, strftime
 from bs4 import BeautifulSoup
 
 @login_required
 def home(request):
     # TODO change
+    # profile = Profile.objects.get(user=request.user)
+    # siteName = 'dummy'
+    # profile.deleteSite(siteName)
+    # site = profile.createSite(siteName, "dummydescription")
+    # # site = Site.objects.get(owner = profile, name=siteName)
+    # return HttpResponseRedirect(reverse('siteEditor', kwargs={'siteName': site.name}))
+    # TODO should work but doesn't
     profile = Profile.objects.get(user=request.user)
-    siteName = 'dummy'
-    profile.deleteSite(siteName)
-    site = profile.createSite(siteName, "dummydescription")
-    # site = Site.objects.get(owner = profile, name=siteName)
-    return HttpResponseRedirect(reverse('siteEditor', kwargs={'siteName': site.name}))
+    sites = Site.objects.filter(owner=profile)
+    siteCount = sites.count()
+    if siteCount == 0:
+        return render(request, 'site-editor/no_site.html', {})
+    elif siteCount == 1:
+        site = sites.first()
+        return HttpResponseRedirect(reverse('siteEditor', kwargs={'siteName': site.name}))
+    else:
+        return render(request, 'site-editor/site_menu.html', { 'sites': sites })
 
 @login_required
 def siteEditor(request, siteName):
@@ -59,8 +71,9 @@ def getPageNames(request, siteName):
 @login_required
 def getPageHTML(request, siteName, pageName):
     if request.method != 'GET':
-        print("getPageHTML requires GET request")
-        raise Http404("Invalid Request Argument")
+        response = JsonResponse({'status':'false','message': 'Method Not Allowed'})
+        response.status_code = 405
+        return response
 
     profile = Profile.objects.get(user=request.user)
     site = Site.getSite(request.user.username, siteName)
@@ -73,8 +86,7 @@ def getPageHTML(request, siteName, pageName):
 @login_required
 def changePageStatus(request, siteName, pageName):
     if request.method != 'POST':
-        print("getPageHTML requires GET request")
-        raise Http404("Invalid Request Argument")
+        Http405()
 
     site = Site.getSite(request.user.username, siteName)
     page = site.getPage(pageName)
@@ -115,8 +127,7 @@ def changePageStatus(request, siteName, pageName):
 @login_required
 def addPage(request, siteName):
     if request.method != 'POST':
-        print("Invalid Request Method")
-        raise Http404("Invalid Request Method")
+        return Http405()
 
     print("addPage", request.POST)
 
@@ -139,11 +150,11 @@ def addPage(request, siteName):
 @login_required
 def copyPage(request, siteName):
     if request.method != 'POST':
-        raise Http404("Invalid Request Method")
+        return Http405()
 
     if (('pageName' not in request.POST) or (request.POST['pageName'] == "") or
         ('pageToCopy' not in request.POST) or (request.POST['pageToCopy'] == "")):
-        raise Http404("Invalid Request Argument")
+        return Http400()
 
     pageName = request.POST['pageName']
     pageToCopy = request.POST['pageToCopy']
@@ -151,7 +162,7 @@ def copyPage(request, siteName):
     try:
         site = Site.getSite(request.user.username, siteName)
     except ObjectDoesNotExist:
-        raise Http404("Site %s does not exist" % siteName)
+        return Http400()
 
     try:
         page = Page.objects.get(name=pageToCopy , site=site)
@@ -165,10 +176,10 @@ def copyPage(request, siteName):
 @login_required
 def deletePage(request, siteName):
     if request.method != 'POST':
-        raise Http404("Invalid Request Method")
+        return Http405()
 
     if ('pageName' not in request.POST) or (request.POST['pageName'] == ""):
-        raise Http404("Invalid Request Argument")
+        return Http404()
 
     pageName = request.POST['pageName']
 
@@ -263,3 +274,39 @@ def sitePublish(request, siteName):
         page.save()
 
     return HttpResponse('')
+
+@login_required
+def addSite(request):
+    if request.method != 'POST':
+        return Http405()
+
+    if (('siteName' not in request.POST) or (request.POST['siteName'] == "") or
+        ('description' not in request.POST) or (request.POST['description'] == "") ):
+        raise Http404("Invalid Request Argument")
+
+    siteName = request.POST['siteName']
+    description = request.POST['description']
+    profile = Profile.objects.get(user=request.user)
+    new_site = profile.createSite(siteName, description)
+    new_site.save()
+    return HttpResponse('Successfully added site')
+
+@login_required
+def deleteSite(request):
+    if request.method != 'POST':
+        return Http405()
+    if ('siteName' not in request.POST) or (request.POST['siteName'] == ""):
+        return Http400()
+    profile = Profile.objects.get(user=request.user)
+    siteName = request.POST['siteName']
+    profile.deleteSite(siteName)
+    return HttpResponse('Successfully delete site')
+
+@login_required
+def getAllSites(request):
+    if request.method == "GET":
+        profile = Profile.objects.get(user=request.user)
+        sites = Site.objects.filter(owner=profile)
+        context = {"username": profile.user.username, "sites": sites}
+        return render(request, 'json/sites.json', context, content_type='application/json')
+    return Http405()
