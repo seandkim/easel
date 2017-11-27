@@ -5,6 +5,24 @@
 // instead of changing elements directly.
 // ex) see openTabHandler/closeTabHandler
 function updatePages() {
+    // delete any page that is not in pagesInfo
+    const icons = $('#page-list').children();
+    const deleteNames = []
+    if (Object.keys(pagesInfo).length != icons.length) {
+      for (let i=0; i<icons.length; i++) {
+        const name = $(icons[i]).attr('file-name');
+        if (!(name in pagesInfo)) {
+          deleteNames.push(name);
+        }
+      }
+    }
+    for (let i=0; i<deleteNames.length; i++) {
+      const name = deleteNames[i];
+      get$tab(name).remove();
+      get$content(name).remove();
+      get$icon(name).remove();
+    }
+
     // if there is opened pages and no active page, make the first opened page active
     if (!getActivePageName()) {
         for (let name in pagesInfo) {
@@ -16,16 +34,26 @@ function updatePages() {
     }
 
     for (let name in pagesInfo) {
+        // create closed icon if not created (for page that has been created)
+        if (get$icon(name).length == 0) {
+          var file = $('<div class="file" file-name="' + name + '">' +
+                         '<i class="' + name + ' icon icon-file"></i> ' +
+                         '<span class="page-name">' + name + '</span>' +
+                       '</div>');
+          $('#page-list').append(file);
+        }
+
         // close any unclosed page (closed but present in tabs)
         if (!pagesInfo[name]['opened'] && $('#page-content > #' + name + '').length == 1) {
             get$tab(name).remove();
             get$content(name).remove();
-            $('#page-list i.' + name).removeClass('icon-file-o').addClass('icon-file');
+            //TODO use get$icon!
+            get$icon(name).find('i').removeClass('icon-file-o').addClass('icon-file');
             changePageStatus(name, false, false); // ajax call to server
         }
         // open any unopened page
         if (pagesInfo[name]['opened'] && $('#page-content > #' + name + '').length == 0) {
-            $('#page-list i.' + name).removeClass('icon-file').addClass('icon-file-o');
+            get$icon(name).find('i').removeClass('icon-file').addClass('icon-file-o');
             loadPageHTML(siteName, name);
         }
     }
@@ -185,6 +213,7 @@ function savePage(pageName, needPublishing) {
 }
 
 // handler for copying existing page
+// TODO change the logic of backend => same as add page but specifies html
 function copyPage(pageToCopy) {
     var pageName;
     // store page to copy in form
@@ -215,10 +244,7 @@ function copyPage(pageToCopy) {
 }
 
 function deletePage(pageName) {
-    var close_li,
-        isRemovingActive;
-    close_li = $('.cr-tabs > li[tab-target="#' + pageName + '"]');
-    isRemovingActive = close_li.hasClass('active');
+    setupAjax();
     $.ajax({
         url: "/easel/sites/" + siteName + "/deletePage/",
         method: "POST",
@@ -226,27 +252,16 @@ function deletePage(pageName) {
             pageName: pageName
         },
         success: function(data) {
-            // delete page from workspace
-            closeTab(pageName, close_li, isRemovingActive, true);
+            const res = delete pagesInfo[pageName];
+            console.assert(res);
             showAlertMsg("Deleted page - " + pageName);
+            updatePages();
         },
         error: function(jqXHR, textStatus) {
             console.error("failed to delete the page", textStatus);
             showAlertMsg("Error occured when deleting page. <br> Please try again.");
         }
     });
-}
-
-/* handling page event when user opens new file */
-function openFile(pageName) {
-    var file = $('<div class="file" file-name="' + pageName + '">' + '<i class="' + pageName + ' icon icon-file"></i> ' + '<span class="page-name">' + pageName + '</span>' + '</div>');
-    $('#page-list').append(file);
-    file.trigger('click');
-    // if `pages` menu is closed, open it
-    // TODO bug: doesn't work the second time
-    if ($('#page-tab').find('i').hasClass('icon-right-dir')) {
-        $('#page-tab').trigger('click');
-    }
 }
 
 function viewSiteHandler() {
@@ -296,6 +311,7 @@ function pageOptionHandler(e) {
 }
 
 function addNewPageFormHandler(e, data) {
+    setupAjax();
     e.preventDefault()
     // TODO for efficiency, better to append tab beforehand and handle error case
     var pageName = $(this).find('input#id_pageName').val();
@@ -311,7 +327,21 @@ function addNewPageFormHandler(e, data) {
         },
         success: function(data) {
             console.log("successfully added the page");
-            openFile(pageName);
+            // create new entry in pagesInfo
+            const newPage = data['pages'][0];
+            let name = newPage['name'];
+            let info = {
+                'opened': newPage['opened'] == 'True',
+                'active': newPage['active'] == 'True',
+                'saved': true
+            }
+            pagesInfo[name] = info;
+            updatePages();
+            get$icon(name).trigger('click');
+
+            if ($('#page-tab').find('i').hasClass('icon-right-dir')) {
+                $('#page-tab').trigger('click');
+            }
         },
         error: function(jqXHR, textStatus) {
             console.error("failed to add the page", textStatus);

@@ -125,10 +125,11 @@ def changePageStatus(request, siteName, pageName):
 
 # requires POST request with the following argument:
 # { 'pageName': <name of the page created> }
+# returns json response of newly added page
 @login_required
 def addPage(request, siteName):
     if request.method != 'POST':
-        return Http405()
+        return HttpResponseNotAllowed('POST')
 
     print("addPage", request.POST)
 
@@ -143,7 +144,10 @@ def addPage(request, siteName):
 
     new_page = site.createPage(pageName)
     new_page.save()
-    return HttpResponse("")
+
+    context = {'site':site, 'pages':[new_page]}
+    return render(request, 'json/pages.json', context,
+                           content_type='application/json')
 
 # requires POST request with the following argument:
 # { 'pageName': <name of the page created>,

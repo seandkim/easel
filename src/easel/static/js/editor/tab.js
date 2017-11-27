@@ -16,6 +16,11 @@ function getActivePageName() {
     return activePageName;
 }
 
+// get$icon : get jquery element of page icon in the page tree (at left side)
+function get$icon(pageName) {
+  return $('#page-list div[file-name="' + pageName + '"]');
+}
+
 // get$Tab : get jquery tab element of the pagename
 function get$tab(pageName) {
   return $('.cr-tabs li[tab-target="#' + pageName + '"]');
