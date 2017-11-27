@@ -78,6 +78,10 @@ class AddProjectForm(forms.Form):
 
     def clean(self):
         cleaned_data = super(AddProjectForm, self).clean()
+        if cleaned_data.get('projectName') == None:
+            raise forms.ValidationError("Project name is required")
+        if cleaned_data.get('description') == None:
+            raise forms.ValidationError("Project description is required")
         projectName = cleaned_data.get('projectName').lower()
         description = cleaned_data.get('description')
         username = cleaned_data.get('username')
