@@ -22,6 +22,7 @@
 		{% include './page-preview.html' %}
 	</div>
 
+	<!-- allow user to select edit mode -->
 	<div id="mode-bar">
 		<a href="#">
 		<div id="editable-mode" class="mode-icon text-center">
@@ -35,20 +36,15 @@
 	</div>
 
 	<!-- modals -->
-	{% include './add-page-modal.html' %}
-	{% include './media-modal.html' %}
-	{% include './select-img-modal.html' %}
-	{% include './link-page-modal.html' %}
-	{% include './copy-page-modal.html' %}
-	{% include './general-input-modal.html' %}
+	{% include './modal/add-page-modal.html' %}
+	{% include './modal/media-modal.html' %}
+	{% include './modal/select-img-modal.html' %}
+	{% include './modal/link-page-modal.html' %}
+	{% include './modal/copy-page-modal.html' %}
+	{% include './modal/general-input-modal.html' %}
 
 	<!-- alert box -->
-	<div id="alert-box">
-        <a class="close-alert" href="#">
-            <i class="icon-close"></i>
-        </a>
-        <div id="alert-msg">Some alert message.</div>
-    </div>
+	{% include '../components/alert-box.html' %}
 
 {% endblock %}
 
