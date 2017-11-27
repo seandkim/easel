@@ -1,13 +1,31 @@
 $(document).ready(function() {
     var visitors;
+    var sites;
     var weekday;
     var lastfivedays;
     var lastfivevis;
+    var graph_data = [];
+    var layout;
+
     
     $.get("/easel/dashboard/getProfile/").done(function(data) {
-          visitors = data;
+          console.log("hi");
+          console.log("data = ", data);
+          visitors = data.weekdays;
+          sites = data.sites;
+          console.log("visitors = ", visitors);
+          console.log('sites = ', sites);
+          console.log('len = ', sites.length);
           makeArray(visitors);
-          graph(lastfivedays, lastfivevis)
+          console.log('lastdays = ', lastfivedays);
+          console.log('lastvis = ', lastfivevis);
+          for (i = 0; i < sites.length; i++){
+              var site = sites[i];
+              var site_name = site.name;
+              console.log('name = ', site_name)
+              graph(lastfivedays, lastfivevis, site_name);
+          }
+          plot();
     });
       
     function makeArray(visitors){
@@ -32,26 +50,29 @@ $(document).ready(function() {
         }
     }
     
-    function graph(lastfivedays, lastfivevis){
-        var trace1 = {
+    function graph(lastfivedays, lastfivevis, site_name){
+        var trace = {
           x: lastfivedays,
           y: lastfivevis,
-          mode: 'markers',
+          mode: 'lines+markers',
           type: 'scatter',
-          name: 'Site A',
+          name: site_name,
           marker: { size: 12 }
         };
-
-        var data = [trace1];
-        
-        var layout = {
+    
+        graph_data.push(trace);
+ 
+        layout = {
           yaxis: {
             range: [0, 10]
           },
           title:'Visitors from last 5 days'
-        };
-
-        Plotly.newPlot('graph1', data, layout);
+        };   
     }
+    
+    function plot(){
+        Plotly.newPlot('graph1', graph_data, layout);
+    }
+    
     
 });

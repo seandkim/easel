@@ -82,18 +82,12 @@ def renderPage(request, username, siteName, pageName):
         profile.sat = 0
         profile.fri += 1
     if datetime.datetime.today().weekday() == 5:  #Saturday
-        print("saturday")
-        print(datetime.datetime.today().weekday())
         profile.sun = 0
         profile.sat += 1
     if datetime.datetime.today().weekday() == 6:  #Sunday
-        print("sunday")
-        print(datetime.datetime.today().weekday())
         profile.mon = 0
         profile.sun += 1
-        
-#    profile.todayVisitorNum += 1
-    
+            
     profile.save()
     
     return HttpResponse(page.published_html)

@@ -1,10 +1,20 @@
-[   
-    {{mon}},
-    {{tue}},
-    {{wed}},
-    {{thu}},
-    {{fri}},
-    {{sat}},
-    {{sun}}
-]
-       
+{
+  "weekdays": 
+    [
+        {{mon}},
+        {{tue}},
+        {{wed}},
+        {{thu}},
+        {{fri}},
+        {{sat}},
+        {{sun}}
+    ],
+  "sites":
+    [
+      {% for site in sites %}
+         {
+           "name": "{{site.name}}"
+         }{% if not forloop.last %},{% endif %}
+      {% endfor %}
+    ]
+}
