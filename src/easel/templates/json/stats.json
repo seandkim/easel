@@ -1,6 +1,10 @@
-{
-  "visitors": 24,
-  "claps": 14,
-  "numProject": 12,
-  "numNewMessages": 3, 
-}
+[   
+    {{mon}},
+    {{tue}},
+    {{wed}},
+    {{thu}},
+    {{fri}},
+    {{sat}},
+    {{sun}}
+]
+       

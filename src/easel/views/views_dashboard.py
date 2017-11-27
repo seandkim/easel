@@ -31,7 +31,7 @@ def home(request):
 #    profile.visitorNum = 0
 #    profile.save()
     
-    context['visitorNum'] = profile.visitorNum
+    context['visitorNum'] = profile.cumVisitorNum
 #    context['visitorNum'] = 0
 
     projects = Project.objects.filter(owner=profile)
@@ -44,3 +44,13 @@ def home(request):
     context['siteNum'] = Site.objects.filter(owner=profile).count()
     
     return render(request, 'dashboard/dashboard.html', context)
+
+
+@login_required
+def getProfile(request):
+    if request.method == "GET":
+        profile = Profile.objects.get(user=request.user)
+        context = {"mon": profile.mon, "tue": profile.tue, "wed": profile.wed, 
+                   "thu": profile.thu, "fri": profile.fri, "sat": profile.sat, "sun": profile.sun}
+        return render(request, 'json/stats.json', context, content_type='application/json')
+    return Http404('Unsupported method')

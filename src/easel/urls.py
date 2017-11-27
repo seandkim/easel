@@ -43,6 +43,8 @@ urlpatterns = [
     # dashboard
     url(r'^$', views_dashboard.home, name="home"),
     url(r'^dashboard/$', views_dashboard.home, name="dashboard"),
+    url(r'^dashboard/getProfile/$', views_dashboard.getProfile, {}, name='getProfile'),
+
 
     # projects (TODO change ID to name)
     url(r'^projects/$', views_projects.home, name="projects"), # see list of projects

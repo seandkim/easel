@@ -12,7 +12,14 @@ class Profile(models.Model):
     age = models.IntegerField(default=0, blank=True)
     gender = models.CharField(max_length=10, default="", blank=True)
     profilePic = models.ImageField(upload_to="profilePic", blank=True)
-    visitorNum = models.IntegerField(default=0, blank=True)
+    cumVisitorNum = models.IntegerField(default=0, blank=True)
+    mon = models.IntegerField(default=0, blank=True)
+    tue = models.IntegerField(default=0, blank=True)
+    wed = models.IntegerField(default=0, blank=True)
+    thu = models.IntegerField(default=0, blank=True)
+    fri = models.IntegerField(default=0, blank=True)
+    sat = models.IntegerField(default=0, blank=True)
+    sun = models.IntegerField(default=0, blank=True)
 
     def __unicode__(self):
         return self.user.username
