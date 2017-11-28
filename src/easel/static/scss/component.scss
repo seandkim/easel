@@ -1,5 +1,34 @@
 @import "global";
 
+/*aside {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 200px;
+  background: rgba(255, 255, 255, 1);
+  border: 2px solid rgba(0, 0, 0, 1);
+  border-radius: 4px;
+  padding: 8px;
+}
+*/
+#styler {
+	position: absolute;
+	left: 0;
+	top: 0;
+	max-width: 200px;
+	.list {
+		background-color: $black;
+		border-radius: 2px;
+		padding: 30px 20px 20px;
+	}
+	#minimized-styler {
+		border: 1px solid $interface-color-07;
+	}
+	.jscolor {
+		height: 30px;
+	}
+}
+
 #site-menu {
 	background-color: #000;
 	color: $interface-color-07;

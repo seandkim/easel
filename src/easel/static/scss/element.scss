@@ -178,6 +178,11 @@ figcaption {
 	float: right;
 	padding: 10px;
 }
+.absolute-right-top {
+	position: absolute;
+	top: 0;
+	right: 0;
+}
 .cursor-pointer {
 	cursor: pointer !important;
 }
