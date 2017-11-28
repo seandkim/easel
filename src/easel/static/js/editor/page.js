@@ -94,6 +94,7 @@ function updatePages() {
 
 /* update the page tree of current user */
 function initializePagesInfo() {
+    siteName = $('#page-preview').attr('data-sitename');
     $.ajax({
         url: "/easel/sites/" + siteName + "/getAllPageNames/",
         method: "POST",
@@ -381,4 +382,9 @@ function selectExistingPageHandler(e) {
     var url = "#" + $('#autocomplete-input').val();
     e.preventDefault();
     addHrefToAnchor(url);
+}
+
+function updateSiteName() {
+    siteName = $('#page-preview').attr('data-sitename');
+    return siteName;
 }
