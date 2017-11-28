@@ -1,5 +1,37 @@
 @import "global";
 
+#style-list {
+	.jscolor {
+		height: 30px;
+	}
+	.style-opt {
+		float: left;
+		width: 110px;
+		margin: 0 5px;
+		letter-spacing: 0;
+	}
+	.full-opt {
+		
+	}
+	.label {
+		letter-spacing: 0;
+	}
+	.quarter-opt {
+		width: 40px;
+		margin: 0 7px;
+	}
+	.range-field {
+		margin: 0;
+	}
+	input[type=text] {
+		height: 20px;
+		color: $interface-color-05;
+	}
+	select {
+		height: 20px;
+	}
+}
+
 #site-menu {
 	background-color: #000;
 	color: $interface-color-07;
@@ -229,9 +261,6 @@
     			color: $interface-color-07;
     		}
     	}
-    }
-    #style-list {
-    	padding: 0 20px;
     }
     .editor-bottom {
 	    position: fixed;
