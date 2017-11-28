@@ -200,7 +200,7 @@ class AddPageForm(forms.Form):
             self.add_error('pageName', "Page '%s' already exists" %
                            pageName.lower())
             return False
-        
+
         if not re.match("^[a-zA-Z0-9_]+$", pageName):
             self.add_error('pageName',
                            "Page name can only contain alphabets and numbers")
@@ -229,7 +229,6 @@ class AddSiteForm(forms.Form):
             return False
 
         if not re.match("^[a-zA-Z0-9_]+$", siteName):
-            # TODO : media name can contain underscore right now
             self.add_error("siteName",
                            "Site name can only contain alphabets and numbers")
             return False
