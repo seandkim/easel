@@ -273,14 +273,14 @@
                     {% if site.name == siteName %}
                         <a class="gray-text header-text small-text">
                             <strong>
-                                <i class="gray-text icon-asterisk"></i>
-                                <span class="gray-text">
+                                <i class="light-text icon-asterisk"></i>
+                                <span class="light-text loose-spacing">
                                     {{ site.name|upper }}
                                 </span>
                             </strong>
                         </a>
                     {% else %}
-                        <a href="/easel/sites/{{ site.name }}/editor/" class="gray-text header-text small-text hover-underline">
+                        <a href="/easel/sites/{{ site.name }}/editor/" class="gray-text header-text small-text hover-underline loose-spacing">
                             {{ site.name|upper }}
                         </a>
                     {% endif %}
@@ -288,7 +288,7 @@
             {% endfor %}
         </ul>
     </div>
-    <a id="close-site-menu" class="modal-close-btn">
+    <a id="close-site-menu" class="modal-close-btn cursor-pointer">
         <i class="icon-close-big light-text"></i>
     </a>
 </div>
