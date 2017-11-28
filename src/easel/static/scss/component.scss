@@ -12,6 +12,12 @@
 	overflow-y: scroll;
 }
 
+.site-action {
+	a {
+		margin: 5px;
+	}
+}
+
 .page-selection {
 	padding: 0 20px;
 	color: $interface-color-01;

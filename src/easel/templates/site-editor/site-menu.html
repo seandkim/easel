@@ -2,48 +2,57 @@
 {% load static %}
 
 {% block page %}
-    <div class="fixed-size-container text-center">
-        <div class="row">
-        <div class="col s12 m4">
-        {% for site in sites %}
-        <a href="#">
-              <div class="card hover-enlarge">
-                <div class="card-content">
-                  <span class="header-text loose-spacing">{{ site.name|upper }}</span>
-                  <p>{{ site.description }}</p>
-                </div>
-                <div class="card-action">
-                  <a href="#">This is a link</a>
-                  <a href="#">This is a link</a>
-                </div>
-              </div>
-              </a>
-        {% endfor %}
-        </div>
-
-            
-      </div>
-        <ul>
-    	{% for site in sites %}
-            <li>
-            <a href="/easel/sites/{{site.name}}/editor/">
-                {{ site.name }}
-            </a>:
-                {{ site.description }}
-            </li>
-        {% endfor %}
-        </ul>
+   <div class="fixed-size-container text-center">
+    <div class="easel-logo-mini">
+        <img src="{% static 'img/logo/ink-dark.png' %}">
     </div>
-    <div class="paint-as-input fixed-size-container">
-        <h5 class="header-text">CRAPPY CREATE NEW SITE FORM</h5>
-        <form id="new-site-form" method="post" action="{% url 'addSite' %}">
-            {% if message %} {{message}} {% endif %}
-            {{form}}
-            {% csrf_token %}
+    <div class="header-text loose-spacing medium-text">
+        CHOOSE SITE
+        <br>
+        <a class="header-text dark-text sm-text underline modal-trigger" href="#add-site-modal">OR OPEN NEW SITE +</a>
+    </div>
+    <br>
+    <div class="row">
+        {% for site in sites %}
+         <div class="col s12 m4">
+            <a href="/easel/sites/{{site.name}}/editor/">
+                <div class="card hover-enlarge bg-gray">
+                    <div class="card-content">
+                        <span class="header-text loose-spacing">{{ site.name|upper }}</span>
+                        <p class="p-text">{{ site.description }}</p>
+                    </div>
+                    <div class="site-action text-right">
+                        <a class="hover-enlarge-bg" href="/easel/sites/{{site.name}}/editor/">
+                            <i class="icon-pencil md-sm-text dark-text hover-gray"></i> 
+                        </a>
+                        <a class="hover-enlarge-bg" href="/easel/sites/{{site.name}}/editor/">
+                            <i class="icon-open md-sm-text dark-text hover-gray"></i>
+                        </a>
+                        <a class="hover-enlarge-bg" href="#">
+                            <i class="icon-garbage md-sm-text dark-text hover-gray"></i> 
+                        </a>
+                    </div>
+                </div>
+            </a>
+        </div>
+        {% endfor %}         
+      </div>
+    </div>
+    <div id="add-site-modal" class="modal library-modal">
+        <div class="paint-as-input fixed-size-container">
+            <h5 class="header-text loose-spacing">NEW SITE</h5>
+            <form id="new-site-form" method="post" action="{% url 'addSite' %}">
+                {% if message %} {{message}} {% endif %}
+                {{form}}
+                {% csrf_token %}
                 <input type="hidden" name="username" value="{{ profile.user.username }}" />
-
-             <button type="submit" class="dark-btn-alt">CREATE &#10230;</button>
-        </form>
+                <br>
+                 <button type="submit" class="float-right dark-btn-alt">CREATE &#10230;</button>
+            </form>
+        </div>
+        <a href="#close-add-modal" class="modal-action modal-close modal-close-btn">
+            <i class="icon-close-big"></i>
+        </a>
     </div>
 {% endblock %}
 
