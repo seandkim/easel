@@ -2,9 +2,10 @@
 from __future__ import unicode_literals
 from django.contrib.auth import login
 from django.contrib.auth.models import User
+from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.urls import reverse
-from easel.models import Profile, Project, Media
+from easel.models import Profile, Project
 from mimetypes import guess_type
 import os
 
@@ -44,7 +45,7 @@ def serveDummyImage():
 def makeDefaultProjects(request):
     try:
         user = User.objects.get(username='henri_matisse')
-    except KeyError:
+    except ObjectDoesNotExist:
         user = User.objects.create_user(username='henri_matisse',
                                         password='123',
                                         first_name='Henri',
@@ -60,10 +61,6 @@ def makeDefaultProjects(request):
     Project.objects.filter(owner=profile).delete()
     p1 = Project(owner=profile, name='paper', description="my late paper work")
     p1.save()
-    for i in range(3):
-        m1 = Media(project=p1, name="Paper " + str(i),
-                   caption="caption " + str(i))
-        m1.save()
 
     p2 = Project(owner=profile, name='woman', description="my woman painting")
     p2.save()
