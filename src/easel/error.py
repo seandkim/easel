@@ -1,13 +1,16 @@
-from django.http import HttpResponse
+from django.http import JsonResponse
 
 
-def Http400():
-    return HttpResponse('400 Bad Request', status=400)
+def JsonErrorResponse(status_code, messages):
+    response = JsonResponse({"errors": messages})
+    response.status_code = status_code  # Bad Request
+    return response
 
 
-def Http405():
-    return HttpResponse('405 Method Not Allowed', status=405)
+def Json400():
+    return JsonErrorResponse(404, ['Received Bad arguments'])
 
 
-def Http500():
-    return HttpResponse('500 Internal Error', status=500)
+def Json405(allowed_method):
+    return JsonErrorResponse(405, ['Only %s method is allowed'
+                                   % allowed_method])

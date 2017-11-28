@@ -74,5 +74,4 @@ urlpatterns = [
     # url(r'^public/(?P<username>\w+)/(?P<siteName>\w+)/$', views_public.renderHome, name="publicRenderHome"), # list all the sites TODO
     url(r'^public/(?P<username>\w+)/(?P<siteName>\w+)/(?P<pageName>\w+)/$', views_public.renderPage,{'private': False},  name="publicRenderPage"), # list all the sites
     url(r'^private/(?P<username>\w+)/(?P<siteName>\w+)/(?P<pageName>\w+)/$', views_public.renderPage, {'private': True}, name="privateRenderPage"), # list all the sites
-    url(r'^public/notFound/$', views_public.notFound, name="publicNotFound"), # TODO
 ]
