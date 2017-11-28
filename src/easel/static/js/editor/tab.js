@@ -63,9 +63,9 @@ function closeTabHandler(e) {
       pagesInfo[pageName]['opened'] = false;
       pagesInfo[pageName]['active'] = false;
       updatePages();
+      $('.modal').modal('close');
     })
-    // $('#close-page-modal').modal('open');
-    // alert("You have unsaved changes");
+    $('#close-page-modal').modal('open');
   } else {
     pagesInfo[pageName]['opened'] = false;
     pagesInfo[pageName]['active'] = false;

@@ -5,6 +5,8 @@
 // instead of changing elements directly.
 // ex) see openTabHandler/closeTabHandler
 function updatePages() {
+    const unsaved_icon = 'icon-asterisk' // TODO change to diff icon?
+
     // delete any page that is not in pagesInfo
     const icons = $('#page-list').children();
     const deleteNames = []
@@ -58,7 +60,7 @@ function updatePages() {
         // remove dot for saved tab
         if (pagesInfo[name]['saved']) {
           let span = get$tab(name).find('span');
-          $(span).removeClass('icon-hand');
+          $(span).removeClass(unsaved_icon);
           $(span).addClass('icon-close');
           $(span).off('mouseenter mouseleave'); // remove hover event of toggling icon
         }
@@ -76,9 +78,9 @@ function updatePages() {
           // display dot for unsaved tab
           let span = get$tab(activeName).find('span');
           $(span).removeClass('icon-close');
-          $(span).addClass('icon-hand'); // TODO change to diff icon
+          $(span).addClass(unsaved_icon);
           $(span).hover(function() {
-              $(span).toggleClass('icon-close icon-hand');
+              $(span).toggleClass('icon-close '+unsaved_icon);
           });
         }
 
