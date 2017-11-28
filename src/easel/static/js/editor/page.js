@@ -210,7 +210,7 @@ function savePage(pageName, successHandler) {
 
     $('.delete-ud-wrapper').remove(); //gets rid of all trashCans
     $.ajax({
-        url: "/easel/sites/dummy/savePage/",
+        url: "/easel/sites/" + siteName + "/savePage/",
         method: "POST",
         data: {
             pageName: pageName,
@@ -331,7 +331,6 @@ function createPage(pageName, copyPageName) {
         url: "/easel/sites/" + siteName + "/addPage/",
         method: "POST",
         data: {
-            username: $('#page-preview').data()['username'],
             pageName: pageName,
             copyPageName: copyPageName
         },
@@ -362,20 +361,18 @@ function createPage(pageName, copyPageName) {
         },
         error: function(jqXHR, textStatus) {
             console.error("failed to add the page", textStatus);
-            
-//             remove existing error message
+            // remove existing error message
             $('#add-page-modal ul.errorlist').parent().parent().remove()
 
-            const data = jqXHR.responseJSON; // array of error messages
-            console.error("failed to add the project", data);
+            const errors = jqXHR.responseJSON['errors']; // array of error messages
             const error_list = $('<tr><td colspan="2"><ul class="errorlist nonfield"></ul></td></tr>');
-            for (let i=0; i<data['errors'].length; i++) {
-              const error = data['errors'][i];
+            for (let key in errors) {
+              const error = errors[key];
               error_list.find("ul").append("<li>"+ error +"</li>");
             }
             $('#add-page-modal tbody').prepend(error_list);
         }
-        
+
     });
 }
 

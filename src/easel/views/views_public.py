@@ -2,7 +2,9 @@
 from __future__ import unicode_literals
 from datetime import datetime
 from django.contrib.auth.models import User
-from django.http import HttpResponse, Http404, HttpResponseBadRequest
+from django.core.exceptions import ObjectDoesNotExist
+from django.http import HttpResponse
+from django.http import HttpResponseForbidden, HttpResponseBadRequest
 from easel.models import Profile, Site
 from ipware.ip import get_ip
 from easel.views import views_sites
@@ -30,19 +32,22 @@ def get_client_ip(request):
 def renderPage(request, username, siteName, pageName, private):
     try:
         site = Site.getSite(username, siteName)
-    except:
-        return Http404("Site %s by %s does not exist" % (siteName, username))
+    except ObjectDoesNotExist:
+        print("Site %s by %s does not exist" % (siteName, username))
+        return HttpResponseBadRequest()
 
     try:
         page = site.getPage(pageName)
-    except KeyError:
-        return Http404("Site %s by %s does not have page named %s" % (siteName, username, pageName))
+    except ObjectDoesNotExist:
+        print("Site %s by %s does not have page named %s"
+              % (siteName, username, pageName))
+        return HttpResponseBadRequest()
 
     if (page.published_html == ""):
+        # TODO handle error case
         HttpResponse("Found the page but published_html was empty. " +
                      "Make sure you publish the page")
 
-    # TODO change to template where we can render something about easel
     user = User.objects.get(username=username)
     profile = Profile.objects.get(user=user)
 
@@ -51,7 +56,7 @@ def renderPage(request, username, siteName, pageName, private):
             return HttpResponse(views_sites.processPage(page.html))
         # different user tries to access your private (non-published) page
         else:
-            return HttpResponseBadRequest()
+            return HttpResponseForbidden()
     else:
         if user == request.user:
             return HttpResponse(page.published_html)
@@ -69,7 +74,3 @@ def renderPage(request, username, siteName, pageName, private):
     site.save()
 
     return HttpResponse(page.published_html)
-
-
-def notFound(request):
-    return HttpResponse("Could not find published page. Are you sure you published the page?")

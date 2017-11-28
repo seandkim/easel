@@ -25,6 +25,8 @@ from .views import views_dashboard
 from .views import views_projects
 from .views import views_sites
 from .views import views_public
+from .views import views_error
+
 
 urlpatterns = [
 
@@ -71,8 +73,6 @@ urlpatterns = [
     url(r'^sites/getAllSites/$', views_sites.getAllSites, name="getAllSites"),
 
     # public (what public audience sees)
-    # url(r'^public/(?P<username>\w+)/(?P<siteName>\w+)/$', views_public.renderHome, name="publicRenderHome"), # list all the sites TODO
     url(r'^public/(?P<username>\w+)/(?P<siteName>\w+)/(?P<pageName>\w+)/$', views_public.renderPage,{'private': False},  name="publicRenderPage"), # list all the sites
     url(r'^private/(?P<username>\w+)/(?P<siteName>\w+)/(?P<pageName>\w+)/$', views_public.renderPage, {'private': True}, name="privateRenderPage"), # list all the sites
-    url(r'^public/notFound/$', views_public.notFound, name="publicNotFound"), # TODO
 ]

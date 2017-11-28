@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.http import HttpResponseBadRequest, HttpResponseNotAllowed
 from django.shortcuts import render
 from django.urls import reverse
 from easel.models import Profile, Site, Page
 from easel.forms import AddSiteForm, AddPageForm, AddMediaForm
-from easel.error import Http405
+from easel.error import JsonErrorResponse, Json400, Json405
 from bs4 import BeautifulSoup
 
 
@@ -49,6 +49,7 @@ def siteEditor(request, siteName):
     context['form'] = AddPageForm()
     context['pages'] = pages
     context['upload_media_form'] = AddMediaForm()
+    context['add_site_form'] = AddSiteForm()
 
     context['username'] = request.user.username
     context['siteName'] = siteName
@@ -59,21 +60,21 @@ def siteEditor(request, siteName):
 # requires GET request to "/sites/(?P<siteName>\w+)/editor/getPageNames/"
 @login_required
 def getPageNames(request, siteName):
-    site = Site.getSite(request.user.username, siteName)
+    try:
+        site = Site.getSite(request.user.username, siteName)
+    except:
+        return HttpResponseBadRequest()
     pages = Page.objects.filter(site=site)
     context = {'site':site, 'pages':pages}
     return render(request, 'json/pages.json', context,
                            content_type='application/json')
 
 
-# requires POST
+# requires GET request
 @login_required
 def getPageHTML(request, siteName, pageName):
     if request.method != 'GET':
-        response = JsonResponse({'status': 'false',
-                                 'message': 'Method Not Allowed'})
-        response.status_code = 405
-        return response
+        return Json405('GET')
 
     site = Site.getSite(request.user.username, siteName)
     page = site.getPage(pageName)
@@ -86,10 +87,13 @@ def getPageHTML(request, siteName, pageName):
 @login_required
 def changePageStatus(request, siteName, pageName):
     if request.method != 'POST':
-        Http405()
+        return Json405('POST')
 
-    site = Site.getSite(request.user.username, siteName)
-    page = site.getPage(pageName)
+    try:
+        site = Site.getSite(request.user.username, siteName)
+        page = site.getPage(pageName)
+    except ObjectDoesNotExist:
+        return Json400()
 
     # change open and active field
     isOpened = False
@@ -117,7 +121,7 @@ def changePageStatus(request, siteName, pageName):
     # there is opened tab(s)
     if (allPages.filter(opened=True).count() == 0):
         assert(allPages.filter(active=True).count() == 0)
-    return HttpResponse('')
+    return JsonResponse({'success': True})
 
 
 # requires POST request with the following argument:
@@ -127,18 +131,15 @@ def changePageStatus(request, siteName, pageName):
 @login_required
 def addPage(request, siteName):
     if request.method != 'POST':
-        return HttpResponseNotAllowed('POST')
+        return Json405('POST')
 
+    print(request.POST)
     form = AddPageForm(request.POST)
     # Validates the form.
-    if not form.is_valid():
-        # TODO handle error case
-        print("from not valid")
-        response = JsonResponse({"errors": form.errors['__all__']})
-        response.status_code = 400  # Bad Request
-        return response
+    if not form.is_valid(request.user, siteName):
+        print("form is not valid: %s", form.errors)
+        return JsonErrorResponse(400, form.errors)
 
-    print('sitename = ', siteName)
     site = Site.getSite(request.user.username, siteName)
     pageName = form.cleaned_data['pageName']
 
@@ -147,7 +148,7 @@ def addPage(request, siteName):
         copyPageName = request.POST['copyPageName']
         try:
             copyPage = site.getPage(copyPageName)
-        except KeyError:
+        except ObjectDoesNotExist:
             HttpResponseBadRequest()
 
         new_page.html = copyPage.html
@@ -162,26 +163,21 @@ def addPage(request, siteName):
 @login_required
 def deletePage(request, siteName):
     if request.method != 'POST':
-        return HttpResponseNotAllowed('POST')
+        return Json405('POST')
 
     if ('pageName' not in request.POST) or (request.POST['pageName'] == ""):
-        return HttpResponseBadRequest('Missing arguments')
+        return Json400()
 
     pageName = request.POST['pageName']
 
     try:
         site = Site.getSite(request.user.username, siteName)
-    except ObjectDoesNotExist:
-        return HttpResponseBadRequest("Site %s does not exist" % siteName)
-
-    try:
         page = Page.objects.get(name=pageName, site=site)
     except ObjectDoesNotExist:
-        return HttpResponseBadRequest("Page %s does not exists in %s" %
-                                      (pageName, siteName))
+        return Json400()
 
     page.delete()
-    return HttpResponse('Successfully delete page')
+    return JsonResponse({'success': True})
 
 
 # requires POST request with the following argument:
@@ -190,15 +186,12 @@ def deletePage(request, siteName):
 @login_required
 def savePage(request, siteName):
     if request.method != 'POST':
-        return HttpResponseNotAllowed("POST")
+        return Json405("POST")
 
     if ('pageName' not in request.POST) or (request.POST['pageName'] == ""):
-        print("pageName not in represent in the arguments")
-        return HttpResponseBadRequest("Invalid Request Argument")
+        return Json400()
     if ('html' not in request.POST) or (request.POST['html'] == ""):
-        print(request.POST)
-        print("html not in represent in the arguments")
-        return HttpResponseBadRequest("Invalid Request Argument")
+        return Json400()
 
     pageName = request.POST['pageName']
     html = request.POST['html']
@@ -207,24 +200,22 @@ def savePage(request, siteName):
         site = Site.getSite(request.user.username, siteName)
     except ObjectDoesNotExist:
         print("Site %s does not exist" % siteName)
-        return HttpResponseBadRequest("Site %s does not exist" % siteName)
+        return Json400()
     try:
         page = Page.objects.get(name=pageName, site=site)
     except ObjectDoesNotExist:
         print("Page %s does not exists in %s" % (pageName, siteName))
-        return HttpResponseBadRequest("Page %s does not exists in %s" %
-                                      (pageName, siteName))
+        return Json400()
 
     page.html = html
     page.save()
-    return HttpResponse('')
+    return JsonResponse({'success': True})
 
 # requires POST request with the following argument:
 # { 'pages': <list of name of pages to be published> }
 # if the `pages` argument is empty, it publishes all pages
 @login_required
 def sitePublish(request, siteName):
-    print("sitePublish start", request.POST)
     profile = Profile.objects.get(user=request.user)
     if ('pages' not in request.POST) or (request.POST['pages'] == ""):
         print("Pages are not specified. Publishing all pages")
@@ -239,7 +230,7 @@ def sitePublish(request, siteName):
         page.published_html = processPage(page.html)
         page.save()
 
-    return HttpResponse('')
+    return JsonResponse({'success': True})
 
 
 # process page for publishing & previewing
@@ -247,7 +238,6 @@ def processPage(html):
     def filterEditable(elem):
         try:
             return elem['contenteditable'] == 'true'
-        # if attribute is not present, raises keyError
         except KeyError:
             return False
 
@@ -273,12 +263,17 @@ def addSite(request):
     siteCount = sites.count()
     # Validates the form.
     if not form.is_valid():
-        if siteCount == 0:
-            return render(request, 'site-editor/no-site.html',
-                          {'form': form, 'profile': profile})
-        else:
-            return render(request, 'site-editor/site-menu.html',
-                          {'sites': sites, 'form': form, 'profile': profile})
+        print("from not valid")
+        response = JsonResponse({"errors": form.errors['__all__']})
+        response.status_code = 400  # Bad Request
+        return response
+
+#        if siteCount == 0:
+#            return render(request, 'site-editor/no-site.html',
+#                          {'form': form, 'profile': profile})
+#        else:
+#            return render(request, 'site-editor/site-menu.html',
+#                          {'sites': sites, 'form': form, 'profile': profile})
 
     # TODO error case
     if (('siteName' not in request.POST) or (request.POST['siteName'] == "") or
@@ -297,13 +292,13 @@ def addSite(request):
 @login_required
 def deleteSite(request):
     if request.method != 'POST':
-        return HttpResponseNotAllowed('POST')
+        return Json405('POST')
     if ('siteName' not in request.POST) or (request.POST['siteName'] == ""):
-        return HttpResponseBadRequest('Missing arguments')
+        return Json400()
     profile = Profile.objects.get(user=request.user)
     siteName = request.POST['siteName']
     profile.deleteSite(siteName)
-    return HttpResponse('Successfully delete site')
+    return JsonResponse({'success': True})
 
 
 @login_required
@@ -314,4 +309,5 @@ def getAllSites(request):
         context = {"username": profile.user.username, "sites": sites}
         return render(request, 'json/sites.json', context,
                       content_type='application/json')
-    return Http405()
+
+    return HttpResponseNotAllowed('GET')
