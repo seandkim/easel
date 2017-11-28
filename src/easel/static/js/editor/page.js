@@ -210,7 +210,7 @@ function savePage(pageName, successHandler) {
 
     $('.delete-ud-wrapper').remove(); //gets rid of all trashCans
     $.ajax({
-        url: "/easel/sites/dummy/savePage/",
+        url: "/easel/sites/" + siteName + "/savePage/",
         method: "POST",
         data: {
             pageName: pageName,
