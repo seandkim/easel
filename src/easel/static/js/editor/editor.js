@@ -9,10 +9,11 @@ var initializedLibraryUpload = false;
 var focusElement;
 
 // TODO update sitename
-const siteName = 'dummy';
+var siteName;
 
 $(function() {
   	/* initialization */
+  	updateSiteName();
   	setupAjax();
     doneLoading();
     addModeSwitcher(); // event listener to switch editable/sortable mode
