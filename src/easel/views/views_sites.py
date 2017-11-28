@@ -9,7 +9,7 @@ from django.contrib.auth import login, authenticate, logout, tokens
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth.models import User
 from django.db import transaction
-from django.http import HttpResponse, HttpResponseRedirect, HttpResponseBadRequest, HttpResponseNotAllowed
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseBadRequest, HttpResponseNotAllowed, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template import Context
 from django.template.loader import get_template
@@ -141,8 +141,12 @@ def addPage(request, siteName):
     # Validates the form.
     if not form.is_valid():
         # TODO handle error case
-        return {'form': form}
+        print("from not valid")
+        response = JsonResponse({"errors": form.errors['__all__']})
+        response.status_code = 400  # Bad Request
+        return response
 
+    print('sitename = ', siteName)
     site = Site.getSite(request.user.username, siteName)
     pageName = form.cleaned_data['pageName']
 
@@ -282,7 +286,7 @@ def addSite(request):
         if siteCount == 0:
             return render(request, 'site-editor/no-site.html', {'form': form, 'profile': profile})
         else:
-            return render(request, 'site-editor/site-menu.html', { 'sites': sites, 'form': form, 'profile':profile })
+            return render(request, 'site-editor/site-menu.html', {'sites': sites, 'form': form, 'profile':profile })
 
     if (('siteName' not in request.POST) or (request.POST['siteName'] == "") or
         ('description' not in request.POST) or (request.POST['description'] == "") ):
