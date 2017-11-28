@@ -1,7 +1,7 @@
 $(document).ready(function() {
   // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
   $('.modal').modal();
-    
+
   function getFormValues(formElem, fieldNames) {
     var values = {};
     for (var i=0; i<fieldNames.length; i++) {
@@ -16,7 +16,7 @@ $(document).ready(function() {
     }
     return values;
   }
-    
+
   // add site form
   $("#add-site-modal").on('click', 'button', function(e) {
     debugger;
@@ -49,4 +49,4 @@ $(document).ready(function() {
         }
     });
   });
-}
+});
