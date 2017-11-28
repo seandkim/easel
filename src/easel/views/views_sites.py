@@ -49,6 +49,7 @@ def siteEditor(request, siteName):
     context['form'] = AddPageForm()
     context['pages'] = pages
     context['upload_media_form'] = AddMediaForm()
+    context['add_site_form'] = AddSiteForm()
 
     context['username'] = request.user.username
     context['siteName'] = siteName
@@ -262,12 +263,17 @@ def addSite(request):
     siteCount = sites.count()
     # Validates the form.
     if not form.is_valid():
-        if siteCount == 0:
-            return render(request, 'site-editor/no-site.html',
-                          {'form': form, 'profile': profile})
-        else:
-            return render(request, 'site-editor/site-menu.html',
-                          {'sites': sites, 'form': form, 'profile': profile})
+        print("from not valid")
+        response = JsonResponse({"errors": form.errors['__all__']})
+        response.status_code = 400  # Bad Request
+        return response
+
+#        if siteCount == 0:
+#            return render(request, 'site-editor/no-site.html',
+#                          {'form': form, 'profile': profile})
+#        else:
+#            return render(request, 'site-editor/site-menu.html',
+#                          {'sites': sites, 'form': form, 'profile': profile})
 
     # TODO error case
     if (('siteName' not in request.POST) or (request.POST['siteName'] == "") or
