@@ -64,6 +64,13 @@ figcaption {
 .no-wrap {
 	white-space: nowrap;
 }
+.dotted-text{
+	@include smooth(0.4s);
+	border-bottom: 1px dotted $interface-color-07;
+	&:hover {
+		border-bottom: 1px dotted $interface-color-05;
+	}
+}
 .cover-logo-text {
     font-size: 6.2rem;
     font-family: $logo-font;
@@ -80,6 +87,12 @@ figcaption {
 .hover-underline {
 	&:hover {
 		text-decoration: underline;
+	}
+}
+.hover-gray {
+	@include smooth(0.4s);
+	&:hover {
+		color: $interface-color-05;
 	}
 }
 

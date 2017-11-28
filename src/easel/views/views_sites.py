@@ -36,15 +36,17 @@ def home(request):
     profile = Profile.objects.get(user=request.user)
     sites = Site.objects.filter(owner=profile)
     siteCount = sites.count()
+    context = {}
+    context["form"] = AddSiteForm()
+    context["profile"] = profile
     if siteCount == 0:
-        form = AddSiteForm()
-        return render(request, 'site-editor/no-site.html', {'form': form})
+        return render(request, 'site-editor/no-site.html', context)
     # elif siteCount == 1:
     #     site = sites.first()
     #     return HttpResponseRedirect(reverse('siteEditor', kwargs={'siteName': site.name}))
     else:
-        form = AddSiteForm()
-        return render(request, 'site-editor/site-menu.html', { 'sites': sites, 'form': form })
+        context["sites"] = sites
+        return render(request, 'site-editor/site-menu.html', context)
 
 @login_required
 def siteEditor(request, siteName):

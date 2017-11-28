@@ -64,7 +64,7 @@
                             <div class="easel-icon-wrapper">
                                 <i class="component-icon icon-eye"></i>
                             </div>
-                            <div class="icon-name">PRIVACY</div>
+                            <div class="icon-name">OPEN SITE</div>
                         </div>
                     </a>
                     <a href="#" id="view-site-button">
@@ -94,6 +94,18 @@
                                 <i class="component-icon icon-media"></i>
                             </div>
                             <div class="icon-name">MEDIA<br>LIBRARY</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="sublist">
+                    <div class="sublist-title">STYLING</div>
+                    <br>
+                     <a href="#" id="publish-button">
+                        <div class="component-container">
+                            <div class="easel-icon-wrapper">
+                                <i class="component-icon icon-bucket"></i>
+                            </div>
+                            <div class="icon-name">STYLER</div>
                         </div>
                     </a>
                 </div>
@@ -243,15 +255,10 @@
         </li>
     </ul>
     <div class="editor-bottom">
-        <a href="#" class="header-text dropdown-button" data-activates="site-menu1" id="current-site">{{ siteName|upper }}</a>
-        <ul id="site-menu1" class="dropdown-content">
-            <li><a href="#!">one</a></li>
-            <li><a href="#!">two</a></li>
-            <li class="divider"></li>
-            <li><a href="#!">three</a></li>
-            <li><a href="#!"><i class="material-icons">view_module</i>four</a></li>
-            <li><a href="#!"><i class="material-icons">cloud</i>five</a></li>
-        </ul>
+        <a href="#" class="header-text hover-gray dotted-text" id="current-site">
+            {{ siteName|upper }}
+            <i class="icon-down-open-mini"></i>
+        </a>
         <button id="save-button" class="light-btn-outline publish-btn publish">
             SAVE / &#8984;+S
         </button>
@@ -262,8 +269,21 @@
         <h5 class="header-text loose-spacing light-text no-wrap">SWITCH SITE</h5>
         <ul>
             {% for site in sites %}
-                <li>
-                    <a href="/easel/sites/{{ site.name }}/editor/" class="gray-text header-text small-text hover-underline">{{ site.name|upper }}</a>
+                <li> 
+                    {% if site.name == siteName %}
+                        <a class="gray-text header-text small-text">
+                            <strong>
+                                <i class="gray-text icon-asterisk"></i>
+                                <span class="gray-text">
+                                    {{ site.name|upper }}
+                                </span>
+                            </strong>
+                        </a>
+                    {% else %}
+                        <a href="/easel/sites/{{ site.name }}/editor/" class="gray-text header-text small-text hover-underline">
+                            {{ site.name|upper }}
+                        </a>
+                    {% endif %}
                 </li>
             {% endfor %}
         </ul>
