@@ -62,7 +62,19 @@ function closeTabHandler(e) {
   e.preventDefault();
   e.stopPropagation(); // stops event listener for clicking new tab
   var pageName = $(this).prev().html();
-  pagesInfo[pageName]['opened'] = false;
-  pagesInfo[pageName]['active'] = false;
-  updatePages();
+  if (!pagesInfo[pageName]['saved']) {
+    // TODO fix the modal
+    $('#close-page-modal button.close-button').click(function() {
+      pagesInfo[pageName]['saved'] = true;
+      pagesInfo[pageName]['opened'] = false;
+      pagesInfo[pageName]['active'] = false;
+      updatePages();
+      $('.modal').modal('close');
+    })
+    $('#close-page-modal').modal('open');
+  } else {
+    pagesInfo[pageName]['opened'] = false;
+    pagesInfo[pageName]['active'] = false;
+    updatePages();
+  }
 }
