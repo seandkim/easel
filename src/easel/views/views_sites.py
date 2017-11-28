@@ -135,9 +135,9 @@ def addPage(request, siteName):
     print(request.POST)
     form = AddPageForm(request.POST)
     # Validates the form.
-    if not form.is_valid():
-        print("form is not valid: %s", form.errors['__all__'])
-        return JsonErrorResponse(400, form.errors['__all__'])
+    if not form.is_valid(request.user, siteName):
+        print("form is not valid: %s", form.errors)
+        return JsonErrorResponse(400, form.errors)
 
     site = Site.getSite(request.user.username, siteName)
     pageName = form.cleaned_data['pageName']

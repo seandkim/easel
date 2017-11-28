@@ -170,29 +170,34 @@ class EditMediaForm(forms.Form):
 
 
 class AddPageForm(forms.Form):
-    username = forms.CharField(widget=forms.HiddenInput(), required=False)
-    siteName = forms.CharField(widget=forms.HiddenInput(), required=False)
     pageName = forms.CharField(max_length=20)
 
-    def clean(self):
-        cleaned_data = super(AddPageForm, self).clean()
-        username = cleaned_data.get('username')
-        siteName = cleaned_data.get('siteName')
-        pageName = cleaned_data.get('pageName').lower()
-        user = User.objects.get(username=username)
-        profile = Profile.objects.get(user=user)
-        site = Site.objects.get(owner=profile, name=siteName)
-        page = Page.objects.filter(site=site, name=pageName)
+    def is_valid(self, user, siteName):
+        valid = super(AddPageForm, self).is_valid()
+        if not valid:
+            return False
 
+        pageName = self.cleaned_data.get('pageName').lower()
+        profile = Profile.objects.get(user=user)
+        try:
+            site = Site.objects.get(owner=profile, name=siteName)
+        except Site.DoesNotExist:
+            self.add_errors(None, 'Site does not exist')
+            return False
+
+        page = Page.objects.filter(site=site, name=pageName)
         assert(page.count() < 2)
         if page.count() == 1:
-            raise forms.ValidationError(
-                "Page '%s' already exists" % pageName.lower())
+            self.add_error('pageName', "Page '%s' already exists" %
+                           pageName.lower())
+            return False
         if not re.match("^[a-zA-Z0-9_]+$", pageName):
             # TODO : media name can contain underscore right now
-            raise forms.ValidationError(
-                "Page name can only contain alphabets and numbers")
-        return cleaned_data
+            self.add_error('pageName',
+                           "Page name can only contain alphabets and numbers")
+            return False
+
+        return True
 
 
 class AddSiteForm(forms.Form):
