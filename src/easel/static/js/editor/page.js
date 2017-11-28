@@ -328,7 +328,6 @@ function createPage(pageName, copyPageName) {
     setupAjax();
     function successHandler(data) {
         console.log("successfully added the page");
-        debugger;
         // create new entry in pagesInfo
         const newPage = data['pages'][0];
         let name = newPage['name'];
@@ -339,8 +338,6 @@ function createPage(pageName, copyPageName) {
         }
         pagesInfo[name] = info;
         updatePages();
-
-        $('.modal').modal('close');
 
         get$icon(name).trigger('click');
         // TODO possible bug?

@@ -75,15 +75,18 @@ function modalEventHandler(modalID, url, method, requestData, successHandler) {
         success: function(data) {
             $modal.find('ul.errorlist').parent().parent().remove()
             successHandler(data);
-            $('.modal').modal('close');
+            $modal.find('input').val('')
+            $modal.modal('close');
         },
-        error: function(jqXHR, textStatus) {
-            // TODO handle server error
-            console.error("failed to add the page", textStatus);
+        error: function(jqXHR) {
+            console.error("ajax call failed", jqXHR);
+            let errors = ['Cannot connect to the server. Check your internet connection.'];
+            debugger;
+            if (jqXHR.responseJSON != undefined) {
+                errors = jqXHR.responseJSON['errors']; // array of error messages
+            }
             // remove existing error message TODO don't hardcode; is removing all tr necessary?
             $modal.find('ul.errorlist').parent().parent().remove()
-
-            const errors = jqXHR.responseJSON['errors']; // array of error messages
             const error_list = $('<tr><td colspan="2"><ul class="errorlist nonfield"></ul></td></tr>');
             for (let key in errors) {
                 const error = errors[key];
