@@ -176,7 +176,7 @@ function createImgComponent(url) {
     var active_tab_content = $(active_tab).find('.editable').first();
     console.log('creating component ' + '<img src="' + url + '"> in ' + active_tab);
     active_tab_content.prepend(
-        '<div class="ud"><img class="ud" src="' + url + '"><div>'
+        '<img class="ud" src="' + url + '">'
     );
     $('#select-img-modal').modal('close');
     resetImgForm();
@@ -215,3 +215,37 @@ function deleteTrashcanButton() {
         });
     }
 }
+
+
+/* --------------------------- styler */
+function drag_start(e) {
+    var style = window.getComputedStyle(e.target, null);
+    e.dataTransfer.setData("text/plain", (parseInt(style.getPropertyValue("left"), 10) - e.clientX) + ',' + (parseInt(style.getPropertyValue("top"), 10) - e.clientY) + ',' + e.target.getAttribute('data-item'));
+}
+
+function drag_over(e) {
+    e.preventDefault();
+    return false;
+}
+
+function drop(e) {
+    var offset = e.dataTransfer.getData("text/plain").split(',');
+    var dm = document.getElementsByClassName('dragme');
+    dm[parseInt(offset[2])].style.left = (e.clientX + parseInt(offset[0], 10)) + 'px';
+    dm[parseInt(offset[2])].style.top = (e.clientY + parseInt(offset[1], 10)) + 'px';
+    e.preventDefault();
+    return false;
+}
+
+function focusudHandler() {
+    $('#ud-focus').removeAttr('id');
+    $( this ).attr('id', 'ud-focus');
+
+    /* initialize styler */
+
+}
+
+function getFocusElement() {
+    return $('#ud-focus');
+}
+

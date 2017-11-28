@@ -68,6 +68,12 @@ $(function() {
     //     var url = $(this).attr('url-target');
     //     addHrefToAnchor(url);
     // });
+    var dm = document.getElementsByClassName('dragme');
+	for (var i = 0; i < dm.length; i++) {
+	    dm[i].addEventListener('dragstart', drag_start, false);
+	    document.body.addEventListener('dragover', drag_over, false);
+	    document.body.addEventListener('drop', drop, false);
+	}
 
     // ------------------------ Page Tab
     $(document).on('click', '.file', openPageEventHandler);  	// open file
@@ -98,6 +104,21 @@ $(function() {
     $(document).on('click', '.delete-ud', function() {
         var ud_to_close = $(this).closest('.ud');
         ud_to_close.remove();
+    });
+    $(document).on('click', '.ud', focusudHandler);
+    $('.style-input').change(function() { 
+    	var attrName, attrVal, el;
+    	console.log($( this ).attr('name'), $(this).val()); 
+    	el = getFocusElement();
+    	attrName = $( this ).attr('name');
+    	attrVal = $(this).val();
+    	if (attrName === 'color' || attrName === 'background-color' ||
+    		attrName === 'border-color') {
+    		attrVal = '#' + attrVal;
+    	}
+    	if (el.length) {
+    		el.css(attrName, attrVal);
+    	}
     });
 
     // allow delete component on hover
