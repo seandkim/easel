@@ -1,0 +1,16 @@
+<div id="add-site-modal" class="modal library-modal">
+    <div class="paint-as-input fixed-size-container">
+        <h5 class="header-text loose-spacing">NEW SITE</h5>
+        <form id="new-site-form" method="post" action="{% url 'addSite' %}">
+            {% if message %} {{message}} {% endif %}
+            {{add_site_form}}
+            {% csrf_token %}
+            <input type="hidden" name="username" value="{{ profile.user.username }}" />
+            <br>
+             <button type="submit" class="float-right dark-btn-alt">CREATE &#10230;</button>
+        </form>
+    </div>
+    <a href="#close-add-modal" class="modal-action modal-close modal-close-btn">
+        <i class="icon-close-big"></i>
+    </a>
+</div>
