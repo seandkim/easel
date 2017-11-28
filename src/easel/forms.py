@@ -75,36 +75,36 @@ class AddProjectForm(forms.Form):
         valid = super(AddProjectForm, self).is_valid()
         if not valid:
             return False
-        
+
         if self.cleaned_data.get('projectName') is None:
             self.add_error(None, "Project name is required")
             return False
-        
+
         if self.cleaned_data.get('description') is None:
             self.add_error(None, "Project description is required")
             return False
-            
+
         projectName = self.cleaned_data.get('projectName').lower()
-        description = cleaned_data.get('description')
+        description = self.cleaned_data.get('description')
         profile = Profile.objects.get(user=user)
-        
+
         if Project.objects.filter(owner=profile, name=projectName.lower()).count() > 0:
-            self.add_error(None, "Project '%s' already exists" % projectName.lower())
+            self.add_error(None, "Project '%s' already exists"
+                           % projectName.lower())
             return False
 
         if not re.match("^[a-zA-Z0-9_]+$", projectName):
             # TODO : project name can contain underscore right now
-            self.add_error("projectName",
-                "Project name can only contain alphabets and numbers")
+            self.add_error("projectName", "Project name can only contain alphabets and numbers")
             return False
-        
+
         if '\\' in description:
             self.add_error("description",
-                "Project description cannot contain '\\'")
+                           "Project description cannot contain '\\'")
             return False
-        
+
         return True
-    
+
 
 class AddMediaForm(forms.ModelForm):
     class Meta:
@@ -117,7 +117,7 @@ class AddMediaForm(forms.ModelForm):
         if not valid:
             return False
 
-        mediaName = cleaned_data.get('name').lower()        
+        mediaName = self.cleaned_data.get('name').lower()
         profile = Profile.objects.get(user=user)
         projects = Project.objects.filter(owner=profile)
         media = Media.objects.filter(project__in=projects, name=mediaName)
@@ -125,15 +125,14 @@ class AddMediaForm(forms.ModelForm):
         assert(media.count() < 2)
         if media.count() == 1:
             self.add_error("name",
-                "Media '%s' already exists" % mediaName.lower())
+                           "Media '%s' already exists" % mediaName.lower())
             return False
-        
+
         if not re.match("^[a-zA-Z0-9_]+$", mediaName):
-            # TODO : media name can contain underscore right now
             self.add_error("name",
-                "Media name can only contain alphabets and numbers")
+                           "Media name can only contain alphabets and numbers")
             return False
-        
+
         return True
 
 
@@ -152,19 +151,13 @@ class EditMediaForm(forms.Form):
     caption = forms.CharField(max_length=1000)
     oldName = forms.CharField(widget=forms.HiddenInput(), required=False)
 
-    # TODO image file is not required. Either implement that or delete this
-#    def is_valid(self):
-#        valid = super(EditMediaForm, self).is_valid()
-#        return valid
-
     def is_valid(self, user):
         valid = super(EditMediaForm, self).is_valid()
         if not valid:
             return False
-        
-        mediaName = cleaned_data.get('name')
-        oldName = cleaned_data.get('oldName')
-        project = cleaned_data.get('project')
+
+        mediaName = self.cleaned_data.get('name')
+        oldName = self.cleaned_data.get('oldName')
         profile = Profile.objects.get(user=user)
         projects = Project.objects.filter(owner=profile)
         media = Media.objects.filter(project__in=projects, name=mediaName)
@@ -173,13 +166,13 @@ class EditMediaForm(forms.Form):
         if media.count() == 1:
             if mediaName != oldName:
                 self.add_error("name",
-                    "Media '%s' already exists" % mediaName.lower())
+                               "Media '%s' already exists" % mediaName.lower())
                 return False
-            
+
         if not re.match("^[a-zA-Z0-9_]+$", mediaName):
             # TODO : media name can contain underscore right now
             raise self.add_error("name",
-                "Media name can only contain alphabets and numbers")
+                                 "Media name can only contain alphabets and numbers")
             return False
 
         return True
@@ -207,8 +200,8 @@ class AddPageForm(forms.Form):
             self.add_error('pageName', "Page '%s' already exists" %
                            pageName.lower())
             return False
+        
         if not re.match("^[a-zA-Z0-9_]+$", pageName):
-            # TODO : media name can contain underscore right now
             self.add_error('pageName',
                            "Page name can only contain alphabets and numbers")
             return False
@@ -219,7 +212,7 @@ class AddPageForm(forms.Form):
 class AddSiteForm(forms.Form):
     siteName = forms.CharField(max_length=20)
     description = forms.CharField(max_length=1000)
-    
+
     def is_valid(self, user):
         valid = super(AddSiteForm, self).is_valid()
         if not valid:
@@ -228,17 +221,17 @@ class AddSiteForm(forms.Form):
         siteName = self.cleaned_data.get('siteName').lower()
         profile = Profile.objects.get(user=user)
         sites = Site.objects.filter(owner=profile, name=siteName)
-        
+
         assert(sites.count() < 2)
         if sites.count() == 1:
             self.add_error("siteName",
-                "Site '%s' already exists" % siteName.lower())
+                           "Site '%s' already exists" % siteName.lower())
             return False
-        
+
         if not re.match("^[a-zA-Z0-9_]+$", siteName):
             # TODO : media name can contain underscore right now
             self.add_error("siteName",
-                "Site name can only contain alphabets and numbers")
+                           "Site name can only contain alphabets and numbers")
             return False
-            
+
         return True
