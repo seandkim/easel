@@ -1,0 +1,74 @@
+<div class="hidden" draggable="true">
+	<div class="">
+		<a href="#">
+			<i class="sm-md-text icon-tools light-text"></i>
+		</a>
+	</div>
+	<div class="hidden"></div>
+</div>
+
+<aside draggable="true" class="dragme" data-item="0" id="styler">
+	<div id="minimized-styler" class="circle-icon hidden">
+		<a href="#">
+			<i class="medium-text icon-bucket"></i>
+		</a>
+	</div>
+	<div class="list">
+		<div class="absolute-right-top">
+			<span id="minimize-styler" class="cursor-pointer">
+				<i class="icon-minimize light-text hover-gray"></i>
+			</span>
+			<span id="close-styler" class="cursor-pointer">
+				<i class="icon-close light-text hover-gray"></i>
+			</span>
+		</div>
+		<div id="styler-tabs">
+			
+		</div>
+		<div id="styler-content">
+		    <div class="style-opt half-opt">
+		        <span class="header-text icon-name sm-text light-text">text color </span>
+		        <input name="color" class="jscolor style-input" value="7b98a1">
+		    </div>
+		    <div class="style-opt half-opt">
+		        <span class="header-text icon-name sm-text light-text">background color </span>
+		        <input name="background-color" class="jscolor style-input" value="7b98a1">
+		    </div>
+		    <div class="style-opt">
+		        <span class="header-text icon-name sm-text light-text">font size (pt)</span>
+		        <p class="range-field">
+		          <input name="font-size" class="style-input" type="range" id="test5" min="0" max="100" />
+		        </p>
+		    </div>
+		    <div class="style-opt">
+		        <span class="header-text icon-name sm-text light-text">font family </span>
+		        <select class="sm-text style-input" name="font-family">
+		            <optgroup label="Serif">
+		                <option value="Garamond">Garamond</option>
+		                <option value="Times New roman">Times New Roman</option>
+		            </optgroup>
+		            <optgroup label="San Serif">
+		                <option value="Arial">Arial</option>
+		                <option value="Futura">Futura</option>
+		                <option value="Verdana">Verdana</option>
+		            </optgroup>
+		            <optgroup label="Fixed Width">
+		                <option value="Courier New">Courier New</option>
+		            </optgroup>
+		        </select>
+		    </div>
+		    <div class="style-opt">
+		        <span class="header-text icon-name sm-text light-text">margin (px) </span>
+		        <p class="range-field">
+		          <input name="margin" class="style-input" type="range" min="0" max="100" />
+		        </p>
+		    </div>
+		    <div class="style-opt">
+		        <span class="header-text icon-name sm-text light-text">padding (px) </span>
+		        <p class="range-field">
+		          <input name="padding" class="style-input" type="range" min="0" max="100" />
+		        </p>
+		    </div>
+		</div>
+	</div>
+</aside>

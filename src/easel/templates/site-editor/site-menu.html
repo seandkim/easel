@@ -1,6 +1,10 @@
 {% extends '../base.html' %}
 {% load static %}
 
+{% block head %}
+<script src="{% static 'js/editor/add-site-form.js' %}"></script>
+{% endblock %}
+
 {% block page %}
    <div class="fixed-size-container text-center">
     <div class="easel-logo-mini">
@@ -23,19 +27,19 @@
                     </div>
                     <div class="site-action text-right">
                         <a class="hover-enlarge-bg" href="/easel/sites/{{site.name}}/editor/">
-                            <i class="icon-pencil md-sm-text dark-text hover-gray"></i> 
+                            <i class="icon-pencil md-sm-text dark-text hover-gray"></i>
                         </a>
                         <a class="hover-enlarge-bg" href="/easel/sites/{{site.name}}/editor/">
                             <i class="icon-open md-sm-text dark-text hover-gray"></i>
                         </a>
                         <a class="hover-enlarge-bg" href="#">
-                            <i class="icon-garbage md-sm-text dark-text hover-gray"></i> 
+                            <i class="icon-garbage md-sm-text dark-text hover-gray"></i>
                         </a>
                     </div>
                 </div>
             </a>
         </div>
-        {% endfor %}         
+        {% endfor %}
       </div>
     </div>
     <div id="add-site-modal" class="modal library-modal">
