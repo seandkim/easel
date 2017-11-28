@@ -119,7 +119,7 @@ class Site(models.Model):
     fri = models.IntegerField(default=0, blank=True)
     sat = models.IntegerField(default=0, blank=True)
     sun = models.IntegerField(default=0, blank=True)
-    
+
     def __unicode__(self):
         s = self.name + '\n'
         for page in Page.objects.filter(site=self):
@@ -174,8 +174,8 @@ class Page(models.Model):
     # whether user has opened this page in workspace
     opened = models.BooleanField(default=False) # TODO switch to integer to save order of tabs
     active = models.BooleanField(default=False)
-    html = models.CharField(max_length=1000000, default="")
-    published_html = models.CharField(max_length=1000000, default="")
+    html = models.TextField(default="")
+    published_html = models.TextField(default="")
 
     def __unicode__(self):
         return "%s (%s) %s %s" % (self.name, self.site.name, self.opened, self.active)
