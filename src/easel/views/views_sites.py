@@ -241,6 +241,14 @@ def sitePublish(request, siteName):
         for pageName in pageNames:
             pages.append(profile.getPage(siteName, pageName))
 
+    for page in pages:
+        page.published_html = processPage(page.html)
+        page.save()
+
+    return HttpResponse('')
+
+# process page for publishing & previewing
+def processPage(html):
     def filterEditable(elem):
         try:
             return elem['contenteditable'] == 'true'
@@ -248,31 +256,21 @@ def sitePublish(request, siteName):
         except KeyError:
             return False
 
-    for page in pages:
-        soup = BeautifulSoup(page.html, 'html.parser')
-        print("beautifulsoup parsing")
-        for div in soup.find_all('div', class_='empty-workspace-msg'):
-            print(div)
-            div.decompose()
-        for div in soup.find_all(filterEditable):
-            print(div)
-            div['contenteditable'] = 'false'
-            print(div)
-        for ud in soup.find_all('', class_="ud"):
-            print(ud)
-            ud['class'].remove('ud')
-            print(ud)
+    soup = BeautifulSoup(html, 'html.parser')
+    for div in soup.find_all('div', class_='empty-workspace-msg'):
+        div.decompose()
+    for div in soup.find_all(filterEditable):
+        div['contenteditable'] = 'false'
+    for ud in soup.find_all('', class_="ud"):
+        ud['class'].remove('ud')
 
-        page.published_html = str(soup)
-        page.save()
-
-    return HttpResponse('')
+    return str(soup)
 
 @login_required
 def addSite(request):
     if request.method != 'POST':
         return HttpResponseNotAllowed('POST')
-    
+
     form = AddSiteForm(request.POST)
     profile = Profile.objects.get(user=request.user)
     sites = Site.objects.filter(owner=profile)

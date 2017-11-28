@@ -10,7 +10,7 @@ from django.contrib.auth import login, authenticate, logout, tokens
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth.models import User
 from django.db import transaction
-from django.http import HttpResponse, Http404, HttpResponseRedirect
+from django.http import HttpResponse, Http404, HttpResponseRedirect, HttpResponseBadRequest
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template import Context
 from django.template.loader import get_template
@@ -22,14 +22,15 @@ from easel.models import *
 from easel.forms import *
 from time import localtime, strftime
 from ipware.ip import get_ip
+from easel.views import views_sites
 import datetime
 
-    
+
 def renderHome(request, username, siteName):
     ip = get_ip(request)
     print('ip=', ip)
     ###TODO: check if a request is made by the same ip address within a certain time interval
-    
+
     user = User.objects.get(username=username)
     profile = Profile.objects.get(user=user)
     profile.visitorNum += 1
@@ -45,17 +46,16 @@ def get_client_ip(request):
         ip = request.META.get('REMOTE_ADDR')
     return ip
 
-
-def renderPage(request, username, siteName, pageName):
+def renderPage(request, username, siteName, pageName, private):
     try:
         site = Site.getSite(username, siteName)
     except:
-        raise Http404("Site %s by %s does not exist" % (siteName, username))
+        return Http404("Site %s by %s does not exist" % (siteName, username))
 
     try:
         page = site.getPage(pageName)
     except:
-        raise Http404("Site %s by %s does not have page named %s" % (siteName, username, pageName))
+        return Http404("Site %s by %s does not have page named %s" % (siteName, username, pageName))
 
     if (page.published_html == ""):
         HttpResponse("Found the page but published_html was empty. Make sure you publish the page")
@@ -63,37 +63,28 @@ def renderPage(request, username, siteName, pageName):
     # TODO change to template where we can render something about easel
     user = User.objects.get(username=username)
     profile = Profile.objects.get(user=user)
-    if user == request.user:
-        print("me myself and I !!!!!!!!!!!")
-        return HttpResponse(page.published_html)
+
+    if private:
+        if user == request.user:
+            return HttpResponse(views_sites.processPage(page.html))
+        # different user tries to access your private (non-published) page
+        else:
+            return HttpResponseBadRequest()
+    else:
+        if user == request.user:
+            return HttpResponse(page.published_html)
 
     profile.cumVisitorNum += 1  #cumulative visitor
     profile.save()
-    
-    if datetime.datetime.today().weekday() == 0:  #Monday
-        site.tue = 0
-        site.mon += 1
-    if datetime.datetime.today().weekday() == 1:  #Tuesday
-        site.wed = 0
-        site.tue += 1
-    if datetime.datetime.today().weekday() == 2:  #Wednesday
-        site.thur = 0
-        site.wed += 1
-    if datetime.datetime.today().weekday() == 3:  #Thursday
-        site.fri = 0
-        site.thu += 1
-    if datetime.datetime.today().weekday() == 4:  #Friday
-        site.sat = 0
-        site.fri += 1
-    if datetime.datetime.today().weekday() == 5:  #Saturday
-        site.sun = 0
-        site.sat += 1
-    if datetime.datetime.today().weekday() == 6:  #Sunday
-        site.mon = 0
-        site.sun += 1
+
+    # TODO check that this works
+    week = [site.mon, site.tue, site.wed, site.thur, site.fri, site.sat, site.sun]
+    today = datetime.datetime.today().weekday()
+    week[today] += 1
+    week[(today+1)%len(week)] = 0
 
     site.save()
-    
+
     return HttpResponse(page.published_html)
 
 def notFound(request):
