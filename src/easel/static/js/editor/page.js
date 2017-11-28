@@ -346,8 +346,10 @@ function createPage(pageName, copyPageName) {
         }
     }
 
+    const modal_id = copyPageName ? 'copy-page-modal' : 'add-page-modal';
+
     const requestData = {pageName: pageName, copyPageName: copyPageName}
-    modalEventHandler('add-page-modal', "/easel/sites/"+siteName+"/addPage/",
+    modalSubmitHandler(modal_id, "/easel/sites/"+siteName+"/addPage/",
                       'POST', requestData, successHandler);
 }
 

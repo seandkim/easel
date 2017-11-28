@@ -63,10 +63,22 @@ function addLoading(el) {
     $(el).append('<div class="preload preloader-overlay">' + '<div class="spinner-wrapper">' + '<div class="spinner">' + '<div class="double-bounce1"></div>' + '<div class="double-bounce2"></div>' + '</div>' + '<div class="loading">LOADING...</div>' + '</div>' + '</div>');
 }
 
+// helper function that gets form values into a dictionary
+function getFormValues(formElem, fieldNames) {
+    var values = {};
+    for (var i = 0; i < fieldNames.length; i++) {
+        var field = fieldNames[i];
+        var value = formElem.find('input[name="' + field + '"]').val();
+        values[field] = value;
+    }
+    return values;
+}
+
 // for submit button; makes a ajax call and calls successhandler or displays
 // error message on modal
 // ex) `createPage` in page.js
-function modalEventHandler(modalID, url, method, requestData, successHandler) {
+function modalSubmitHandler(modalID, url, method, requestData, successHandler) {
+    setupAjax();
     const $modal = $('#' + modalID);
     $.ajax({
         url: url,
@@ -74,14 +86,15 @@ function modalEventHandler(modalID, url, method, requestData, successHandler) {
         data: requestData,
         success: function(data) {
             $modal.find('ul.errorlist').parent().parent().remove()
-            successHandler(data);
-            $modal.find('input').val('')
+            if (successHandler) {
+                successHandler(data);
+            }
+            $modal.find('input').val('');
             $modal.modal('close');
         },
         error: function(jqXHR) {
             console.error("ajax call failed", jqXHR);
             let errors = ['Cannot connect to the server. Check your internet connection.'];
-            debugger;
             if (jqXHR.responseJSON != undefined) {
                 errors = jqXHR.responseJSON['errors']; // array of error messages
             }
