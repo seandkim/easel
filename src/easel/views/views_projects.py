@@ -1,18 +1,20 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, JsonResponse, Http404, HttpResponseRedirect
+from django.http import HttpResponse, JsonResponse
+from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
-from easel.models import *
-from easel.forms import *
+from easel.models import Profile, Project, Media
+from easel.forms import AddProjectForm, AddMediaForm, EditMediaForm
 from easel.error import Http405
 from mimetypes import guess_type
+
 
 @login_required
 def home(request):
     context = {}
-    profile = Profile.objects.get(user = request.user)
+    profile = Profile.objects.get(user=request.user)
     context['form'] = AddProjectForm()
     context['profile'] = profile
 
@@ -31,14 +33,17 @@ def home(request):
 
     return render(request, 'project/project-list.html', context)
 
+
 @login_required
 def getAllProjects(request):
     if request.method == "GET":
         profile = Profile.objects.get(user=request.user)
         projects = Project.objects.filter(owner=profile)
         context = {"username": profile.user.username, "projects": projects}
-        return render(request, 'json/projects.json', context, content_type='application/json')
+        return render(request, 'json/projects.json', context,
+                      content_type='application/json')
     return Http405()
+
 
 @login_required
 def getAllMedias(request, projectName):
@@ -48,9 +53,11 @@ def getAllMedias(request, projectName):
         medias = Media.objects.filter(project=project).order_by('id')
 
         context = {"projectName": projectName, "medias": medias}
-        return render(request, 'json/medias.json', context, content_type='application/json')
+        return render(request, 'json/medias.json', context,
+                      content_type='application/json')
 
     return HttpResponse('')
+
 
 @login_required
 def getMediaPhoto(request, projectName, mediaName):
@@ -62,6 +69,7 @@ def getMediaPhoto(request, projectName, mediaName):
 
     # TODO serve dummy image?
     # return serveDummyImage();
+
 
 @login_required
 def addProject(request):
@@ -84,7 +92,9 @@ def addProject(request):
     new_project.save()
 
     context = {"username": request.user.username, "projects": [new_project]}
-    return render(request, 'json/projects.json', context, content_type='application/json')
+    return render(request, 'json/projects.json', context,
+                  content_type='application/json')
+
 
 @login_required
 def deleteProject(request, projectName):
@@ -99,10 +109,11 @@ def deleteProject(request, projectName):
     project.delete()
     return HttpResponseRedirect(reverse("projects"))
 
+
 @login_required
 def addMedia(request, projectName):
     profile = Profile.objects.get(user=request.user)
-    context = {'projectName': projectName, 'profile':profile}
+    context = {'projectName': projectName, 'profile': profile}
 
     if request.method == 'GET':
         # TODO can we delete this now that we use modal?
@@ -126,10 +137,12 @@ def addMedia(request, projectName):
 
     return HttpResponseRedirect(reverse("projects"))
 
+
 @login_required
 def editMedia(request, projectName, mediaName):
     profile = Profile.objects.get(user=request.user)
-    context = {'projectName': projectName, 'mediaName': mediaName, 'profile':profile}
+    context = {'projectName': projectName,
+               'mediaName': mediaName, 'profile': profile}
     if request.method == 'GET':
         medium = Media.objects.get(name=mediaName)
         initial = {
@@ -143,7 +156,7 @@ def editMedia(request, projectName, mediaName):
         return render(request, 'project/media-edit.html', context)
 
     # POST request
-    if not 'action' in request.POST or request.POST['action'] == "":
+    if 'action' not in request.POST or request.POST['action'] == "":
         return HttpResponseRedirect(reverse('projects'))
 
     action = request.POST['action']
@@ -163,4 +176,5 @@ def editMedia(request, projectName, mediaName):
     elif action == 'Cancel':
         pass
 
-    return HttpResponseRedirect(reverse('projects')) # TODO focus on the selected project
+    # TODO focus on the selected project
+    return HttpResponseRedirect(reverse('projects'))
