@@ -193,8 +193,9 @@ function keyboardHandler(e) {
         // mark active page as unsaved TODO only when meta key is not pressed?
     } else {
         console.log("keyboard handler else case")
-        if (pagesInfo[getActivePageName()]['saved']) {
-            pagesInfo[getActivePageName()]['saved'] = false;
+        let activePage = pagesInfo[getActivePageName()];
+        if (activePage && activePage['saved']) {
+            activePage['saved'] = false;
             updatePages();
         }
     }
@@ -274,11 +275,14 @@ function publishPageHandler(e) {
     });
 }
 
-function viewSiteHandler() {
+// viewSiteHandler : visit the site
+// @param private : if true, view saved page; if false, view published site
+function viewSiteHandler(private) {
     let pageName = getActivePageName();
     let username = $('#page-preview').data()['username'];
     let siteName = $('#page-preview').data()['sitename'];
-    let path = "/easel/public/" + username + '/' + siteName + '/' + pageName;
+    let scope = private ? 'private/' : 'public/'
+    let path = "/easel/" + scope + username + '/' + siteName + '/' + pageName;
     let url = window.location.origin + path;
     var redirectWindow = window.open(url, '_blank');
     redirectWindow.location;
@@ -323,7 +327,6 @@ function pageOptionHandler(e) {
 function createPage(pageName, copyPageName) {
     setupAjax();
     // TODO for efficiency, better to append tab beforehand and handle error case
-    $('.modal').modal('close');
     $.ajax({
         url: "/easel/sites/" + siteName + "/addPage/",
         method: "POST",
@@ -344,15 +347,31 @@ function createPage(pageName, copyPageName) {
             }
             pagesInfo[name] = info;
             updatePages();
+            $('.modal').modal('close');
+            
             get$icon(name).trigger('click');
-
+            // TODO possible bug?
             if ($('#page-tab').find('i').hasClass('icon-right-dir')) {
                 $('#page-tab').trigger('click');
             }
+
         },
         error: function(jqXHR, textStatus) {
             console.error("failed to add the page", textStatus);
+            
+//             remove existing error message
+            $('#add-page-modal ul.errorlist').parent().parent().remove()
+
+            const data = jqXHR.responseJSON; // array of error messages
+            console.error("failed to add the project", data);
+            const error_list = $('<tr><td colspan="2"><ul class="errorlist nonfield"></ul></td></tr>');
+            for (let i=0; i<data['errors'].length; i++) {
+              const error = data['errors'][i];
+              error_list.find("ul").append("<li>"+ error +"</li>");
+            }
+            $('#add-page-modal tbody').prepend(error_list);
         }
+        
     });
 }
 

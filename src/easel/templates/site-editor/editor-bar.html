@@ -59,7 +59,7 @@
                             <div class="icon-name">REVERT</div>
                         </div>
                     </a>
-                    <a href="#">
+                    <a href="#" id="preview-button">
                         <div class="component-container">
                             <div class="easel-icon-wrapper">
                                 <i class="component-icon icon-eye"></i>
@@ -67,7 +67,7 @@
                             <div class="icon-name">PREVIEW</div>
                         </div>
                     </a>
-                    <a href="#" id="view-site-button">
+                    <a href="#" id="open-site-button">
                         <div class="component-container">
                             <div class="easel-icon-wrapper">
                                 <i class="component-icon icon-site"></i>
@@ -269,7 +269,7 @@
         <h5 class="header-text loose-spacing light-text no-wrap">SWITCH SITE</h5>
         <ul>
             {% for site in sites %}
-                <li> 
+                <li>
                     {% if site.name == siteName %}
                         <a class="gray-text header-text small-text">
                             <strong>
