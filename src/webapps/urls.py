@@ -25,6 +25,8 @@ import views_home
 import easel.views
 
 
+handler404 = 'easel.views.views_error.pageNotFound'
+
 urlpatterns = [
 #    url(r'^$', easel.views.views_home.home),
     url(r'^$', views_home.home),
