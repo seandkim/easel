@@ -260,9 +260,9 @@ def addSite(request):
     form = AddSiteForm(request.POST)
     profile = Profile.objects.get(user=request.user)
     sites = Site.objects.filter(owner=profile)
-    siteCount = sites.count()
+    # TODO siteCount = sites.count()
     # Validates the form.
-    if not form.is_valid():
+    if not form.is_valid(request.user):
         print("from not valid")
         response = JsonResponse({"errors": form.errors['__all__']})
         response.status_code = 400  # Bad Request
@@ -274,11 +274,6 @@ def addSite(request):
 #        else:
 #            return render(request, 'site-editor/site-menu.html',
 #                          {'sites': sites, 'form': form, 'profile': profile})
-
-    # TODO error case
-    if (('siteName' not in request.POST) or (request.POST['siteName'] == "") or
-        ('description' not in request.POST) or (request.POST['description'] == "") ):
-        return HttpResponseBadRequest("Missing Argument")
 
     siteName = request.POST['siteName']
     description = request.POST['description']

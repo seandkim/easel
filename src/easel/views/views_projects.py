@@ -23,7 +23,7 @@ def home(request):
         form = AddProjectForm(request.POST)
         context['form'] = form
         # Validates the form.
-        if not form.is_valid():
+        if not form.is_valid(request.user):
             return render(request, 'project/project-list.html', context)
 
         new_project = Project(owner=profile,
@@ -77,7 +77,7 @@ def addProject(request):
 
     form = AddProjectForm(request.POST)
     # Validates the form.
-    if not form.is_valid():
+    if not form.is_valid(request.user):
         return JsonErrorResponse(400, form.errors['__all__'])
 
     profile = Profile.objects.get(user=request.user)
@@ -162,10 +162,9 @@ def editMedia(request, projectName, mediaName):
     medium = Media.objects.get(name=mediaName)
     if action == 'Save':
         form = EditMediaForm(request.user, request.POST)
-        if not form.is_valid():
+        if not form.is_valid(request.user):
             context['form'] = form
             return render(request, 'project/media-edit.html', context)
-
         medium.project = form.cleaned_data['project']
         medium.name = form.cleaned_data['name']
         medium.caption = form.cleaned_data['caption']
