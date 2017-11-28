@@ -251,7 +251,8 @@ function deletePage(pageName) {
 }
 
 function publishPageHandler(e) {
-    savePage(getActivePageName(), function() {
+    const pageName = getActivePageName();
+    savePage(pageName, function() {
         // TODO add loading animation
         // TODO publish all saved pages at once (one by one is inefficient)
         $.ajax({
