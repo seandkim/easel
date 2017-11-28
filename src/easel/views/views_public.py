@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 from datetime import datetime
 from django.contrib.auth.models import User
+from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse, Http404, HttpResponseBadRequest
 from easel.models import Profile, Site
 from ipware.ip import get_ip
@@ -35,7 +36,7 @@ def renderPage(request, username, siteName, pageName, private):
 
     try:
         page = site.getPage(pageName)
-    except KeyError:
+    except ObjectDoesNotExist:
         return Http404("Site %s by %s does not have page named %s" % (siteName, username, pageName))
 
     if (page.published_html == ""):

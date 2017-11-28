@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.http import HttpResponseBadRequest, HttpResponseNotAllowed
 from django.shortcuts import render
@@ -147,7 +147,7 @@ def addPage(request, siteName):
         copyPageName = request.POST['copyPageName']
         try:
             copyPage = site.getPage(copyPageName)
-        except KeyError:
+        except ObjectDoesNotExist:
             HttpResponseBadRequest()
 
         new_page.html = copyPage.html
@@ -247,7 +247,6 @@ def processPage(html):
     def filterEditable(elem):
         try:
             return elem['contenteditable'] == 'true'
-        # if attribute is not present, raises keyError
         except KeyError:
             return False
 

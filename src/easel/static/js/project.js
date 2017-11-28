@@ -37,7 +37,8 @@ $(document).ready(function() {
             $('.modal').modal('close');
         },
         error: function(jqXHR, textStatus) {
-//             remove existing error message
+            // TODO server error failure;
+            // remove existing error message
             $('#add-project-modal ul.errorlist').parent().parent().remove()
 
             const data = jqXHR.responseJSON; // array of error messages
@@ -57,7 +58,7 @@ $(document).ready(function() {
     $button.click(function() {
       $deleteBtn = $("#delete-project-modal button:not(.modal-close)");
       $deleteBtn.off(); // removes all event handlers
-        
+
       $deleteBtn.click(function() {
         $.ajax({
             url: "/easel/projects/"+projectName+"/deleteProject/",
@@ -67,7 +68,7 @@ $(document).ready(function() {
               $("li a[href='#" + projectName + "']").parent().remove();
               $("div#"+projectName).remove();
               $('ul.tabs').tabs('select_tab', 'ungrouped');
-              $('.modal').modal('close');              
+              $('.modal').modal('close');
             },
             error: function(jqXHR, textStatus) {
                 console.log('error');
