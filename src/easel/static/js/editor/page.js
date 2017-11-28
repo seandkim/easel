@@ -94,6 +94,7 @@ function updatePages() {
 
 /* update the page tree of current user */
 function initializePagesInfo() {
+    siteName = $('#page-preview').attr('data-sitename');
     $.ajax({
         url: "/easel/sites/" + siteName + "/getAllPageNames/",
         method: "POST",
@@ -192,8 +193,9 @@ function keyboardHandler(e) {
         // mark active page as unsaved TODO only when meta key is not pressed?
     } else {
         console.log("keyboard handler else case")
-        if (pagesInfo[getActivePageName()]['saved']) {
-            pagesInfo[getActivePageName()]['saved'] = false;
+        let activePage = pagesInfo[getActivePageName()];
+        if (activePage && activePage['saved']) {
+            activePage['saved'] = false;
             updatePages();
         }
     }
@@ -273,11 +275,14 @@ function publishPageHandler(e) {
     });
 }
 
-function viewSiteHandler() {
+// viewSiteHandler : visit the site
+// @param private : if true, view saved page; if false, view published site
+function viewSiteHandler(private) {
     let pageName = getActivePageName();
     let username = $('#page-preview').data()['username'];
     let siteName = $('#page-preview').data()['sitename'];
-    let path = "/easel/public/" + username + '/' + siteName + '/' + pageName;
+    let scope = private ? 'private/' : 'public/'
+    let path = "/easel/" + scope + username + '/' + siteName + '/' + pageName;
     let url = window.location.origin + path;
     var redirectWindow = window.open(url, '_blank');
     redirectWindow.location;
@@ -392,4 +397,9 @@ function selectExistingPageHandler(e) {
     var url = "#" + $('#autocomplete-input').val();
     e.preventDefault();
     addHrefToAnchor(url);
+}
+
+function updateSiteName() {
+    siteName = $('#page-preview').attr('data-sitename');
+    return siteName;
 }

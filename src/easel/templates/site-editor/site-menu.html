@@ -2,7 +2,27 @@
 {% load static %}
 
 {% block page %}
-    <div class="fixed-size-container">
+    <div class="fixed-size-container text-center">
+        <div class="row">
+        <div class="col s12 m4">
+        {% for site in sites %}
+        <a href="#">
+              <div class="card hover-enlarge">
+                <div class="card-content">
+                  <span class="header-text loose-spacing">{{ site.name|upper }}</span>
+                  <p>{{ site.description }}</p>
+                </div>
+                <div class="card-action">
+                  <a href="#">This is a link</a>
+                  <a href="#">This is a link</a>
+                </div>
+              </div>
+              </a>
+        {% endfor %}
+        </div>
+
+            
+      </div>
         <ul>
     	{% for site in sites %}
             <li>

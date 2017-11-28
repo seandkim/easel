@@ -9,10 +9,11 @@ var initializedLibraryUpload = false;
 var focusElement;
 
 // TODO update sitename
-const siteName = 'dummy';
+var siteName;
 
 $(function() {
   	/* initialization */
+  	updateSiteName();
   	setupAjax();
     doneLoading();
     addModeSwitcher(); // event listener to switch editable/sortable mode
@@ -77,7 +78,8 @@ $(function() {
 
     // ------------------------ Page Save and Publishing
     $(document).on("keydown", keyboardHandler);		// cmd+s save page
-    $('#view-site-button').click(viewSiteHandler);
+    $('#preview-button').click(function() {viewSiteHandler(true)});
+    $('#open-site-button').click(function() {viewSiteHandler(false)});
     $('#publish-button').click(publishPageHandler);
     $('#save-button').click(function() {
       // save all opened pages

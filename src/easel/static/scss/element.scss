@@ -95,6 +95,12 @@ figcaption {
 		color: $interface-color-05;
 	}
 }
+.hover-enlarge {
+	@include smooth(0.4s);
+	&:hover {
+		transform: scale(1.05);
+	}
+}
 
 /* visibility */
 .hidden {
