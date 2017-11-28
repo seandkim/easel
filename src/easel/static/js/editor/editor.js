@@ -72,6 +72,8 @@ $(function() {
     $(document).on('click', '.file', openPageEventHandler);  	// open file
     $(document).on("click", ".close-tab", closeTabHandler);		// close tab
     $(document).on("click", ".cr-tabs > li", switchTabHandler);	// switch active tab
+    $( ".cr-tabs" ).sortable({ revert: true }); // allow tabs to be sortable
+    $( ".cr-tabs" ).disableSelection();
 
     // ------------------------ Page Save and Publishing
     $(document).on("keydown", keyboardHandler);		// cmd+s save page
