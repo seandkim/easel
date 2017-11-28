@@ -338,6 +338,7 @@ function createPage(pageName, copyPageName) {
         success: function(data) {
             console.log("successfully added the page");
             // create new entry in pagesInfo
+
             const newPage = data['pages'][0];
             let name = newPage['name'];
             let info = {
@@ -347,13 +348,16 @@ function createPage(pageName, copyPageName) {
             }
             pagesInfo[name] = info;
             updatePages();
+
             $('.modal').modal('close');
-            
+
             get$icon(name).trigger('click');
             // TODO possible bug?
             if ($('#page-tab').find('i').hasClass('icon-right-dir')) {
                 $('#page-tab').trigger('click');
             }
+            $('#add-page-modal ul.errorlist').remove()
+
 
         },
         error: function(jqXHR, textStatus) {

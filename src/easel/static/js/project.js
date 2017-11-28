@@ -37,7 +37,7 @@ $(document).ready(function() {
             $('.modal').modal('close');
         },
         error: function(jqXHR, textStatus) {
-             remove existing error message
+//             remove existing error message
             $('#add-project-modal ul.errorlist').parent().parent().remove()
 
             const data = jqXHR.responseJSON; // array of error messages
