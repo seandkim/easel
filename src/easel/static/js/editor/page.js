@@ -326,7 +326,7 @@ function pageOptionHandler(e) {
             break;
         case "copy":
             console.log('clicked copy ' + targetPage);
-            copyPage(targetPage);
+            copyPageModalHandler(targetPage);
             break;
     }
     // Hide it after the action was triggered
@@ -362,13 +362,13 @@ function createPage(pageName, copyPageName) {
                       'POST', requestData, successHandler);
 }
 
-function addNewPageFormHandler(e) {
+function addNewPageModalHandler(e) {
     e.preventDefault();
     var pageName = $(this).find('input#id_pageName').val();
     createPage(pageName, "");
 }
 
-function copyPage(copyPageName) {
+function copyPageModalHandler(copyPageName) {
     // store page to copy in form
     $("#page-to-copy-stored").val(copyPageName);
     $('#copy-page-modal').modal('open');

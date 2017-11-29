@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block head %}
-<script src="{% static 'js/editor/add-site-form.js' %}"></script>
+<script src="{% static 'js/modals.js' %}"></script>
 {% endblock %}
 
 {% block page %}
@@ -18,9 +18,9 @@
     <br>
     <div class="row">
         {% for site in sites %}
-         <div class="col s12 m4">
+         <div class="card-wrapper col s12 m4">
             <a href="/easel/sites/{{site.name}}/editor/">
-                <div class="card hover-enlarge bg-gray">
+                <div class="card hover-enlarge bg-gray" data-sitename="{{site.name}}">
                     <div class="card-content">
                         <span class="header-text loose-spacing">{{ site.name|upper }}</span>
                         <p class="p-text">{{ site.description }}</p>
@@ -32,13 +32,9 @@
                         <a class="hover-enlarge-bg" href="/easel/sites/{{site.name}}/editor/">
                             <i class="icon-open md-sm-text dark-text hover-gray"></i>
                         </a>
-                        <form id="delete-project-icon" method='POST'
-                            style="display: inline;" action="/easel/sites/deleteSite/">
-                            <input type="hidden" name="siteName" value="{{site.name}}" />
-                            {% csrf_token %}
-                            <a class="hover-enlarge-bg" onclick="document.getElementById('delete-project-icon').submit();">
-                                <i class="icon-garbage md-sm-text dark-text hover-gray"></i>
-                            </a>
+                        <a class="delete-button-icon hover-enlarge-bg modal-trigger" href="#delete-site-modal">
+                            <i class="icon-garbage md-sm-text dark-text hover-gray"></i>
+                        </a>
                         </form>
                     </div>
                 </div>
@@ -48,6 +44,7 @@
       </div>
     </div>
     {% include './modal/add-site-modal.html' %}
+    {% include './modal/delete-site-modal.html' %}
 {% endblock %}
 
 {% block sidebar %}

@@ -1,12 +1,12 @@
 <div id="add-site-modal" class="modal library-modal">
     <div class="paint-as-input fixed-size-container">
         <h5 class="header-text loose-spacing">NEW SITE</h5>
-        <form id="add-site-form" method="post" action="{% url 'addSite' %}">
+        <form id="add-site-modal" method="post">
             <table>
                 {{add_site_form}}
             </table>
             {% csrf_token %}
-            <button type="submit" class="float-right dark-btn-alt">CREATE &#10230;</button>
+            <button class="float-right dark-btn-alt">CREATE &#10230;</button>
         </form>
     </div>
     <a href="#close-add-modal" class="modal-action modal-close modal-close-btn">

@@ -40,8 +40,8 @@ class RegistrationForm(forms.Form):
 
 
 class SettingsForm(forms.Form):
-    first_name = forms.CharField(max_length=20, required=False)
-    last_name = forms.CharField(max_length=20, required=False)
+    first_name = forms.CharField(max_length=20, required=True)
+    last_name = forms.CharField(max_length=20, required=True)
 
     password1 = forms.CharField(max_length=200,
                                 label='Password',
@@ -64,6 +64,8 @@ class SettingsForm(forms.Form):
             raise forms.ValidationError("Passwords did not match.")
         if password1 != '' and password2 == '':
             raise forms.ValidationError("Please confirm your password.")
+        if password1 == '' and password2 != '':
+            raise forms.ValidationError("Password field is required.")
         return cleaned_data
 
 

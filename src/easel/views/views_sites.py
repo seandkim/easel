@@ -18,7 +18,6 @@ def home(request):
     # TODO change
     # profile = Profile.objects.get(user=request.user)
     # siteName = 'dummy'
-    # profile.deleteSite(siteName)
     # site = profile.createSite(siteName, "dummydescription")
     # site = Site.objects.get(owner = profile, name=siteName)
     # return HttpResponseRedirect(reverse('siteEditor', kwargs={'siteName': site.name}))
@@ -152,7 +151,11 @@ def deleteSite(request):
         return Json400()
     profile = Profile.objects.get(user=request.user)
     siteName = request.POST['siteName']
-    profile.deleteSite(siteName)
+
+    try:
+        Site.objects.get(owner=profile, name=siteName).delete()
+    except ObjectDoesNotExist:
+        return Json400()
     return JsonResponse({'success': True})
 
 

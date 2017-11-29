@@ -1,6 +1,10 @@
 {% extends '../base.html' %}
 {% load static %}
 
+{% block head %}
+<script src="{% static 'js/modals.js' %}"></script>
+{% endblock %}
+
 {% block page %}
 	<div class="center text-center">
         <div class="msg-wrapper">
@@ -13,11 +17,11 @@
             </div>
             <br>
             <div class="paint-as-input">
-            	<form id="add-site-form" method="post" action="{% url 'addSite' %}">
-	            	{% if message %} {{message}} {% endif %}
-	        		{{ add_site_form }}
-	        		{% csrf_token %}
-                    <input type="hidden" name="username" value="{{ profile.user.username }}" />
+            	<form id="add-site-modal" method="post">
+	                <table>
+                        {{ add_site_form }}
+                    </table>
+                    {% csrf_token %}
 				    <button type="submit" class="dark-btn-alt">CREATE &#10230;</button>
         		</form>
             </div>
