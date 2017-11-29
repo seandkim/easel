@@ -124,6 +124,38 @@ def changePageStatus(request, siteName, pageName):
     return JsonResponse({'success': True})
 
 
+@login_required
+def addSite(request):
+    if request.method != 'POST':
+        return HttpResponseNotAllowed('POST')
+
+    form = AddSiteForm(request.POST)
+    profile = Profile.objects.get(user=request.user)
+
+    if not form.is_valid(request.user):
+        return JsonErrorResponse(400, form.errors)
+
+    siteName = request.POST['siteName']
+    description = request.POST['description']
+    profile = Profile.objects.get(user=request.user)
+    new_site = profile.createSite(siteName, description)
+    new_site.save()
+    return HttpResponseRedirect(reverse('siteEditor',
+                                kwargs={'siteName': siteName}))
+
+
+@login_required
+def deleteSite(request):
+    if request.method != 'POST':
+        return Json405('POST')
+    if ('siteName' not in request.POST) or (request.POST['siteName'] == ""):
+        return Json400()
+    profile = Profile.objects.get(user=request.user)
+    siteName = request.POST['siteName']
+    profile.deleteSite(siteName)
+    return JsonResponse({'success': True})
+
+
 # requires POST request with the following argument:
 # { 'pageName': <name of the page created>
 #   'html': <html of new page; if empty, uses default template>}
@@ -250,37 +282,6 @@ def processPage(html):
         ud['class'].remove('ud')
 
     return str(soup)
-
-
-@login_required
-def addSite(request):
-    if request.method != 'POST':
-        return HttpResponseNotAllowed('POST')
-
-    form = AddSiteForm(request.POST)
-    profile = Profile.objects.get(user=request.user)
-
-    if not form.is_valid(request.user):
-        return JsonErrorResponse(400, form.errors)
-
-    siteName = request.POST['siteName']
-    description = request.POST['description']
-    profile = Profile.objects.get(user=request.user)
-    new_site = profile.createSite(siteName, description)
-    new_site.save()
-    return HttpResponseRedirect(reverse('siteEditor',
-                                kwargs={'siteName': siteName}))
-
-@login_required
-def deleteSite(request):
-    if request.method != 'POST':
-        return Json405('POST')
-    if ('siteName' not in request.POST) or (request.POST['siteName'] == ""):
-        return Json400()
-    profile = Profile.objects.get(user=request.user)
-    siteName = request.POST['siteName']
-    profile.deleteSite(siteName)
-    return JsonResponse({'success': True})
 
 
 @login_required

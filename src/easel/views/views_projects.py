@@ -94,9 +94,14 @@ def addProject(request):
 
 
 @login_required
-def deleteProject(request, projectName):
+def deleteProject(request):
     if request.method == 'GET':
         return HttpResponseNotAllowed('POST')
+
+    if 'projectName' not in request.POST or request.POST['projectName'] == "":
+        return HttpResponseBadRequest()
+
+    projectName = request.POST['projectName']
 
     try:
         profile = Profile.objects.get(user=request.user)

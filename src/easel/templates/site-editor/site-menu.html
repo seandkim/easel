@@ -32,9 +32,14 @@
                         <a class="hover-enlarge-bg" href="/easel/sites/{{site.name}}/editor/">
                             <i class="icon-open md-sm-text dark-text hover-gray"></i>
                         </a>
-                        <a class="hover-enlarge-bg" href="#">
-                            <i class="icon-garbage md-sm-text dark-text hover-gray"></i>
-                        </a>
+                        <form id="delete-project-icon" method='POST'
+                            style="display: inline;" action="/easel/sites/deleteSite/">
+                            <input type="hidden" name="siteName" value="{{site.name}}" />
+                            {% csrf_token %}
+                            <a class="hover-enlarge-bg" onclick="document.getElementById('delete-project-icon').submit();">
+                                <i class="icon-garbage md-sm-text dark-text hover-gray"></i>
+                            </a>
+                        </form>
                     </div>
                 </div>
             </a>
