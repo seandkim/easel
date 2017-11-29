@@ -287,6 +287,10 @@ def savePage(request, siteName):
             print("Page %s does not exists in %s" % (pageName, siteName))
             return Json400()
 
+    print(request.POST)
+    print("-----------")
+    print(pages[0].content_html)
+
     for i in range(len(pageNames)):
         print(pages[i])
         pages[i].content_html = htmls[i]

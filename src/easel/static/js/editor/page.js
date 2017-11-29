@@ -230,8 +230,8 @@ function savePage(pageNames, successHandler, errorHandler) {
     const htmls = [];
     for (let i=0; i<pageNames.length; i++) {
         const pageName = pageNames[i];
-        const $content = $('#page-content > #' + pageName).find('.main-container')
-        const html = ($('<div>').append($content.clone())).html(); // inefficient
+        const $content = $('#page-content > #' + pageName).find('.content-html')
+        const html = ($('<div>').append($content.clone())).html(); // TODO inefficient?
         if (html) {
             htmls.push(html)
         } else {
