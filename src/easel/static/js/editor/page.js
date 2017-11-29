@@ -189,16 +189,17 @@ function openPageEventHandler(e) {
 }
 
 function keyboardHandler(e) {
-    // cmd+s in mac and ctrl+s in other platform
-    if (e.keyCode == 83 && (
-        navigator.platform.match("Mac")
-        ? e.metaKey
-        : e.ctrlKey)) {
-        e.preventDefault();
-        var pageName = getActivePageName();
-        savePage(pageName);
+    const cmdPressed = navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey
 
-        // mark active page as unsaved TODO only when meta key is not pressed?
+    // cmd+s in mac and ctrl+s in other platform
+    if (cmdPressed) {
+        if (e.keyCode == 83) {
+            e.preventDefault();
+            var pageName = getActivePageName();
+            savePage(pageName);
+        }
+
+    // mark active page as unsaved TODO only when meta key is not pressed?
     } else {
         console.log("keyboard handler else case")
         let activePage = pagesInfo[getActivePageName()];
