@@ -39,4 +39,6 @@ $(document).ready(function() {
       modalSubmitHandler('delete-site-modal', '/easel/sites/deleteSite/', 'POST',
                          {siteName: deleteName}, successHandler);
   })
+
+  //TODO @Stella insert edit media form here
 });
