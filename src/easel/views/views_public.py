@@ -8,6 +8,8 @@ from django.http import HttpResponseForbidden, HttpResponseBadRequest
 from easel.models import Profile, Site
 from ipware.ip import get_ip
 from easel.views import views_sites
+from django.shortcuts import render
+
 
 def renderHome(request, username, siteName):
     ip = get_ip(request)
@@ -74,3 +76,14 @@ def renderPage(request, username, siteName, pageName, private):
     site.save()
 
     return HttpResponse(page.published_html)
+
+#TODO delete this when deploying - this is for debugging purpose
+def error404(request):
+    return render(request, '404.html', {})
+def error500(request):
+    return render(request, '500.html', {})
+def error403(request):
+    return render(request, '403.html', {})
+def error400(request):
+    return render(request, '400.html', {})
+
