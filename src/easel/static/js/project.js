@@ -23,7 +23,7 @@ function initializeDeleteButton($button, projectName) {
                 }
             });
         });
-    }
+    });
 }
 
 function loadAllProject() {
