@@ -21,19 +21,29 @@
 
 <body>
     <div>
-        <div class="center text-center error-404-background">
+<!--
+        <div class="center text-center error-background">
             <h1 class="logo-text">EASEL</h1>
             <h5 class="sublogo-text">Portfolio<br>Creator</h5>
             <hr class="half-rule">
             <p>Let your artistic talent speaks for itself. Create your portfolio now.</p>
         </div>
-        <div class="center text-center error-404">
-            <h1 class="error-404-text">
-                404
+-->
+        <div class="center text-center error">
+            <h1 class="error-number-text">
+                500
             </h1>
-            <h1 class="loose-spacing error-text">
-                PAGE NOT FOUND
+            <h1 class="error-text">
+                INTERNAL SERVER ERROR
             </h1>
+            <h5 class="sublogo-text tight-spacing"> 
+                Sorry, It's not you. It's us.<br>
+                We're experiencing internal server error.<br>
+                Please try again later.
+            </h5>
+            <br>
+            <button class="dark-btn-alt" onclick="location.href='{% url 'dashboard' %}'">HOME &#10230;</button>
+
         </div>
     </div>
 </body>

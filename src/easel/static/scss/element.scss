@@ -61,13 +61,14 @@ figcaption {
 	font-size: 15px;
     text-align: left;
 }
-.error-404-text {
+.error-number-text {
     font-family: $logo-font;
     font-size: 7rem;
 }
 .error-text {
     font-family: $logo-font;
     font-size: 3rem;
+    letter-spacing: 10px;
 }
 .thin-text {
 	font-weight: 100;
@@ -75,6 +76,11 @@ figcaption {
 .loose-spacing {
 	letter-spacing: 3px;
 }
+
+.tight-spacing {
+    letter-spacing: 0px;
+}
+
 .no-wrap {
 	white-space: nowrap;
 }
@@ -755,14 +761,7 @@ ul {
     width: 80%;
 }
 
-
-.error-404-background {
-    opacity: 0.1;
-    z-index: 1; 
-    position: absolute;
-}
-
-.error-404 {
+.error {
     z-index: 2; 
     position: absolute;
     width: 2000px;

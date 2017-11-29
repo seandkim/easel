@@ -1,39 +1,41 @@
 'use strict';
 
-/*
- * main.js: for initialization and common component across site 
- */
+/* main.js: for initialization and common component across site */
 var alertBoxEase = 2000;
 var sidebarHidden = true;
 
-/*
- * Controls hide and show of sidebar
- */
+/* Controls hide and show of sidebar */
 function sidebarToggle(e) {
     if (sidebarHidden) {
-       showSideBar();
+        showSideBar();
     } else {
-       hideSideBar();
+        hideSideBar();
     }
     sidebarHidden = !sidebarHidden;
 }
 
 function showSideBar() {
-    $("#sidebar").animate({ right: 0 }, {
+    $("#sidebar").animate({
+        right: 0
+    }, {
         duration: 900,
         easing: 'easeOutQuart'
     });
 }
 
 function hideSideBar() {
-    $("#sidebar").animate({ right: '-400px' }, {
+    $("#sidebar").animate({
+        right: '-400px'
+    }, {
         duration: 900,
         easing: 'easeOutQuart'
     });
 }
 
 function hideAlertMsg() {
-    $("#alert-box").animate({ right: '-300px' }, {
+    $("#alert-box").animate({
+        right: '-300px'
+    }, {
         duration: 900,
         easing: 'easeOutQuart'
     });
@@ -41,7 +43,9 @@ function hideAlertMsg() {
 
 function showAlertMsg(msg) {
     $('#alert-msg').html(msg);
-    $("#alert-box").animate({ right: 0 }, {
+    $("#alert-box").animate({
+        right: 0
+    }, {
         duration: 900,
         easing: 'easeOutQuart'
     });
@@ -56,18 +60,62 @@ function doneLoading() {
 };
 
 function addLoading(el) {
-    $(el).append(
-        '<div class="preload preloader-overlay">' +
-            '<div class="spinner-wrapper">' +
-                '<div class="spinner">' +
-                    '<div class="double-bounce1"></div>' +
-                    '<div class="double-bounce2"></div>' +
-                '</div>' +
-                '<div class="loading">LOADING...</div>' +
-            '</div>' +
-        '</div>');
+    $(el).append('<div class="preload preloader-overlay">' + '<div class="spinner-wrapper">' + '<div class="spinner">' + '<div class="double-bounce1"></div>' + '<div class="double-bounce2"></div>' + '</div>' + '<div class="loading">LOADING...</div>' + '</div>' + '</div>');
 }
 
+// helper function that gets form values into a dictionary
+function getFormValues(formElem, fieldNames) {
+    var values = {};
+    for (var i = 0; i < fieldNames.length; i++) {
+        var field = fieldNames[i];
+        var value = formElem.find('input[name="' + field + '"]').val();
+        values[field] = value;
+    }
+    return values;
+}
+
+// for submit button; makes a ajax call and calls successhandler or displays
+// error message on modal
+// ex) `createPage` in page.js
+function modalSubmitHandler(modalID, url, method, requestData, successHandler) {
+    setupAjax();
+    const $modal = $('#' + modalID);
+    $.ajax({
+        url: url,
+        method: method,
+        data: requestData,
+        success: function(data) {
+            $modal.find('ul.errorlist').parent().parent().remove()
+            if (successHandler) {
+                successHandler(data);
+            }
+            $modal.find('input').val('');
+            $modal.modal('close');
+        },
+        error: function(jqXHR) {
+            console.error("ajax call failed", jqXHR);
+            let errors = ['Cannot connect to the server. Check your internet connection.'];
+            if (jqXHR.responseJSON != undefined) {
+                errors = jqXHR.responseJSON['errors']; // array of error messages
+            }
+            // remove existing error message TODO don't hardcode; is removing all tr necessary?
+            $modal.find('ul.errorlist').parent().parent().remove()
+            const error_list = $('<tr><td colspan="2"><ul class="errorlist nonfield"></ul></td></tr>');
+            for (let key in errors) {
+                let error = errors[key];
+                if (error == "This field is required.") {
+                    var label = $('label[for="id_'+key+'"]').html();
+                    if (label != null) {
+                        label = label.substring(0,label.length-1);
+                        error = label + " is required.";
+                    }
+                }
+                error_list.find("ul").append("<li>" + error + "</li>");
+            }
+            $modal.find('tbody').prepend(error_list);
+        }
+    })
+}
 
 // main
 $(function() {

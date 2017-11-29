@@ -92,9 +92,17 @@ function updatePages() {
     }
 }
 
+function getCurrSiteName() {
+    return $('#page-preview').data()['sitename'];
+}
+
+function getCurrUsername() {
+    return $('#page-preview').data()['username'];
+}
+
 /* update the page tree of current user */
 function initializePagesInfo() {
-    siteName = $('#page-preview').attr('data-sitename');
+    siteName = getCurrSiteName();
     $.ajax({
         url: "/easel/sites/" + siteName + "/getAllPageNames/",
         method: "POST",
@@ -181,16 +189,17 @@ function openPageEventHandler(e) {
 }
 
 function keyboardHandler(e) {
-    // cmd+s in mac and ctrl+s in other platform
-    if (e.keyCode == 83 && (
-        navigator.platform.match("Mac")
-        ? e.metaKey
-        : e.ctrlKey)) {
-        e.preventDefault();
-        var pageName = getActivePageName();
-        savePage(pageName);
+    const cmdPressed = navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey
 
-        // mark active page as unsaved TODO only when meta key is not pressed?
+    // cmd+s in mac and ctrl+s in other platform
+    if (cmdPressed) {
+        if (e.keyCode == 83) {
+            e.preventDefault();
+            var pageName = getActivePageName();
+            savePage(pageName);
+        }
+
+    // mark active page as unsaved TODO only when meta key is not pressed?
     } else {
         console.log("keyboard handler else case")
         let activePage = pagesInfo[getActivePageName()];
@@ -279,8 +288,8 @@ function publishPageHandler(e) {
 // @param private : if true, view saved page; if false, view published site
 function viewSiteHandler(private) {
     let pageName = getActivePageName();
-    let username = $('#page-preview').data()['username'];
-    let siteName = $('#page-preview').data()['sitename'];
+    let username = getCurrUsername();
+    let siteName = getCurrSiteName();
     let scope = private ? 'private/' : 'public/'
     let path = "/easel/" + scope + username + '/' + siteName + '/' + pageName;
     let url = window.location.origin + path;
@@ -326,54 +335,31 @@ function pageOptionHandler(e) {
 
 function createPage(pageName, copyPageName) {
     setupAjax();
-    // TODO for efficiency, better to append tab beforehand and handle error case
-    $.ajax({
-        url: "/easel/sites/" + siteName + "/addPage/",
-        method: "POST",
-        data: {
-            pageName: pageName,
-            copyPageName: copyPageName
-        },
-        success: function(data) {
-            console.log("successfully added the page");
-            // create new entry in pagesInfo
-
-            const newPage = data['pages'][0];
-            let name = newPage['name'];
-            let info = {
-                'opened': newPage['opened'] == 'True',
-                'active': newPage['active'] == 'True',
-                'saved': true
-            }
-            pagesInfo[name] = info;
-            updatePages();
-
-            $('.modal').modal('close');
-
-            get$icon(name).trigger('click');
-            // TODO possible bug?
-            if ($('#page-tab').find('i').hasClass('icon-right-dir')) {
-                $('#page-tab').trigger('click');
-            }
-            $('#add-page-modal ul.errorlist').remove()
-
-
-        },
-        error: function(jqXHR, textStatus) {
-            console.error("failed to add the page", textStatus);
-            // remove existing error message
-            $('#add-page-modal ul.errorlist').parent().parent().remove()
-
-            const errors = jqXHR.responseJSON['errors']; // array of error messages
-            const error_list = $('<tr><td colspan="2"><ul class="errorlist nonfield"></ul></td></tr>');
-            for (let key in errors) {
-              const error = errors[key];
-              error_list.find("ul").append("<li>"+ error +"</li>");
-            }
-            $('#add-page-modal tbody').prepend(error_list);
+    function successHandler(data) {
+        console.log("successfully added the page");
+        // create new entry in pagesInfo
+        const newPage = data['pages'][0];
+        let name = newPage['name'];
+        let info = {
+            'opened': newPage['opened'] == 'True',
+            'active': newPage['active'] == 'True',
+            'saved': true
         }
+        pagesInfo[name] = info;
+        updatePages();
 
-    });
+        get$icon(name).trigger('click');
+        // TODO possible bug?
+        if ($('#page-tab').find('i').hasClass('icon-right-dir')) {
+            $('#page-tab').trigger('click');
+        }
+    }
+
+    const modal_id = copyPageName ? 'copy-page-modal' : 'add-page-modal';
+
+    const requestData = {pageName: pageName, copyPageName: copyPageName}
+    modalSubmitHandler(modal_id, "/easel/sites/"+getCurrSiteName()+"/addPage/",
+                      'POST', requestData, successHandler);
 }
 
 function addNewPageFormHandler(e) {
@@ -398,9 +384,4 @@ function selectExistingPageHandler(e) {
     var url = "#" + $('#autocomplete-input').val();
     e.preventDefault();
     addHrefToAnchor(url);
-}
-
-function updateSiteName() {
-    siteName = $('#page-preview').attr('data-sitename');
-    return siteName;
 }

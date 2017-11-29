@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
-from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 from django.http import HttpResponseNotAllowed, HttpResponseBadRequest
 from django.shortcuts import render
 from django.urls import reverse
@@ -16,14 +16,14 @@ from mimetypes import guess_type
 def home(request):
     context = {}
     profile = Profile.objects.get(user=request.user)
-    context['form'] = AddProjectForm()
+    context['add_project_form'] = AddProjectForm()
     context['profile'] = profile
 
     if request.method == 'POST':
         form = AddProjectForm(request.POST)
-        context['form'] = form
+        context['add_project_form'] = form
         # Validates the form.
-        if not form.is_valid():
+        if not form.is_valid(request.user):
             return render(request, 'project/project-list.html', context)
 
         new_project = Project(owner=profile,
@@ -69,6 +69,7 @@ def getMediaPhoto(request, projectName, mediaName):
     content_type = guess_type(media.image.name)
     return HttpResponse(media.image, content_type=content_type)
 
+
 @login_required
 def addProject(request):
     # Just display the add-project form if this is a GET request.
@@ -77,8 +78,8 @@ def addProject(request):
 
     form = AddProjectForm(request.POST)
     # Validates the form.
-    if not form.is_valid():
-        return JsonErrorResponse(400, form.errors['__all__'])
+    if not form.is_valid(request.user):
+        return JsonErrorResponse(400, form.errors)
 
     profile = Profile.objects.get(user=request.user)
 
@@ -104,6 +105,10 @@ def deleteProject(request, projectName):
     except ObjectDoesNotExist:
         return HttpResponseBadRequest()
 
+    # Cannot delete `ungrouped` project
+    if projectName.lower() == 'ungrouped':
+        return HttpResponseBadRequest()
+
     medias.delete()
     project.delete()
     return HttpResponseRedirect(reverse("projects"))
@@ -118,14 +123,14 @@ def addMedia(request, projectName):
         # TODO can we delete this now that we use modal?
         print('get request')
         form = AddMediaForm()
-        context['form'] = form
+        context['add_media_form'] = form
         return render(request, 'project/media-add.html', context)
 
     print(request.POST)
     form = AddMediaForm(request.POST, request.FILES)
-    if not form.is_valid():
+    if not form.is_valid(request.user):
         print('form is not valid')
-        context['form'] = form
+        context['add_media_form'] = form
         return render(request, 'project/media-add.html', context)
 
     media = form.save(commit=False)
@@ -151,7 +156,7 @@ def editMedia(request, projectName, mediaName):
         }
 
         form = EditMediaForm(user=request.user, initial=initial)
-        context['form'] = form
+        context['edit_media_form'] = form
         return render(request, 'project/media-edit.html', context)
 
     # POST request
@@ -162,10 +167,9 @@ def editMedia(request, projectName, mediaName):
     medium = Media.objects.get(name=mediaName)
     if action == 'Save':
         form = EditMediaForm(request.user, request.POST)
-        if not form.is_valid():
-            context['form'] = form
+        if not form.is_valid(request.user):
+            context['edit_media_form'] = form
             return render(request, 'project/media-edit.html', context)
-
         medium.project = form.cleaned_data['project']
         medium.name = form.cleaned_data['name']
         medium.caption = form.cleaned_data['caption']

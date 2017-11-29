@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- meta data -->
+    <meta charset="UTF-8">
+    <meta name="description" content="Portfolio Builder">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %} Easel {% endblock %}</title>
+
+    <!-- static files -->
+    <link rel="stylesheet" href="{% static 'css/materialize.min.css' %}">
+    <link href="{% static 'css/materialize.icon.css' %}" rel="stylesheet">
+    <link href="{% static 'css/medium-editor.min.css' %}" rel="stylesheet">
+    <link href="https://file.myfontastic.com/K3qyjwZWpDKFonqDcgKuL4/icons.css" rel="stylesheet">
+    <link href="{% static 'css/default.min.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="icon" href="{% static 'img/logo/favicon.png' %}"/>
+</head>
+
+<body>
+    <div>
+        <div class="center text-center error">
+            <h1 class="error-number-text">
+                404
+            </h1>
+            <h1 class="error-text">
+                PAGE NOT FOUND
+            </h1>
+            <h5 class="sublogo-text tight-spacing"> 
+                The page you requested cannot be found on our server.<br>
+                Please check the URL.
+            </h5>
+            <br>
+            <button class="dark-btn-alt" onclick="location.href='{% url 'dashboard' %}'">HOME &#10230;</button>
+
+        </div>
+    </div>
+</body>
+</html>

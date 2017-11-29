@@ -40,8 +40,8 @@ class RegistrationForm(forms.Form):
 
 
 class SettingsForm(forms.Form):
-    first_name = forms.CharField(max_length=20, required=False)
-    last_name = forms.CharField(max_length=20, required=False)
+    first_name = forms.CharField(max_length=20, required=True)
+    last_name = forms.CharField(max_length=20, required=True)
 
     password1 = forms.CharField(max_length=200,
                                 label='Password',
@@ -64,65 +64,70 @@ class SettingsForm(forms.Form):
             raise forms.ValidationError("Passwords did not match.")
         if password1 != '' and password2 == '':
             raise forms.ValidationError("Please confirm your password.")
+        if password1 == '' and password2 != '':
+            raise forms.ValidationError("Password field is required.")
         return cleaned_data
 
 
 class AddProjectForm(forms.Form):
     projectName = forms.CharField(max_length=20)
     description = forms.CharField(max_length=1000)
-    username = forms.CharField(widget=forms.HiddenInput(), required=False)
 
-    def clean(self):
-        cleaned_data = super(AddProjectForm, self).clean()
-        if cleaned_data.get('projectName') is None:
-            raise forms.ValidationError("Project name is required")
-        if cleaned_data.get('description') is None:
-            raise forms.ValidationError("Project description is required")
-        projectName = cleaned_data.get('projectName').lower()
-        description = cleaned_data.get('description')
-        username = cleaned_data.get('username')
-        user = User.objects.get(username=username)
+    def is_valid(self, user):
+        valid = super(AddProjectForm, self).is_valid()
+        if not valid:
+            return False
+
+        projectName = self.cleaned_data.get('projectName').lower()
+        description = self.cleaned_data.get('description')
         profile = Profile.objects.get(user=user)
+
         if Project.objects.filter(owner=profile, name=projectName.lower()).count() > 0:
-            raise forms.ValidationError(
-                "Project '%s' already exists" % projectName.lower())
+            self.add_error(None, "Project '%s' already exists"
+                           % projectName.lower())
+            return False
+
         if not re.match("^[a-zA-Z0-9_]+$", projectName):
             # TODO : project name can contain underscore right now
-            raise forms.ValidationError(
-                "Project name can only contain alphabets and numbers")
+            self.add_error("projectName", "Project name can only contain alphabets and numbers")
+            return False
+
         if '\\' in description:
-            raise forms.ValidationError(
-                "Project description cannot contain '\\'")
-        return cleaned_data
+            self.add_error("description",
+                           "Project description cannot contain '\\'")
+            return False
+
+        return True
 
 
 class AddMediaForm(forms.ModelForm):
-    username = forms.CharField(widget=forms.HiddenInput(), required=False)
-
     class Meta:
         model = Media
         exclude = ('project',)
         widgets = {'image': forms.FileInput()}
 
-    def clean(self):
-        cleaned_data = super(AddMediaForm, self).clean()
-        mediaName = cleaned_data.get('name').lower()
-        username = cleaned_data.get('username')
-        print('username = ', username)
-        user = User.objects.get(username=username)
+    def is_valid(self, user):
+        valid = super(AddMediaForm, self).is_valid()
+        if not valid:
+            return False
+
+        mediaName = self.cleaned_data.get('name').lower()
         profile = Profile.objects.get(user=user)
         projects = Project.objects.filter(owner=profile)
         media = Media.objects.filter(project__in=projects, name=mediaName)
 
         assert(media.count() < 2)
         if media.count() == 1:
-            raise forms.ValidationError(
-                "Media '%s' already exists" % mediaName.lower())
+            self.add_error("name",
+                           "Media '%s' already exists" % mediaName.lower())
+            return False
+
         if not re.match("^[a-zA-Z0-9_]+$", mediaName):
-            # TODO : media name can contain underscore right now
-            raise forms.ValidationError(
-                "Media name can only contain alphabets and numbers")
-        return cleaned_data
+            self.add_error("name",
+                           "Media name can only contain alphabets and numbers")
+            return False
+
+        return True
 
 
 class EditMediaForm(forms.Form):
@@ -138,21 +143,15 @@ class EditMediaForm(forms.Form):
     # image = forms.FileField() TODO
     name = forms.CharField(max_length=20)
     caption = forms.CharField(max_length=1000)
-    username = forms.CharField(widget=forms.HiddenInput(), required=False)
     oldName = forms.CharField(widget=forms.HiddenInput(), required=False)
 
-    # TODO image file is not required. Either implement that or delete this
-#    def is_valid(self):
-#        valid = super(EditMediaForm, self).is_valid()
-#        return valid
+    def is_valid(self, user):
+        valid = super(EditMediaForm, self).is_valid()
+        if not valid:
+            return False
 
-    def clean(self):
-        cleaned_data = super(EditMediaForm, self).clean()
-        project = cleaned_data.get('project')
-        mediaName = cleaned_data.get('name').lower()
-        username = cleaned_data.get('username')
-        oldName = cleaned_data.get('oldName')
-        user = User.objects.get(username=username)
+        mediaName = self.cleaned_data.get('name')
+        oldName = self.cleaned_data.get('oldName')
         profile = Profile.objects.get(user=user)
         projects = Project.objects.filter(owner=profile)
         media = Media.objects.filter(project__in=projects, name=mediaName)
@@ -160,13 +159,17 @@ class EditMediaForm(forms.Form):
         assert(media.count() < 2)
         if media.count() == 1:
             if mediaName != oldName:
-                raise forms.ValidationError(
-                    "Media '%s' already exists" % mediaName.lower())
+                self.add_error("name",
+                               "Media '%s' already exists" % mediaName.lower())
+                return False
+
         if not re.match("^[a-zA-Z0-9_]+$", mediaName):
             # TODO : media name can contain underscore right now
-            raise forms.ValidationError(
-                "Media name can only contain alphabets and numbers")
-        return cleaned_data
+            raise self.add_error("name",
+                                 "Media name can only contain alphabets and numbers")
+            return False
+
+        return True
 
 
 class AddPageForm(forms.Form):
@@ -182,7 +185,7 @@ class AddPageForm(forms.Form):
         try:
             site = Site.objects.get(owner=profile, name=siteName)
         except Site.DoesNotExist:
-            self.add_errors(None, 'Site does not exist')
+            self.add_error(None, 'Site does not exist')
             return False
 
         page = Page.objects.filter(site=site, name=pageName)
@@ -191,8 +194,8 @@ class AddPageForm(forms.Form):
             self.add_error('pageName', "Page '%s' already exists" %
                            pageName.lower())
             return False
+
         if not re.match("^[a-zA-Z0-9_]+$", pageName):
-            # TODO : media name can contain underscore right now
             self.add_error('pageName',
                            "Page name can only contain alphabets and numbers")
             return False
@@ -202,23 +205,26 @@ class AddPageForm(forms.Form):
 
 class AddSiteForm(forms.Form):
     siteName = forms.CharField(max_length=20)
-    username = forms.CharField(widget=forms.HiddenInput(), required=False)
     description = forms.CharField(max_length=1000)
 
-    def clean(self):
-        cleaned_data = super(AddSiteForm, self).clean()
-        siteName = cleaned_data.get('siteName').lower()
-        username = cleaned_data.get('username')
-        user = User.objects.get(username=username)
+    def is_valid(self, user):
+        valid = super(AddSiteForm, self).is_valid()
+        if not valid:
+            return False
+        
+        siteName = self.cleaned_data.get('siteName').lower()
         profile = Profile.objects.get(user=user)
-        sites = Site.objects.filter(owner=profile, name=siteName.lower())
+        sites = Site.objects.filter(owner=profile, name=siteName)
 
         assert(sites.count() < 2)
         if sites.count() == 1:
-            raise forms.ValidationError(
-                "Site '%s' already exists" % siteName.lower())
+            self.add_error("siteName",
+                           "Site '%s' already exists" % siteName.lower())
+            return False
+
         if not re.match("^[a-zA-Z0-9_]+$", siteName):
-            # TODO : media name can contain underscore right now
-            raise forms.ValidationError(
-                "Site name can only contain alphabets and numbers")
-        return cleaned_data
+            self.add_error("siteName",
+                           "Site name can only contain alphabets and numbers")
+            return False
+
+        return True

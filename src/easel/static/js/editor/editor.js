@@ -8,12 +8,8 @@ var pagesInfo = {}; //initialized in loadpages
 var initializedLibraryUpload = false;
 var focusElement;
 
-// TODO update sitename
-var siteName;
-
 $(function() {
   	/* initialization */
-  	updateSiteName();
   	setupAjax();
     doneLoading();
     addModeSwitcher(); // event listener to switch editable/sortable mode
@@ -107,9 +103,9 @@ $(function() {
         ud_to_close.remove();
     });
     $(document).on('click', '.ud', focusudHandler);
-    $('.style-input').change(function() { 
+    $('.style-input').change(function() {
     	var attrName, attrVal, el;
-    	console.log($( this ).attr('name'), $(this).val()); 
+    	console.log($( this ).attr('name'), $(this).val());
     	el = getFocusElement();
     	attrName = $( this ).attr('name');
     	attrVal = $(this).val();
