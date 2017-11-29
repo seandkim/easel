@@ -92,9 +92,17 @@ function updatePages() {
     }
 }
 
+function getCurrSiteName() {
+    return $('#page-preview').data()['sitename'];
+}
+
+function getCurrUsername() {
+    return $('#page-preview').data()['username'];
+}
+
 /* update the page tree of current user */
 function initializePagesInfo() {
-    siteName = $('#page-preview').attr('data-sitename');
+    siteName = getCurrSiteName();
     $.ajax({
         url: "/easel/sites/" + siteName + "/getAllPageNames/",
         method: "POST",
@@ -279,8 +287,8 @@ function publishPageHandler(e) {
 // @param private : if true, view saved page; if false, view published site
 function viewSiteHandler(private) {
     let pageName = getActivePageName();
-    let username = $('#page-preview').data()['username'];
-    let siteName = $('#page-preview').data()['sitename'];
+    let username = getCurrUsername();
+    let siteName = getCurrSiteName();
     let scope = private ? 'private/' : 'public/'
     let path = "/easel/" + scope + username + '/' + siteName + '/' + pageName;
     let url = window.location.origin + path;
@@ -349,7 +357,7 @@ function createPage(pageName, copyPageName) {
     const modal_id = copyPageName ? 'copy-page-modal' : 'add-page-modal';
 
     const requestData = {pageName: pageName, copyPageName: copyPageName}
-    modalSubmitHandler(modal_id, "/easel/sites/"+siteName+"/addPage/",
+    modalSubmitHandler(modal_id, "/easel/sites/"+getCurrSiteName()+"/addPage/",
                       'POST', requestData, successHandler);
 }
 
@@ -375,9 +383,4 @@ function selectExistingPageHandler(e) {
     var url = "#" + $('#autocomplete-input').val();
     e.preventDefault();
     addHrefToAnchor(url);
-}
-
-function updateSiteName() {
-    siteName = $('#page-preview').attr('data-sitename');
-    return siteName;
 }
