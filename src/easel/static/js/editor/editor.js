@@ -66,7 +66,7 @@ $(function() {
     $(document).on("mousedown", '#page-content', deselectFocusElement);	
     $(document).on('click', '#page-content nav', initializeEditNavModal);
     $(document).on('click', '.delete-nav-button', deleteButtonHandler);
-
+    
     /* open new tab */
     // $(document).on('click', '.page-choice', function() {
     //     var url = $(this).attr('url-target');
@@ -90,12 +90,7 @@ $(function() {
     $(document).on("keydown", keyboardHandler);		// cmd+s save page
     $('#preview-button').click(function() {viewSiteHandler(true)});
     $('#open-site-button').click(function() {viewSiteHandler(false)});
-    $('#publish-button').click(publishPageHandler);
-    $('#save-button').click(function() {
-      // save all opened pages
-      for (var name in pagesInfo) {
-        if (pagesInfo[name]['opened']) {savePage(name);}
-      }});
+    $('#save-button').click(function() {savePage(Object.keys(pagesInfo))});
 
     // ------------------------ Add Page
     $('#add-page-modal form').submit(addNewPageModalHandler);

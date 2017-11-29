@@ -3,77 +3,173 @@
 // component modals
 
 $(document).ready(function() {
-  // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
-  $('.modal').modal();
+    // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
+    $('.modal').modal();
 
-  // add site form
-  $("#add-site-modal").on('click', 'button', function(e) {
-    e.preventDefault();
-    const fieldNames = ['siteName', 'description'];
-    const values = getFormValues($(this).closest('form'), fieldNames);
+    // initialize publish site form
+    $('#publish-site-button').click(function() {
+        const pageNames = getAllPageNames();
+        $checkboxes = $('#publish-site-modal').find('div.boxes')
+        $checkboxes.empty()
+        for (let i = 0; i < pageNames.length; i++) {
+            const name = pageNames[i];
+            const id_name = 'checkbox_' + name;
+            const box = $('<p>' + '<input type="checkbox" id="' + id_name + '" />' + '<label for="' + id_name + '">' + name + '</label>' + '</p>');
+            $checkboxes.prepend(box);
+        }
+    });
 
-    function successHandler(data) {
-        window.location.href = '/easel/sites/'+ values['siteName'] +'/editor/';
-    }
+    $('#publish-site-modal').on('click', 'button:not(.modal-close)', function(e) {
+        e.preventDefault();
+        const pageNames = getAllPageNames();
+        const publishes = [];
+        // get checked pages
+        for (let i = 0; i < pageNames.length; i++) {
+            const name = pageNames[i];
+            const box = $('input[id="checkbox_' + name + '"]');
+            if (box.prop('checked')) {
+                publishes.push(name);
+            }
+        }
 
-    modalSubmitHandler('add-site-modal', "/easel/sites/addSite/", 'POST',
-                       values, successHandler);
-  });
+        if (publishes.length == 0) {
+            // TODO append error message
+            $('.modal').modal('close');
+            return
+        }
 
-  // for communication between delete button and delete site
-  var deleteName;
-  $('.delete-button-icon').click(function(e) {
-      const deleteName = $(this).closest('div.card').data()['sitename'];
-  });
+        savePage(publishes, function() {
+            $.ajax({
+                url: "/easel/sites/" + getCurrSiteName() + "/publish/",
+                method: "POST",
+                data: {
+                    pageNames: publishes
+                },
+                success: function(data) {
+                    showAlertMsg("Successfully publish site.");
+                    $('.modal').modal('close');
+                },
+                error: function(jqXHR) {
+                    showAlertMsg("Error in publishing.");
+                }
+            })
+        })
+    });
 
-  $('#delete-site-modal').on('click', 'button:not(.cancel)', function(e) {
-      e.preventDefault();
+    // add site form
+    $("#add-site-modal").on('click', 'button', function(e) {
+        e.preventDefault();
+        const fieldNames = ['siteName', 'description'];
+        const values = getFormValues($(this).closest('form'), fieldNames);
 
-      function successHandler(data) {
-          const card = $('div.card[data-sitename="'+deleteName+'"]')
-          card.closest('.card-wrapper').remove();
-          deleteName = null;
-          // TODO if no sites are left, display new site form
-      }
+        function successHandler(data) {
+            window.location.href = '/easel/sites/' + values['siteName'] + '/editor/';
+        }
 
-      modalSubmitHandler('delete-site-modal', '/easel/sites/deleteSite/', 'POST',
-                         {siteName: deleteName}, successHandler);
-  });
+        modalSubmitHandler('add-site-modal', "/easel/sites/addSite/", 'POST', values, successHandler);
+    });
 
-  //TODO @Stella insert edit media form here
-  $('.edit-button-icon').click(function(e) {
-      const siteName = $(this).closest('div.card').data()['sitename'];
+    // delete site form
+    var deleteName; // for communication between delete button and delete site
+    $('.delete-button-icon').click(function(e) {
+        const deleteName = $(this).closest('div.card').data()['sitename'];
+    });
 
-      $.ajax({
-        url: '/easel/sites/' + siteName + '/siteInfo/',
-        method: 'GET',
+    $('#delete-site-modal').on('click', 'button:not(.cancel)', function(e) {
+        e.preventDefault();
+
+        function successHandler(data) {
+            const card = $('div.card[data-sitename="' + deleteName + '"]')
+            card.closest('.card-wrapper').remove();
+            deleteName = null;
+            // TODO if no sites are left, display new site form
+        }
+
+        modalSubmitHandler('delete-site-modal', '/easel/sites/deleteSite/', 'POST', {
+            siteName: deleteName
+        }, successHandler);
+    });
+
+    $('.edit-button-icon').click(function(e) {
+        const siteName = $(this).closest('div.card').data()['sitename'];
+
+        $.ajax({
+            url: '/easel/sites/' + siteName + '/siteInfo/',
+            method: 'GET',
+            success: function(data) {
+                console.log('data=', data);
+                //TODO fill in modal fields
+                $('#edit-site-modal').data('oldname', siteName);
+                $('#edit-site-modal #id_siteName').val(data.siteName);
+                $('#edit-site-modal #id_description').val(data.description);
+                $('#edit-site-modal').modal('open');
+            },
+            error: function(jqXHR) {
+                console.error("ajax call failed", jqXHR);
+            }
+        });
+    });
+
+    $("#edit-site-modal").on('click', 'button:not(.cancel)', function(e) {
+        e.preventDefault();
+        const fieldNames = ['siteName', 'description'];
+        const values = getFormValues($(this).closest('form'), fieldNames);
+        const oldName = $('#edit-site-modal').data('oldname');
+
+        function successHandler(data) {
+            window.location.href = '/easel/sites/';
+        }
+
+        modalSubmitHandler('edit-site-modal', '/easel/sites/' + oldName + '/siteInfo/', 'POST', {
+            siteName: values.siteName,
+            description: values.description,
+            oldName: oldName
+        }, successHandler);
+    });
+});
+
+// for submit button; makes a ajax call and calls successhandler or displays
+// error message on modal
+// ex) `createPage` in page.js
+function modalSubmitHandler(modalID, url, method, requestData, successHandler, errorHandler) {
+    setupAjax();
+    const $modal = $('#' + modalID);
+    $.ajax({
+        url: url,
+        method: method,
+        data: requestData,
         success: function(data) {
-            console.log('data=', data);
-            //TODO fill in modal fields
-            $('#edit-site-modal').data('oldname', siteName);
-            $('#edit-site-modal #id_siteName').val(data.siteName);
-            $('#edit-site-modal #id_description').val(data.description);
-            $('#edit-site-modal').modal('open');
+            $modal.find('ul.errorlist').parent().parent().remove()
+            if (successHandler) {
+                successHandler(data);
+            }
+            $modal.find('input').val('');
+            $modal.modal('close');
         },
         error: function(jqXHR) {
             console.error("ajax call failed", jqXHR);
+            let errors = ['Cannot connect to the server. Check your internet connection.'];
+            if (jqXHR.responseJSON != undefined) {
+                errors = jqXHR.responseJSON['errors']; // array of error messages
+            }
+            // remove existing error message TODO don't hardcode; is removing all tr necessary?
+            $modal.find('ul.errorlist').parent().parent().remove()
+            const error_list = $('<tr><td colspan="2"><ul class="errorlist nonfield"></ul></td></tr>');
+            for (let key in errors) {
+                let error = errors[key];
+                if (error == "This field is required.") {
+                    var label = $('label[for="id_' + key + '"]').html();
+                    if (label != null) {
+                        label = label.substring(0, label.length - 1);
+                        error = label + " is required.";
+                    }
+                }
+                error_list.find("ul").append("<li>" + error + "</li>");
+            }
+            $modal.find('tbody').prepend(error_list);
+            if (errorHandler) {
+                errorHandler();
+            }
         }
-    });
-  });
-
-    
-  $("#edit-site-modal").on('click',  'button:not(.cancel)', function(e) {
-    e.preventDefault();
-    const fieldNames = ['siteName', 'description'];
-    const values = getFormValues($(this).closest('form'), fieldNames);
-    const oldName = $('#edit-site-modal').data('oldname');
-      
-    function successHandler(data) {
-        window.location.href = '/easel/sites/';
-    }
-      
-    modalSubmitHandler('edit-site-modal', '/easel/sites/' + oldName + '/siteInfo/', 'POST',
-                       {siteName: values.siteName, description: values.description, oldName: oldName}, successHandler);
-  });
-
-});
+    })
+}

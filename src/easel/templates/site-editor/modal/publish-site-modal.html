@@ -1,0 +1,21 @@
+<div id="publish-site-modal" class="modal publish-site-screen">
+    <!-- TODO @Tiffany change in css file -->
+    <div class="modal-content" style="height: 600px; overflow-y: scroll;">
+        <div class="center text-center paint-as-input">
+            <h2 class="logo-text">Publish Site</h2>
+            <form>
+                <!-- add switch -->
+                <div class="boxes">
+
+                </div>
+                <br />
+                {% csrf_token %}
+                <button id="add-new-page" class="dark-btn-alt .modal-close">CANCEL</button>
+                <button id="add-new-page" class="dark-btn-alt">PUBLISH &#10230;</button>
+            </form>
+        </div>
+    </div>
+    <a href="#close-add-modal" class="modal-action modal-close modal-close-btn">
+        <i class="icon-close-big"></i>
+    </a>
+</div>

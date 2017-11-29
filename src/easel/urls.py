@@ -68,9 +68,8 @@ urlpatterns = [
     url(r'^sites/(?P<siteName>\w+)/deletePage/$', views_sites.deletePage, name="deletePage"),
     url(r'^sites/(?P<siteName>\w+)/savePage/$', views_sites.savePage, name="savePage"),
     url(r'^sites/(?P<siteName>\w+)/publish/$', views_sites.sitePublish, name="sitePublish"),
-    url(r'^sites/(?P<siteName>\w+)/siteInfo/$', views_sites.editSite, name="editSite"),    
+    url(r'^sites/(?P<siteName>\w+)/siteInfo/$', views_sites.editSite, name="editSite"),
     url(r'^sites/addSite/$', views_sites.addSite, name="addSite"),
-#    url(r'^sites/editSite/$', views_sites.editSite, name="editSite"),
     url(r'^sites/deleteSite/$', views_sites.deleteSite, name="deleteSite"),
     url(r'^sites/getAllSites/$', views_sites.getAllSites, name="getAllSites"),
 
