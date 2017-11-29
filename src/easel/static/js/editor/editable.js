@@ -10,14 +10,10 @@ var editable_settings = {
         contentDefault: '<i class="md-sm-text icon-link-bold"></i>',
         linkValidation: true
     },
-    justifyLeft: {
-        contentDefault: '<i class="md-sm-text icon-align-left"></i>'
-    },
     toolbar: {
         buttons: ['b', 'i', 'u',
-            'h1', 'h3', 'h5',
             'anchor', 'link',
-            'justifyLeft', 'justifyRight', 'justifyCenter',
+            'left', 'right', 'center',
             'indent', 'outdent'
         ]
     },
@@ -25,8 +21,15 @@ var editable_settings = {
         // compact
         'b': new MediumButton({
             label: '<i class="md-sm-text icon-bold"></i>',
-            start: '<b>',
-            end: '</b>'
+            action: function(html, mark, parent) {
+                //$('#page-preview').trigger('click');
+                console.log(html);
+                console.log(mark);
+                console.log(parent);
+                //initializeLinkNewPageModal();
+                //$('#link-page-target').removeAttr('id'); // removed uncleaned up ids
+                return '<strong>' + html + '</strong>';
+            }
         }),
         'i': new MediumButton({
             label: '<i class="md-sm-text icon-italic"></i>',
@@ -42,9 +45,9 @@ var editable_settings = {
             label: '<i class="md-sm-text icon-file-o"></i>',
             action: function(html, mark, parent) {
                 //$('#page-preview').trigger('click');
-                // console.log(html);
-                // console.log(mark);
-                // console.log(parent);
+                console.log(html);
+                console.log(mark);
+                console.log(parent);
                 initializeLinkNewPageModal();
                 $('#link-page-target').removeAttr('id'); // removed uncleaned up ids
                 return '<a id="link-page-target" href="#">' + html + '</html>';
@@ -52,18 +55,30 @@ var editable_settings = {
         }),
         'left': new MediumButton({
             label: '<i class="md-sm-text icon-align-left"></i>',
-            start: '<div class="text-left">',
-            end: '</div>'
+            action: function(html, mark, parent) {
+                //$('#page-preview').trigger('click');
+                console.log(html);
+                console.log(mark);
+                console.log(parent);
+                console.log('in left handler');
+                $(parent).css('text-align', 'left');
+                return html;
+            }
         }),
         'right': new MediumButton({
             label: '<i class="md-sm-text icon-align-right"></i>',
-            start: '<div class="text-right">',
-            end: '</div>'
+            action: function(html, mark, parent) {
+                $(parent).css('text-align', 'right');
+                return html;
+            }
         }),
         'center': new MediumButton({
             label: '<i class="md-sm-text icon-align-center"></i>',
-            start: '<div class="text-center">',
-            end: '</div>'
+             action: function(html, mark, parent) {
+                console.log('in center handler');
+                $(parent).css('text-align', 'center');
+                return html;
+            }
         }),
         'margin': new MediumButton({
             label: '<i class="md-sm-text icon-margin"></i>',
@@ -94,9 +109,6 @@ var editable_settings = {
 function initializeEditable() {
     editor = new MediumEditor('.editable', editable_settings);
     /* change icon content */
-    $('.medium-editor-action-justifyLeft').html('<i class="md-sm-text icon-align-left"></i>');
-    $('.medium-editor-action-justifyRight').html('<i class="md-sm-text icon-align-right"></i>');
-    $('.medium-editor-action-justifyCenter').html('<i class="md-sm-text icon-align-center"></i>');
     $('.medium-editor-action-indent').html('<i class="md-sm-text icon-outdent"></i>');
     $('.medium-editor-action-outdent').html('<i class="md-sm-text icon-indent"></i>');
     $('.medium-editor-toolbar-save').html('<i class="md-sm-text light-text icon-check"></i>');
