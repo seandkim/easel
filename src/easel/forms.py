@@ -164,9 +164,8 @@ class EditMediaForm(forms.Form):
                 return False
 
         if not re.match("^[a-zA-Z0-9_]+$", mediaName):
-            # TODO : media name can contain underscore right now
-            raise self.add_error("name",
-                                 "Media name can only contain alphabets and numbers")
+            self.add_error("name",
+                           "Media name can only contain alphabets and numbers")
             return False
 
         return True
@@ -211,7 +210,7 @@ class AddSiteForm(forms.Form):
         valid = super(AddSiteForm, self).is_valid()
         if not valid:
             return False
-        
+
         siteName = self.cleaned_data.get('siteName').lower()
         profile = Profile.objects.get(user=user)
         sites = Site.objects.filter(owner=profile, name=siteName)
@@ -221,6 +220,36 @@ class AddSiteForm(forms.Form):
             self.add_error("siteName",
                            "Site '%s' already exists" % siteName.lower())
             return False
+
+        if not re.match("^[a-zA-Z0-9_]+$", siteName):
+            self.add_error("siteName",
+                           "Site name can only contain alphabets and numbers")
+            return False
+
+        return True
+    
+
+class EditSiteForm(forms.Form):
+    siteName = forms.CharField(max_length=20)
+    description = forms.CharField(max_length=1000)
+    oldName = forms.CharField(widget=forms.HiddenInput(), required=False)
+
+    def is_valid(self, user):
+        valid = super(EditSiteForm, self).is_valid()
+        if not valid:
+            return False
+        
+        oldName = self.cleaned_data.get('oldName').lower()
+        siteName = self.cleaned_data.get('siteName').lower()
+        profile = Profile.objects.get(user=user)
+        sites = Site.objects.filter(owner=profile, name=siteName)
+
+        assert(sites.count() < 2)
+        if sites.count() == 1:
+            if siteName != oldName:
+                self.add_error("siteName",
+                           "Site '%s' already exists" % siteName.lower())
+                return False
 
         if not re.match("^[a-zA-Z0-9_]+$", siteName):
             self.add_error("siteName",

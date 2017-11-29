@@ -1,29 +1,29 @@
 // stored structure of loaded media
 var media_tree = {};
-
 // delete project form
 function initializeDeleteButton($button, projectName) {
     $button.click(function() {
         $deleteBtn = $("#delete-project-modal button:not(.modal-close)");
         $deleteBtn.off(); // removes all event handlers
+
         $deleteBtn.click(function() {
             $.ajax({
-                url: "/easel/projects/" + projectName + "/deleteProject/",
+                url: "/easel/projects/deleteProject/",
                 method: "POST",
-                data: {},
+                data: {projectName: projectName},
                 success: function(data) {
-                    $("li a[href='#" + projectName + "']").parent().remove();
-                    $("div#" + projectName).remove();
-                    $('ul.tabs').tabs('select_tab', 'ungrouped');
-                    $('.modal').modal('close');
+                  $("li a[href='#" + projectName + "']").parent().remove();
+                  $("div#"+projectName).remove();
+                  $('ul.tabs').tabs('select_tab', 'ungrouped');
+                  $('.modal').modal('close');
                 },
                 error: function(jqXHR, textStatus) {
                     console.log('error');
-                    // display error message
+                  // display error message
                 }
             });
         });
-    });
+    }
 }
 
 function loadAllProject() {
@@ -119,7 +119,7 @@ $(document).ready(function() {
     // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
     $('.modal').modal();
     loadAllProject();
-
+    setupAjax();
     // add project form
     $("#add-project-modal").on('click', 'button', function(e) {
         e.preventDefault();
@@ -130,33 +130,7 @@ $(document).ready(function() {
             loadProject(data['projects'][0], true);
         }
 
-        modalSubmitHandler('add-project-modal', '/easel/projects/addProject/',
-            'POST', values, successHandler);
-    });
-
-    // CSRF set-up copied from Django docs
-    // from code provided during class
-    function getCookie(name) {
-        var cookieValue = null;
-        if (document.cookie && document.cookie != '') {
-            var cookies = document.cookie.split(';');
-            for (var i = 0; i < cookies.length; i++) {
-                var cookie = jQuery.trim(cookies[i]);
-                // Does this cookie string begin with the name we want?
-                if (cookie.substring(0, name.length + 1) == (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
-            }
-        }
-        return cookieValue;
-    }
-
-    var csrftoken = getCookie('csrftoken');
-
-    $.ajaxSetup({
-        beforeSend: function(xhr, settings) {
-            xhr.setRequestHeader("X-CSRFToken", csrftoken);
-        }
+    modalSubmitHandler('add-project-modal', '/easel/projects/addProject/',
+                       'POST', values, successHandler);
     });
 });

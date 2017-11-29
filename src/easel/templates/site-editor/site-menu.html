@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block head %}
-<script src="{% static 'js/editor/add-site-modal.js' %}"></script>
+<script src="{% static 'js/modals.js' %}"></script>
 {% endblock %}
 
 {% block page %}
@@ -18,21 +18,22 @@
     <br>
     <div class="row">
         {% for site in sites %}
-         <div class="col s12 m4">
+         <div class="card-wrapper col s12 m4">
             <a href="/easel/sites/{{site.name}}/editor/">
-                <div class="card hover-enlarge bg-gray">
+                <div class="card hover-enlarge bg-gray" data-sitename="{{site.name}}">
                     <div class="card-content">
                         <span class="header-text loose-spacing">{{ site.name|upper }}</span>
                         <p class="p-text">{{ site.description }}</p>
                     </div>
                     <div class="site-action text-right">
-                        <a class="hover-enlarge-bg" href="/easel/sites/{{site.name}}/editor/">
+<!--                        <a class="edit-button-icon hover-enlarge-bg modal-trigger" href="#edit-site-modal">-->
+                        <a class="edit-button-icon hover-enlarge-bg" href="#">
                             <i class="icon-pencil md-sm-text dark-text hover-gray"></i>
                         </a>
                         <a class="hover-enlarge-bg" href="/easel/sites/{{site.name}}/editor/">
                             <i class="icon-open md-sm-text dark-text hover-gray"></i>
                         </a>
-                        <a class="hover-enlarge-bg" href="#">
+                        <a class="delete-button-icon hover-enlarge-bg modal-trigger" href="#delete-site-modal">
                             <i class="icon-garbage md-sm-text dark-text hover-gray"></i>
                         </a>
                     </div>
@@ -43,6 +44,8 @@
       </div>
     </div>
     {% include './modal/add-site-modal.html' %}
+    {% include './modal/edit-site-modal.html' %}
+    {% include './modal/delete-site-modal.html' %}
 {% endblock %}
 
 {% block sidebar %}

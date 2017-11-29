@@ -98,7 +98,7 @@ $(function() {
       }});
 
     // ------------------------ Add Page
-    $('#add-page-modal form').submit(addNewPageFormHandler);
+    $('#add-page-modal form').submit(addNewPageModalHandler);
 
     // ------------------------ Editable
     $('#select-link-page-form').submit(selectExistingPageHandler);
