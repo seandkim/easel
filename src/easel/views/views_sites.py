@@ -8,7 +8,7 @@ from django.http import HttpResponseBadRequest, HttpResponseNotAllowed
 from django.shortcuts import render
 from django.urls import reverse
 from easel.models import Profile, Site, Page
-from easel.forms import AddSiteForm, AddPageForm, AddMediaForm
+from easel.forms import AddSiteForm, AddPageForm, AddMediaForm, EditSiteForm
 from easel.error import JsonErrorResponse, Json400, Json405
 from bs4 import BeautifulSoup
 
@@ -22,13 +22,20 @@ def home(request):
     # site = profile.createSite(siteName, "dummydescription")
     # site = Site.objects.get(owner = profile, name=siteName)
     # return HttpResponseRedirect(reverse('siteEditor', kwargs={'siteName': site.name}))
-
+    print('herrro')
     profile = Profile.objects.get(user=request.user)
     sites = Site.objects.filter(owner=profile)
     siteCount = sites.count()
+#    initial = {
+#            'siteName': medium.name,
+#            'description': medium.caption
+#        }
     context = {}
     context["add_site_form"] = AddSiteForm()
+#    context["edit_site_form"] = AddSiteForm(initial=initial)
+    context["edit_site_form"] = EditSiteForm(initial = {'siteName': 'Paper', 'description': 'paper'})
     context["profile"] = profile
+  
     if siteCount == 0:
         return render(request, 'site-editor/no-site.html', context)
     # elif siteCount == 1:
@@ -36,6 +43,7 @@ def home(request):
     #     return HttpResponseRedirect(reverse('siteEditor', kwargs={'siteName': site.name}))
     else:
         context["sites"] = sites
+        print('should be here')
         return render(request, 'site-editor/site-menu.html', context)
 
 
@@ -259,10 +267,7 @@ def addSite(request):
 
     form = AddSiteForm(request.POST)
     profile = Profile.objects.get(user=request.user)
-#    sites = Site.objects.filter(owner=profile)
-#    if sites.count == 0:
-        
-    
+            
     if not form.is_valid(request.user):
         return JsonErrorResponse(400, form.errors)
 
@@ -273,6 +278,39 @@ def addSite(request):
     new_site.save()
     return HttpResponseRedirect(reverse('siteEditor',
                                 kwargs={'siteName': siteName}))
+
+@login_required
+def editSite(request):
+    print ('hello')
+    if request.method != 'POST':
+        return HttpResponseNotAllowed('POST')
+
+    form = EditSiteForm(request.POST)
+    profile = Profile.objects.get(user=request.user)
+            
+    if not form.is_valid(request.user):
+        return JsonErrorResponse(400, form.errors)
+
+    print('sitename = ', form.cleaned_data['siteName'])
+    siteName = form.cleaned_data['siteName']
+    description = form.cleaned_data['description']
+    profile = Profile.objects.get(user=request.user)  
+    site = Site.objects.get(name=siteName)
+
+#    if action == 'Save':
+#        form = EditSiteForm(request.user, request.POST)
+#        if not form.is_valid(request.user):
+##            context['edit_site_form'] = form
+##            return render(request, 'project/site-menu.html', context)
+#            return JsonErrorResponse(400, form.errors)
+#
+#        site.name = form.cleaned_data['siteName']
+#        site.description = form.cleaned_data['description']
+#        site.save()
+    print('here')
+    return render(request, 'site-editor/site-menu.html', {})
+
+#    return HttpResponseRedirect(reverse('sitesHome'))
 
 @login_required
 def deleteSite(request):
@@ -296,3 +334,4 @@ def getAllSites(request):
                       content_type='application/json')
 
     return HttpResponseNotAllowed('GET')
+
