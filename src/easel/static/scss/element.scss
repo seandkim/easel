@@ -280,6 +280,7 @@ figcaption {
 	border: 2px solid $gray-scale-01;
 	letter-spacing: 2px;
 	border-radius: 0;
+	padding: 10px 15px;
 	&:hover {
 		background-color: $gray-scale-01;
 		color: $interface-color-06;
@@ -400,6 +401,9 @@ figcaption {
 .padding-top {
 	padding: 50px 0;
 }
+.small-pad {
+	padding: 15px !important;
+}
 
 .extra-margin-top {
 	margin: 20px 0 !important;
@@ -469,6 +473,7 @@ figcaption {
 
 .modal-overlay {
     opacity: 0.8 !important;
+    z-index: 999 !important;
 }
 
 
@@ -555,17 +560,25 @@ select {
 
 /* nav bar */
 nav {
-	background-color: $gray-scale-02 !important;
-	color: $interface-color-05 !important;
+	background-color: $gray-scale-02;
+	color: $interface-color-05;
+	.nav-wrapper {
+		color: inherit;
+	}
 	.brand-logo {
 		margin: 0 50px;
 		font-weight: 100;
 		letter-spacing: 2px;
+		color: inherit;
 	}
 	ul {
 		font-family: $header-font;
 		letter-spacing: 4px;
 		font-weight: 400;
+		color: inherit;
+	}
+	a {
+		color: $interface-color-05;
 	}
 }
 

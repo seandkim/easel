@@ -22,12 +22,6 @@ var editable_settings = {
         'b': new MediumButton({
             label: '<i class="md-sm-text icon-bold"></i>',
             action: function(html, mark, parent) {
-                //$('#page-preview').trigger('click');
-                console.log(html);
-                console.log(mark);
-                console.log(parent);
-                //initializeLinkNewPageModal();
-                //$('#link-page-target').removeAttr('id'); // removed uncleaned up ids
                 return '<strong>' + html + '</strong>';
             }
         }),
@@ -107,6 +101,7 @@ var editable_settings = {
 
 /* initialize editable area in page preview */
 function initializeEditable() {
+    console.log('initializing editable');
     editor = new MediumEditor('.editable', editable_settings);
     /* change icon content */
     $('.medium-editor-action-indent').html('<i class="md-sm-text icon-outdent"></i>');
@@ -120,44 +115,37 @@ function initializeEditable() {
 /* ------------------ Linking anchor tag to exiting page or url */
 /* open add new page modal, initializing all page options */
 function initializeLinkNewPageModal() {
-    var pages = [];
-    for (let key in pagesInfo) {
-      pages.push(key);
-    }
-
     var menu = $('#page-opt-list').empty();
-    var settings = {};
-
-    // // add page name to selection
-    // var el = $('<ul class="page-selection"></ul>');
-    // for (var i = 0; i < pages.length; i++) {
-    //     var name = pages[i];
-    //     el.append(
-    //         '<li>' +
-    //             '<a href="#" class="page-choice" url-target="#' + name + '">' +
-    //                 '<i class="icon-file"></i> ' +
-    //                 '<span class="page-name">' + name + '</span>' +
-    //             '</a>' +
-    //         '</li>'
-    //     );
-    // }
-    // menu.append(el);
-    for (var i = 0; i < pages.length; i++) {
-        var name = pages[i];
-        settings[name] = null;
-    }
+    var settings = getPagesSetting();
 
     $('input.autocomplete').autocomplete({
         data: settings,
-        limit: 20, // The max amount of results that can be shown at once. Default: Infinity.
+        limit: 20,
         onAutocomplete: function(val) {
-          // Callback function when value is autcompleted.
         },
-        minLength: 0, // The minimum length of the input for the autocomplete to start. Default: 1.
+        minLength: 0,
     });
 
     // open modal
     $('#link-page-modal').modal('open');
+}
+
+// refactor this with component.js nav editor
+function getPagesSetting() {
+    var pages = [];
+    for (let key in pagesInfo) {
+      pages.push(key);
+    }
+    var settings = {};
+    for (var i = 0; i < pages.length; i++) {
+        var name = pages[i];
+        settings[name] = null;
+    }
+    for (var i = 0; i < pages.length; i++) {
+        var name = pages[i];
+        settings[name] = null;
+    }
+    return settings;
 }
 
 

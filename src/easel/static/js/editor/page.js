@@ -218,6 +218,7 @@ function savePage(pageName, successHandler) {
     }
 
     $('.delete-ud-wrapper').remove(); //gets rid of all trashCans
+    $('#ud-focus').removeAttr('id');
     $.ajax({
         url: "/easel/sites/" + siteName + "/savePage/",
         method: "POST",
@@ -268,8 +269,9 @@ function publishPageHandler(e) {
     savePage(pageName, function() {
         // TODO add loading animation
         // TODO publish all saved pages at once (one by one is inefficient)
+        var siteName = getCurrSiteName();
         $.ajax({
-            url: "/easel/sites/dummy/publish/",
+            url: "/easel/sites/" + siteName + "/publish/",
             method: "POST",
             data: {
                 pages: [pageName]
@@ -381,7 +383,10 @@ function copyPage(copyPageName) {
 }
 
 function selectExistingPageHandler(e) {
-    var url = "#" + $('#autocomplete-input').val();
+    var targetPage = $('#autocomplete-input').val();
+    var username = getCurrUsername();
+    var site = getCurrSiteName();
+    var url = "/easel/public/" + username + "/" + site + "/" + targetPage;
     e.preventDefault();
     addHrefToAnchor(url);
 }

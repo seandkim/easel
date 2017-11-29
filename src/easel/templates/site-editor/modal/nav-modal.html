@@ -1,0 +1,117 @@
+<!-- media library modal -->
+<div id="nav-modal" class="modal wide-modal">
+    <div class="modal-content">
+        <h4 class="header-text modal-header">NAV EDITOR</h4>
+        <p>Edit the modal here and we'll update across site for you.</p>
+       	<div id="nav-preview"></div>
+       	<div id="nav-control">
+       		<div class="row">
+		    <div class="col s12">
+		      <ul class="tabs">
+		        <li class="tab col s3"><a class="active" href="#content">CONTENT</a></li>
+		        <li class="tab col s3"><a class="active" href="#style">STYLE</a></li>
+		      </ul>
+		    </div>
+		  </div>
+       		<form id="nav-customize">
+   				<div id="content" class="col s12">
+   					<div class="row">
+   						<div class="col s4">
+		   					<div class="sm-text dark-text header-text loose-spacing label">BRAND LOGO</div>
+		   					<div class="row">
+			       				<div class="col s12 small-pad bg-gray">
+			       					<input class="nav-opt" name="brand-logo" value="" type="text"/>
+			       				</div>
+		       				</div>
+		       			</div>
+		       			<div class="col s8">
+		   					<div class="sm-text dark-text header-text loose-spacing label">BUTTONS</div>
+		   					<div class="row">
+			       				<div class="col s12 small-pad bg-gray">
+			       					<div class="row">
+			       						<div class="col s3">
+			       							<span class="sm-text dark-text header-text loose-spacing label">LABEL</span>
+			       						</div>
+			       						<div class="col s8">
+			       							<span class="sm-text dark-text header-text loose-spacing label">BUTTON URL</span>
+			       						</div>
+			       					</div>
+			       					<ul id="button-list"></ul>
+			       					<a href="#" id="add-nav-btn" class="underline loose-spacing dark-text">ADD BUTTON</a>
+			       				</div>
+		       				</div>
+		       			</div>
+		       		</div>
+   				</div>
+	    		<div id="style" class="col s12">
+	    			<div class="row">
+       				<div class="col s4">
+                        <span class="header-text icon-name loose-spacing sm-text">LOGO FONT</span>
+                        <select class="sm-text nav-opt" name="font-family">
+                            <optgroup label="Serif">
+                                <option value="Garamond">Garamond</option>
+                                <option value="Times New roman">Times New Roman</option>
+                                <option value="Baskerville">Baskerville</option>
+                            </optgroup>
+                            <optgroup label="San Serif">
+                                <option value="Arial">Arial</option>
+                                <option value="Futura">Futura</option>
+                                <option value="Lato">Lato</option>
+                                <option value="Lato">Josefin Sans</option>
+                                <option value="Roboto">Roboto</option>
+                                <option value="Verdana">Verdana</option>
+                            </optgroup>
+                            <optgroup label="Fixed Width">
+                                <option value="Courier New">Courier New</option>
+                                <option value="Impact Label Reversed">Impact Label</option>
+                            </optgroup>
+                            <optgroup label="Brush Script">
+                                <option value="Gloss And Bloom">Gloss And Bloom</option>
+                            </optgroup>
+                        </select>
+       				</div>
+       				<div class="col s4">
+                        <span class="header-text icon-name loose-spacing sm-text">BUTTON FONT</span>
+                        <select class="sm-text nav-opt" name="a-font-family">
+                            <optgroup label="Serif">
+                                <option value="Garamond">Garamond</option>
+                                <option value="Times New roman">Times New Roman</option>
+                                <option value="Baskerville">Baskerville</option>
+                            </optgroup>
+                            <optgroup label="San Serif">
+                                <option value="Arial">Arial</option>
+                                <option value="Futura">Futura</option>
+                                <option value="Lato">Lato</option>
+                                <option value="Lato">Josefin Sans</option>
+                                <option value="Roboto">Roboto</option>
+                                <option value="Verdana">Verdana</option>
+                            </optgroup>
+                            <optgroup label="Fixed Width">
+                                <option value="Courier New">Courier New</option>
+                                <option value="Impact Label Reversed">Impact Label</option>
+                            </optgroup>
+                            <optgroup label="Brush Script">
+                                <option value="Gloss And Bloom">Gloss And Bloom</option>
+                            </optgroup>
+                        </select>
+       				</div>
+       			</div>
+       			<div class="row">
+       				<div class="col s4">
+       					<span class="sm-text dark-text header-text loose-spacing label">BG COLOR</span>
+                		<input name="background-color" class="jscolor nav-opt" value="">
+       				</div>
+       				<div class="col s4">
+       					<span class="sm-text dark-text header-text loose-spacing label">TEXT COLOR</span>
+                		<input name="color" class="jscolor nav-opt" value="">
+       				</div>
+       			</div>
+	    			</div>
+	    		</div>
+       		</form>
+       		<button class="dark-btn-alt float-right" id="save-nav"> SAVE &#43; UPDATE </button>
+       	</div>
+    <a href="#!" class="modal-action modal-close modal-close-btn">
+    	<i class="icon-close-big"></i>
+    </a>
+</div>

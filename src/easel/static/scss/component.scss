@@ -1,5 +1,15 @@
 @import "global";
 
+#nav-control {
+	margin: 20px 0;
+	input {
+		height: 30px;
+	}
+	.tabs {
+		background-color: #FAFAFA;
+	}
+}
+
 .delete-ud {
 	z-index: 30;
 	.icon-garbage {
@@ -317,6 +327,19 @@
     	#page-content {
     		background-color: $interface-color-07;
     		width: 100%;
+    		nav {
+    			@include smooth(0.4s);
+    			cursor: pointer;
+    			.edit {
+    				display: none;
+    			}
+    			&:hover {
+    				opacity: 0.2;
+    				.edit {
+    					display: initial;
+    				}
+    			}
+    		}
     	}
     	.empty-workspace-msg {
     		position: absolute;
@@ -591,6 +614,16 @@
 		background-color: #FAFAFA !important;
 	}
     z-index: 9999;
+}
+.wide-modal {
+	width: 90% !important;
+	padding: 40px 40px;
+	max-height: 90%;
+	z-index: 1000 !important;
+	.modal-header {
+		font-size: 20pt;
+		letter-spacing: 4px;
+	}
 }
 
 #link-page-modal {

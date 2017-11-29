@@ -57,8 +57,15 @@ $(function() {
     $("#upload-media-form").submit(uploadMedia);
     $("#paste-url-form").submit(addPastedURLimgCmp);
     $(".close-img-upload").click(resetImgForm);
+    $('#media-library-trigger').click(loadAllProject);
+    $(document).on('input', '.nav-opt', navEditChangeHandler);
+    $(document).on('change', '.nav-opt', navEditChangeHandler);
+    $('#add-nav-btn').on('click', addNavButton);
+    $('#save-nav').on('click', onSaveNav);
     $(document).on('click', '.img-to-upload', addSelectedLibraryMedia);
     $(document).on("mousedown", '#page-content', deselectFocusElement);	
+    $(document).on('click', '#page-content nav', initializeEditNavModal);
+    $(document).on('click', '.delete-nav-button', deleteButtonHandler);
 
     /* open new tab */
     // $(document).on('click', '.page-choice', function() {

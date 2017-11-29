@@ -7,7 +7,7 @@
 function componentDropHandler(event, ui) {
 	var cmp = ui.draggable.prop('id');
     var active_id_name = '#' + getActivePageName();
-    var activeId = $('#main-container');
+    var activeId = $('#main-container, .main-container');
     if (cmp === "img-cmp") {
         open_img_selection();
     }
@@ -47,21 +47,19 @@ function componentDropHandler(event, ui) {
     }
     else if (cmp === 'row-cmp') {
         activeId.prepend(
-            '<div class="row selector">' +
-            	'<div class="col s3">' +
+            '<div class="row">' +
+            	'<div class="col s4">' +
+            		'<div class="editable ud">This bsdfbjnagklsbjfg;qejbgldfb lqerbg elqrhb lqeirhb qlis a column</div>' +
+            	'</div>' +
+            	'<div class="col s4">' +
             		'<div class="editable ud">This is a column</div>' +
             	'</div>' +
-            	'<div class="col s3">' +
-            		'<div class="editable ud">This is a column</div>' +
-            	'</div>' +
-            	'<div class="col s3">' +
+            	'<div class="col s4">' +
             		'<div class="editable ud">This is a column</div>' +
             	'</div>' +
             '</div>'
         );
-        $( ".selector" ).sortable({
-		  appendTo: document.body
-		});
+        initializeEditable();
     }
     console.log('you dropped ' + ui.draggable.prop('id') +' into the page preview!');
 }
@@ -240,6 +238,9 @@ function drop(e) {
 }
 
 function focusudHandler() {
+    if ($(this).attr('id') == 'ud-focus') {
+        return;
+    }
     $('#ud-focus').removeAttr('id');
     $( this ).attr('id', 'ud-focus');
 
@@ -259,18 +260,162 @@ function deselectFocusElement(e) {
 }
 
 function updateStylerAttr(el) {
-    var attrName;
-    var attrVal;
+    var attrName, attrVal;
     var attr = ['margin-left', 'margin-right', 'margin-top', 'margin-bottom',
                 'padding-left', 'padding-right', 'padding-top', 'padding-bottom',
                 'color', 'background-color', 'font-family', 'letter-spacing', 'width',
                 'height', 'border-style', 'border-color', 'border-width'];
-    console.log('entering updateStylerAttr');
     for (var i = 0; i < attr.length; i++) {
         attrName = attr[i];
         attrVal = el.css(attrName);
-        console.log(attrName + ": " + attrVal);
         $('input[name=' + attrName +']').val(attrVal);
     }
+}
+
+var hexDigits = new Array
+        ("0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f"); 
+
+//Function to convert rgb color to hex format
+function rgb2hex(rgb) {
+ rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+ try {
+    return hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
+ }
+ catch (e) {
+    return '000';
+ }
+}
+
+function hex(x) {
+  return isNaN(x) ? "00" : hexDigits[(x - x % 16) / 16] + hexDigits[x % 16];
+ }
+
+function initializeEditNavModal() {
+    var nav = $('nav').first().clone();
+    var el = $('#nav-preview').empty().append(nav);
+    updateButtonList();
+
+    var brand_logo = nav.find('.brand-logo').text();
+    var bg_color = rgb2hex(nav.css('background-color'));
+    var color = rgb2hex(nav.css('color'));
+    var opacity = nav.css('opacity');
+    
+    $('#nav-customize input[name=brand-logo]').val(brand_logo);
+    $('#nav-customize input[name=background-color]').val(bg_color);
+    $('#nav-customize input[name=color]').val(color);
+    $('#nav-customize input[name=opacity]').val(opacity);
+    $('#nav-modal').modal('open');
+}
+
+function getButtonWithId(i, text, href) {
+    return ('<li>' + 
+                '<div class="row">' +
+                    '<div class="col s3">' +
+                        '<input target="#btn' + i + '" type="text" name="btn-name" class="nav-opt" value="' + text + '"/>' +
+                    '</div>' +
+                    '<div class="col s8">' +
+                        '<input target="#btn' + i + '" type="text" name="btn-url" class="nav-opt page-autocomplete" value="' + href + '"/>' +
+                    '</div>' +
+                    '<div class="col s1">' +
+                        '<a target="#btn' + i + '" class="delete-nav-button" href="#"><i class="icon-close"></i></a>' +
+                    '</div>' +
+                '</div>' +
+            '</li>');
+}
+
+function updateButtonList() {
+    var btn, count, el, a, i;
+    el = $('#nav-preview nav');
+    btn = el.find('#nav-mobile li');
+    count = btn.length;
+    $('#button-list').empty();
+    i = 0;
+    btn.each(function() {
+        $(this).attr('id', 'btn' + i);
+        a = $(this).find('a');
+        $('#button-list').append(getButtonWithId(i, a.text(), a.attr('href')));
+        i++;
+    });
+    // TODO: allow linking to internal pages
+    //initializePagesAutoComplete();
+}
+
+function deleteButtonHandler(e) {
+    e.preventDefault();
+    var target = $(this).attr('target');
+    $(target).remove();
+    $(this).closest('.row').remove();
+}
+
+function navEditChangeHandler(e) {
+    var attrName, attrVal, el, count, diff, input, btn, target;
+    console.log("change nav" , $( this ).attr('name'), $(this).val());
+    el = $('#nav-preview nav');
+    attrName = $( this ).attr('name');
+    attrVal = $(this).val();
+    if (attrName === 'brand-logo') {
+        el.find('.brand-logo').html(attrVal);
+    }
+    else if (attrName === 'color') {
+        el.css('color', '#' + attrVal);
+        el.find('a').css('color', '#' + attrVal);
+        el.find('.brand-logo').css('color', '#' + attrVal);
+    }
+    else if (attrName === 'background-color') {
+        el.css('background-color', '#' + attrVal);
+    }
+    else if (attrName === 'opacity') {
+        el.css('opacity', attrVal);
+    }
+    else if (attrName === 'logo-font-family') {
+        el.find('.brand-logo').css('font-family', attrVal);
+    }
+    else if (attrName === 'a-font-family') {
+        el.find('button').css('font-family', attrVal);
+    }
+    else if (attrName == "btn-name") {
+        target = $(this).attr('target');
+        $(target + " a").text(attrVal);
+    }
+    else if (attrName == "btn-url") {
+        target = $(this).attr('target');
+        $(target + " a").attr('href', attrVal);
+    }
+    if (el.length) {
+        el.css(attrName, attrVal);
+    }
+}
+
+// TODO: fix this really
+function initializePagesAutoComplete() {
+    var settings = getPagesSetting();
+    $('.page-autocomplete').autocomplete({
+        data: settings,
+        limit: 20,
+        onAutocomplete: function(val) {
+            console.log($(this)[0]);
+            var username = getCurrUsername();
+            var site = getCurrSiteName();
+            var targetPage = $(this).val();
+            var url = "/easel/public/" + username + "/" + site + "/" + val;
+            $(this).text(url);
+        },
+        minLength: 0,
+    });
+}
+
+function addNavButton() {
+    console.log('here');
+    var btn, count, el, a, i;
+    btn = $('#nav-preview #nav-mobile li');
+    i = btn.length;
+    $('#button-list').append(getButtonWithId(i, 'NEW', '#'));
+    $('#nav-preview #nav-mobile').append('<li id="btn'+ i +'"><a href="#">NEW</a></li>');
+}
+
+function onSaveNav() {
+    /* nav after edited */
+    var nav = $('#nav-preview nav');
+    // TODO Sean apply magic here
 }
 
