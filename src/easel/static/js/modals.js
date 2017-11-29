@@ -70,18 +70,18 @@ $(document).ready(function() {
     });
 
     // delete site form
-    var deleteName; // for communication between delete button and delete site
     $('.delete-button-icon').click(function(e) {
         const deleteName = $(this).closest('div.card').data()['sitename'];
+        $('#delete-site-modal').data('deleteName', deleteName);
     });
 
     $('#delete-site-modal').on('click', 'button:not(.cancel)', function(e) {
         e.preventDefault();
+        const deleteName = $('#delete-site-modal').data('deleteName');
 
         function successHandler(data) {
             const card = $('div.card[data-sitename="' + deleteName + '"]')
             card.closest('.card-wrapper').remove();
-            deleteName = null;
             // TODO if no sites are left, display new site form
         }
 

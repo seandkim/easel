@@ -146,9 +146,11 @@ function loadPageHTML(siteName, pageName) {
     $.ajax({
         url: "/easel/sites/" + siteName + "/getPageHTML/" + pageName + '/',
         method: "GET",
-        dataType: "html",
-        success: function(html) {
+        dataType: "json",
+        success: function(json) {
             console.log('successfully retrieve html for ' + pageName);
+            console.log(json.content_html);
+            const html = json.nav_html + "\n" + json.content_html;
             $('#page-content > div#' + pageName).empty().append(html);
             initializeEditable();
             initializeEditMode(editMode);
@@ -228,7 +230,8 @@ function savePage(pageNames, successHandler, errorHandler) {
     const htmls = [];
     for (let i=0; i<pageNames.length; i++) {
         const pageName = pageNames[i];
-        const html = $('#page-content > #' + pageName).html()
+        const $content = $('#page-content > #' + pageName).find('.main-container')
+        const html = ($('<div>').append($content.clone())).html(); // inefficient
         if (html) {
             htmls.push(html)
         } else {

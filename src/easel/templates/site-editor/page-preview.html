@@ -1,5 +1,5 @@
 {% load static %}
-<div id="page-preview" data-username="{{username}}" data-siteName={{siteName}}>
+<div id="page-preview" data-username="{{username}}" data-sitename={{site.name}}>
     <div id="tab-bar">
         <ul class="cr-tabs clearfix">
             {% for page in pages %}
@@ -41,7 +41,8 @@
                 {% else %}
                     <div id="{{page.name}}" class="hidden">
                 {% endif %}
-                        {% autoescape off %}{{ page.html }}{% endautoescape %}
+                        {% autoescape off %}{{ site.nav_html }}{% endautoescape %}
+                        {% autoescape off %}{{ page.content_html }}{% endautoescape %}
                     </div>
             {% endif %}
         {% endfor %}
