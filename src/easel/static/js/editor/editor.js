@@ -58,6 +58,7 @@ $(function() {
     $("#paste-url-form").submit(addPastedURLimgCmp);
     $(".close-img-upload").click(resetImgForm);
     $(document).on('click', '.img-to-upload', addSelectedLibraryMedia);
+    $(document).on("mousedown", '#page-content', deselectFocusElement);	
 
     /* open new tab */
     // $(document).on('click', '.page-choice', function() {
@@ -90,7 +91,7 @@ $(function() {
       }});
 
     // ------------------------ Add Page
-    $('#add-page-modal form').submit(addNewPageFormHandler);
+    $('#add-page-modal form').submit(addNewPageModalHandler);
 
     // ------------------------ Editable
     $('#select-link-page-form').submit(selectExistingPageHandler);
@@ -118,9 +119,8 @@ $(function() {
     });
 
     // allow delete component on hover
-    $('.ud').mouseenter(addTrashcanButton);
-    $('.ud').mouseleave(deleteTrashcanButton)
-
+    $(document).on('mouseenter', '.ud', addTrashcanButton);
+    $(document).on('mouseleave', '.ud', deleteTrashcanButton);
     $('.drag-component').draggable({
         scroll: false,
         distance: 0,

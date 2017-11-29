@@ -1,11 +1,17 @@
-<div id="delete-site-modal" class="modal add-page-screen">
-    <div class="modal-content">
-        <div id="delete-confirm" class="center text-center paint-as-input">
-            <h2 class="logo-text">Delete Confirmation</h2>
-            <table>Are you sure you want to delete your site?</table>
-            <br>
-            <button type="submit" value="yes" class="dark-btn-alt">YES</button>
-            <button type="submit" value="no" class="dark-btn-alt modal-close">NO</button>
+<div id="delete-site-modal" class="modal delete-site-screen">
+   <!-- TODO move height to css -->
+    <div class="modal-content" style="height:300px;">
+        <div class="center text-center paint-as-input">
+            <h2 class="logo-text">Delete Site</h2>
+            <p>
+              Do you really want to delete this page? You cannot undo this action.
+            </p>
+            <button class="dark-btn-alt modal-close cancel">CANCEL</button>
+            <button class="dark-btn-alt">DELETE &#10230;</button>
         </div>
     </div>
+    <a href="#delete-site-modal" class="modal-action modal-close modal-close-btn">
+        <i class="icon-close-big"></i>
+    </a>
 </div>
+

@@ -16,7 +16,7 @@ $(document).ready(function() {
     }
 
     modalSubmitHandler('add-project-modal', '/easel/projects/addProject/',
-                       'POST', values, successHandler); 
+                       'POST', values, successHandler);
   });
 
   // delete project form
@@ -27,9 +27,9 @@ $(document).ready(function() {
 
       $deleteBtn.click(function() {
         $.ajax({
-            url: "/easel/projects/"+projectName+"/deleteProject/",
+            url: "/easel/projects/deleteProject/",
             method: "POST",
-            data: {},
+            data: {projectName: projectName},
             success: function(data) {
               $("li a[href='#" + projectName + "']").parent().remove();
               $("div#"+projectName).remove();

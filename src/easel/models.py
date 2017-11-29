@@ -25,15 +25,6 @@ class Profile(models.Model):
         project.save()
         return project
 
-    def deleteProject(self, projectName):
-        try:
-            project = Project.objects.get(owner=self, name=projectName)
-            for media in Media.objects.filter(project=project):
-                media.delete()
-            project.delete()
-        except:
-            pass
-
     def getAllProjects(self, projectName):
         project = Project.objects.get(owner=self, name=projectName)
         return Media.objects.filter(project=project)
@@ -54,15 +45,6 @@ class Profile(models.Model):
         site.createPage('portfolio')
         return site
 
-    def deleteSite(self, siteName):
-        try:
-            site = Site.objects.get(owner=self, name=siteName)
-            for page in Page.objects.filter(site=site):
-                page.delete()
-            site.delete()
-        except:
-            pass
-
     def getAllPages(self, siteName):
         site = Site.objects.get(owner=self, name=siteName)
         return Page.objects.filter(site=site)
@@ -74,7 +56,7 @@ class Profile(models.Model):
 
 # TODO create functions for creating/deleting project/media
 class Project(models.Model):
-    owner = models.ForeignKey(Profile)
+    owner = models.ForeignKey(Profile, on_delete=models.CASCADE)
     name = models.CharField(max_length=20)
     date = models.DateField(auto_now=True)
     description = models.CharField(max_length=1000)
@@ -96,7 +78,7 @@ class Project(models.Model):
 
 
 class Media(models.Model):
-    project = models.ForeignKey(Project)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
     name = models.CharField(max_length=20)
     caption = models.CharField(max_length=1000)
     # TODO support multi-file
@@ -109,7 +91,7 @@ class Media(models.Model):
 
 
 class Site(models.Model):
-    owner = models.ForeignKey(Profile)
+    owner = models.ForeignKey(Profile, on_delete=models.CASCADE)
     name = models.CharField(max_length=20)
     description = models.CharField(max_length=1000)
     mon = models.IntegerField(default=0, blank=True)
@@ -169,7 +151,7 @@ class Site(models.Model):
 
 
 class Page(models.Model):
-    site = models.ForeignKey(Site)
+    site = models.ForeignKey(Site, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
     # whether user has opened this page in workspace
     opened = models.BooleanField(default=False) # TODO switch to integer to save order of tabs

@@ -164,9 +164,8 @@ class EditMediaForm(forms.Form):
                 return False
 
         if not re.match("^[a-zA-Z0-9_]+$", mediaName):
-            # TODO : media name can contain underscore right now
-            raise self.add_error("name",
-                                 "Media name can only contain alphabets and numbers")
+            self.add_error("name",
+                           "Media name can only contain alphabets and numbers")
             return False
 
         return True
@@ -211,7 +210,7 @@ class AddSiteForm(forms.Form):
         valid = super(AddSiteForm, self).is_valid()
         if not valid:
             return False
-        
+
         siteName = self.cleaned_data.get('siteName').lower()
         profile = Profile.objects.get(user=user)
         sites = Site.objects.filter(owner=profile, name=siteName)

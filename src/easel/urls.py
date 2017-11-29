@@ -52,9 +52,9 @@ urlpatterns = [
     url(r'^projects/$', views_projects.home, name="projects"), # see list of projects
     url(r'^projects/getAllProjects/$', views_projects.getAllProjects, {}, name='getAllProjects'),
     url(r'^projects/addProject/$', views_projects.addProject, name="addProject"), # form to add project
+    url(r'^projects/deleteProject/$', views_projects.deleteProject, name="deleteProject"),
     url(r'^projects/(?P<projectName>\w+)/getAllMedias/$', views_projects.getAllMedias, {}, name='getAllMedias'),
     url(r'^projects/(?P<projectName>\w+)/getMediaPhoto/(?P<mediaName>\w+)$', views_projects.getMediaPhoto, {}, name='getMediaPhoto'),
-    url(r'^projects/(?P<projectName>\w+)/deleteProject/$', views_projects.deleteProject, name="deleteProject"),
     url(r'^projects/(?P<projectName>\w+)/addMedia/$', views_projects.addMedia, name="addMedia"),
     url(r'^projects/(?P<projectName>\w+)/editMedia/(?P<mediaName>\w+)$', views_projects.editMedia, name="editMedia"),
 
@@ -76,7 +76,7 @@ urlpatterns = [
     # public (what public audience sees)
     url(r'^public/(?P<username>\w+)/(?P<siteName>\w+)/(?P<pageName>\w+)/$', views_public.renderPage,{'private': False},  name="publicRenderPage"), # list all the sites
     url(r'^private/(?P<username>\w+)/(?P<siteName>\w+)/(?P<pageName>\w+)/$', views_public.renderPage, {'private': True}, name="privateRenderPage"), # list all the sites
-    
+
     # TODO delete this when deploying - this is for debugging purpose
     url(r'^404/$', views_public.error404),
     url(r'^500/$', views_public.error500),
