@@ -1,5 +1,14 @@
 @import "global";
 
+.delete-ud {
+	.icon-garbage {
+	    position: absolute;
+	    left: 50%;
+	    top: 50%;
+	    transform: translate(-45%, -40%);
+	}
+}
+
 #style-list {
 	.jscolor {
 		height: 30px;
@@ -18,6 +27,10 @@
 	}
 	.quarter-opt {
 		width: 40px;
+		margin: 0 7px;
+	}
+	.half-opt {
+		width: 100px;
 		margin: 0 7px;
 	}
 	.range-field {

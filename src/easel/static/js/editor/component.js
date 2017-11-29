@@ -7,13 +7,15 @@
 function componentDropHandler(event, ui) {
 	var cmp = ui.draggable.prop('id');
     var active_id_name = '#' + getActivePageName();
-    var activeId = $(active_id_name).find('.editable').first();
+    var activeId = $('#main-container');
     if (cmp === "img-cmp") {
         open_img_selection();
     }
     else if (cmp === 'textbox-cmp') {
         activeId.prepend(
-            '<div class="editable header-text ud">Lorem Ipsom some text ksdfbgljfa.</div>'
+            '<div class="ud">' +
+                '<div class="editable">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Dictum at tempor commodo ullamcorper. Ac turpis egestas maecenas pharetra convallis posuere morbi. Neque viverra justo nec ultrices. Commodo odio aenean sed adipiscing diam donec. Habitant morbi tristique senectus et netus et malesuada fames ac. Iaculis nunc sed augue lacus viverra. Cras sed felis eget velit aliquet sagittis id consectetur. Nunc scelerisque viverra mauris in aliquam. Vel fringilla est ullamcorper eget nulla facilisi etiam dignissim.</div>' +
+            '</div>'
         );
         editor = new MediumEditor('.editable', editable_settings);
     }
@@ -29,18 +31,18 @@ function componentDropHandler(event, ui) {
     }
     else if (cmp === 'quote-cmp') {
         activeId.prepend(
-            '<div class="ud"><quoteblock class="ud">Some code block.</quoteblock></div>'
+            '<quoteblock class="ud">Some code block.</quoteblock>'
         );
     }
     else if (cmp === 'embed-cmp') {
         $('#general-modal').modal('open');
         activeId.prepend(
-            '<div class="ud"><quoteblock class="ud">Some embed text</quoteblock></div>'
+            '<quoteblock class="ud">Some embed text</quoteblock>'
         );
     }
     else if (cmp === 'video-cmp') {
         activeId.prepend(
-            '<div class="ud"><<video class="ud">Some code block.</video></div>'
+            '<div class="ud"><video class="ud">Some code block.</video></div>'
         );
     }
     else if (cmp === 'row-cmp') {
@@ -242,10 +244,33 @@ function focusudHandler() {
     $( this ).attr('id', 'ud-focus');
 
     /* initialize styler */
-
+    updateStylerAttr($(this));
 }
 
 function getFocusElement() {
     return $('#ud-focus');
+}
+
+// if user clicked else where, remove focus element
+function deselectFocusElement(e) {
+    if (!$(e.target).parents("#ud-focus").length > 0) {
+        getFocusElement().removeAttr('id');
+    }
+}
+
+function updateStylerAttr(el) {
+    var attrName;
+    var attrVal;
+    var attr = ['margin-left', 'margin-right', 'margin-top', 'margin-bottom',
+                'padding-left', 'padding-right', 'padding-top', 'padding-bottom',
+                'color', 'background-color', 'font-family', 'letter-spacing', 'width',
+                'height', 'border-style', 'border-color', 'border-width'];
+    console.log('entering updateStylerAttr');
+    for (var i = 0; i < attr.length; i++) {
+        attrName = attr[i];
+        attrVal = el.css(attrName);
+        console.log(attrName + ": " + attrVal);
+        $('input[name=' + attrName +']').val(attrVal);
+    }
 }
 

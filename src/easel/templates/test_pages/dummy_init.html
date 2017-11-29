@@ -39,16 +39,12 @@
             </ul>
         </div>
     </nav>
-    <div class="fixed-size-container">
-        <div class="project-edit editable sortable">
-            <h1 class="project-title-xl">Blank Page</h1>
-            <div class="ud" >
-                <img src="{% static 'img/placeholders/apartment.png' %}">
-            </div>
-            <p class="project-description-paragraph">
-                Here is a blank page for you to get started. Try adding a component on the left menu!
-            </p>
-        </div>
+    <div class="fixed-size-container sortable" id="main-container">
+        <h1 class="project-title-xl ud editable">Blank Page</h1>
+        <img class="ud" src="{% static 'img/placeholders/apartment.png' %}">
+        <p class="ud editable">
+            Here is a blank page for you to get started. Try adding a component on the left menu!
+        </p>
     </div>
     {% endblock %}
 </body>

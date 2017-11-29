@@ -97,18 +97,6 @@
                         </div>
                     </a>
                 </div>
-                <div class="sublist">
-                    <div class="sublist-title">STYLING</div>
-                    <br>
-                     <a href="#" id="publish-button">
-                        <div class="component-container">
-                            <div class="easel-icon-wrapper">
-                                <i class="component-icon icon-bucket"></i>
-                            </div>
-                            <div class="icon-name">STYLER</div>
-                        </div>
-                    </a>
-                </div>
             </div>
         </li>
         <!-- component tab -->
@@ -126,14 +114,6 @@
                             <i class="component-icon icon-textbox"></i>
                         </div>
                         <div class="icon-name">TEXTBOX</div>
-                    </div>
-                </a>
-                <a href="#" draggable="true" class="drag-component" id="markdown-cmp">
-                    <div class="component-container">
-                        <div class="easel-icon-wrapper">
-                            <i class="component-icon icon-markdown"></i>
-                        </div>
-                        <div class="icon-name">MARKDOWN</div>
                     </div>
                 </a>
                 <a href="#" draggable="true" class="drag-component" id="img-cmp">
@@ -174,6 +154,14 @@
                             <i class="component-icon icon-embed"></i>
                         </div>
                         <div class="icon-name">EMBED</div>
+                    </div>
+                </a>
+                <a href="#" draggable="true" class="drag-component" id="textbox-cmp">
+                    <div class="component-container">
+                        <div class="easel-icon-wrapper">
+                            <i class="component-icon icon-nav"></i>
+                        </div>
+                        <div class="icon-name">NAV BAR</div>
                     </div>
                 </a>
                 <a href="#" draggable="true" class="drag-component" id="rule-cmp">
@@ -233,14 +221,22 @@
                                 <optgroup label="Serif">
                                     <option value="Garamond">Garamond</option>
                                     <option value="Times New roman">Times New Roman</option>
+                                    <option value="Baskerville">Baskerville</option>
                                 </optgroup>
                                 <optgroup label="San Serif">
                                     <option value="Arial">Arial</option>
                                     <option value="Futura">Futura</option>
+                                    <option value="Lato">Lato</option>
+                                    <option value="Lato">Josefin Sans</option>
+                                    <option value="Roboto">Roboto</option>
                                     <option value="Verdana">Verdana</option>
                                 </optgroup>
                                 <optgroup label="Fixed Width">
                                     <option value="Courier New">Courier New</option>
+                                    <option value="Impact Label Reversed">Impact Label</option>
+                                </optgroup>
+                                <optgroup label="Brush Script">
+                                    <option value="Gloss And Bloom">Gloss And Bloom</option>
                                 </optgroup>
                             </select>
                         </div>
@@ -249,6 +245,10 @@
                             <span class="header-text icon-name sm-text light-text">font size (pt)</span>
                             <input name="font-size" value="12pt" class="style-input" type="text"/>
                         </div>
+                        <div class="style-opt">
+                            <span class="header-text icon-name sm-text light-text">letter spacing (px)</span>
+                            <input name="letter-spacing" value="0px" class="style-input" type="text"/>
+                        </div>                        
                     </div>
                     <br><br>
                     <div class="sublist">
@@ -296,11 +296,11 @@
                 <div class="sublist">
                     <div class="sublist-title">DIMENSION (px or %)</div>
                     <br>
-                     <div class="style-opt quarter-opt">
+                     <div class="style-opt half-opt">
                         <span class="sm-text light-text label">width </span>
                         <input name="width" value="0px" class="style-input" type="text"/>
                     </div>
-                     <div class="style-opt quarter-opt">
+                     <div class="style-opt half-opt">
                         <span class="sm-text light-text label">height </span>
                         <input name="height" value="0px" class="style-input" type="text"/>
                     </div>
@@ -321,11 +321,11 @@
                          <div class="style-opt">
                             <span class="header-text icon-name sm-text light-text">style</span>
                             <select class="sm-text style-input" name="border-style">
+                                <option value="none">none</option>
                                 <option value="dotted">dotted</option>
                                 <option value="dashed">dashed</option>
                                 <option value="solidd">solid</option>
                                 <option value="double">double</option>
-                                <option value="none">none</option>
                             </select>
                         </div>
                          <div class="style-opt">
