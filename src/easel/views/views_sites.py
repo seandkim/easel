@@ -34,7 +34,7 @@ def home(request):
 #    context["edit_site_form"] = AddSiteForm(initial=initial)
     context["edit_site_form"] = EditSiteForm(initial = {'siteName': 'Paper', 'description': 'paper'})
     context["profile"] = profile
-  
+
     if siteCount == 0:
         return render(request, 'site-editor/no-site.html', context)
     # elif siteCount == 1:
@@ -210,14 +210,14 @@ def editSite(request):
 
     form = EditSiteForm(request.POST)
     profile = Profile.objects.get(user=request.user)
-            
+
     if not form.is_valid(request.user):
         return JsonErrorResponse(400, form.errors)
 
     print('sitename = ', form.cleaned_data['siteName'])
     siteName = form.cleaned_data['siteName']
     description = form.cleaned_data['description']
-    profile = Profile.objects.get(user=request.user)  
+    profile = Profile.objects.get(user=request.user)
     site = Site.objects.get(name=siteName)
 
 #    if action == 'Save':
@@ -256,47 +256,61 @@ def deletePage(request, siteName):
 
 
 # requires POST request with the following argument:
-# { 'pageName': <name of the page saving>,
-#   'html': <html of the new page> }
+# { 'pageNames': <names of the pages saving>,
+#   'htmls': <htmls of the new pages, in the correct index as above> }
 @login_required
 def savePage(request, siteName):
     if request.method != 'POST':
         return Json405("POST")
 
-    if ('pageName' not in request.POST) or (request.POST['pageName'] == ""):
+    if ('pageNames[]' not in request.POST) or (request.POST['pageNames[]'] == ""):
+        print('No pageNames[] argument in POST request')
         return Json400()
-    if ('html' not in request.POST) or (request.POST['html'] == ""):
+    if ('htmls[]' not in request.POST) or (request.POST['htmls[]'] == ""):
+        print('No html[] argument in POST request')
         return Json400()
 
-    pageName = request.POST['pageName']
-    html = request.POST['html']
+    pageNames = request.POST.getlist('pageNames[]')
+    htmls = request.POST.getlist('htmls[]')
+    print(pageNames, len(htmls))
 
+    if (len(pageNames) != len(htmls)):
+        print('pageName and htmls does not have same length')
+        return Json400()
     try:
         site = Site.getSite(request.user.username, siteName)
     except ObjectDoesNotExist:
         print("Site %s does not exist" % siteName)
         return Json400()
-    try:
-        page = Page.objects.get(name=pageName, site=site)
-    except ObjectDoesNotExist:
-        print("Page %s does not exists in %s" % (pageName, siteName))
-        return Json400()
 
-    page.html = html
-    page.save()
+    # retrieve all pages first. This is for ensuring it wouldn't raise an error
+    # in the middle of saving some pages
+    pages = []
+    for pageName in pageNames:
+        try:
+            pages.append(Page.objects.get(name=pageName, site=site))
+        except ObjectDoesNotExist:
+            print("Page %s does not exists in %s" % (pageName, siteName))
+            return Json400()
+
+    for i in range(len(pageNames)):
+        pages[i].html = htmls[i]
+        pages[i].save()
+
     return JsonResponse({'success': True})
 
 # requires POST request with the following argument:
-# { 'pages': <list of name of pages to be published> }
+# { 'pageNames': <list of name of pages to be published> }
 # if the `pages` argument is empty, it publishes all pages
 @login_required
 def sitePublish(request, siteName):
+    print("sitePublish start", request.POST)
     profile = Profile.objects.get(user=request.user)
-    if ('pages' not in request.POST) or (request.POST['pages'] == ""):
+    if ('pageNames[]' not in request.POST) or (request.POST['pageNames[]'] == ""):
         print("Pages are not specified. Publishing all pages")
         pages = profile.getAllPages(siteName)
     else:
-        pageNames = request.POST['pages']
+        pageNames = request.POST.getlist('pageNames[]')
         pages = []
         for pageName in pageNames:
             pages.append(profile.getPage(siteName, pageName))
@@ -335,4 +349,3 @@ def getAllSites(request):
                       content_type='application/json')
 
     return HttpResponseNotAllowed('GET')
-

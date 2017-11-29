@@ -100,6 +100,15 @@ function getCurrUsername() {
     return $('#page-preview').data()['username'];
 }
 
+function getAllPageNames() {
+    const names = [];
+    const list = $('#page-list div');
+    for (let i=0; i<list.length; i++) {
+        names.push($(list[i]).attr('file-name'));
+    }
+    return names;
+}
+
 /* update the page tree of current user */
 function initializePagesInfo() {
     siteName = getCurrSiteName();
@@ -196,7 +205,7 @@ function keyboardHandler(e) {
         if (e.keyCode == 83) {
             e.preventDefault();
             var pageName = getActivePageName();
-            savePage(pageName);
+            savePage([pageName]);
         }
 
     // mark active page as unsaved TODO only when meta key is not pressed?
@@ -210,11 +219,24 @@ function keyboardHandler(e) {
     }
 }
 
-function savePage(pageName, successHandler) {
+function savePage(pageNames, successHandler, errorHandler) {
     setupAjax();
-    console.assert(pagesInfo[pageName]['opened']);
-    if (!pageName) {
-        console.error("could not save page because pageName was null");
+    if (!pageNames || pageNames.length == 0 || pageNames[0]==null) {
+        console.error("wrong pageNames");
+    }
+
+    const htmls = [];
+    for (let i=0; i<pageNames.length; i++) {
+        const pageName = pageNames[i];
+        const html = $('#page-content > #' + pageName).html()
+        if (html) {
+            htmls.push(html)
+        } else {
+            showAlertMsg("could not save page.");
+            if (errorHandler) {
+                errorHandler(jqXHR);
+            }
+        }
     }
 
     $('.delete-ud-wrapper').remove(); //gets rid of all trashCans
@@ -222,22 +244,27 @@ function savePage(pageName, successHandler) {
         url: "/easel/sites/" + siteName + "/savePage/",
         method: "POST",
         data: {
-            pageName: pageName,
-            html: $('#page-content > #' + pageName).html()
+            pageNames: pageNames,
+            htmls: htmls
         },
+        dataType: 'json',
         success: function(data) {
             showAlertMsg("Page saved");
-            if (!pagesInfo[pageName]['saved']) {
-                pagesInfo[pageName]['saved'] = true;
-                updatePages();
+            for (let i=0; i<pageNames.length; i++) {
+                if (!pagesInfo[pageNames[i]]['saved']) {
+                    pagesInfo[pageNames[i]]['saved'] = true;
+                }
             }
+            updatePages();
             if (successHandler) {
-              successHandler();
+              successHandler(data);
             }
         },
-        error: function(e) {
-            // TODO add error handling
+        error: function(jqXHR) {
             showAlertMsg("could not save page.");
+            if (errorHandler) {
+                errorHandler(jqXHR);
+            }
         }
     });
 }
@@ -260,27 +287,6 @@ function deletePage(pageName) {
             console.error("failed to delete the page", textStatus);
             showAlertMsg("Error occured when deleting page. <br> Please try again.");
         }
-    });
-}
-
-function publishPageHandler(e) {
-    const pageName = getActivePageName();
-    savePage(pageName, function() {
-        // TODO add loading animation
-        // TODO publish all saved pages at once (one by one is inefficient)
-        $.ajax({
-            url: "/easel/sites/dummy/publish/",
-            method: "POST",
-            data: {
-                pages: [pageName]
-            },
-            success: function(data) {
-                showAlertMsg("Successfully publish site.");
-            },
-            error: function(e) {
-                showAlertMsg("Error in publishing.");
-            }
-        })
     });
 }
 
@@ -334,7 +340,6 @@ function pageOptionHandler(e) {
 }
 
 function createPage(pageName, copyPageName) {
-    setupAjax();
     function successHandler(data) {
         console.log("successfully added the page");
         // create new entry in pagesInfo
