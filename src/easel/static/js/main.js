@@ -102,7 +102,10 @@ function modalSubmitHandler(modalID, url, method, requestData, successHandler) {
             $modal.find('ul.errorlist').parent().parent().remove()
             const error_list = $('<tr><td colspan="2"><ul class="errorlist nonfield"></ul></td></tr>');
             for (let key in errors) {
-                const error = errors[key];
+                let error = errors[key];
+                if (error == "This field is required.") {
+                    error = key.charAt(0).toUpperCase() + key.slice(1) + " is required.";
+                }
                 error_list.find("ul").append("<li>" + error + "</li>");
             }
             $modal.find('tbody').prepend(error_list);

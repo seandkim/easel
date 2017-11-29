@@ -76,14 +76,6 @@ class AddProjectForm(forms.Form):
         if not valid:
             return False
 
-        if self.cleaned_data.get('projectName') is None:
-            self.add_error(None, "Project name is required")
-            return False
-
-        if self.cleaned_data.get('description') is None:
-            self.add_error(None, "Project description is required")
-            return False
-
         projectName = self.cleaned_data.get('projectName').lower()
         description = self.cleaned_data.get('description')
         profile = Profile.objects.get(user=user)
@@ -217,7 +209,7 @@ class AddSiteForm(forms.Form):
         valid = super(AddSiteForm, self).is_valid()
         if not valid:
             return False
-
+        
         siteName = self.cleaned_data.get('siteName').lower()
         profile = Profile.objects.get(user=user)
         sites = Site.objects.filter(owner=profile, name=siteName)
