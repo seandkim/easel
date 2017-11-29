@@ -99,7 +99,37 @@ class AddProjectForm(forms.Form):
 
         return True
 
+    
+class EditProjectForm(forms.Form):
+    projectName = forms.CharField(max_length=20)
+    description = forms.CharField(max_length=1000)
+    oldName = forms.CharField(widget=forms.HiddenInput(), required=False)
 
+    def is_valid(self, user):
+        valid = super(EditProjectForm, self).is_valid()
+        if not valid:
+            return False
+        
+        oldName = self.cleaned_data.get('oldName').lower()
+        projectName = self.cleaned_data.get('projectName').lower()
+        profile = Profile.objects.get(user=user)
+        projects = Project.objects.filter(owner=profile, name=projectName)
+
+        assert(projects.count() < 2)
+        if projects.count() == 1:
+            if projectName != oldName:
+                self.add_error("projectName",
+                           "Project '%s' already exists" % projectName.lower())
+                return False
+
+        if not re.match("^[a-zA-Z0-9_]+$", projectName):
+            self.add_error("projectName",
+                           "Project name can only contain alphabets and numbers")
+            return False
+
+        return True
+
+    
 class AddMediaForm(forms.ModelForm):
     class Meta:
         model = Media

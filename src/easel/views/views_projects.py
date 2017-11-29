@@ -2,13 +2,13 @@
 from __future__ import unicode_literals
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.http import HttpResponseNotAllowed, HttpResponseBadRequest
 from django.shortcuts import render
 from django.urls import reverse
 from easel.models import Profile, Project, Media
-from easel.forms import AddProjectForm, AddMediaForm, EditMediaForm
-from easel.error import JsonErrorResponse
+from easel.forms import AddProjectForm, EditProjectForm, AddMediaForm, EditMediaForm
+from easel.error import JsonErrorResponse, Json400, Json405
 from mimetypes import guess_type
 
 
@@ -17,19 +17,8 @@ def home(request):
     context = {}
     profile = Profile.objects.get(user=request.user)
     context['add_project_form'] = AddProjectForm()
+    context['edit_project_form'] = EditProjectForm()
     context['profile'] = profile
-
-    if request.method == 'POST':
-        form = AddProjectForm(request.POST)
-        context['add_project_form'] = form
-        # Validates the form.
-        if not form.is_valid(request.user):
-            return render(request, 'project/project-list.html', context)
-
-        new_project = Project(owner=profile,
-                              name=form.cleaned_data['projectName'],
-                              description=form.cleaned_data['description'])
-        new_project.save()
 
     return render(request, 'project/project-list.html', context)
 
@@ -117,6 +106,30 @@ def deleteProject(request):
     medias.delete()
     project.delete()
     return HttpResponseRedirect(reverse("projects"))
+
+
+@login_required
+def editProject(request, projectName):
+    profile = Profile.objects.get(user=request.user)
+    project = Project.objects.get(name=projectName, owner=profile)
+
+    if request.method != 'POST':
+        return JsonResponse({'projectName': project.name,
+                             'description': project.description})
+    print('POST REQUEST')
+    form = EditProjectForm(request.POST)
+    print('form = ', form)
+    if not form.is_valid(request.user):
+        return JsonErrorResponse(400, form.errors)
+
+    newName = form.cleaned_data['projectName']
+    description = form.cleaned_data['description']
+
+    project.name = newName
+    project.description = description
+    project.save()
+
+    return JsonResponse({'success': True})
 
 
 @login_required
