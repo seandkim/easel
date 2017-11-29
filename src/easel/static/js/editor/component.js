@@ -414,8 +414,14 @@ function addNavButton() {
 }
 
 function onSaveNav() {
+    console.log('you saved!');
     /* nav after edited */
     var nav = $('#nav-preview nav');
     // TODO Sean apply magic here
+
+
+
+    // after donw
+    $('#nav-modal').modal('close');
 }
 
