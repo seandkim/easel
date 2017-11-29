@@ -69,6 +69,7 @@ def getMediaPhoto(request, projectName, mediaName):
     content_type = guess_type(media.image.name)
     return HttpResponse(media.image, content_type=content_type)
 
+
 @login_required
 def addProject(request):
     # Just display the add-project form if this is a GET request.
@@ -102,6 +103,10 @@ def deleteProject(request, projectName):
         project = Project.objects.get(owner=profile, name=projectName)
         medias = Media.objects.filter(project=project)
     except ObjectDoesNotExist:
+        return HttpResponseBadRequest()
+
+    # Cannot delete `ungrouped` project
+    if projectName.lower() == 'ungrouped':
         return HttpResponseBadRequest()
 
     medias.delete()
