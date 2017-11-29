@@ -1,11 +1,13 @@
 @import "global";
 
 .delete-ud {
+	z-index: 30;
 	.icon-garbage {
 	    position: absolute;
 	    left: 50%;
 	    top: 50%;
 	    transform: translate(-45%, -40%);
+	    z-index: 200;
 	}
 }
 

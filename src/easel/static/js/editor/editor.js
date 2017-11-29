@@ -119,9 +119,8 @@ $(function() {
     });
 
     // allow delete component on hover
-    $(document).on('mouseover', '.ud', addTrashcanButton);
+    $(document).on('mouseenter', '.ud', addTrashcanButton);
     $(document).on('mouseleave', '.ud', deleteTrashcanButton);
-
     $('.drag-component').draggable({
         scroll: false,
         distance: 0,

@@ -31,7 +31,7 @@ function componentDropHandler(event, ui) {
     }
     else if (cmp === 'quote-cmp') {
         activeId.prepend(
-            '<quoteblock class="ud">Some code block.</quoteblock>'
+            '<quoteblock class="ud editable">Some code block.</quoteblock>'
         );
     }
     else if (cmp === 'embed-cmp') {
