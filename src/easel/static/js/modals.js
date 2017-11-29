@@ -90,6 +90,7 @@ $(document).ready(function() {
         }, successHandler);
     });
 
+    // edit site form
     $('.edit-button-icon').click(function(e) {
         const siteName = $(this).closest('div.card').data()['sitename'];
 
@@ -97,8 +98,6 @@ $(document).ready(function() {
             url: '/easel/sites/' + siteName + '/siteInfo/',
             method: 'GET',
             success: function(data) {
-                console.log('data=', data);
-                //TODO fill in modal fields
                 $('#edit-site-modal').data('oldname', siteName);
                 $('#edit-site-modal #id_siteName').val(data.siteName);
                 $('#edit-site-modal #id_description').val(data.description);
@@ -126,6 +125,62 @@ $(document).ready(function() {
             oldName: oldName
         }, successHandler);
     });
+    
+    // add project form
+    $("#add-project-modal").on('click', 'button', function(e) {
+        debugger;
+        e.preventDefault();
+        const fieldNames = ['projectName', 'description', 'username'];
+        const values = getFormValues($(this).closest('form'), fieldNames);
+
+        function successHandler(data) {
+            loadProject(data['projects'][0], true);
+        }
+
+    modalSubmitHandler('add-project-modal', '/easel/projects/addProject/',
+                       'POST', values, successHandler);
+    });
+    
+    
+    // edit project form
+    $('.edit-project-icon').on('click', function(e) {
+        debugger;
+        //TODO not sure
+        const projectName = $(this).closest('a.projectname').data()['projectname'];
+
+        $.ajax({
+            url: '/easel/projects/' + projectName + '/projectInfo/',
+            method: 'GET',
+            success: function(data) {
+                $('#edit-project-modal').data('oldname', projectName);
+                $('#edit-project-modal #id_projectName').val(data.projectName);
+                $('#edit-project-modal #id_description').val(data.description);
+                $('#edit-project-modal').modal('open');
+            },
+            error: function(jqXHR) {
+                console.error("ajax call failed", jqXHR);
+            }
+        });
+    });
+
+    $("#edit-project-modal").on('click', 'button:not(.cancel)', function(e) {
+        debugger;
+        e.preventDefault();
+        const fieldNames = ['projectName', 'description'];
+        const values = getFormValues($(this).closest('form'), fieldNames);
+        const oldName = $('#edit-project-modal').data('oldname');
+
+        function successHandler(data) {
+            window.location.href = '/easel/sites/';
+        }
+
+        modalSubmitHandler('edit-project-modal', '/easel/projects/' + oldName + '/projectInfo/', 'POST', {
+            projectName: values.projectName,
+            description: values.description,
+            oldName: oldName
+        }, successHandler);
+    });
+    
 });
 
 // for submit button; makes a ajax call and calls successhandler or displays

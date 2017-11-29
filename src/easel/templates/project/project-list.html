@@ -3,6 +3,7 @@
 
 {% block head %}
 <script src="{% static 'js/project.js' %}"></script>
+<script src="{% static 'js/modals.js' %}"></script>
 {% endblock %}
 
 {% block page %}
@@ -58,6 +59,26 @@
         </div>
     </div>
 </div>
+
+<div id="edit-project-modal" class="modal library modal">
+    <div class="modal-content add-page-screen">
+        <div class="center text-center paint-as-input">
+            <h2 class="logo-text">Edit Project</h2>
+            <form id="edit-project-modal" method="post">
+                <table>
+                    {{edit_project_form}}
+                </table>
+                {% csrf_token %}
+                <button class="dark-btn-alt">SAVE &#10230;</button>
+            </form>
+        </div>
+    </div>
+    <a href="#edit-project-modal" class="modal-action modal-close modal-close-btn">
+        <i class="icon-close-big"></i>
+    </a>
+</div>
+
+
 {% endblock %}
 
 {% block sidebar %}

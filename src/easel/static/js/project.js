@@ -70,7 +70,15 @@ function loadMedia(projectName, description, isSelected) {
                 '</button>' +
                 '</a>'));
         }
-
+        if (projectName != "ungrouped") {
+            detail_bar.append($('<a class="edit-project-icon" href="#" projectName="' + projectName + '">' +
+                '<button class="dark-btn-alt edit-project-icon">' +
+                '<i class="material-icons tab-icon">edit</i>' +
+                'EDIT' +
+                '</button>' +
+                '</a>'));
+        }
+        
         // delete project button
         initializeDeleteButton(detail_bar.find('button'), projectName);
 
@@ -120,17 +128,18 @@ $(document).ready(function() {
     $('.modal').modal();
     loadAllProject();
     setupAjax();
+    
     // add project form
-    $("#add-project-modal").on('click', 'button', function(e) {
-        e.preventDefault();
-        const fieldNames = ['projectName', 'description', 'username'];
-        const values = getFormValues($(this).closest('form'), fieldNames);
-
-        function successHandler(data) {
-            loadProject(data['projects'][0], true);
-        }
-
-    modalSubmitHandler('add-project-modal', '/easel/projects/addProject/',
-                       'POST', values, successHandler);
-    });
+//    $("#add-project-modal").on('click', 'button', function(e) {
+//        e.preventDefault();
+//        const fieldNames = ['projectName', 'description', 'username'];
+//        const values = getFormValues($(this).closest('form'), fieldNames);
+//
+//        function successHandler(data) {
+//            loadProject(data['projects'][0], true);
+//        }
+//
+//    modalSubmitHandler('add-project-modal', '/easel/projects/addProject/',
+//                       'POST', values, successHandler);
+//    });
 });

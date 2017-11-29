@@ -57,6 +57,7 @@ urlpatterns = [
     url(r'^projects/(?P<projectName>\w+)/getMediaPhoto/(?P<mediaName>\w+)$', views_projects.getMediaPhoto, {}, name='getMediaPhoto'),
     url(r'^projects/(?P<projectName>\w+)/addMedia/$', views_projects.addMedia, name="addMedia"),
     url(r'^projects/(?P<projectName>\w+)/editMedia/(?P<mediaName>\w+)$', views_projects.editMedia, name="editMedia"),
+    url(r'^projects/(?P<projectName>\w+)/projectInfo/$', views_projects.editProject, name="editProject"),
 
     # sites
     url(r'^sites/$', views_sites.home, name="sitesHome"), # list all the sites
