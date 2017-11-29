@@ -104,7 +104,11 @@ function modalSubmitHandler(modalID, url, method, requestData, successHandler) {
             for (let key in errors) {
                 let error = errors[key];
                 if (error == "This field is required.") {
-                    error = key.charAt(0).toUpperCase() + key.slice(1) + " is required.";
+                    var label = $('label[for="id_'+key+'"]').html();
+                    if (label != null) {
+                        label = label.substring(0,label.length-1);
+                        error = label + " is required.";
+                    }
                 }
                 error_list.find("ul").append("<li>" + error + "</li>");
             }
