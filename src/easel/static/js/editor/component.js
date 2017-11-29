@@ -371,7 +371,7 @@ function navEditChangeHandler(e) {
         el.find('.brand-logo').css('font-family', attrVal);
     }
     else if (attrName === 'a-font-family') {
-        el.find('button').css('font-family', attrVal);
+        el.find('li a').css('font-family', attrVal);
     }
     else if (attrName == "btn-name") {
         target = $(this).attr('target');
