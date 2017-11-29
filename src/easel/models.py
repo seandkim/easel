@@ -46,8 +46,9 @@ class Profile(models.Model):
         site = Site(owner=self, name=siteName, description=description,
                     nav_html=nav_html)
         site.save()
+        site.createPage('instruction', opened=True, active=True)
         site.createPage('home', opened=True, active=False)
-        site.createPage('about', opened=True, active=True)
+        site.createPage('about', opened=True, active=False)
         site.createPage('update')  # TODO necessary?
         site.createPage('portfolio')
         return site
@@ -119,7 +120,7 @@ class Site(models.Model):
         if Page.objects.filter(site=self, name=pageName).count() > 0:
             raise Exception("Page name %s already exists" % pageName)
 
-        defaultPages = ['home', 'about', 'update', 'portfolio']
+        defaultPages = ['instruction', 'home', 'about', 'update', 'portfolio']
         templateName = 'init'
         if pageName in defaultPages:
             templateName = pageName
