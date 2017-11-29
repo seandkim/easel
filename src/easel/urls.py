@@ -75,4 +75,10 @@ urlpatterns = [
     # public (what public audience sees)
     url(r'^public/(?P<username>\w+)/(?P<siteName>\w+)/(?P<pageName>\w+)/$', views_public.renderPage,{'private': False},  name="publicRenderPage"), # list all the sites
     url(r'^private/(?P<username>\w+)/(?P<siteName>\w+)/(?P<pageName>\w+)/$', views_public.renderPage, {'private': True}, name="privateRenderPage"), # list all the sites
+    
+    # TODO delete this when deploying - this is for debugging purpose
+    url(r'^404/$', views_public.error404),
+    url(r'^500/$', views_public.error500),
+    url(r'^403/$', views_public.error403),
+    url(r'^400/$', views_public.error400),
 ]
