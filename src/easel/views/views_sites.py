@@ -259,7 +259,10 @@ def addSite(request):
 
     form = AddSiteForm(request.POST)
     profile = Profile.objects.get(user=request.user)
-
+#    sites = Site.objects.filter(owner=profile)
+#    if sites.count == 0:
+        
+    
     if not form.is_valid(request.user):
         return JsonErrorResponse(400, form.errors)
 
