@@ -291,31 +291,6 @@ function deletePage(pageName) {
     });
 }
 
-<<<<<<< HEAD
-function publishPageHandler(e) {
-    const pageName = getActivePageName();
-    savePage(pageName, function() {
-        // TODO add loading animation
-        // TODO publish all saved pages at once (one by one is inefficient)
-        var siteName = getCurrSiteName();
-        $.ajax({
-            url: "/easel/sites/" + siteName + "/publish/",
-            method: "POST",
-            data: {
-                pages: [pageName]
-            },
-            success: function(data) {
-                showAlertMsg("Successfully publish site.");
-            },
-            error: function(e) {
-                showAlertMsg("Error in publishing.");
-            }
-        })
-    });
-}
-
-=======
->>>>>>> 8de417372c4b2cd546b2ee11dd1be106fc6038f4
 // viewSiteHandler : visit the site
 // @param private : if true, view saved page; if false, view published site
 function viewSiteHandler(private) {
