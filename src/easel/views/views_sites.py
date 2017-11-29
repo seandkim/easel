@@ -25,7 +25,8 @@ def home(request):
     profile = Profile.objects.get(user=request.user)
     sites = Site.objects.filter(owner=profile)
     siteCount = sites.count()
-#    initial = {
+#   TODO clean up
+#     initial = {
 #            'siteName': medium.name,
 #            'description': medium.caption
 #        }
@@ -42,7 +43,6 @@ def home(request):
     #     return HttpResponseRedirect(reverse('siteEditor', kwargs={'siteName': site.name}))
     else:
         context["sites"] = sites
-        print('should be here')
         return render(request, 'site-editor/site-menu.html', context)
 
 
@@ -50,7 +50,7 @@ def home(request):
 def siteEditor(request, siteName):
     context = {}
     profile = Profile.objects.get(user=request.user)
-    sites = Site.objects.filter(owner=profile)
+    site = Site.objects.get(owner=profile, name=siteName)
     pages = profile.getAllPages(siteName)
     context['profile'] = profile
     context['add_page_form'] = AddPageForm()
@@ -59,8 +59,7 @@ def siteEditor(request, siteName):
     context['add_site_form'] = AddSiteForm()
 
     context['username'] = request.user.username
-    context['siteName'] = siteName
-    context['sites'] = sites
+    context['site'] = site
     return render(request, 'site-editor/site-editor.html', context)
 
 
@@ -85,7 +84,8 @@ def getPageHTML(request, siteName, pageName):
 
     site = Site.getSite(request.user.username, siteName)
     page = site.getPage(pageName)
-    return HttpResponse(page.html)
+    return JsonResponse({'nav_html': page.getNavHTML(),
+                         'content_html': page.content_html})
 
 
 # requires POST request with the following argument:
@@ -156,6 +156,7 @@ def deleteSite(request):
     if request.method != 'POST':
         return Json405('POST')
     if ('siteName' not in request.POST) or (request.POST['siteName'] == ""):
+        print("siteName not in request.POST")
         return Json400()
     profile = Profile.objects.get(user=request.user)
     siteName = request.POST['siteName']
@@ -163,6 +164,7 @@ def deleteSite(request):
     try:
         Site.objects.get(owner=profile, name=siteName).delete()
     except ObjectDoesNotExist:
+        print("Site name %s does not exist" % siteName)
         return Json400()
     return JsonResponse({'success': True})
 
@@ -219,7 +221,7 @@ def addPage(request, siteName):
         except ObjectDoesNotExist:
             HttpResponseBadRequest()
 
-        new_page.html = copyPage.html
+        new_page.content_html = copyPage.content_html
 
     new_page.save()
 
@@ -286,10 +288,12 @@ def savePage(request, siteName):
             return Json400()
 
     for i in range(len(pageNames)):
-        pages[i].html = htmls[i]
+        print(pages[i])
+        pages[i].content_html = htmls[i]
         pages[i].save()
 
     return JsonResponse({'success': True})
+
 
 # requires POST request with the following argument:
 # { 'pageNames': <list of name of pages to be published> }
@@ -308,14 +312,14 @@ def sitePublish(request, siteName):
             pages.append(profile.getPage(siteName, pageName))
 
     for page in pages:
-        page.published_html = processPage(page.html)
+        page.published_html = processPage(page.getNavHTML(), page.content_html)
         page.save()
 
     return JsonResponse({'success': True})
 
 
 # process page for publishing & previewing
-def processPage(html):
+def processPage(nav, content_html):
     def filterEditable(elem):
         try:
             return elem['contenteditable'] == 'true'
@@ -331,6 +335,7 @@ def processPage(html):
         ud['class'].remove('ud')
 
     return str(soup)
+
 
 def getAllSites(request):
     if request.method == "GET":

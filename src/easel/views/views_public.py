@@ -55,6 +55,7 @@ def renderPage(request, username, siteName, pageName, private):
 
     if private:
         if user == request.user:
+            # TODO change!!
             return HttpResponse(views_sites.processPage(page.html))
         # different user tries to access your private (non-published) page
         else:
@@ -86,4 +87,3 @@ def error403(request):
     return render(request, '403.html', {})
 def error400(request):
     return render(request, '400.html', {})
-
