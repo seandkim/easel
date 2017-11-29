@@ -239,15 +239,17 @@ class EditSiteForm(forms.Form):
         if not valid:
             return False
         
+        oldName = self.cleaned_data.get('oldName').lower()
         siteName = self.cleaned_data.get('siteName').lower()
         profile = Profile.objects.get(user=user)
         sites = Site.objects.filter(owner=profile, name=siteName)
 
         assert(sites.count() < 2)
         if sites.count() == 1:
-            self.add_error("siteName",
+            if siteName != oldName:
+                self.add_error("siteName",
                            "Site '%s' already exists" % siteName.lower())
-            return False
+                return False
 
         if not re.match("^[a-zA-Z0-9_]+$", siteName):
             self.add_error("siteName",

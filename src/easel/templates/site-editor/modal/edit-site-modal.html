@@ -1,20 +1,20 @@
-<div id="edit-site-modal" class="modal library-modal">
-    <div class="paint-as-input fixed-size-container">
-        <h5 class="header-text loose-spacing">EDIT SITE</h5>
-        <form id="edit-site-modal" method="post">
-            <table>
-                {{edit_site_form}}
-            </table>
-            {% csrf_token %}
-            <input type="hidden" name="oldName" value="{{ siteName }}" />
-
-            <button id="save-site" type="submit" class="dark-btn-alt">SAVE</button>
-<!--            <button href="#close-add-modal" class="modal-action modal-close dark-btn-alt">CANCEL</button>-->
-        </form>
-        <button href="#close-add-modal" class="modal-action modal-close dark-btn-alt">CANCEL</button>
+<div id="edit-site-modal" class="modal library modal">
+<!--    TODO move height to css -->
+    <div class="modal-content add-page-screen">
+        <div class="center text-center paint-as-input">
+            <h2 class="logo-text">Edit Site</h2>
+            <form id="edit-site-modal" method="post">
+                <table>
+                    {{edit_site_form}}
+                </table>
+                {% csrf_token %}
+<!--                <input type="hidden" name="oldName" value="{{ siteName }}" />-->
+<!--                <button class="dark-btn-alt modal-close cancel">CANCEL</button>-->
+                <button class="dark-btn-alt">SAVE &#10230;</button>
+            </form>
+        </div>
     </div>
-    
-    <a href="#close-add-modal" class="modal-action modal-close modal-close-btn">
+    <a href="#edit-site-modal" class="modal-action modal-close modal-close-btn">
         <i class="icon-close-big"></i>
     </a>
 </div>
