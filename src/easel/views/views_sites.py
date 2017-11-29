@@ -350,22 +350,31 @@ def processPage(page):
         except KeyError:
             return False
 
-    soup = BeautifulSoup(page.content_html, 'html.parser')
+    # routed the relative link in nav to other pages
+    soup = BeautifulSoup(page.site.nav_html, 'html.parser')
+    for a in soup.find_all('a'):
+        print(a['href'])
+        if a['href'] and a['href'][0] == '#':
+            other_name = a['href'][1:]
+            a['href'] = "../" + other_name + "/"
+    processed_nav_html = str(soup)
 
+    # process content_html to have no edtiable material
+    soup = BeautifulSoup(page.content_html, 'html.parser')
     for div in soup.find_all('div', class_='empty-workspace-msg'):
         div.decompose()
     for div in soup.find_all(filterEditable):
         div['contenteditable'] = 'false'
     for ud in soup.find_all('', class_="ud"):
         ud['class'].remove('ud')
-
-    processed_html = str(soup)
+    processed_content_html = str(soup)
 
     t = get_template('test_pages/wrapper.html')
-    wrapper_html = t.render(context={'site': page.site, 'page': page,
-                                     'processed_html': processed_html})
-
-
+    context = {'siteName': page.site.name,
+               'pageName': page.name,
+               'processed_nav_html': processed_nav_html,
+               'processed_content_html': processed_content_html}
+    wrapper_html = t.render(context=context)
 
     return wrapper_html
 
