@@ -70,7 +70,7 @@ urlpatterns = [
     url(r'^sites/(?P<siteName>\w+)/publish/$', views_sites.sitePublish, name="sitePublish"),
     url(r'^sites/addSite/$', views_sites.addSite, name="addSite"),
     url(r'^sites/editSite/$', views_sites.editSite, name="editSite"),
-    url(r'^sites/(?P<siteName>\w+)/deleteSite/$', views_sites.deleteSite, name="deleteSite"),
+    url(r'^sites/deleteSite/$', views_sites.deleteSite, name="deleteSite"),
     url(r'^sites/getAllSites/$', views_sites.getAllSites, name="getAllSites"),
 
     # public (what public audience sees)
