@@ -5,52 +5,18 @@ $(document).ready(function() {
   // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
   $('.modal').modal();
 
-  // TODO make ajax form use this function
-  // takes in jquery element and returns a dictionary based on fieldNames
-  function getFormValues(formElem, fieldNames) {
-    var values = {};
-    for (var i=0; i<fieldNames.length; i++) {
-      var field = fieldNames[i];
-      var inputElem = formElem.find('input[name="'+ field +'"]');
-      var value = inputElem.val();
-      if (value == "") {
-        // TODO very hacky. Is there a way to avoid double username field?
-        value = $(inputElem[1]).attr('value');
-      }
-      values[field] = value;
-    }
-    return values;
-  }
-
   // add project form
   $("#add-project-modal").on('click', 'button', function(e) {
     e.preventDefault();
     const fieldNames = ['projectName', 'description', 'username'];
     const values = getFormValues($(this).closest('form'), fieldNames);
 
-    $.ajax({
-        url: "/easel/projects/addProject/",
-        method: "POST",
-        data: values,
-        success: function(data) {
-            loadProject(data['projects'][0], true);
-            $('.modal').modal('close');
-        },
-        error: function(jqXHR, textStatus) {
-            // TODO server error failure;
-            // remove existing error message
-            $('#add-project-modal ul.errorlist').parent().parent().remove()
+    function successHandler(data) {
+        loadProject(data['projects'][0], true);
+    }
 
-            const data = jqXHR.responseJSON; // array of error messages
-            console.error("failed to add the project", data);
-            const error_list = $('<tr><td colspan="2"><ul class="errorlist nonfield"></ul></td></tr>');
-            for (let i=0; i<data['errors'].length; i++) {
-              const error = data['errors'][i];
-              error_list.find("ul").append("<li>"+ error +"</li>");
-            }
-            $('#add-project-modal tbody').prepend(error_list);
-        }
-    });
+    modalSubmitHandler('add-project-modal', '/easel/projects/addProject/',
+                       'POST', values, successHandler); 
   });
 
   // delete project form

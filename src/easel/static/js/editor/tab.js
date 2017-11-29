@@ -16,12 +16,6 @@ function getActivePageName() {
     return activePageName;
 }
 
-function updateSiteName() {
-    if (!siteName) {
-        siteName = $('#site-name').attr('site-info');
-    }
-}
-
 // get$icon : get jquery element of page icon in the page tree (at left side)
 function get$icon(pageName) {
   return $('#page-list div[file-name="' + pageName + '"]');

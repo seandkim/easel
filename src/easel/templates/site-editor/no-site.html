@@ -13,9 +13,9 @@
             </div>
             <br>
             <div class="paint-as-input">
-            	<form id="new-site-form" method="post" action="{% url 'addSite' %}">
+            	<form id="add-site-form" method="post" action="{% url 'addSite' %}">
 	            	{% if message %} {{message}} {% endif %}
-	        		{{form}}
+	        		{{ add_site_form }}
 	        		{% csrf_token %}
                     <input type="hidden" name="username" value="{{ profile.user.username }}" />
 				    <button type="submit" class="dark-btn-alt">CREATE &#10230;</button>

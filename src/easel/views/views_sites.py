@@ -27,7 +27,7 @@ def home(request):
     sites = Site.objects.filter(owner=profile)
     siteCount = sites.count()
     context = {}
-    context["form"] = AddSiteForm()
+    context["add_site_form"] = AddSiteForm()
     context["profile"] = profile
     if siteCount == 0:
         return render(request, 'site-editor/no-site.html', context)
@@ -46,9 +46,9 @@ def siteEditor(request, siteName):
     sites = Site.objects.filter(owner=profile)
     pages = profile.getAllPages(siteName)
     context['profile'] = profile
-    context['form'] = AddPageForm()
+    context['add_page_form'] = AddPageForm()
     context['pages'] = pages
-    context['upload_media_form'] = AddMediaForm()
+    context['add_media_form'] = AddMediaForm()
     context['add_site_form'] = AddSiteForm()
 
     context['username'] = request.user.username
@@ -259,21 +259,9 @@ def addSite(request):
 
     form = AddSiteForm(request.POST)
     profile = Profile.objects.get(user=request.user)
-    sites = Site.objects.filter(owner=profile)
-    # TODO siteCount = sites.count()
-    # Validates the form.
-    if not form.is_valid(request.user):
-        print("from not valid")
-        response = JsonResponse({"errors": form.errors['__all__']})
-        response.status_code = 400  # Bad Request
-        return response
 
-#        if siteCount == 0:
-#            return render(request, 'site-editor/no-site.html',
-#                          {'form': form, 'profile': profile})
-#        else:
-#            return render(request, 'site-editor/site-menu.html',
-#                          {'sites': sites, 'form': form, 'profile': profile})
+    if not form.is_valid(request.user):
+        return JsonErrorResponse(400, form.errors)
 
     siteName = request.POST['siteName']
     description = request.POST['description']
@@ -282,7 +270,6 @@ def addSite(request):
     new_site.save()
     return HttpResponseRedirect(reverse('siteEditor',
                                 kwargs={'siteName': siteName}))
-
 
 @login_required
 def deleteSite(request):

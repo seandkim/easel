@@ -11,7 +11,7 @@
         <div class="col m6 wide-gutter-col">
             <form method="post" enctype="multipart/form-data" action="{% url 'editMedia' projectName mediaName %}">
                 <table>
-                    {{form}}
+                    {{ edit_media_form }}
                 </table>
                 {% csrf_token %}
                 <div class="extra-margin-top">
