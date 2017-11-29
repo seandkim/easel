@@ -6,6 +6,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.http import HttpResponseBadRequest, HttpResponseNotAllowed
 from django.shortcuts import render
+from django.template.loader import get_template
 from django.urls import reverse
 from easel.models import Profile, Site, Page
 from easel.forms import AddSiteForm, AddPageForm, AddMediaForm, EditSiteForm
@@ -254,7 +255,7 @@ def deletePage(request, siteName):
 # { 'pageNames': <names of the pages saving>,
 #   'htmls': <htmls of the new pages, in the correct index as above> }
 @login_required
-def savePage(request, siteName):
+def savePages(request, siteName):
     if request.method != 'POST':
         return Json405("POST")
 
@@ -262,7 +263,7 @@ def savePage(request, siteName):
         print('No pageNames[] argument in POST request')
         return Json400()
     if ('htmls[]' not in request.POST) or (request.POST['htmls[]'] == ""):
-        print('No html[] argument in POST request')
+        print('No htmls[] argument in POST request')
         return Json400()
 
     pageNames = request.POST.getlist('pageNames[]')
@@ -335,21 +336,22 @@ def sitePublish(request, siteName):
             pages.append(profile.getPage(siteName, pageName))
 
     for page in pages:
-        page.published_html = processPage(page.getNavHTML(), page.content_html)
+        page.published_html = processPage(page)
         page.save()
 
     return JsonResponse({'success': True})
 
 
 # process page for publishing & previewing
-def processPage(nav, content_html):
+def processPage(page):
     def filterEditable(elem):
         try:
             return elem['contenteditable'] == 'true'
         except KeyError:
             return False
 
-    soup = BeautifulSoup(html, 'html.parser')
+    soup = BeautifulSoup(page.content_html, 'html.parser')
+
     for div in soup.find_all('div', class_='empty-workspace-msg'):
         div.decompose()
     for div in soup.find_all(filterEditable):
@@ -357,7 +359,15 @@ def processPage(nav, content_html):
     for ud in soup.find_all('', class_="ud"):
         ud['class'].remove('ud')
 
-    return str(soup)
+    processed_html = str(soup)
+
+    t = get_template('test_pages/wrapper.html')
+    wrapper_html = t.render(context={'site': page.site, 'page': page,
+                                     'processed_html': processed_html})
+
+
+
+    return wrapper_html
 
 
 def getAllSites(request):

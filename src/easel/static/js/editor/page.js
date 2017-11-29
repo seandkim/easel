@@ -217,7 +217,7 @@ function keyboardHandler(e) {
         if (e.keyCode == 83) {
             e.preventDefault();
             var pageName = getActivePageName();
-            savePage([pageName]);
+            savePages([pageName]);
         }
 
     // mark active page as unsaved TODO only when meta key is not pressed?
@@ -231,7 +231,7 @@ function keyboardHandler(e) {
     }
 }
 
-function savePage(pageNames, successHandler, errorHandler) {
+function savePages(pageNames, successHandler, errorHandler) {
     setupAjax();
     if (!pageNames || pageNames.length == 0 || pageNames[0]==null) {
         console.error("wrong pageNames");
@@ -255,7 +255,7 @@ function savePage(pageNames, successHandler, errorHandler) {
     $('.delete-ud-wrapper').remove(); //gets rid of all trashCans
     $('#ud-focus').removeAttr('id');
     $.ajax({
-        url: "/easel/sites/" + siteName + "/savePage/",
+        url: "/easel/sites/" + siteName + "/savePages/",
         method: "POST",
         data: {
             pageNames: pageNames,

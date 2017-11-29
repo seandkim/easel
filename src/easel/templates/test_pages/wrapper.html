@@ -28,7 +28,9 @@
 </head>
 
 <body>
+    {% autoescape off %}
     {{ site.nav_html }}
-    {{ page.content_html }}
+    {{ processed_html }}
+    {% endautoescape %}
 </body>
 </html>

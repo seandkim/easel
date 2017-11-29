@@ -38,7 +38,7 @@ $(document).ready(function() {
             return
         }
 
-        savePage(publishes, function() {
+        savePages(publishes, function() {
             $.ajax({
                 url: "/easel/sites/" + getCurrSiteName() + "/publish/",
                 method: "POST",
