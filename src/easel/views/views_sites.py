@@ -229,6 +229,7 @@ def addPage(request, siteName):
     return render(request, 'json/pages.json', context,
                            content_type='application/json')
 
+
 @login_required
 def deletePage(request, siteName):
     if request.method != 'POST':
@@ -266,7 +267,6 @@ def savePage(request, siteName):
 
     pageNames = request.POST.getlist('pageNames[]')
     htmls = request.POST.getlist('htmls[]')
-    print(pageNames, len(htmls))
 
     if (len(pageNames) != len(htmls)):
         print('pageName and htmls does not have same length')
@@ -287,14 +287,33 @@ def savePage(request, siteName):
             print("Page %s does not exists in %s" % (pageName, siteName))
             return Json400()
 
-    print(request.POST)
-    print("-----------")
-    print(pages[0].content_html)
-
     for i in range(len(pageNames)):
         print(pages[i])
         pages[i].content_html = htmls[i]
         pages[i].save()
+
+    return JsonResponse({'success': True})
+
+
+@login_required
+def updateNav(request, siteName):
+    if request.method != 'POST':
+        return Json405("POST")
+
+    if ('nav_html' not in request.POST) or (request.POST['nav_html'] == ""):
+        print('No nav_html argument in POST request')
+        return Json400()
+
+    nav_html = request.POST['nav_html']
+
+    try:
+        site = Site.getSite(request.user.username, siteName)
+    except ObjectDoesNotExist:
+        print("Site %s does not exist" % siteName)
+        return Json400()
+
+    site.nav_html = nav_html
+    site.save()
 
     return JsonResponse({'success': True})
 

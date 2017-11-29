@@ -54,7 +54,7 @@ function updatePages() {
         // open any unopened page
         if (pagesInfo[name]['opened'] && $('#page-content > #' + name + '').length == 0) {
             get$icon(name).find('i').removeClass('icon-file').addClass('icon-file-o');
-            loadPageHTML(siteName, name);
+            openPage(siteName, name);
         }
 
         // remove dot for saved tab
@@ -134,13 +134,25 @@ function initializePagesInfo() {
     });
 }
 
-function loadPageHTML(siteName, pageName) {
+function openPage(siteName, pageName) {
     // create tab instantly and add it to page tab
-    var new_el = $($.parseHTML('<li tab-target="#' + pageName + '">' + '<a href=#>' + pageName + '</a>' + '<a href="#" class="close-tab"><span class="icon-close"></span></a>' + '</li>'));
-    $('.cr-tabs').prepend(new_el);
+    var $new_el = $($.parseHTML('<li tab-target="#' + pageName + '">' + '<a href=#>' + pageName + '</a>' + '<a href="#" class="close-tab"><span class="icon-close"></span></a>' + '</li>'));
+    $('.cr-tabs').prepend($new_el);
 
     // append new active tab with empty content
-    var content_div = $('#page-content').append('<div id="' + pageName + '" class="hidden"></div>');
+    var $div_page = $('<div id="' + pageName + '" class="hidden"></div>')
+    $('#page-content').append($div_page);
+    loadPageHTML(siteName, pageName, function(jqXHR, textStatus) {
+        // TODO what should be done in error case?
+        $new_el.remove(); // remove the opened tab
+        $div_page.remove();
+        pagesInfo[pageName]['opened'] = false;
+        pagesInfo[pageName]['active'] = false;
+        updatePages()
+    });
+}
+
+function loadPageHTML(siteName, pageName, errorHandler) {
     // add preloader until done loading
     addLoading('#' + pageName);
     $.ajax({
@@ -156,12 +168,10 @@ function loadPageHTML(siteName, pageName) {
             initializeEditMode(editMode);
         },
         error: function(jqXHR, textStatus) {
-            // TODO what should be done in error case?
-            console.log("error in loading page", pageName, textStatus);
-            new_el.remove(); // remove the opened tab
-            content_div.remove();
-            var new_active_tab = $('.cr-tabs > li').last();
-            new_active_tab.trigger('click');
+            showAlertMsg("Error in loading page " + pageName);
+            if (errorHandler) {
+                errorHandler(jqXHR, textStatus);
+            }
         }
     });
 }

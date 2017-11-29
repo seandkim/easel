@@ -125,7 +125,7 @@ $(document).ready(function() {
             oldName: oldName
         }, successHandler);
     });
-    
+
     // add project form
     $("#add-project-modal").on('click', 'button', function(e) {
         debugger;
@@ -140,8 +140,7 @@ $(document).ready(function() {
     modalSubmitHandler('add-project-modal', '/easel/projects/addProject/',
                        'POST', values, successHandler);
     });
-    
-    
+
     // edit project form
     $('.edit-project-icon').on('click', function(e) {
         debugger;
@@ -180,7 +179,23 @@ $(document).ready(function() {
             oldName: oldName
         }, successHandler);
     });
-    
+
+    // nav modal TODO where is the nav modal open event? should move to here
+    $('#nav-modal').on('click', 'button:not(.cancel)', function(e) {
+        const url = '/easel/sites/'+getCurrSiteName()+'/updateNav/';
+        const nav_html = $('#nav-modal #nav-preview').html();
+
+        function reloadAllPages() {
+            for (let name in pagesInfo) {
+                if (pagesInfo[name]['opened']) {
+                    loadPageHTML(getCurrSiteName(), name, null);
+                }
+            }
+        }
+
+        modalSubmitHandler('nav-modal', url, 'POST', {'nav_html': nav_html},
+                           reloadAllPages);
+    })
 });
 
 // for submit button; makes a ajax call and calls successhandler or displays
