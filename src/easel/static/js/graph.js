@@ -7,8 +7,8 @@ $(document).ready(function() {
 
     
     $.get("/easel/dashboard/getProfile/").done(function(data) {
-          sites = data.sites; 
-          for (i = 0; i < sites.length; i++){
+          sites = data.sites;
+          for (var i = 0; i < sites.length; i++){
               var site = sites[i];
               var site_name = site.name;
               var visitors = site.weekdays;
@@ -49,7 +49,6 @@ $(document).ready(function() {
           name: site_name,
           marker: { size: 12 }
         };
-    
         graph_data.push(trace);
  
         layout = {
