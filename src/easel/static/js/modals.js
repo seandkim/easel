@@ -90,6 +90,9 @@ $(document).ready(function() {
         function successHandler(data) {
             const card = $('div.card[data-sitename="' + deleteName + '"]')
             card.closest('.card-wrapper').remove();
+            if (data.count == 0){
+                window.location.href = '/easel/sites/';
+            }
         }
 
         modalSubmitHandler('delete-site-modal', '/easel/sites/deleteSite/', 'POST', {
