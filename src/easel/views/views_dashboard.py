@@ -32,5 +32,5 @@ def getProfile(request):
         profile = Profile.objects.get(user=request.user)
         context = {"sites": Site.objects.filter(owner=profile)}
         return render(request, 'json/stats.json', context,
-                                            content_type='application/json')
+                      content_type='application/json')
     return Http404('Unsupported method')

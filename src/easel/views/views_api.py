@@ -9,17 +9,6 @@ from easel.models import Profile, Project
 from mimetypes import guess_type
 import os
 
-def getMessages(request, username):
-    return
-
-
-def getStats(request, username):
-    return
-
-
-def uploadPhoto(request):
-    return
-
 
 def getProfilePhoto(request):
     profile = Profile.objects.get(user=request.user)

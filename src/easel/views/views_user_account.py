@@ -10,10 +10,6 @@ from easel.models import Profile, Project
 from easel.forms import RegistrationForm, SettingsForm
 
 
-def test_view(request):
-    return render(request, 'base.html', {})
-
-
 def registration(request):
     context = {}
 
@@ -28,7 +24,6 @@ def registration(request):
     if not form.is_valid():
         return render(request, 'registration/registration.html', context)
 
-    # TODO to allow email confirmation; set is_active to false and change later
     new_user = User.objects.create_user(username=form.cleaned_data['username'],
                                         password=form.cleaned_data['password'],
                                         first_name=form.cleaned_data['first_name'],
@@ -72,7 +67,7 @@ def settings(request):
     if not form.is_valid():
         context['form'] = form
         return render(request, 'settings.html', context)
-    # TODO cleanup
+    # TODO cleanup through getattr & setattr
     if form.cleaned_data['first_name'] != '':
         cur_user.first_name = form.cleaned_data['first_name']
     if form.cleaned_data['last_name'] != '':
@@ -91,7 +86,6 @@ def settings(request):
     print('profile age = ', profile.age)
     cur_user.save()
     profile.save()
-#    context['message'] = "Your information has been updated" # TODO
 
     new_user = authenticate(username=cur_user.username,
                             password=request.user.password)

@@ -8,7 +8,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from easel.models import Profile, Project, Media
 from easel.forms import AddProjectForm, EditProjectForm, AddMediaForm, EditMediaForm
-from easel.error import JsonErrorResponse, Json400, Json405
+from easel.error import JsonErrorResponse
 from mimetypes import guess_type
 
 
