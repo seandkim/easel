@@ -1,34 +1,46 @@
-# Easel
 <p align="center">
   <img src="./assets/logo.png" width='500'>
 </p>
+
+&nbsp;
 
 ## Contributors (Team 277)
 - Sean D Kim
 - Stella Kim
 - Tiffany Lee
 
+&nbsp;
+
 ## What is Easel?
 - Easel is a website where artist could easily make a website for themselves and publish it for general audience. To use the website, go to [this link](http://34.205.144.52/). This was created as a final project for Web Application class at Carnegie Mellon University.
 
+&nbsp;
+
 ## Features
 1. Dashboard
-  - You can see a general overview of your projects/sites.
+    - You can see a general overview of your projects/sites.
+
 <p align="center">
   <img src="./assets/dashboard.png" width='500'>
 </p>
+
 2. Media Library
-  - You can upload media, and group them into different projects.
+    - You can upload media, and group them into different projects.
+
 <p align="center">
   <img src="./assets/media_library_demo.gif" width='500'>
 </p>
+
 3. Site Editor
-  - You can make multiple sites, each could contain multiple pages.
-  - You can publish for everyone to see and view the site immediately.
+    - You can make multiple sites, each could contain multiple pages.
+    - You can publish for everyone to see and view the site immediately.
+
 <p align="center">
   <img src="./assets/site_editor_demo.gif" width='500'>
 </p>
 
+&nbsp;
+  
 ## Technical Specifications
 ### Libraries used
 #### Backend
