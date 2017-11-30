@@ -1,6 +1,6 @@
 
-/* 
- * ui.js - handling page interactions 
+/*
+ * ui.js - handling page interactions
  */
 
 /* return html string of a given icon name */
@@ -24,7 +24,6 @@ function changeStyleOnMode(isEdit) {
 // add logic for editing mode switiching
 function addModeSwitcher() {
     /* editable vs sortable mode */
-    $(".sortable").sortable({ disabled: true });
     $("#editable-mode").click(function() {
         console.log("editable mode on");
         editMode = "editable";

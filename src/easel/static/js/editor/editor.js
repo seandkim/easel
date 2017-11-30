@@ -123,20 +123,22 @@ $(function() {
     // allow delete component on hover
     $(document).on('mouseenter', '.ud', addTrashcanButton);
     $(document).on('mouseleave', '.ud', deleteTrashcanButton);
-    $('.drag-component').draggable({
-        scroll: false,
-        distance: 0,
-        zIndex: 1000,
-        revert : false,
-        cursorAt: { left: 50, top: 50 },
-        helper: 'clone',
-        appendTo: 'body'
-    });
 
     $(".drag-component").draggable({
         connectToSortable: "#page-content",
         helper: "clone",
-        revert: "invalid"
+        revert: "invalid",
+
+        scroll: false,
+        distance: 0,
+        zIndex: 1000,
+        cursorAt: { left: 50, top: 50 },
+        appendTo: 'body',
+
+        connectToSortable: ".sortable",
+        helper: function(e, a, b, c) {
+            return $(this).clone();
+        },
     });
 
     $("#page-content").droppable({
@@ -145,5 +147,4 @@ $(function() {
         hoverClass: "ui-state-hover",
         drop: componentDropHandler
     });
-
 });
