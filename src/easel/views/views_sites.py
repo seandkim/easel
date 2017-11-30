@@ -339,20 +339,22 @@ def sitePublish(request, siteName):
         return Json400
 
     pageNames = request.POST.getlist('pageNames[]')
-    allPageNames = profile.getAllPages(siteName).values_list('name', flat=True)
     pages = []
     for pageName in pageNames:
         pages.append(profile.getPage(siteName, pageName))
 
     for page in pages:
-        page.published_html = processPage(page, allPageNames)
+        page.published_html = processPage(request.user, siteName, page)
         page.save()
 
     return JsonResponse({'success': True})
 
 
 # process page for publishing & previewing
-def processPage(page, allPageNames):
+def processPage(user, siteName, page):
+    profile = Profile.objects.get(user=user)
+    allPageNames = profile.getAllPages(siteName).values_list('name', flat=True)
+
     def filterEditable(elem):
         try:
             return elem['contenteditable'] == 'true'

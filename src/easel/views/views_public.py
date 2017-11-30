@@ -8,13 +8,13 @@ from django.http import HttpResponseForbidden, HttpResponseBadRequest
 from easel.models import Profile, Site
 from ipware.ip import get_ip
 from easel.views import views_sites
-from django.shortcuts import render
 
 
 def renderHome(request, username, siteName):
     ip = get_ip(request)
     print('ip=', ip)
-    # TODO: check if a request is made by the same ip address within a certain time interval
+    # TODO only increase visitor if same ip request is made after certain
+    # interval
 
     user = User.objects.get(username=username)
     profile = Profile.objects.get(user=user)
@@ -23,6 +23,7 @@ def renderHome(request, username, siteName):
 
     return renderPage(request, username, siteName, 'home')
 
+
 def get_client_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
@@ -30,6 +31,7 @@ def get_client_ip(request):
     else:
         ip = request.META.get('REMOTE_ADDR')
     return ip
+
 
 def renderPage(request, username, siteName, pageName, private):
     try:
@@ -45,19 +47,15 @@ def renderPage(request, username, siteName, pageName, private):
               % (siteName, username, pageName))
         return HttpResponseBadRequest()
 
-    if (page.published_html == ""):
-        # TODO handle error case
-        HttpResponse("Found the page but published_html was empty. " +
-                     "Make sure you publish the page")
-
     user = User.objects.get(username=username)
     profile = Profile.objects.get(user=user)
 
     if private:
         if user == request.user:
-            # TODO change!!
-            return HttpResponse(views_sites.processPage(page.html))
-        # different user tries to access your private (non-published) page
+            return HttpResponse(views_sites.processPage(request.user, siteName,
+                                                        page))
+        # do not allow different user tries to access your private
+        # (non-published) page
         else:
             return HttpResponseForbidden()
     else:
@@ -77,13 +75,3 @@ def renderPage(request, username, siteName, pageName, private):
     site.save()
 
     return HttpResponse(page.published_html)
-
-#TODO delete this when deploying - this is for debugging purpose
-def error404(request):
-    return render(request, '404.html', {})
-def error500(request):
-    return render(request, '500.html', {})
-def error403(request):
-    return render(request, '403.html', {})
-def error400(request):
-    return render(request, '400.html', {})

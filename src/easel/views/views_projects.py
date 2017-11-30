@@ -116,9 +116,7 @@ def editProject(request, projectName):
     if request.method != 'POST':
         return JsonResponse({'projectName': project.name,
                              'description': project.description})
-    print('POST REQUEST')
     form = EditProjectForm(request.POST)
-    print('form = ', form)
     if not form.is_valid(request.user):
         return JsonErrorResponse(400, form.errors)
 
@@ -138,16 +136,13 @@ def addMedia(request, projectName):
     context = {'projectName': projectName, 'profile': profile}
 
     if request.method == 'GET':
-        # TODO can we delete this now that we use modal?
-        print('get request')
         form = AddMediaForm()
         context['add_media_form'] = form
         return render(request, 'project/media-add.html', context)
 
-    print(request.POST)
     form = AddMediaForm(request.POST, request.FILES)
     if not form.is_valid(request.user):
-        print('form is not valid')
+        print('form is not valid: %s', form)
         context['add_media_form'] = form
         return render(request, 'project/media-add.html', context)
 
@@ -197,5 +192,4 @@ def editMedia(request, projectName, mediaName):
     elif action == 'Cancel':
         pass
 
-    # TODO focus on the selected project
     return HttpResponseRedirect(reverse('projects'))

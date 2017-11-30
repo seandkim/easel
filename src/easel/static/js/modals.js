@@ -165,7 +165,6 @@ $(document).ready(function() {
         }, successHandler);
     });
 
-    // nav modal TODO where is the nav modal open event? should move to here
     $('#nav-modal').on('click', 'button:not(.cancel)', function(e) {
         const url = '/easel/sites/'+getCurrSiteName()+'/updateNav/';
         const nav_html = $('#nav-modal #nav-preview').html();

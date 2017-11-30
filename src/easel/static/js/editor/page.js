@@ -1,5 +1,3 @@
-/* TODO @Tiffany update the header file.js - file operations: handling opening, saving, and deleting files */
-
 // updatePages : update the tab/page/icon element after `pagesInfo` changes.
 // when page status changes, you should update `pagesInfo` and call this method
 // instead of changing elements directly.
@@ -203,17 +201,16 @@ function openPageEventHandler(e) {
 }
 
 function keyboardHandler(e) {
+    e.preventDefault();
+    // cmd in mac and ctrl in other platform
     const cmdPressed = navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey
-
-    // cmd+s in mac and ctrl+s in other platform
     if (cmdPressed) {
+        // s : save the active page
         if (e.keyCode == 83) {
             e.preventDefault();
             var pageName = getActivePageName();
             savePages([pageName]);
         }
-
-
     // mark active page as unsaved
     } else {
         let activePage = pagesInfo[getActivePageName()];
@@ -371,7 +368,7 @@ function createPage(pageName, copyPageName) {
         updatePages();
 
         get$icon(name).trigger('click');
-        // TODO doesn't happen two times?
+        // TODO minor animation bug: doesn't happen on the second time?
         if ($('#page-tab').find('i').hasClass('icon-right-dir')) {
             $('#page-tab').trigger('click');
         }
