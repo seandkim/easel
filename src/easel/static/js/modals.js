@@ -14,7 +14,7 @@ $(document).ready(function() {
         for (let i = 0; i < pageNames.length; i++) {
             const name = pageNames[i];
             const id_name = 'checkbox_' + name;
-            const box = $('<p>' + '<input type="checkbox" id="' + id_name + '" />' + '<label for="' + id_name + '">' + name + '</label>' + '</p>');
+            const box = $('<p>' + '<input type="checkbox" checked="checked" id="' + id_name + '" />' + '<label for="' + id_name + '">' + name + '</label>' + '</p>');
             $checkboxes.prepend(box);
         }
     });
@@ -35,10 +35,10 @@ $(document).ready(function() {
         if (publishes.length == 0) {
             // TODO append error message
             $('.modal').modal('close');
-            return
+            return;
         }
 
-        savePage(publishes, function() {
+        savePages(publishes, function() {
             $.ajax({
                 url: "/easel/sites/" + getCurrSiteName() + "/publish/",
                 method: "POST",
@@ -48,6 +48,7 @@ $(document).ready(function() {
                 success: function(data) {
                     showAlertMsg("Successfully publish site.");
                     $('.modal').modal('close');
+                    $('#open-site-button').trigger('click');
                 },
                 error: function(jqXHR) {
                     showAlertMsg("Error in publishing.");

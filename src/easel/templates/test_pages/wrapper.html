@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="description" content="Free Web tutorials">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{% block title %} {{ site.name }} : {{ page.name }} {% endblock %}</title>
+    <title>{% block title %} {{ siteName }} : {{ pageName }} {% endblock %}</title>
 
     <!-- static files -->
     <!-- allow user to have prescriptions? -->
@@ -28,7 +28,9 @@
 </head>
 
 <body>
-    {{ site.nav_html }}
-    {{ page.content_html }}
+    {% autoescape off %}
+    {{ processed_nav_html }}
+    {{ processed_content_html }}
+    {% endautoescape %}
 </body>
 </html>

@@ -217,7 +217,7 @@ function keyboardHandler(e) {
         if (e.keyCode == 83) {
             e.preventDefault();
             var pageName = getActivePageName();
-            savePage([pageName]);
+            savePages([pageName]);
         }
 
     // mark active page as unsaved TODO only when meta key is not pressed?
@@ -231,10 +231,19 @@ function keyboardHandler(e) {
     }
 }
 
-function savePage(pageNames, successHandler, errorHandler) {
-    setupAjax();
-    if (!pageNames || pageNames.length == 0 || pageNames[0]==null) {
+function savePages(allPageNames, successHandler, errorHandler) {
+    if (!allPageNames) {
         console.error("wrong pageNames");
+        return;
+    }
+    setupAjax();
+
+    const pageNames = []; // save only opened pages
+    for (let i=0; i<allPageNames.length; i++) {
+        const name = allPageNames[i];
+        if (pagesInfo[name]['opened']) {
+            pageNames.push(name)
+        }
     }
 
     const htmls = [];
@@ -249,13 +258,15 @@ function savePage(pageNames, successHandler, errorHandler) {
             if (errorHandler) {
                 errorHandler(jqXHR);
             }
+            return;
         }
     }
 
-    $('.delete-ud-wrapper').remove(); //gets rid of all trashCans
-    $('#ud-focus').removeAttr('id');
+    debugger;
+    // $('.delete-ud-wrapper').remove(); //gets rid of all trashCans
+    // $('#ud-focus').removeAttr('id');
     $.ajax({
-        url: "/easel/sites/" + siteName + "/savePage/",
+        url: "/easel/sites/" + siteName + "/savePages/",
         method: "POST",
         data: {
             pageNames: pageNames,

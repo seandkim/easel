@@ -63,10 +63,10 @@ $(function() {
     $('#add-nav-btn').on('click', addNavButton);
     $('#save-nav').on('click', onSaveNav);
     $(document).on('click', '.img-to-upload', addSelectedLibraryMedia);
-    $(document).on("mousedown", '#page-content', deselectFocusElement);	
+    $(document).on("mousedown", '#page-content', deselectFocusElement);
     $(document).on('click', '#page-content nav', initializeEditNavModal);
     $(document).on('click', '.delete-nav-button', deleteButtonHandler);
-    
+
     /* open new tab */
     // $(document).on('click', '.page-choice', function() {
     //     var url = $(this).attr('url-target');
@@ -90,7 +90,7 @@ $(function() {
     $(document).on("keydown", keyboardHandler);		// cmd+s save page
     $('#preview-button').click(function() {viewSiteHandler(true)});
     $('#open-site-button').click(function() {viewSiteHandler(false)});
-    $('#save-button').click(function() {savePage(Object.keys(pagesInfo))});
+    $('#save-button').click(function() {savePages(Object.keys(pagesInfo))});
 
     // ------------------------ Add Page
     $('#add-page-modal form').submit(addNewPageModalHandler);
