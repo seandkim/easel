@@ -14,23 +14,12 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url, include
-from django.contrib import admin
-from django.contrib.auth import views as auth_views
-from django.contrib.auth.views import logout
-from django.conf import settings
 
-from easel import views
-import views_test
 import views_home
-import easel.views
 
 
 urlpatterns = [
 #    url(r'^$', easel.views.views_home.home),
     url(r'^$', views_home.home),
     url(r'^easel/', include('easel.urls')),
-
-    # TODO for dev purpose, remove later
-    url(r'^testview$', views_test.testview),
-    url(r'^testform$', views_test.testform),
 ]

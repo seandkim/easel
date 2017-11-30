@@ -52,7 +52,7 @@
                 <div class="sublist">
                     <div class="sublist-title">SITE SETTING</div>
                     <br>
-                    <a href="#" id="preview-xbutton">
+                    <a href="#" id="preview-button">
                         <div class="component-container">
                             <div class="easel-icon-wrapper">
                                 <i class="component-icon icon-eye"></i>
@@ -298,9 +298,12 @@
             {{ site.name|upper }}
             <i class="icon-down-open-mini"></i>
         </a>
-        <button id="save-button" class="light-btn-outline publish-btn publish">
-            SAVE ALL
-        </button>
+        <div class="tooltip">
+            <span class="tooltiptext">Or &#8984; + S to <br> save current tab</span>
+            <button id="save-button" class="light-btn-outline publish-btn publish">
+                SAVE ALL
+            </button>
+        </div>
     </div>
 </div>
 <div id="site-menu" class="text-center hidden">
