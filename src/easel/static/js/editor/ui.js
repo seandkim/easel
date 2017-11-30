@@ -3,6 +3,22 @@
  * ui.js - handling page interactions
  */
 
+ var previewStyle = {
+            "position": "absolute",
+            "width": "100%",
+            "height": "100%",
+            "top": "40px",
+            "left": "initial",
+            "overflow-y": "scroll"
+        };
+var fullScreenStyle = {
+        "position": "fixed",
+        "width": "100%",
+        "height": "100%",
+        "top": "0",
+        "left": "0"
+    };
+
 /* return html string of a given icon name */
 function getLabel(iconName) {
     return '<i class="md-sm-text icon-' + iconName + '></i>';
@@ -51,4 +67,23 @@ function initializeEditMode(mode) {
     } else {
         console.error("Unrecognizable error mode", mode);
     }
+}
+
+function exitFullScreen() {
+    $('#exit-full-screen').remove();
+    $('#page-content').css(previewStyle);
+    $('.editor-bar').fadeIn();
+    $('#sidebar').fadeIn();
+}
+
+function enterFullScreen() {
+    $('#page-content').css(fullScreenStyle);
+        $('.editor-bar').fadeOut();
+        $('#sidebar').fadeOut();
+        $('#page-content').append(
+           '<div class="circle-icon cursor-pointer margin-container fixed-left-bottom hover-solid" id="exit-full-screen">' +
+                '<div class="delete-ud" href="#" title="Delete Component">' +
+                    '<i class="medium-text icon-minimize"></i>' +
+                '</div>' +
+            '</div>');
 }

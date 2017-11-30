@@ -46,6 +46,8 @@ $(function() {
     $(document).on("contextmenu", ".file", showPageOptionMenu);		// show menu
     $(document).bind("mousedown", hidePageOptionMenu);				// close menu
     $(".custom-menu li").click(pageOptionHandler);					// menu option clicked
+    $("#enter-full-screen").click(enterFullScreen);
+    $(document).on('click', "#exit-full-screen", exitFullScreen);
 
     /*
      * ------------------------ Site Menu (Switch between sites)

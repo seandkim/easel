@@ -127,6 +127,13 @@ figcaption {
 		transform: scale(1.5);
 	}
 }
+.hover-solid {
+	@include smooth(0.4s);
+	opacity: 0.6;
+	&:hover {
+		opacity: 1.0;
+	}
+}
 
 /* visibility */
 .hidden {
@@ -196,6 +203,11 @@ figcaption {
 	position: absolute;
 	top: 0;
 	right: 0;
+}
+.fixed-left-bottom {
+	position: fixed;
+	bottom: 0;
+	left: 0;
 }
 .cursor-pointer {
 	cursor: pointer !important;

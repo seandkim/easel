@@ -1,5 +1,7 @@
 @import "global";
 
+
+
 #publish-site-modal {
 	width: 75%;
 	.modal-content {
@@ -255,7 +257,7 @@
 	    	transform: scale(1.1);
 	    }
     }
-    #add-page {
+    #add-page, #enter-full-screen {
     	@include smooth(0.3s);
     	color: $interface-color-07;
     	font-size: 20pt;
@@ -370,8 +372,14 @@
     	width: 65%;
     	z-index: -15;
     	#page-content {
+    		@include smooth(0.4s);
     		background-color: $interface-color-07;
     		width: 100%;
+    		box-shadow: 0 10px 30px $black;
+	    	top: 40px;
+			position: absolute;
+			overflow-y: scroll;
+			height: 100%;
     		nav {
     			@include smooth(0.4s);
     			cursor: pointer;
@@ -505,13 +513,6 @@
 		    zoom: 1;
 		}
 	}
-	#page-content {
-    	box-shadow: 0 10px 30px $black;
-    	top: 40px;
-		position: absolute;
-		overflow-y: scroll;
-		height: 100%;
-    }
 }
 
 .add-page-screen{
