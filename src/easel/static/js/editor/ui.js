@@ -24,27 +24,31 @@ function changeStyleOnMode(isEdit) {
 // add logic for editing mode switiching
 function addModeSwitcher() {
     /* editable vs sortable mode */
-    // $("#editable-mode").click(function() {
-    //     console.log("editable mode on");
-    //     editMode = "editable";
-    //     $(".sortable").sortable("option", "disabled", true);
-    //     changeStyleOnMode(true);
-    // })
-    // $("#sortable-mode").click(function() {
-    //     console.log("sortable mode on");
-    //     editMode = "sortable";
-    //     $(".sortable").sortable("option", "disabled", false);
-    //     changeStyleOnMode(false);
-    // })
+    $("#editable-mode").click(function() {
+        console.log("editable mode on");
+        editMode = "editable";
+        $(".sortable").sortable("option", "disabled", true);
+        changeStyleOnMode(true);
+    })
+    $("#sortable-mode").click(function() {
+        console.log("sortable mode on");
+        editMode = "sortable";
+        $(".sortable").sortable("option", "disabled", false);
+        changeStyleOnMode(false);
+    })
 }
 
 function initializeEditMode(mode) {
-    // $(".sortable").sortable({ disabled: true });
-    // if (mode == "editable") {
-    //     $(".sortable").sortable("option", "disabled", true);
-    // } else if (mode == "sortable") {
-    //     $(".sortable").sortable("option", "disabled", false);
-    // } else {
-    //     console.error("Unrecognizable error mode", mode);
-    // }
+    $(".sortable").sortable({
+        disabled: true,
+        placeholder: 'block-placeholder',
+        update: componentDropHandler,
+    });
+    if (mode == "editable") {
+        $(".sortable").sortable("option", "disabled", true);
+    } else if (mode == "sortable") {
+        $(".sortable").sortable("option", "disabled", false);
+    } else {
+        console.error("Unrecognizable error mode", mode);
+    }
 }

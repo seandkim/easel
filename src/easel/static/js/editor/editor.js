@@ -16,6 +16,7 @@ $(function() {
     changeStyleOnMode(true);
     initializePagesInfo();
     initializeEditable();
+    initializeEditMode(editMode);
 
     /*
      * ------------------------ Editor Bar Tab
@@ -137,19 +138,8 @@ $(function() {
 
         connectToSortable: ".sortable",
         helper: function(e, a, b, c) {
+            $('#sortable-mode').trigger('click');
             return $(this).clone();
         },
     });
-
-    // $("#page-content").droppable({
-    //     accept: ".drag-component",
-    //     activeClass: "ui-state-default",
-    //     hoverClass: "ui-state-hover",
-    //     drop: componentDropHandler
-    // });
-
-    $(".sortable").sortable({
-        placeholder: 'block-placeholder',
-        update: componentDropHandler,
-    }).disableSelection();
 });
