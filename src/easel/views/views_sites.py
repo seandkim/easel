@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.http import HttpResponseRedirect, JsonResponse
 from django.http import HttpResponseBadRequest, HttpResponseNotAllowed
 from django.shortcuts import render
 from django.template.loader import get_template
@@ -152,7 +152,7 @@ def deleteSite(request):
         print("Site name %s does not exist" % siteName)
         return Json400()
     count = Site.objects.filter(owner=profile).count()
-    return JsonResponse({'success': True, 'count':count})
+    return JsonResponse({'success': True, 'count': count})
 
 
 @login_required
@@ -256,7 +256,6 @@ def savePages(request, siteName):
 
     pageNames = request.POST.getlist('pageNames[]')
     htmls = request.POST.getlist('htmls[]')
-
 
     if (len(pageNames) != len(htmls)):
         print('pageName and htmls does not have same length')

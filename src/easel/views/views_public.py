@@ -6,14 +6,12 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse
 from django.http import HttpResponseForbidden, HttpResponseBadRequest
 from easel.models import Profile, Site
-from ipware.ip import get_ip
 from easel.views import views_sites
 
 
 def renderHome(request, username, siteName):
-    ip = get_ip(request)
     # TODO only increase visitor if same ip request is made after certain
-    # interval
+    # ip = get_ip(request)
 
     user = User.objects.get(username=username)
     profile = Profile.objects.get(user=user)
