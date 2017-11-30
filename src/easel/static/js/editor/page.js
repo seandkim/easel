@@ -217,6 +217,7 @@ function keyboardHandler(e) {
         if (e.keyCode == 83) {
             e.preventDefault();
             var pageName = getActivePageName();
+            debugger;
             savePages([pageName]);
         }
 
@@ -232,6 +233,7 @@ function keyboardHandler(e) {
 }
 
 function savePages(allPageNames, successHandler, errorHandler) {
+    debugger;
     if (!allPageNames) {
         console.error("wrong pageNames");
         return;
