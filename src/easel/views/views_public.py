@@ -66,9 +66,9 @@ def renderPage(request, username, siteName, pageName, private):
     profile.save()
 
     # TODO check that this works
-    week = [site.mon, site.tue, site.wed, site.thur, site.fri, site.sat,
+    week = [site.mon, site.tue, site.wed, site.thu, site.fri, site.sat,
             site.sun]
-    today = datetime.datetime.today().weekday()
+    today = datetime.today().weekday()
     week[today] += 1
     week[(today+1) % len(week)] = 0
 

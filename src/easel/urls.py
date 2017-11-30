@@ -14,7 +14,6 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url
-from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.views import logout
 from django.conf import settings
@@ -25,15 +24,10 @@ from .views import views_dashboard
 from .views import views_projects
 from .views import views_sites
 from .views import views_public
-from .views import views_error
 
 
 urlpatterns = [
-
-    # url(r'^getMessages/(?P<username>\w+)$', views_api.getMessages, {}, name='getMessages'),
-    # url(r'^getStats/(?P<username>\w+)$', views_api.getStats, {}, name='getStats'),
     url(r'^uploadPhoto/$', views_api.uploadPhoto, {}, name='uploadPhoto'),
-    url(r'^makeDefaultProjects/$', views_api.makeDefaultProjects, {}, name='makeDefaultProjects'),
     url(r'^getProfilePhoto/$', views_api.getProfilePhoto, name='getProfilePhoto'),
 
     # login/registration
@@ -47,11 +41,10 @@ urlpatterns = [
     url(r'^dashboard/$', views_dashboard.home, name="dashboard"),
     url(r'^dashboard/getProfile/$', views_dashboard.getProfile, {}, name='getProfile'),
 
-
     # projects (TODO change ID to name)
-    url(r'^projects/$', views_projects.home, name="projects"), # see list of projects
+    url(r'^projects/$', views_projects.home, name="projects"),  # see list of projects
     url(r'^projects/getAllProjects/$', views_projects.getAllProjects, {}, name='getAllProjects'),
-    url(r'^projects/addProject/$', views_projects.addProject, name="addProject"), # form to add project
+    url(r'^projects/addProject/$', views_projects.addProject, name="addProject"),  # form to add project
     url(r'^projects/deleteProject/$', views_projects.deleteProject, name="deleteProject"),
     url(r'^projects/(?P<projectName>\w+)/getAllMedias/$', views_projects.getAllMedias, {}, name='getAllMedias'),
     url(r'^projects/(?P<projectName>\w+)/getMediaPhoto/(?P<mediaName>\w+)$', views_projects.getMediaPhoto, {}, name='getMediaPhoto'),
@@ -60,7 +53,7 @@ urlpatterns = [
     url(r'^projects/(?P<projectName>\w+)/projectInfo/$', views_projects.editProject, name="editProject"),
 
     # sites
-    url(r'^sites/$', views_sites.home, name="sitesHome"), # list all the sites
+    url(r'^sites/$', views_sites.home, name="sitesHome"),  # list all the sites
     url(r'^sites/(?P<siteName>\w+)/editor/$', views_sites.siteEditor, name="siteEditor"),
     url(r'^sites/(?P<siteName>\w+)/getAllPageNames/$', views_sites.getPageNames, name="getPageNames"),
     url(r'^sites/(?P<siteName>\w+)/getPageHTML/(?P<pageName>\w+)/$', views_sites.getPageHTML, name="getPageHTML"),
@@ -76,6 +69,6 @@ urlpatterns = [
     url(r'^sites/getAllSites/$', views_sites.getAllSites, name="getAllSites"),
 
     # public (what public audience sees)
-    url(r'^public/(?P<username>\w+)/(?P<siteName>\w+)/(?P<pageName>\w+)/$', views_public.renderPage,{'private': False},  name="publicRenderPage"), # list all the sites
-    url(r'^private/(?P<username>\w+)/(?P<siteName>\w+)/(?P<pageName>\w+)/$', views_public.renderPage, {'private': True}, name="privateRenderPage"), # list all the sites
+    url(r'^public/(?P<username>\w+)/(?P<siteName>\w+)/(?P<pageName>\w+)/$', views_public.renderPage,{'private': False},  name="publicRenderPage"),
+    url(r'^private/(?P<username>\w+)/(?P<siteName>\w+)/(?P<pageName>\w+)/$', views_public.renderPage, {'private': True}, name="privateRenderPage"),
 ]

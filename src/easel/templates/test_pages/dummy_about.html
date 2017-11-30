@@ -2,7 +2,11 @@
 
 <div class="content-html">
 <div class="fixed-size-container sortable main-container">
-    <h2 class="project-title-xl editable ud">ABOUT</h2>
+    <div class="project-title-xl ud">
+        <div class="editable">
+            <h2>ABOUT</h2>
+        </div>
+    </div>
     <div class="ud">
             {% if profile.profilePic %}
                 <img src="{% url 'getProfilePhoto' %}">
@@ -10,30 +14,56 @@
                 <img src="{% static 'img/placeholders/girl.jpeg' %}">
             {% endif %}
     </div>
-    <h2 class="project-title-xl editable ud">{{profile.user.first_name|upper}} {{profile.user.last_name|upper}}</h2>
-    <h2 class="project-title-xl editable ud">Age</h2>
-    <p class="ud editable">
-        {% if profile.age != 0 %}
-            {{profile.age}}
-        {% else %}
-            You can edit your age in user-setting page (you can find it in the sidebar on the right)!
-        {% endif %}
-    </p>
-    <h2 class="project-title editable ud">School</h2>
-    <p class="ud editable">
+    <div class="ud">
+        <div class="editable">
+            <h2>{{profile.user.first_name|upper}} {{profile.user.last_name|upper}}</h2>
+        </div>
+    </div>
+    <div class="ud">
+        <div class="editable"><h2>Age</h2></div>
+    </div>
+    <div class="ud">
+        <div class="editable">
+            <p>
+                {% if profile.age != 0 %}
+                    {{profile.age}}
+                {% else %}
+                    You can edit your age in user-setting page (you can find it in the sidebar on the right)!
+                {% endif %}
+            </p>
+        </div>
+    </div>
+    <div class="ud">
+        <div class="editable">
+            <h2>School</h2>
+        </div>
+    </div>
+    <div class="ud">
+        <div class="editable">
+        <p>
         {% if profile.school != '' %}
             {{profile.school}}
         {% else %}
             You can edit your school in user-setting page (you can find it in the sidebar on the right)!
         {% endif %}
-    </p>
-    <h2 class="project-title editable ud">Bio</h2>
-    <p class="ud editable">
-        {% if profile.bio != '' %}
-            {{profile.bio}}
-        {% else %}
-            You can edit your bio in user-setting page (you can find it in the sidebar right)!
-        {% endif %}
-    </p>
+        </p>
+        </div>
+    </div>
+    <div class="ud">
+        <div class="editable">
+            <h2>Bio</h2>
+        </div>
+    </div>
+    <div class="ud">
+        <div class="editable">
+            <p>
+            {% if profile.bio != '' %}
+                {{profile.bio}}
+            {% else %}
+                You can edit your bio in user-setting page (you can find it in the sidebar right)!
+            {% endif %}
+            </p>
+        </div>
+    </div>
 </div>
 </div>
