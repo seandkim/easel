@@ -157,16 +157,13 @@ def deleteSite(request):
 
 @login_required
 def editSite(request, siteName):
-    print ('hello')
     profile = Profile.objects.get(user=request.user)
     site = Site.objects.get(name=siteName, owner=profile)
 
     if request.method != 'POST':
         return JsonResponse({'siteName': site.name,
                              'description': site.description})
-    print('POST REQUEST')
     form = EditSiteForm(request.POST)
-    print('form = ', form)
     if not form.is_valid(request.user):
         return JsonErrorResponse(400, form.errors)
 
@@ -189,7 +186,6 @@ def addPage(request, siteName):
     if request.method != 'POST':
         return Json405('POST')
 
-    print(request.POST)
     form = AddPageForm(request.POST)
     # Validates the form.
     if not form.is_valid(request.user, siteName):
@@ -316,7 +312,6 @@ def updateNav(request, siteName):
 # if the `pages` argument is empty, it publishes all pages
 @login_required
 def sitePublish(request, siteName):
-    print("sitePublish start", request.POST)
     profile = Profile.objects.get(user=request.user)
     if ('pageNames[]' not in request.POST) or (request.POST['pageNames[]'] == ""):
         print("Pages are not specified. Publishing all pages")
@@ -350,7 +345,6 @@ def processPage(user, siteName, page):
     for a in soup.find_all('a'):
         try:
             if a["href"] in allPageNames:
-                print("inside!", a)
                 a["href"] = "../" + a["href"] + "/"
         # if a tag doesn't contain href
         except KeyError:
