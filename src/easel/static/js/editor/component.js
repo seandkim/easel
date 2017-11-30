@@ -448,6 +448,7 @@ function addNavButton() {
     var btn, count, el, a, i;
     btn = $('#nav-preview #nav-mobile li');
     i = btn.length;
-    $('#button-list').append(getButtonWithId(i, 'NEW', '#'));
-    $('#nav-preview #nav-mobile').append('<li id="btn'+ i +'"><a href="#">NEW</a></li>');
+    $('#button-list').append(getButtonWithId(i, 'NEW', ''));
+    $('#nav-preview #nav-mobile').append('<li id="btn'+ i +'"><a href="">NEW</a></li>');
+    updateButtonList();
 }

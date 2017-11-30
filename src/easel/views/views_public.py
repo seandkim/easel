@@ -12,7 +12,6 @@ from easel.views import views_sites
 
 def renderHome(request, username, siteName):
     ip = get_ip(request)
-    print('ip=', ip)
     # TODO only increase visitor if same ip request is made after certain
     # interval
 

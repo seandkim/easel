@@ -9,6 +9,7 @@
 	}
 	img {
 		margin: 0;
+		width: 100%;
 	}
 	strong {
 		font-weight: 600;
@@ -23,8 +24,25 @@
 #ud-focus {
 	outline: 3px solid $highlight-color-01;
 }
+.delete-ud {
+	z-index: 30;
+	.icon-garbage {
+	    position: absolute;
+	    left: 50%;
+	    top: 50%;
+	    transform: translate(-45%, -40%);
+	    z-index: 200;
+	}
+}
 #main-container {
 	min-height: 200px;
+}
+
+/* medium editor */
+.medium-editor-toolbar-actions {
+	b, i, u {
+		color: $interface-color-05 !important;
+	}
 }
 
 /* components */

@@ -1,79 +1,5 @@
 @import "global";
 
-
-
-#publish-site-modal {
-	width: 75%;
-	.modal-content {
-		height: 600px;
-		overflow-y: scroll;
-	}
-	.boxes {
-		background-color: $interface-color-05;
-		padding: 10px 0px 15px 40px;
-		p {
-			margin-bottom: 0!important;
-		}
-		input {
-			height: 20px;
-		}
-	}
-}
-
-#nav-control {
-	margin: 20px 0;
-	input {
-		height: 30px;
-	}
-	.tabs {
-		background-color: #FAFAFA;
-	}
-}
-
-.delete-ud {
-	z-index: 30;
-	.icon-garbage {
-	    position: absolute;
-	    left: 50%;
-	    top: 50%;
-	    transform: translate(-45%, -40%);
-	    z-index: 200;
-	}
-}
-
-#style-list {
-	.jscolor {
-		height: 30px;
-	}
-	.style-opt {
-		float: left;
-		width: 110px;
-		margin: 0 5px;
-		letter-spacing: 0;
-	}
-	.label {
-		letter-spacing: 0;
-	}
-	.quarter-opt {
-		width: 40px;
-		margin: 0 7px;
-	}
-	.half-opt {
-		width: 100px;
-		margin: 0 7px;
-	}
-	.range-field {
-		margin: 0;
-	}
-	input[type=text] {
-		height: 20px;
-		color: $interface-color-05;
-	}
-	select {
-		height: 20px;
-	}
-}
-
 #site-menu {
 	background-color: #000;
 	color: $interface-color-07;
@@ -211,7 +137,12 @@
     height: 100%;
     background-color: $interface-color-01;
     i {
-    	color: $interface-color-07;
+	   color: $interface-color-07;
+    }
+    #page-content {
+     	i {
+     		color: $black;
+     	}
     }
 	.component-container {
 	    @include smooth(0.3s);
@@ -334,6 +265,38 @@
     		}
     	}
     }
+    #style-list {
+		.jscolor {
+			height: 30px;
+		}
+		.style-opt {
+			float: left;
+			width: 110px;
+			margin: 0 5px;
+			letter-spacing: 0;
+		}
+		.label {
+			letter-spacing: 0;
+		}
+		.quarter-opt {
+			width: 40px;
+			margin: 0 7px;
+		}
+		.half-opt {
+			width: 100px;
+			margin: 0 7px;
+		}
+		.range-field {
+			margin: 0;
+		}
+		input[type=text] {
+			height: 20px;
+			color: $interface-color-05;
+		}
+		select {
+			height: 20px;
+		}
+	}
     .editor-bottom {
 	    position: fixed;
 	    text-align: right;
@@ -651,88 +614,37 @@
 	}
 }
 
-.library-modal {
-	width: 80% !important;
-	padding: 60px 50px;
-	max-height: 85%;
-	.modal-header {
-		font-size: 20pt;
-		letter-spacing: 4px;
-	}
-	.tabs {
-		background-color: #FAFAFA !important;
-	}
-    z-index: 9999;
-}
-.wide-modal {
-	width: 90% !important;
-	padding: 40px 40px;
-	max-height: 90%;
-	z-index: 1000 !important;
-	.modal-header {
-		font-size: 20pt;
-		letter-spacing: 4px;
-	}
-}
-
+/* modals */
 #link-page-modal {
 	z-index: 9999 !important;
 }
-
-.project-cover {
-	background-image: url('../img/placeholders/church.png');
-	background-size: cover;
-	background-repeat: no-repeat;
-	position: absolute;
-	width: 45%;
-	height: 100%;
-	margin: 50px 0 50px 50px;
-	padding: 40px;
-	left: 0;
-	top: 0;
-	color: white !important;
-
-	.logo-text {
-		color: $interface-color-05;
-		margin: 0;
+#publish-site-modal {
+	width: 75%;
+	.modal-content {
+		height: 600px;
+		overflow-y: scroll;
 	}
-
-	.cover-description {
-		font-family: $header-font;
-		color: inherit;
-		background-color: rgba(0, 0, 0, 0.6);
-		padding: 100px 50px;
-		width: 100%;
-		height: 100%;
-	}
-	.cover-detail {
-		font-size: 14pt;
-		letter-spacing: 2px;
-		margin: 20px 0;
-		color: white;
-		.status {
-			font-weight: 200;
-			font-size: 12pt;
-			color: $interface-color-05;
+	.boxes {
+		background-color: $interface-color-05;
+		padding: 10px 0px 15px 40px;
+		p {
+			margin-bottom: 0!important;
+		}
+		input {
+			height: 20px;
 		}
 	}
-	.cover-bottom {
-		position: absolute;
-		bottom: 0;
-		margin-bottom: 100px;
+}
+#nav-modal {
+	#nav-control {
+	margin: 20px 0;
+	input {
+		height: 30px;
+	}
+	.tabs {
+		background-color: #FAFAFA;
 	}
 }
-
-.fixed-container {
-	z-index: -1;
-	position: absolute;
-	width: 45%;
-	height: 100%;
-	margin: 50px 50px 50px 0px;
-	padding: 100px 40px 40px 40px;
-	right: 0;
-	top: 0;
-	overflow-y: scroll;
 }
 
 .project-edit {
@@ -944,31 +856,4 @@
 			}
 		}
 	}
-}
-.medium-editor-toolbar-actions {
-	b, i, u {
-		color: $interface-color-05 !important;
-	}
-}
-
-
-.dark {
-	background-color: $interface-color-01;
-	color: $interface-color-05;
-}
-
-.light {
-	background-color: $interface-color-06;
-}
-
-
-.cover {
-    width: 620px;
-    height: auto;
-    margin-top: 30px;
-    margin-left: 60px;
-    letter-spacing: 1px;
-    img {
-        width: 100%;
-    }
 }
