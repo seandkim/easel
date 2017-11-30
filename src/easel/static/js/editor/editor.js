@@ -7,6 +7,10 @@ var editMode = "editable"; // editable vs sortable
 var pagesInfo = {}; //initialized in loadpages
 var initializedLibraryUpload = false;
 var focusElement;
+var customizableAttr = ['margin-left', 'margin-right', 'margin-top', 'margin-bottom',
+                        'padding-left', 'padding-right', 'padding-top', 'padding-bottom',
+                        'color', 'background-color', 'font-family', 'letter-spacing', 'width',
+                        'height', 'border-style', 'border-color', 'border-width', 'border-radius'];
 
 $(function() {
   	/* initialization */
@@ -108,19 +112,7 @@ $(function() {
         ud_to_close.remove();
     });
     $(document).on('click', '.ud', focusudHandler);
-    $('.style-input').change(function() {
-    	var attrName, attrVal, el;
-    	el = getFocusElement();
-    	attrName = $( this ).attr('name');
-    	attrVal = $(this).val();
-    	if (attrName === 'color' || attrName === 'background-color' ||
-    		attrName === 'border-color') {
-    		attrVal = '#' + attrVal;
-    	}
-    	if (el.length) {
-    		el.css(attrName, attrVal);
-    	}
-    });
+    $('.style-input').change(styleChangeHandler);
 
     $(".drag-component").draggable({
         connectToSortable: "#page-content",
