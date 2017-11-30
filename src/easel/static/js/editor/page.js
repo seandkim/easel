@@ -6,7 +6,6 @@
 // ex) see openTabHandler/closeTabHandler
 function updatePages() {
     const unsaved_icon = 'icon-asterisk' // TODO change to diff icon?
-
     // delete any page that is not in pagesInfo
     const icons = $('#page-list').children();
     const deleteNames = []
@@ -47,7 +46,6 @@ function updatePages() {
         if (!pagesInfo[name]['opened'] && $('#page-content > #' + name + '').length == 1) {
             get$tab(name).remove();
             get$content(name).remove();
-            //TODO use get$icon!
             get$icon(name).find('i').removeClass('icon-file-o').addClass('icon-file');
             changePageStatus(name, false, false); // ajax call to server
         }
@@ -86,7 +84,7 @@ function updatePages() {
 
         get$tab(activeName).addClass('active');
         get$content(activeName).removeClass('hidden');
-        changePageStatus(activeName, true, true); // ajax call to server TODO every time?
+        changePageStatus(activeName, true, true);
     } else {
         $('div.empty-workspace-msg').removeClass('hidden');
     }
@@ -143,9 +141,6 @@ function openPage(siteName, pageName) {
     var $div_page = $('<div id="' + pageName + '" class="hidden"></div>')
     $('#page-content').append($div_page);
     loadPageHTML(siteName, pageName, function(jqXHR, textStatus) {
-        // TODO what should be done in error case?
-        $new_el.remove(); // remove the opened tab
-        $div_page.remove();
         pagesInfo[pageName]['opened'] = false;
         pagesInfo[pageName]['active'] = false;
         updatePages()
@@ -185,11 +180,10 @@ function changePageStatus(pageName, isOpened, isActive) {
             isActive: isActive
         },
         success: function(data) {
-            console.log("successfully changed page status", pageName);
         },
         error: function(jqXHR, textStatus) {
             console.log("error in changing page status", pageName, textStatus);
-            // TODO display server down error message
+            showAlertMsg("Cannot connect the server. Can you check your internet connection?");
         }
     });
 }
@@ -218,7 +212,9 @@ function keyboardHandler(e) {
             var pageName = getActivePageName();
             savePages([pageName]);
         }
-    // mark active page as unsaved TODO only when meta key is not pressed?
+
+
+    // mark active page as unsaved
     } else {
         let activePage = pagesInfo[getActivePageName()];
         if (activePage && activePage['saved']) {
@@ -375,7 +371,7 @@ function createPage(pageName, copyPageName) {
         updatePages();
 
         get$icon(name).trigger('click');
-        // TODO possible bug?
+        // TODO doesn't happen two times?
         if ($('#page-tab').find('i').hasClass('icon-right-dir')) {
             $('#page-tab').trigger('click');
         }

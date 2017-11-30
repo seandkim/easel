@@ -49,7 +49,6 @@ class Profile(models.Model):
         site.createPage('instruction', opened=True, active=True)
         site.createPage('home', opened=True, active=False)
         site.createPage('about')
-        site.createPage('update')  # TODO necessary?
         site.createPage('portfolio')
         return site
 
@@ -88,7 +87,6 @@ class Media(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     name = models.CharField(max_length=20)
     caption = models.CharField(max_length=1000)
-    # TODO support multi-file (or enforce filetype)
     # media_type = models.CharField(max_length=5)
     # TODO dynmically create upload_to folder
     image = models.ImageField(upload_to='media')
@@ -101,7 +99,7 @@ class Site(models.Model):
     owner = models.ForeignKey(Profile, on_delete=models.CASCADE)
     name = models.CharField(max_length=20)
     description = models.CharField(max_length=1000)
-    nav_html = models.TextField(default="")  # TODO default nav?
+    nav_html = models.TextField(default="")
     mon = models.IntegerField(default=0, blank=True)
     tue = models.IntegerField(default=0, blank=True)
     wed = models.IntegerField(default=0, blank=True)
@@ -125,7 +123,7 @@ class Site(models.Model):
         if pageName in defaultPages:
             templateName = pageName
         filename = 'test_pages/dummy_' + templateName + '.html'
-        t = get_template(filename)  # TODO change? dummy works pretty well...
+        t = get_template(filename)
         initHTML = t.render(context={'profile': self.owner})
 
         page = Page(site=self, name=pageName, content_html=initHTML,
@@ -133,12 +131,13 @@ class Site(models.Model):
         page.save()
         return page
 
-    def createPageWithHtml(self, pageName, content_html, opened=False, active=False):
+    def createPageWithHtml(self, pageName, content_html, opened=False,
+                           active=False):
         if Page.objects.filter(site=self, name=pageName).count() > 0:
             raise Exception("Page name %s already exists" % pageName)
 
-        page = Page(site=self, name=pageName, content_html=content_html, published_html="",
-                    opened=opened, active=active)
+        page = Page(site=self, name=pageName, content_html=content_html,
+                    published_html="", opened=opened, active=active)
         page.save()
         return page
 
@@ -169,15 +168,8 @@ class Page(models.Model):
     published_html = models.TextField(default="")
 
     def __unicode__(self):
-        return "%s (%s) %s %s" % (self.name, self.site.name, self.opened, self.active)
+        return "%s (%s) %s %s" % (self.name, self.site.name, self.opened,
+                                  self.active)
 
     def getNavHTML(self):
         return self.site.nav_html
-
-    def getfullHTML(self):
-        # TODO
-        soup = BeautifulSoup(self.content_html, 'html.parser')
-        nav_html = soup.new_tag(self.getNavHTML())
-        content = soup.find('div', class_="main-container")
-        print(full)
-        return str(full)

@@ -99,7 +99,7 @@ class AddProjectForm(forms.Form):
 
         return True
 
-    
+
 class EditProjectForm(forms.Form):
     projectName = forms.CharField(max_length=20)
     description = forms.CharField(max_length=1000)
@@ -109,7 +109,7 @@ class EditProjectForm(forms.Form):
         valid = super(EditProjectForm, self).is_valid()
         if not valid:
             return False
-        
+
         oldName = self.cleaned_data.get('oldName').lower()
         projectName = self.cleaned_data.get('projectName').lower()
         profile = Profile.objects.get(user=user)
@@ -129,7 +129,7 @@ class EditProjectForm(forms.Form):
 
         return True
 
-    
+
 class AddMediaForm(forms.ModelForm):
     class Meta:
         model = Media
@@ -170,7 +170,6 @@ class EditMediaForm(forms.Form):
     # project field is overwritten with choice field
     # it is declared here to display first in the form
     project = forms.ModelChoiceField(queryset=None, empty_label=None)
-    # image = forms.FileField() TODO
     name = forms.CharField(max_length=20)
     caption = forms.CharField(max_length=1000)
     oldName = forms.CharField(widget=forms.HiddenInput(), required=False)
@@ -257,7 +256,7 @@ class AddSiteForm(forms.Form):
             return False
 
         return True
-    
+
 
 class EditSiteForm(forms.Form):
     siteName = forms.CharField(max_length=20)
@@ -268,7 +267,7 @@ class EditSiteForm(forms.Form):
         valid = super(EditSiteForm, self).is_valid()
         if not valid:
             return False
-        
+
         oldName = self.cleaned_data.get('oldName').lower()
         siteName = self.cleaned_data.get('siteName').lower()
         profile = Profile.objects.get(user=user)
