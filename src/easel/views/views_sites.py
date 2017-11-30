@@ -342,8 +342,7 @@ def sitePublish(request, siteName):
         return Json400
 
     pageNames = request.POST.getlist('pageNames[]')
-    allPageNames = set(profile.getAllPages().valueList('name'))
-    print(allPageNames)
+    allPageNames = set(profile.getAllPages(siteName).values_list('name'))
     pages = []
     for pageName in pageNames:
         pages.append(profile.getPage(siteName, pageName))
@@ -366,11 +365,8 @@ def processPage(page, allPageNames):
     # routed the relative link in nav to other pages
     soup = BeautifulSoup(page.site.nav_html, 'html.parser')
     for a in soup.find_all('a'):
-        # if a['href'] and a['href'][0] == '#':
-        print(a["href"])
         if a["href"] in allPageNames:
-            #other_name = a['href']
-            a['href'] = "../" + a["href"] + "/"
+            a["href"] = "../" + a["href"] + "/"
     processed_nav_html = str(soup)
 
     # process content_html to have no edtiable material
