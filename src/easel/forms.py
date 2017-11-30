@@ -35,7 +35,9 @@ class RegistrationForm(forms.Form):
         password1 = cleaned_data.get('password1')
         if password and password1 and password != password1:
             raise forms.ValidationError("Passwords did not match.")
-
+        email = cleaned_data.get('email')
+        if '@' not in email:
+            raise forms.ValidationError("Please put in a valid email address.")
         return cleaned_data
 
 
