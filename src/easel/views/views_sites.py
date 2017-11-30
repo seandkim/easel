@@ -257,7 +257,6 @@ def deletePage(request, siteName):
 #   'htmls': <htmls of the new pages, in the correct index as above> }
 @login_required
 def savePages(request, siteName):
-    print('save')
     def processSavePage(html):
         soup = BeautifulSoup(html, 'html.parser')
         for e in soup.find_all():
@@ -278,14 +277,12 @@ def savePages(request, siteName):
     pageNames = request.POST.getlist('pageNames[]')
     htmls = request.POST.getlist('htmls[]')
 
-    print('pn = ', pageNames);
     
     if (len(pageNames) != len(htmls)):
         print('pageName and htmls does not have same length')
         return Json400()
     try:
         site = Site.getSite(request.user.username, siteName)
-        print('site = ', site)
     except ObjectDoesNotExist:
         print("Site %s does not exist" % siteName)
         return Json400()
@@ -354,6 +351,7 @@ def sitePublish(request, siteName):
 
 
 # process page for publishing & previewing
+# TODO - Sean ~_~
 def processPage(page):
     def filterEditable(elem):
         try:
