@@ -1,8 +1,8 @@
 // stored structure of loaded media
 var media_tree = {};
 // delete project form
-function initializeDeleteButton($button, projectName) {
-    $button.click(function() {
+function initializeButtons($detail_bar, projectName) {
+    $detail_bar.find('a.delete-project button').click(function() {
         $deleteBtn = $("#delete-project-modal button:not(.modal-close)");
         $deleteBtn.off(); // removes all event handlers
 
@@ -22,6 +22,23 @@ function initializeDeleteButton($button, projectName) {
                   // display error message
                 }
             });
+        });
+    });
+    
+    // edit project form
+    $detail_bar.find('a.edit-project-icon').click(function(e) {        
+        $.ajax({
+            url: '/easel/projects/' + projectName + '/projectInfo/',
+            method: 'GET',
+            success: function(data) {
+                $('#edit-project-modal').data('oldname', projectName);
+                $('#edit-project-modal #id_projectName').val(data.projectName);
+                $('#edit-project-modal #id_description').val(data.description);
+                $('#edit-project-modal').modal('open');
+            },
+            error: function(jqXHR) {
+                console.error("ajax call failed", jqXHR);
+            }
         });
     });
 }
@@ -80,8 +97,8 @@ function loadMedia(projectName, description, isSelected) {
         }
         
         // delete project button
-        initializeDeleteButton(detail_bar.find('button'), projectName);
-
+        initializeButtons(detail_bar, projectName);
+        
         /* create media div */
         var medias_div = $("<div></div>").addClass("media-list").addClass("col").addClass("s12");
         medias_div.addClass("media-list").attr("id", projectName);

@@ -136,7 +136,7 @@ function initializePagesInfo() {
 
 function openPage(siteName, pageName) {
     // create tab instantly and add it to page tab
-    var $new_el = $($.parseHTML('<li tab-target="#' + pageName + '">' + '<a href=#>' + pageName + '</a>' + '<a href="#" class="close-tab"><span class="icon-close"></span></a>' + '</li>'));
+    var $new_el = $($.parseHTML('<li tab-target="#' + pageName + '">' + '<a href=# class="tab-page-name">' + pageName + '</a>' + '<a href="#" class="close-tab"><span class="icon-close"></span></a>' + '</li>'));
     $('.cr-tabs').prepend($new_el);
 
     // append new active tab with empty content
@@ -217,6 +217,7 @@ function keyboardHandler(e) {
         if (e.keyCode == 83) {
             e.preventDefault();
             var pageName = getActivePageName();
+            debugger;
             savePages([pageName]);
         }
 
@@ -232,6 +233,7 @@ function keyboardHandler(e) {
 }
 
 function savePages(allPageNames, successHandler, errorHandler) {
+    debugger;
     if (!allPageNames) {
         console.error("wrong pageNames");
         return;

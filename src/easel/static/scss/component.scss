@@ -406,6 +406,9 @@
     		color: $interface-color-05;
     		font-size: 16pt;
     		letter-spacing: 1px;
+    		.tab-page-name {
+    			max-width: 100px;
+    		}
 		}
 
 		ul.cr-tabs>li.active {

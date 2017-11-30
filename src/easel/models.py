@@ -48,7 +48,7 @@ class Profile(models.Model):
         site.save()
         site.createPage('instruction', opened=True, active=True)
         site.createPage('home', opened=True, active=False)
-        site.createPage('about', opened=True, active=False)
+        site.createPage('about')
         site.createPage('update')  # TODO necessary?
         site.createPage('portfolio')
         return site
