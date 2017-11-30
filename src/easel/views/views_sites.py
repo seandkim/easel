@@ -146,13 +146,13 @@ def deleteSite(request):
         return Json400()
     profile = Profile.objects.get(user=request.user)
     siteName = request.POST['siteName']
-
     try:
         Site.objects.get(owner=profile, name=siteName).delete()
     except ObjectDoesNotExist:
         print("Site name %s does not exist" % siteName)
         return Json400()
-    return JsonResponse({'success': True})
+    count = Site.objects.filter(owner=profile).count()
+    return JsonResponse({'success': True, 'count':count})
 
 
 @login_required
