@@ -395,7 +395,6 @@ function updateButtonList() {
         $('#button-list').append(getButtonWithId(i, a.text(), a.attr('href')));
         i++;
     });
-    // TODO: allow linking to internal pages
     initializePagesAutoComplete();
 }
 
@@ -445,17 +444,12 @@ function navEditChangeHandler(e) {
     }
 }
 
-// TODO: fix this really
 function initializePagesAutoComplete() {
     var settings = getPagesSetting();
-    for (var i = 0; i < settings.length; i++) {
-        settings[i] = '#' + settings[i];
-    }
     $('.page-autocomplete').autocomplete({
         data: settings,
         limit: 20,
         onAutocomplete: function(val) {
-            console.log($(this)[0]);
             var username = getCurrUsername();
             var site = getCurrSiteName();
             var targetPage = $(this).val();
@@ -472,15 +466,4 @@ function addNavButton() {
     i = btn.length;
     $('#button-list').append(getButtonWithId(i, 'NEW', '#'));
     $('#nav-preview #nav-mobile').append('<li id="btn'+ i +'"><a href="#">NEW</a></li>');
-}
-
-function onSaveNav() {
-    /* nav after edited */
-    var nav = $('#nav-preview nav');
-    // TODO Sean apply magic here
-
-
-
-    // after donw
-    $('#nav-modal').modal('close');
 }
