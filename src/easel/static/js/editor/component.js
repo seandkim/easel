@@ -12,49 +12,39 @@ function componentDropHandler(event, ui) {
 	}
 
 	debugger;
-	var cmp = $item.children().eq(0).attr('id');
+	var cmp = $item.attr('id');
+	$item.empty();
+	$item.removeAttr("style");
+	$item.removeAttr("class");
+	$item.off();
+	$item.addClass('ud');
     if (cmp === "img-cmp") {
         open_img_selection();
     }
     else if (cmp === 'textbox-cmp') {
-		$item.empty();
-		$item.removeAttr("style");
-		$item.removeAttr("class");
-		$item.off();
 		$item.append($('<div class="editable">'+
 						'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Dictum at tempor commodo ullamcorper. Ac turpis egestas maecenas pharetra convallis posuere morbi. Neque viverra justo nec ultrices. Commodo odio aenean sed adipiscing diam donec. Habitant morbi tristique senectus et netus et malesuada fames ac. Iaculis nunc sed augue lacus viverra. Cras sed felis eget velit aliquet sagittis id consectetur. Nunc scelerisque viverra mauris in aliquam. Vel fringilla est ullamcorper eget nulla facilisi etiam dignissim.'+
 					  '</div>'));
-		$item.addClass('ud');
         editor = new MediumEditor('.editable', editable_settings);
     }
     else if (cmp === 'rule-cmp') {
-        activeId.prepend(
-            '<div class="ud"><br><hr><br></div>'
-        );
+        $item.append('<div class="ud"><br><hr><br></div>');
     }
     else if (cmp === 'space-cmp') {
-        activeId.prepend(
-            '<div class="ud space"></div>'
-        );
+        $item.append('<div class="ud space"></div>');
     }
     else if (cmp === 'quote-cmp') {
-        activeId.prepend(
-            '<quoteblock class="ud editable">Some code block.</quoteblock>'
-        );
+        $item.append('<quoteblock class="ud editable">Some code block.</quoteblock>');
     }
     else if (cmp === 'embed-cmp') {
         $('#general-modal').modal('open');
-        activeId.prepend(
-            '<quoteblock class="ud">Some embed text</quoteblock>'
-        );
+        $item.append('<quoteblock class="ud">Some embed text</quoteblock>');
     }
     else if (cmp === 'video-cmp') {
-        activeId.prepend(
-            '<div class="ud"><video class="ud">Some code block.</video></div>'
-        );
+        $item.append('<div class="ud"><video class="ud">Some code block.</video></div>');
     }
     else if (cmp === 'row-cmp') {
-        activeId.prepend(
+        $item.append(
             '<div class="row">' +
             	'<div class="col s4">' +
             		'<div class="editable ud">This bsdfbjnagklsbjfg;qejbgldfb lqerbg elqrhb lqeirhb qlis a column</div>' +
