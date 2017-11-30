@@ -153,7 +153,6 @@ function loadPageHTML(siteName, pageName, errorHandler) {
         method: "GET",
         dataType: "json",
         success: function(json) {
-            console.log('successfully retrieve html for ' + pageName);
             const html = json.nav_html + "\n" + json.content_html;
             $('#page-content > div#' + pageName).empty().append(html);
             initializeEditable();
@@ -180,7 +179,7 @@ function changePageStatus(pageName, isOpened, isActive) {
         success: function(data) {
         },
         error: function(jqXHR, textStatus) {
-            console.log("error in changing page status", pageName, textStatus);
+            console.error("error in changing page status", pageName, textStatus);
             showAlertMsg("Cannot connect the server. Can you check your internet connection?");
         }
     });
@@ -355,7 +354,6 @@ function pageOptionHandler(e) {
 
 function createPage(pageName, copyPageName) {
     function successHandler(data) {
-        console.log("successfully added the page");
         // create new entry in pagesInfo
         const newPage = data['pages'][0];
         let name = newPage['name'];
