@@ -442,7 +442,6 @@ function initializePagesAutoComplete() {
     for (var i = 0; i < settings.length; i++) {
         settings[i] = '#' + settings[i];
     }
-    console.log(settings);
     $('.page-autocomplete').autocomplete({
         data: settings,
         limit: 20,

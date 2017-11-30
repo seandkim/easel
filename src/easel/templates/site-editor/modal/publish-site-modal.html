@@ -1,17 +1,14 @@
 <div id="publish-site-modal" class="modal publish-site-screen">
-    <!-- TODO @Tiffany change in css file -->
-    <div class="modal-content" style="height: 600px; overflow-y: scroll;">
+    <div class="modal-content">
         <div class="center text-center paint-as-input">
-            <h2 class="logo-text">Publish Site</h2>
-            <p>
-                Latest change will be saved upon publishing. 
+            <h2 class="logo-text loose-spacing">Publish Site</h2>
+            <p class="p-text">
+                Latest change will be saved upon publishing. Please select pages to be published.
             </p>
             <form>
                 <!-- add switch -->
-                <div class="boxes">
-
-                </div>
-                <br />
+                <div class="boxes"></div>
+                <br>
                 {% csrf_token %}
                 <button id="add-new-page" class="dark-btn-alt">PUBLISH &#10230;</button>
             </form>

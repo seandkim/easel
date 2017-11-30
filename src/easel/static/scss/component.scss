@@ -1,5 +1,23 @@
 @import "global";
 
+#publish-site-modal {
+	width: 75%;
+	.modal-content {
+		height: 600px;
+		overflow-y: scroll;
+	}
+	.boxes {
+		background-color: $interface-color-05;
+		padding: 10px 0px 15px 40px;
+		p {
+			margin-bottom: 0!important;
+		}
+		input {
+			height: 20px;
+		}
+	}
+}
+
 #nav-control {
 	margin: 20px 0;
 	input {
@@ -30,9 +48,6 @@
 		width: 110px;
 		margin: 0 5px;
 		letter-spacing: 0;
-	}
-	.full-opt {
-		
 	}
 	.label {
 		letter-spacing: 0;
