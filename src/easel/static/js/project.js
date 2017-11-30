@@ -14,6 +14,7 @@ function initializeButtons($detail_bar, projectName) {
                 success: function(data) {
                   $("li a[href='#" + projectName + "']").parent().remove();
                   $("div#"+projectName).remove();
+                  $('ul.tabs').tabs();
                   $('ul.tabs').tabs('select_tab', 'ungrouped');
                   $('.modal').modal('close');
                 },
@@ -133,6 +134,7 @@ function loadMedia(projectName, description, isSelected) {
             project_list.push({ path: imgPath, name: media.name, caption: media.caption });
         }
         if (isSelected) {
+            $('ul.tabs').tabs();
             $('ul.tabs').tabs('select_tab', projectName);
         }
     }).fail(function() {
