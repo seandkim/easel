@@ -277,7 +277,7 @@ def savePages(request, siteName):
     pageNames = request.POST.getlist('pageNames[]')
     htmls = request.POST.getlist('htmls[]')
 
-    
+
     if (len(pageNames) != len(htmls)):
         print('pageName and htmls does not have same length')
         return Json400()
@@ -362,7 +362,9 @@ def processPage(page, allPageNames):
     # routed the relative link in nav to other pages
     soup = BeautifulSoup(page.site.nav_html, 'html.parser')
     for a in soup.find_all('a'):
+        print(a)
         if a["href"] in allPageNames:
+            print("inside!", a)
             a["href"] = "../" + a["href"] + "/"
     processed_nav_html = str(soup)
 

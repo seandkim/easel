@@ -33,7 +33,7 @@ function componentDropHandler(event, ui) {
 	$item.removeAttr("class");
 	$item.off();
 	$item.addClass('ud');
-	$item.attr("id", "just-dropped-down"); // TODO drop to this element & remove later
+	$item.attr("id", "just-dropped-down"); // drop to this element & remove later
     if (cmp === "img-cmp") {
         open_img_selection();
     }
@@ -199,7 +199,6 @@ function uploadMedia(e) {
         contentType: false,
         success: function(data) {
             showAlertMsg('successfully uploaded file');
-            // TODO harcoded img path
             var url = '/easel/projects/ungrouped/getMediaPhoto/' + mediaName;
             createImgComponent(url);
         },
