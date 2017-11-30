@@ -208,6 +208,7 @@
                          <div class="style-opt quarter-opt">
                             <span class="sm-text light-text label">top </span>
                             <input name="padding-top" value="0px" class="style-input" type="text"/>
+                            <input name="padding-top" value="0px" class="style-input" type="text"/>
                         </div>
                          <div class="style-opt quarter-opt">
                             <span class="sm-text light-text label">right </span>
@@ -307,20 +308,20 @@
         <h5 class="header-text loose-spacing light-text no-wrap">SWITCH SITE</h5>
         <a class="header-text light-text sm-text underline modal-trigger" href="#add-site-modal">OR OPEN NEW SITE +</a>
         <ul>
-            {% for site in sites %}
+            {% for other_site in sites %}
                 <li>
-                    {% if site.name == siteName %}
+                    {% if other_site.name == site.name %}
                         <a class="gray-text header-text small-text">
                             <strong>
                                 <i class="light-text icon-asterisk"></i>
                                 <span class="light-text loose-spacing">
-                                    {{ site.name|upper }}
+                                    {{ other_site.name|upper }}
                                 </span>
                             </strong>
                         </a>
                     {% else %}
-                        <a href="/easel/sites/{{ site.name }}/editor/" class="gray-text header-text small-text hover-underline loose-spacing">
-                            {{ site.name|upper }}
+                        <a href="/easel/sites/{{ other_site.name }}/editor/" class="gray-text header-text small-text hover-underline loose-spacing">
+                            {{ other_site.name|upper }}
                         </a>
                     {% endif %}
                 </li>

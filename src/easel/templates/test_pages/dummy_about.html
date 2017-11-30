@@ -10,7 +10,7 @@
                 <img src="{% static 'img/placeholders/girl.jpeg' %}">
             {% endif %}
     </div>
-    <h2 class="project-title-xl editable ud">{{profile.user.first_name|upper}}<br>{{profile.user.last_name|upper}}</h2>
+    <h2 class="project-title-xl editable ud">{{profile.user.first_name|upper}} {{profile.user.last_name|upper}}</h2>
     <h2 class="project-title-xl editable ud">Age</h2>
     <p class="ud editable">
         {% if profile.age != 0 %}
