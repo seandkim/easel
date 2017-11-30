@@ -257,5 +257,10 @@ function initializeEditNavModal() {
             $('#nav-control ul.tabs').tabs('select_tab', 'content');
         }
     });
+    
+    $('nav').on('click', 'a', function (e) {
+        e.preventDefault();
+    })
+
     $('#nav-modal').modal('open');
 }

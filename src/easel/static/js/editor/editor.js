@@ -99,7 +99,7 @@ $(function() {
     $('#add-page-modal form').submit(addNewPageModalHandler);
 
     // ------------------------ Prevent navigation link
-    $('nav a').click(function (e) {
+    $('nav').on('click', 'a', function (e) {
         e.preventDefault();
     })
 
