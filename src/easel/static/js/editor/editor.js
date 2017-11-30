@@ -107,7 +107,6 @@ $(function() {
     $(document).on('click', '.ud', focusudHandler);
     $('.style-input').change(function() {
     	var attrName, attrVal, el;
-    	console.log($( this ).attr('name'), $(this).val());
     	el = getFocusElement();
     	attrName = $( this ).attr('name');
     	attrVal = $(this).val();
@@ -121,8 +120,8 @@ $(function() {
     });
 
     // allow delete component on hover
-    $(document).on('mouseenter', '.ud', addTrashcanButton);
-    $(document).on('mouseleave', '.ud', deleteTrashcanButton);
+    //$(document).on('mouseenter', '.ud', addTrashcanButton);
+    //$(document).on('mouseleave', '.ud', deleteTrashcanButton);
     $('.drag-component').draggable({
         scroll: false,
         distance: 0,

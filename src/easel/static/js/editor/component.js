@@ -7,7 +7,7 @@
 function componentDropHandler(event, ui) {
 	var cmp = ui.draggable.prop('id');
     var active_id_name = '#' + getActivePageName();
-    var activeId = $('#main-container, .main-container');
+    var activeId = $(active_id_name).find('#main-container, .main-container');
     if (cmp === "img-cmp") {
         open_img_selection();
     }
@@ -31,31 +31,42 @@ function componentDropHandler(event, ui) {
     }
     else if (cmp === 'quote-cmp') {
         activeId.prepend(
-            '<quoteblock class="ud editable">Some code block.</quoteblock>'
+            '<blockquote class="ud">' +
+                '<span class="editable ud">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris eget leo nunc, nec tempus mi? Curabitur id nisl mi, ut vulputate urna. Quisque porta facilisis tortor, vitae bibendum velit fringilla vitae! Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris eget leo nunc, nec tempus mi? Curabitur id nisl mi, ut vulputate urna. Quisque porta facilisis tortor, vitae bibendum velit fringilla vitae!</span>' +
+                '<cite class="editable ud">Somebody famous</cite>' +
+            '</blockquote>'
         );
+        initializeEditable();
     }
     else if (cmp === 'embed-cmp') {
+        resetGeneralModal();
+        $('#add-general-input').click(addTargetEmbed);
+        $('#general-modal .modal-header').text('ADD EMBED HTML CONTENT');
         $('#general-modal').modal('open');
         activeId.prepend(
-            '<quoteblock class="ud">Some embed text</quoteblock>'
+            '<div added="false" id="embed-target" class="ud"></div>'
         );
     }
     else if (cmp === 'video-cmp') {
+        resetGeneralModal();
+        $('#add-general-input').click(addVideoEmbed);
+        $('#general-modal .modal-header').text('ADD VIDEO URL');
+        $('#general-modal').modal('open');
         activeId.prepend(
-            '<div class="ud"><video class="ud">Some code block.</video></div>'
+            '<iframe width="100%" src="https://www.youtube.com/embed/XGSy3_Czz8k"></iframe>'
         );
     }
     else if (cmp === 'row-cmp') {
         activeId.prepend(
             '<div class="row">' +
             	'<div class="col s4">' +
-            		'<div class="editable ud">This bsdfbjnagklsbjfg;qejbgldfb lqerbg elqrhb lqeirhb qlis a column</div>' +
+            		'<div class="editable ud">This a column. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</div>' +
             	'</div>' +
             	'<div class="col s4">' +
-            		'<div class="editable ud">This is a column</div>' +
+            		'<div class="editable ud">This a column. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</div>' +
             	'</div>' +
             	'<div class="col s4">' +
-            		'<div class="editable ud">This is a column</div>' +
+            		'<div class="editable ud">This a column. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</div>' +
             	'</div>' +
             '</div>'
         );
@@ -64,6 +75,40 @@ function componentDropHandler(event, ui) {
     console.log('you dropped ' + ui.draggable.prop('id') +' into the page preview!');
 }
 
+function removeUnusedCmpPlaceholder(el) {
+    if (el.attr('added') === 'false') {
+        el.remove();
+    } 
+    else {
+        el.removeAttr('id');
+    }
+}
+
+function resetGeneralModal() {
+    /* clean up embed component form */
+    $('#add-general-input').unbind('click', addTargetEmbed);
+    removeUnusedCmpPlaceholder($('#embed-target'));
+    
+    /* clean up video component form */
+    $('#add-general-input').unbind('click', addTargetVideo);
+    removeUnusedCmpPlaceholder($('#video-target'));
+}
+
+function addTargetEmbed(e) {
+    e.preventDefault;
+    var html = $('#general-input-field').val();
+    $('#embed-target').html(html);
+    $('#embed-target').attr('added', true);
+    $('#general-modal').modal('close');
+}
+
+function addTargetVideo(e) {
+    e.preventDefault;
+    var url = $('#general-input-field').val();
+    $('#video-target').attr('href', url);
+    $('#video-target').attr('added', true);
+    $('#general-modal').modal('close');
+}
 
 /* --------------------- Img Component */
  // img component local upload
@@ -185,11 +230,11 @@ function createImgComponent(url) {
 /* --------------------------- allow deletion of element */
 
 // add trashcan button to focus element
-function addTrashcanButton() {
+function addTrashcanButton(el) {
 	const radius = 70;
-    const left = $(this).position()['left'] + $(this).width() - radius;
-    const top = $('#page-content').scrollTop() + $(this).position()['top']
-                + $(this).height() - radius;
+    const left = el.position()['left'] + el.width() - radius;
+    const top = $('#page-content').scrollTop() + el.position()['top']
+                + el.height() - radius;
 
     const styleStr = 'style="position: absolute; left:' +
                     left + 'px; top:' + top +'px;"';
@@ -202,18 +247,16 @@ function addTrashcanButton() {
         '</div>' +
     '</div></div>');
     trashCan.hide();
-    $(this).append(trashCan);
+    el.append(trashCan);
     trashCan.fadeIn('fast', 'swing');
-    focusElement = $( this );
+    focusElement = el;
 }
 
-function deleteTrashcanButton() {
-	if (focusElement) {
-        const trashCan = focusElement.find('.delete-ud-wrapper');
-        trashCan.fadeOut('fast', 'swing', function() {
-            trashCan.remove();
-        });
-    }
+function deleteTrashcanButton(el) {
+    const trashCan = el.find('.delete-ud-wrapper');
+    trashCan.fadeOut('fast', 'swing', function() {
+        trashCan.remove();
+    });
 }
 
 
@@ -238,14 +281,19 @@ function drop(e) {
 }
 
 function focusudHandler() {
-    if ($(this).attr('id') == 'ud-focus') {
+    var oldEl, newEl;
+    newEl = $( this );
+    oldEl = $( '#ud-focus' );
+    if (newEl.attr('id') == 'ud-focus') {
         return;
     }
-    $('#ud-focus').removeAttr('id');
-    $( this ).attr('id', 'ud-focus');
+    deleteTrashcanButton($('#ud-focus'));
+    oldEl.removeAttr('id');
+    newEl.attr('id', 'ud-focus');
+    addTrashcanButton(newEl);
 
     /* initialize styler */
-    updateStylerAttr($(this));
+    updateStylerAttr(newEl);
 }
 
 function getFocusElement() {
@@ -255,7 +303,9 @@ function getFocusElement() {
 // if user clicked else where, remove focus element
 function deselectFocusElement(e) {
     if (!$(e.target).parents("#ud-focus").length > 0) {
-        getFocusElement().removeAttr('id');
+        var el = getFocusElement();
+        deleteTrashcanButton(el);
+        el.removeAttr('id');
     }
 }
 
@@ -272,8 +322,7 @@ function updateStylerAttr(el) {
     }
 }
 
-var hexDigits = new Array
-        ("0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f"); 
+var hexDigits = "0123456789abcdef".split('');
 
 //Function to convert rgb color to hex format
 function rgb2hex(rgb) {
@@ -320,7 +369,8 @@ function getButtonWithId(i, text, href) {
                         '<a target="#btn' + i + '" class="delete-nav-button" href="#"><i class="icon-close"></i></a>' +
                     '</div>' +
                 '</div>' +
-            '</li>');
+            '</li>'
+    );
 }
 
 function updateButtonList() {
@@ -405,7 +455,6 @@ function initializePagesAutoComplete() {
 }
 
 function addNavButton() {
-    console.log('here');
     var btn, count, el, a, i;
     btn = $('#nav-preview #nav-mobile li');
     i = btn.length;
@@ -414,7 +463,6 @@ function addNavButton() {
 }
 
 function onSaveNav() {
-    console.log('you saved!');
     /* nav after edited */
     var nav = $('#nav-preview nav');
     // TODO Sean apply magic here
