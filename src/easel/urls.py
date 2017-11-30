@@ -27,7 +27,6 @@ from .views import views_public
 
 
 urlpatterns = [
-    url(r'^uploadPhoto/$', views_api.uploadPhoto, {}, name='uploadPhoto'),
     url(r'^getProfilePhoto/$', views_api.getProfilePhoto, name='getProfilePhoto'),
 
     # login/registration
