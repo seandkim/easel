@@ -29,18 +29,16 @@ def getProfilePhoto(request):
     return HttpResponse(profile.profilePic, content_type=content_type)
 
 
+# if dynamic file is not found
 def serveDummyImage():
-        # if dynamic file is not found
     try:
         print(os.getcwd())
         valid_image = "easel/static/img/placeholders/apartment.png"
         with open(valid_image, "rb") as f:
             return HttpResponse(f.read(), content_type="image/jpeg")
-    except IOError:
-        # TODO https://stackoverflow.com/questions/3003146/best-way-to-write-an-image-to-a-django-httpresponse/15832328
-        print("File not found")
-        return HttpResponse("")
-
+    except IOError():
+        print("Dummy image file is missing")
+        pass
 
 def makeDefaultProjects(request):
     try:
@@ -59,7 +57,7 @@ def makeDefaultProjects(request):
     profile = Profile.objects.get(user=user)
 
     Project.objects.filter(owner=profile).delete()
-    p1 = Project(owner=profile, name='paper', description="my late paper work")
+    p1 = Project(owner=profile, name='ungrouped', description="my my")
     p1.save()
 
     p2 = Project(owner=profile, name='woman', description="my woman painting")

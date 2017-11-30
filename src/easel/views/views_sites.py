@@ -16,32 +16,16 @@ from bs4 import BeautifulSoup
 
 @login_required
 def home(request):
-    # TODO change
-    # profile = Profile.objects.get(user=request.user)
-    # siteName = 'dummy'
-    # site = profile.createSite(siteName, "dummydescription")
-    # site = Site.objects.get(owner = profile, name=siteName)
-    # return HttpResponseRedirect(reverse('siteEditor', kwargs={'siteName': site.name}))
-    print('herrro')
     profile = Profile.objects.get(user=request.user)
     sites = Site.objects.filter(owner=profile)
     siteCount = sites.count()
-#   TODO clean up
-#     initial = {
-#            'siteName': medium.name,
-#            'description': medium.caption
-#        }
     context = {}
     context["add_site_form"] = AddSiteForm()
-#    context["edit_site_form"] = AddSiteForm(initial=initial)
     context["edit_site_form"] = EditSiteForm()
     context["profile"] = profile
 
     if siteCount == 0:
         return render(request, 'site-editor/no-site.html', context)
-    # elif siteCount == 1:
-    #     site = sites.first()
-    #     return HttpResponseRedirect(reverse('siteEditor', kwargs={'siteName': site.name}))
     else:
         context["sites"] = sites
         return render(request, 'site-editor/site-menu.html', context)
@@ -339,20 +323,22 @@ def sitePublish(request, siteName):
         return Json400
 
     pageNames = request.POST.getlist('pageNames[]')
-    allPageNames = profile.getAllPages(siteName).values_list('name', flat=True)
     pages = []
     for pageName in pageNames:
         pages.append(profile.getPage(siteName, pageName))
 
     for page in pages:
-        page.published_html = processPage(page, allPageNames)
+        page.published_html = processPage(request.user, siteName, page)
         page.save()
 
     return JsonResponse({'success': True})
 
 
 # process page for publishing & previewing
-def processPage(page, allPageNames):
+def processPage(user, siteName, page):
+    profile = Profile.objects.get(user=user)
+    allPageNames = profile.getAllPages(siteName).values_list('name', flat=True)
+
     def filterEditable(elem):
         try:
             return elem['contenteditable'] == 'true'

@@ -40,8 +40,8 @@ $(document).ready(function() {
         }
 
         if (publishes.length == 0) {
-            // TODO append error message
             $('.modal').modal('close');
+            showAlertMsg("No pages were published.");
             return;
         }
 
@@ -81,7 +81,6 @@ $(document).ready(function() {
     $('.delete-button-icon').click(function(e) {
         const deleteName = $(this).closest('div.card').data()['sitename'];
         $('#delete-site-modal').data('deleteName', deleteName);
-        debugger;
     });
 
     $('#delete-site-modal').on('click', 'button:not(.cancel)', function(e) {
@@ -165,7 +164,6 @@ $(document).ready(function() {
         }, successHandler);
     });
 
-    // nav modal TODO where is the nav modal open event? should move to here
     $('#nav-modal').on('click', 'button:not(.cancel)', function(e) {
         const url = '/easel/sites/'+getCurrSiteName()+'/updateNav/';
         const nav_html = $('#nav-modal #nav-preview').html();
@@ -221,10 +219,48 @@ function modalSubmitHandler(modalID, url, method, requestData, successHandler, e
                 }
                 error_list.find("ul").append("<li>" + error + "</li>");
             }
-            $modal.find('tbody').prepend(error_list);
+            let form = $modal.find('tbody');
+            if (form.length == 0) {
+                form = $modal.find('form');
+            }
+            form.prepend(error_list);
             if (errorHandler) {
                 errorHandler();
             }
         }
     })
+}
+
+function initializeEditNavModal() {
+    /* clone current nav bar */
+    var nav = $('nav').first().clone();
+    var el = $('#nav-preview').empty().append(nav);
+
+    /* update nav content to show in editor */
+    updateButtonList();
+
+    /* updated style selection menu */
+    var brand_logo = nav.find('.brand-logo').text();
+    var bg_color = rgb2hex(nav.css('background-color'));
+    var color = rgb2hex(nav.css('color'));
+    var opacity = nav.css('opacity');
+
+    $('#nav-customize input[name=brand-logo]').val(brand_logo);
+    $('#nav-customize input[name=background-color]').val(bg_color);
+    $('#nav-customize input[name=color]').val(color);
+    $('#nav-customize input[name=opacity]').val(opacity);
+
+    /* initialize modal */
+    $('#nav-modal').modal({
+        ready: function() {
+            /* initialize tabs */
+            $('#nav-control ul.tabs').tabs('select_tab', 'content');
+        }
+    });
+    
+    $('nav').on('click', 'a', function (e) {
+        e.preventDefault();
+    })
+
+    $('#nav-modal').modal('open');
 }
