@@ -70,13 +70,13 @@ function componentDropHandler(event, ui) {
         $item.append(
             '<div class="row">' +
             	'<div class="col s4">' +
-            		'<div class="editable ud">This a column. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</div>' +
+            		'<div class="editable">This a column. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</div>' +
             	'</div>' +
             	'<div class="col s4">' +
-            		'<div class="editable ud">This a column. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</div>' +
+            		'<div class="editable">This a column. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</div>' +
             	'</div>' +
             	'<div class="col s4">' +
-            		'<div class="editable ud">This a column. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</div>' +
+            		'<div class="editable">This a column. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</div>' +
             	'</div>' +
             '</div>'
         );
