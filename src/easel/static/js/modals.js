@@ -142,27 +142,6 @@ $(document).ready(function() {
                        'POST', values, successHandler);
     });
 
-    // edit project form
-    $('.edit-project-icon').on('click', function(e) {
-        debugger;
-        //TODO not sure
-        const projectName = $(this).closest('a.projectname').data()['projectname'];
-
-        $.ajax({
-            url: '/easel/projects/' + projectName + '/projectInfo/',
-            method: 'GET',
-            success: function(data) {
-                $('#edit-project-modal').data('oldname', projectName);
-                $('#edit-project-modal #id_projectName').val(data.projectName);
-                $('#edit-project-modal #id_description').val(data.description);
-                $('#edit-project-modal').modal('open');
-            },
-            error: function(jqXHR) {
-                console.error("ajax call failed", jqXHR);
-            }
-        });
-    });
-
     $("#edit-project-modal").on('click', 'button:not(.cancel)', function(e) {
         debugger;
         e.preventDefault();
@@ -171,7 +150,7 @@ $(document).ready(function() {
         const oldName = $('#edit-project-modal').data('oldname');
 
         function successHandler(data) {
-            window.location.href = '/easel/sites/';
+            window.location.href = '/easel/projects/';
         }
 
         modalSubmitHandler('edit-project-modal', '/easel/projects/' + oldName + '/projectInfo/', 'POST', {
