@@ -62,7 +62,6 @@ $(function() {
     $(document).on('input', '.nav-opt', navEditChangeHandler);
     $(document).on('change', '.nav-opt', navEditChangeHandler);
     $('#add-nav-btn').on('click', addNavButton);
-    $('#save-nav').on('click', onSaveNav);
     $(document).on('click', '.img-to-upload', addSelectedLibraryMedia);
     $(document).on("mousedown", '#page-content', deselectFocusElement);
     $(document).on('click', '#page-content nav', initializeEditNavModal);
