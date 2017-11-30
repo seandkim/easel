@@ -15,7 +15,6 @@
                 </table>
                 {% csrf_token %}
                 <div class="extra-margin-top">
-                    <input type="hidden" name="username" value="{{ profile.user.username }}" />
                     <input type="hidden" name="oldName" value="{{ mediaName }}" />
 
                     <input class="dark-btn-alt" type="submit" name='action' value="Save" />

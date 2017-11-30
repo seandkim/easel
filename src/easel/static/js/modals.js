@@ -81,6 +81,7 @@ $(document).ready(function() {
     $('.delete-button-icon').click(function(e) {
         const deleteName = $(this).closest('div.card').data()['sitename'];
         $('#delete-site-modal').data('deleteName', deleteName);
+        debugger;
     });
 
     $('#delete-site-modal').on('click', 'button:not(.cancel)', function(e) {
@@ -90,7 +91,6 @@ $(document).ready(function() {
         function successHandler(data) {
             const card = $('div.card[data-sitename="' + deleteName + '"]')
             card.closest('.card-wrapper').remove();
-            // TODO if no sites are left, display new site form
         }
 
         modalSubmitHandler('delete-site-modal', '/easel/sites/deleteSite/', 'POST', {

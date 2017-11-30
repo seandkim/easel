@@ -95,9 +95,13 @@ $(function() {
     // ------------------------ Add Page
     $('#add-page-modal form').submit(addNewPageModalHandler);
 
+    // ------------------------ Prevent navigation link
+    $('nav a').click(function (e) {
+        e.preventDefault();
+    })
+
     // ------------------------ Editable
     $('#select-link-page-form').submit(selectExistingPageHandler);
-
 
     // ------------------------ User Defined (ud) Components
     $(document).on('click', '.delete-ud', function() {
