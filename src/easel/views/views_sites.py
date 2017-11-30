@@ -70,10 +70,10 @@ def siteEditor(request, siteName):
 def getPageNames(request, siteName):
     try:
         site = Site.getSite(request.user.username, siteName)
-    except:
+    except ObjectDoesNotExist:
         return HttpResponseBadRequest()
     pages = Page.objects.filter(site=site)
-    context = {'site':site, 'pages':pages}
+    context = {'site': site, 'pages': pages}
     return render(request, 'json/pages.json', context,
                            content_type='application/json')
 
@@ -257,6 +257,13 @@ def deletePage(request, siteName):
 #   'htmls': <htmls of the new pages, in the correct index as above> }
 @login_required
 def savePages(request, siteName):
+    def processSavePage(html):
+        soup = BeautifulSoup(html, 'html.parser')
+        for e in soup.find_all():
+            del e['data-medium-editor-element']
+
+        return str(soup)
+
     if request.method != 'POST':
         return Json405("POST")
 
@@ -290,8 +297,7 @@ def savePages(request, siteName):
             return Json400()
 
     for i in range(len(pageNames)):
-        print(pages[i])
-        pages[i].content_html = htmls[i]
+        pages[i].content_html = processSavePage(htmls[i])
         pages[i].save()
 
     return JsonResponse({'success': True})

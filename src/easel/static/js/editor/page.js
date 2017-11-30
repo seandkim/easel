@@ -262,8 +262,9 @@ function savePages(allPageNames, successHandler, errorHandler) {
         }
     }
 
-    $('.delete-ud-wrapper').remove(); //gets rid of all trashCans
-    $('#ud-focus').removeAttr('id');
+    debugger;
+    // $('.delete-ud-wrapper').remove(); //gets rid of all trashCans
+    // $('#ud-focus').removeAttr('id');
     $.ajax({
         url: "/easel/sites/" + siteName + "/savePages/",
         method: "POST",
