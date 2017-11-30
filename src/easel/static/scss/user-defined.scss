@@ -1,7 +1,7 @@
 @import "global";
 .ud {
 	&:hover {
-		outline: 2px solid #ff4949;
+		outline: 2px solid $highlight-color-01;
 	}
 	div, p, strong, i {
 		color: inherit;
@@ -21,7 +21,7 @@
 	height: 50px;
 }
 #ud-focus {
-	outline: 3px solid #ff4949;
+	outline: 3px solid $highlight-color-01;
 }
 #main-container {
 	min-height: 200px;

@@ -148,6 +148,14 @@
                         <div class="icon-name">RULE</div>
                     </div>
                 </div>
+                <div class="drag-component" id="row-cmp">
+                    <div class="component-container">
+                        <div class="easel-icon-wrapper">
+                            <i class="component-icon icon-row"></i>
+                        </div>
+                        <div class="icon-name">ROW</div>
+                    </div>
+                </div>
             </div>
         </li>
         <!-- style tab -->
@@ -163,6 +171,14 @@
                     <div class="sublist">
                         <div class="sublist-title">FONT</div>
                         <br>
+                        <div class="style-opt">
+                            <span class="header-text icon-name sm-text light-text">font size (pt)</span>
+                            <input name="font-size" value="12pt" class="style-input" type="text"/>
+                        </div>
+                        <div class="style-opt">
+                            <span class="header-text icon-name sm-text light-text">spacing (px)</span>
+                            <input name="letter-spacing" value="0px" class="style-input" type="text"/>
+                        </div>
                         <div class="style-opt">
                             <span class="header-text icon-name sm-text light-text">text color </span>
                             <input name="color" class="jscolor style-input" value="7b98a1">
@@ -192,15 +208,6 @@
                                 </optgroup>
                             </select>
                         </div>
-                        <br>
-                        <div class="style-opt">
-                            <span class="header-text icon-name sm-text light-text">font size (pt)</span>
-                            <input name="font-size" value="12pt" class="style-input" type="text"/>
-                        </div>
-                        <div class="style-opt">
-                            <span class="header-text icon-name sm-text light-text">letter spacing (px)</span>
-                            <input name="letter-spacing" value="0px" class="style-input" type="text"/>
-                        </div>
                     </div>
                     <br><br>
                     <div class="sublist">
@@ -208,6 +215,7 @@
                         <br>
                          <div class="style-opt quarter-opt">
                             <span class="sm-text light-text label">top </span>
+                            <input name="padding-top" value="0px" class="style-input" type="text"/>
                             <input name="padding-top" value="0px" class="style-input" type="text"/>
                         </div>
                          <div class="style-opt quarter-opt">
@@ -308,20 +316,20 @@
         <h5 class="header-text loose-spacing light-text no-wrap">SWITCH SITE</h5>
         <a class="header-text light-text sm-text underline modal-trigger" href="#add-site-modal">OR OPEN NEW SITE +</a>
         <ul>
-            {% for site in sites %}
+            {% for other_site in sites %}
                 <li>
-                    {% if site.name == siteName %}
+                    {% if other_site.name == site.name %}
                         <a class="gray-text header-text small-text">
                             <strong>
                                 <i class="light-text icon-asterisk"></i>
                                 <span class="light-text loose-spacing">
-                                    {{ site.name|upper }}
+                                    {{ other_site.name|upper }}
                                 </span>
                             </strong>
                         </a>
                     {% else %}
-                        <a href="/easel/sites/{{ site.name }}/editor/" class="gray-text header-text small-text hover-underline loose-spacing">
-                            {{ site.name|upper }}
+                        <a href="/easel/sites/{{ other_site.name }}/editor/" class="gray-text header-text small-text hover-underline loose-spacing">
+                            {{ other_site.name|upper }}
                         </a>
                     {% endif %}
                 </li>
