@@ -141,10 +141,15 @@ $(function() {
         },
     });
 
-    $("#page-content").droppable({
-        accept: ".drag-component",
-        activeClass: "ui-state-default",
-        hoverClass: "ui-state-hover",
-        drop: componentDropHandler
-    });
+    // $("#page-content").droppable({
+    //     accept: ".drag-component",
+    //     activeClass: "ui-state-default",
+    //     hoverClass: "ui-state-hover",
+    //     drop: componentDropHandler
+    // });
+
+    $(".sortable").sortable({
+        placeholder: 'block-placeholder',
+        update: componentDropHandler,
+    }).disableSelection();
 });

@@ -5,18 +5,26 @@
 
 // handler after components are dropped onto page
 function componentDropHandler(event, ui) {
-	var cmp = ui.draggable.prop('id');
-    var active_id_name = '#' + getActivePageName();
-    var activeId = $('#main-container, .main-container');
+	const $item = $(ui.item);
+	if (!$item.hasClass('drag-component')) {
+		// if it is not dragged from the side; do nothing
+		return;
+	}
+
+	debugger;
+	var cmp = $item.children().eq(0).attr('id');
     if (cmp === "img-cmp") {
         open_img_selection();
     }
     else if (cmp === 'textbox-cmp') {
-        activeId.prepend(
-            '<div class="ud">' +
-                '<div class="editable">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Dictum at tempor commodo ullamcorper. Ac turpis egestas maecenas pharetra convallis posuere morbi. Neque viverra justo nec ultrices. Commodo odio aenean sed adipiscing diam donec. Habitant morbi tristique senectus et netus et malesuada fames ac. Iaculis nunc sed augue lacus viverra. Cras sed felis eget velit aliquet sagittis id consectetur. Nunc scelerisque viverra mauris in aliquam. Vel fringilla est ullamcorper eget nulla facilisi etiam dignissim.</div>' +
-            '</div>'
-        );
+		$item.empty();
+		$item.removeAttr("style");
+		$item.removeAttr("class");
+		$item.off();
+		$item.append($('<div class="editable">'+
+						'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Dictum at tempor commodo ullamcorper. Ac turpis egestas maecenas pharetra convallis posuere morbi. Neque viverra justo nec ultrices. Commodo odio aenean sed adipiscing diam donec. Habitant morbi tristique senectus et netus et malesuada fames ac. Iaculis nunc sed augue lacus viverra. Cras sed felis eget velit aliquet sagittis id consectetur. Nunc scelerisque viverra mauris in aliquam. Vel fringilla est ullamcorper eget nulla facilisi etiam dignissim.'+
+					  '</div>'));
+		$item.addClass('ud');
         editor = new MediumEditor('.editable', editable_settings);
     }
     else if (cmp === 'rule-cmp') {
@@ -61,7 +69,7 @@ function componentDropHandler(event, ui) {
         );
         initializeEditable();
     }
-    console.log('you dropped ' + ui.draggable.prop('id') +' into the page preview!');
+    console.log('you dropped ' + cmp +' into the page preview!');
 }
 
 
@@ -273,7 +281,7 @@ function updateStylerAttr(el) {
 }
 
 var hexDigits = new Array
-        ("0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f"); 
+        ("0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f");
 
 //Function to convert rgb color to hex format
 function rgb2hex(rgb) {
@@ -299,7 +307,7 @@ function initializeEditNavModal() {
     var bg_color = rgb2hex(nav.css('background-color'));
     var color = rgb2hex(nav.css('color'));
     var opacity = nav.css('opacity');
-    
+
     $('#nav-customize input[name=brand-logo]').val(brand_logo);
     $('#nav-customize input[name=background-color]').val(bg_color);
     $('#nav-customize input[name=color]').val(color);
@@ -308,7 +316,7 @@ function initializeEditNavModal() {
 }
 
 function getButtonWithId(i, text, href) {
-    return ('<li>' + 
+    return ('<li>' +
                 '<div class="row">' +
                     '<div class="col s3">' +
                         '<input target="#btn' + i + '" type="text" name="btn-name" class="nav-opt" value="' + text + '"/>' +
@@ -424,4 +432,3 @@ function onSaveNav() {
     // after donw
     $('#nav-modal').modal('close');
 }
-
