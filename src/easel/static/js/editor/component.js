@@ -14,7 +14,6 @@ function componentDropHandler(event, ui) {
 	// remove leftover #just-dropped-down element, which could have spawned
 	// from creating component with modal
 	let cnt = 0;
-	debugger;
 	while ($("#just-dropped-down").length != 0) {
 		$div = $("#just-dropped-down");
 		$div.removeAttr('id');
@@ -102,7 +101,6 @@ function resetGeneralModal() {
 
 function addTargetEmbed(e) {
     e.preventDefault;
-	debugger;
 	var html = $('#general-input-field').val();
 	$('#just-dropped-down').append(html);
     $('#general-modal').modal('close');
@@ -340,10 +338,10 @@ function initializeEditNavModal() {
     /* clone current nav bar */
     var nav = $('nav').first().clone();
     var el = $('#nav-preview').empty().append(nav);
-    
+
     /* update nav content to show in editor */
     updateButtonList();
-    
+
     /* updated style selection menu */
     var brand_logo = nav.find('.brand-logo').text();
     var bg_color = rgb2hex(nav.css('background-color'));
@@ -354,7 +352,7 @@ function initializeEditNavModal() {
     $('#nav-customize input[name=background-color]').val(bg_color);
     $('#nav-customize input[name=color]').val(color);
     $('#nav-customize input[name=opacity]').val(opacity);
-    
+
     /* initialize modal */
     $('#nav-modal').modal({
         ready: function() {
