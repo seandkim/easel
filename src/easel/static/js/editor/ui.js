@@ -69,6 +69,13 @@ function initializeEditMode(mode) {
     }
 }
 
+function refreshExitFullScreenButton() {
+    if ($('#exit-full-screen').length) {
+        $('#exit-full-screen').remove();
+        appendMinimizeButton();
+    }
+}
+
 function exitFullScreen() {
     $('#exit-full-screen').remove();
     $('#page-content').css(previewStyle);
@@ -78,12 +85,25 @@ function exitFullScreen() {
 
 function enterFullScreen() {
     $('#page-content').css(fullScreenStyle);
-        $('.editor-bar').fadeOut();
-        $('#sidebar').fadeOut();
-        $('#page-content').append(
+    $('.editor-bar').fadeOut();
+    $('#sidebar').fadeOut();
+    appendMinimizeButton();
+    showAlertMsg('ESC key to escape<br>or exit button at left bottom', 7000);
+}
+
+function appendMinimizeButton() {
+    $('#page-content').append(
            '<div class="circle-icon cursor-pointer margin-container fixed-left-bottom hover-solid" id="exit-full-screen">' +
                 '<div class="delete-ud" href="#" title="Delete Component">' +
                     '<i class="medium-text icon-minimize"></i>' +
                 '</div>' +
             '</div>');
+}
+
+function keyUpHandler(e) {
+    if (e.keyCode === 27) {
+        console.log('pressed esc');
+        e.preventDefault();
+        exitFullScreen();
+    }
 }

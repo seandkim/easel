@@ -211,7 +211,12 @@
     height: 100%;
     background-color: $interface-color-01;
     i {
-    	color: $interface-color-07;
+	   color: $interface-color-07;
+    }
+    #page-content {
+     	i {
+     		color: $black;
+     	}
     }
 	.component-container {
 	    @include smooth(0.3s);

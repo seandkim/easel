@@ -41,7 +41,8 @@ function hideAlertMsg() {
     });
 }
 
-function showAlertMsg(msg) {
+function showAlertMsg(msg, duration) {
+    var ease;
     $('#alert-msg').html(msg);
     $("#alert-box").animate({
         right: 0
@@ -51,7 +52,10 @@ function showAlertMsg(msg) {
     });
 
     // hide after 2 seconds (2000ms)
-    setTimeout(hideAlertMsg, alertBoxEase);
+    if (!duration) {
+        ease = alertBoxEase;
+    }
+    setTimeout(hideAlertMsg, duration);
 }
 
 // remove preloader

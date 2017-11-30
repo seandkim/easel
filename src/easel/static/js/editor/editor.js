@@ -93,6 +93,7 @@ $(function() {
 
     // ------------------------ Page Save and Publishing
     $(document).on("keydown", keyboardHandler);		// cmd+s save page
+    $(document).on("keyup", keyUpHandler);
     $('#preview-button').click(function() {viewSiteHandler(true)});
     $('#open-site-button').click(function() {viewSiteHandler(false)});
     $('#save-button').click(function() {savePages(Object.keys(pagesInfo))});

@@ -272,6 +272,7 @@ function savePages(allPageNames, successHandler, errorHandler) {
             if (successHandler) {
               successHandler(data);
             }
+            refreshExitFullScreenButton();
         },
         error: function(jqXHR) {
             showAlertMsg("could not save page.");
