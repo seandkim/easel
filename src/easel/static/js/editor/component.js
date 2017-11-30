@@ -60,6 +60,7 @@ function componentDropHandler(event, ui) {
     }
     else if (cmp === 'embed-cmp') {
         resetGeneralModal();
+        $('#embed-target').removeAttr('id');
         $('#add-general-input').click(addTargetEmbed);
         $('#general-modal .modal-header').text('ADD EMBED HTML CONTENT');
         $('#general-modal').modal('open');
@@ -199,13 +200,12 @@ function uploadMedia(e) {
         contentType: false,
         success: function(data) {
             showAlertMsg('successfully uploaded file');
-            // TODO harcoded img path
             var url = '/easel/projects/ungrouped/getMediaPhoto/' + mediaName;
             createImgComponent(url);
         },
         error: function(data) {
-            // TODO error handling
-            console.log('media cannot be uploaded');
+            showAlertMsg('Media cannot be uploaded. <br>Please try again');
+            console.error('media cannot be uploaded');
         }
     });
     return false;
