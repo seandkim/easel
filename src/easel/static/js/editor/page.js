@@ -217,7 +217,6 @@ function keyboardHandler(e) {
         if (e.keyCode == 83) {
             e.preventDefault();
             var pageName = getActivePageName();
-            debugger;
             savePages([pageName]);
         }
 

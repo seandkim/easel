@@ -123,7 +123,7 @@ $(function() {
     $(".drag-component").draggable({
         connectToSortable: "#page-content",
         helper: "clone",
-        revert: "invalid",
+        revert: false,
 
         scroll: false,
         distance: 0,

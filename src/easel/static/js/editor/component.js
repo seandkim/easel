@@ -11,13 +11,30 @@ function componentDropHandler(event, ui) {
 		return;
 	}
 
+	// remove leftover #just-dropped-down element, which could have spawned
+	// from creating component with modal
+	let cnt = 0;
 	debugger;
+	while ($("#just-dropped-down").length != 0) {
+		$div = $("#just-dropped-down");
+		$div.removeAttr('id');
+		if ($div.html() == "") {
+			$div.remove();
+		}
+		cnt++; // avoid infinite loop for some reason. should always run only 1 time.
+		if (cnt > 5) {
+			console.error('Fatal error: infinite loop in removing just-dropped-down!')
+			break;
+		}
+	}
+
 	var cmp = $item.attr('id');
 	$item.empty();
 	$item.removeAttr("style");
 	$item.removeAttr("class");
 	$item.off();
 	$item.addClass('ud');
+	$item.attr("id", "just-dropped-down"); // TODO drop to this element & remove later
     if (cmp === "img-cmp") {
         open_img_selection();
     }
@@ -47,19 +64,8 @@ function componentDropHandler(event, ui) {
         $('#add-general-input').click(addTargetEmbed);
         $('#general-modal .modal-header').text('ADD EMBED HTML CONTENT');
         $('#general-modal').modal('open');
-        $item.append(
-            '<div added="false" id="embed-target" class="ud"></div>'
-        );
     }
-    else if (cmp === 'video-cmp') {
-        resetGeneralModal();
-        $('#add-general-input').click(addVideoEmbed);
-        $('#general-modal .modal-header').text('ADD VIDEO URL');
-        $('#general-modal').modal('open');
-        $item.append(
-            '<iframe width="100%" src="https://www.youtube.com/embed/XGSy3_Czz8k"></iframe>'
-        );
-    }
+	// TODO add row back again?
     else if (cmp === 'row-cmp') {
         $item.append(
             '<div class="row">' +
@@ -92,25 +98,13 @@ function resetGeneralModal() {
     /* clean up embed component form */
     $('#add-general-input').unbind('click', addTargetEmbed);
     removeUnusedCmpPlaceholder($('#embed-target'));
-
-    /* clean up video component form */
-    $('#add-general-input').unbind('click', addTargetVideo);
-    removeUnusedCmpPlaceholder($('#video-target'));
 }
 
 function addTargetEmbed(e) {
     e.preventDefault;
-    var html = $('#general-input-field').val();
-    $('#embed-target').html(html);
-    $('#embed-target').attr('added', true);
-    $('#general-modal').modal('close');
-}
-
-function addTargetVideo(e) {
-    e.preventDefault;
-    var url = $('#general-input-field').val();
-    $('#video-target').attr('href', url);
-    $('#video-target').attr('added', true);
+	debugger;
+	var html = $('#general-input-field').val();
+	$('#just-dropped-down').append(html);
     $('#general-modal').modal('close');
 }
 
@@ -221,10 +215,9 @@ function uploadMedia(e) {
 
 /* create image component to page preview */
 function createImgComponent(url) {
-    var active_tab = $('.cr-tabs>li.active').attr('tab-target');
-    var active_tab_content = $(active_tab).find('.editable').first();
-    console.log('creating component ' + '<img src="' + url + '"> in ' + active_tab);
-    active_tab_content.prepend(
+    var $item = $('#just-dropped-down');
+    console.log('creating component ' + '<img src="' + url + '"> in ' + $item);
+    $item.append(
         '<img class="ud" src="' + url + '">'
     );
     $('#select-img-modal').modal('close');
