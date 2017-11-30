@@ -14,7 +14,7 @@ $(document).ready(function() {
         for (let i = 0; i < pageNames.length; i++) {
             const name = pageNames[i];
             const id_name = 'checkbox_' + name;
-            const box = $('<p>' + '<input type="checkbox" id="' + id_name + '" />' + '<label for="' + id_name + '">' + name + '</label>' + '</p>');
+            const box = $('<p>' + '<input type="checkbox" checked="checked" id="' + id_name + '" />' + '<label for="' + id_name + '">' + name + '</label>' + '</p>');
             $checkboxes.prepend(box);
         }
     });

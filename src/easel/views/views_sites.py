@@ -53,14 +53,15 @@ def siteEditor(request, siteName):
     profile = Profile.objects.get(user=request.user)
     site = Site.objects.get(owner=profile, name=siteName)
     pages = profile.getAllPages(siteName)
-    context['profile'] = profile
     context['add_page_form'] = AddPageForm()
-    context['pages'] = pages
     context['add_media_form'] = AddMediaForm()
     context['add_site_form'] = AddSiteForm()
 
     context['username'] = request.user.username
+    context['profile'] = profile
     context['site'] = site
+    context['pages'] = pages
+    context['sites'] = Site.objects.filter(owner=profile)
     return render(request, 'site-editor/site-editor.html', context)
 
 
@@ -353,7 +354,6 @@ def processPage(page):
     # routed the relative link in nav to other pages
     soup = BeautifulSoup(page.site.nav_html, 'html.parser')
     for a in soup.find_all('a'):
-        print(a['href'])
         if a['href'] and a['href'][0] == '#':
             other_name = a['href'][1:]
             a['href'] = "../" + other_name + "/"
@@ -365,8 +365,10 @@ def processPage(page):
         div.decompose()
     for div in soup.find_all(filterEditable):
         div['contenteditable'] = 'false'
-    for ud in soup.find_all('', class_="ud"):
-        ud['class'].remove('ud')
+    remove_classnames = ['ud', 'ud-focus']
+    for name in remove_classnames:
+        for ud in soup.find_all('', class_=name):
+            ud['class'].remove(name)
     processed_content_html = str(soup)
 
     t = get_template('test_pages/wrapper.html')
