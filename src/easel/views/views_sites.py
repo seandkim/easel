@@ -370,12 +370,18 @@ def processPage(page, allPageNames):
     soup = BeautifulSoup(page.content_html, 'html.parser')
     for div in soup.find_all('div', class_='empty-workspace-msg'):
         div.decompose()
+    for div in soup.find_all('div', class_='delete-ud-wrapper'):
+        div.decompose()
     for div in soup.find_all(filterEditable):
         div['contenteditable'] = 'false'
-    remove_classnames = ['ud', 'ud-focus']
+
+    remove_classnames = ['ud']
     for name in remove_classnames:
         for ud in soup.find_all('', class_=name):
+            if ud.get('id') == 'ud-focus':
+                del ud['id']
             ud['class'].remove(name)
+
     processed_content_html = str(soup)
 
     t = get_template('test_pages/wrapper.html')
