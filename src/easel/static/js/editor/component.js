@@ -65,7 +65,6 @@ function componentDropHandler(event, ui) {
         $('#general-modal .modal-header').text('ADD EMBED HTML CONTENT');
         $('#general-modal').modal('open');
     }
-	// TODO add row back again?
     else if (cmp === 'row-cmp') {
         $item.append(
             '<div class="row">' +
@@ -214,7 +213,6 @@ function uploadMedia(e) {
 /* create image component to page preview */
 function createImgComponent(url) {
     var $item = $('#just-dropped-down');
-    console.log('creating component ' + '<img src="' + url + '"> in ' + $item);
     $item.append(
         '<img class="ud" src="' + url + '">'
     );
@@ -306,14 +304,14 @@ function deselectFocusElement(e) {
 
 function updateStylerAttr(el) {
     var attrName, attrVal;
-    var attr = ['margin-left', 'margin-right', 'margin-top', 'margin-bottom',
-                'padding-left', 'padding-right', 'padding-top', 'padding-bottom',
-                'color', 'background-color', 'font-family', 'letter-spacing', 'width',
-                'height', 'border-style', 'border-color', 'border-width'];
-    for (var i = 0; i < attr.length; i++) {
-        attrName = attr[i];
+    for (var i = 0; i < customizableAttr .length; i++) {
+        attrName = customizableAttr[i];
         attrVal = el.css(attrName);
         $('input[name=' + attrName +']').val(attrVal);
+        if (attrName === "color" || attrName === "background-color" ||
+            attrName === "border-color") {
+            $('input[name=' + attrName +']').css('background-color', attrVal);
+        }
     }
 }
 
@@ -333,35 +331,6 @@ function rgb2hex(rgb) {
 function hex(x) {
   return isNaN(x) ? "00" : hexDigits[(x - x % 16) / 16] + hexDigits[x % 16];
  }
-
-function initializeEditNavModal() {
-    /* clone current nav bar */
-    var nav = $('nav').first().clone();
-    var el = $('#nav-preview').empty().append(nav);
-
-    /* update nav content to show in editor */
-    updateButtonList();
-
-    /* updated style selection menu */
-    var brand_logo = nav.find('.brand-logo').text();
-    var bg_color = rgb2hex(nav.css('background-color'));
-    var color = rgb2hex(nav.css('color'));
-    var opacity = nav.css('opacity');
-
-    $('#nav-customize input[name=brand-logo]').val(brand_logo);
-    $('#nav-customize input[name=background-color]').val(bg_color);
-    $('#nav-customize input[name=color]').val(color);
-    $('#nav-customize input[name=opacity]').val(opacity);
-
-    /* initialize modal */
-    $('#nav-modal').modal({
-        ready: function() {
-            /* initialize tabs */
-            $('#nav-control ul.tabs').tabs('select_tab', 'content');
-        }
-    });
-    $('#nav-modal').modal('open');
-}
 
 function getButtonWithId(i, text, href) {
     return ('<li>' +
@@ -403,9 +372,26 @@ function deleteButtonHandler(e) {
     $(this).closest('.row').remove();
 }
 
+function styleChangeHandler(e) {
+    var attrName, attrVal, el, color;
+    el = getFocusElement();
+    attrName = $( this ).attr('name');
+    attrVal = $(this).val();
+    if (attrName === 'color' || attrName === 'background-color' ||
+        attrName === 'border-color') {
+        attrVal = '#' + attrVal;
+    }
+    else if (attrName === 'border-style') {
+        color = $('#style-list input[name=border-color]').val();
+        el.css('border-color', color);
+    }
+    if (el.length) {
+        el.css(attrName, attrVal);
+    }
+}
+
 function navEditChangeHandler(e) {
     var attrName, attrVal, el, count, diff, input, btn, target;
-    console.log("change nav" , $( this ).attr('name'), $(this).val());
     el = $('#nav-preview nav');
     attrName = $( this ).attr('name');
     attrVal = $(this).val();

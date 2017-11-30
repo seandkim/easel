@@ -156,7 +156,6 @@ function loadPageHTML(siteName, pageName, errorHandler) {
         dataType: "json",
         success: function(json) {
             console.log('successfully retrieve html for ' + pageName);
-            console.log(json.content_html);
             const html = json.nav_html + "\n" + json.content_html;
             $('#page-content > div#' + pageName).empty().append(html);
             initializeEditable();
@@ -213,6 +212,7 @@ function keyboardHandler(e) {
             var pageName = getActivePageName();
             savePages([pageName]);
         }
+
 
     // mark active page as unsaved
     } else {
@@ -346,11 +346,9 @@ function pageOptionHandler(e) {
     var targetPage = $(this).attr('page-name');
     switch ($(this).attr("data-action")) {
         case "delete":
-            console.log('clicked delete ' + targetPage);
             deletePage(targetPage);
             break;
         case "copy":
-            console.log('clicked copy ' + targetPage);
             copyPageModalHandler(targetPage);
             break;
     }
