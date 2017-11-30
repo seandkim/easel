@@ -40,8 +40,8 @@ $(document).ready(function() {
         }
 
         if (publishes.length == 0) {
-            // TODO append error message
             $('.modal').modal('close');
+            showAlertMsg("No pages were published.");
             return;
         }
 
@@ -227,4 +227,33 @@ function modalSubmitHandler(modalID, url, method, requestData, successHandler, e
             }
         }
     })
+}
+
+function initializeEditNavModal() {
+    /* clone current nav bar */
+    var nav = $('nav').first().clone();
+    var el = $('#nav-preview').empty().append(nav);
+
+    /* update nav content to show in editor */
+    updateButtonList();
+
+    /* updated style selection menu */
+    var brand_logo = nav.find('.brand-logo').text();
+    var bg_color = rgb2hex(nav.css('background-color'));
+    var color = rgb2hex(nav.css('color'));
+    var opacity = nav.css('opacity');
+
+    $('#nav-customize input[name=brand-logo]').val(brand_logo);
+    $('#nav-customize input[name=background-color]').val(bg_color);
+    $('#nav-customize input[name=color]').val(color);
+    $('#nav-customize input[name=opacity]').val(opacity);
+
+    /* initialize modal */
+    $('#nav-modal').modal({
+        ready: function() {
+            /* initialize tabs */
+            $('#nav-control ul.tabs').tabs('select_tab', 'content');
+        }
+    });
+    $('#nav-modal').modal('open');
 }

@@ -28,7 +28,6 @@ $(function() {
     $('#page-list, #tool-list, #component-list, #style-list').hide();
 
     /* add close modal handler */
-    // TODO: fix the fact that closing doesn't trigger complete
     $("#link-page-modal").modal({
         complete : function() {
         	console.log('you closed modal');
