@@ -57,7 +57,7 @@ def makeDefaultProjects(request):
     profile = Profile.objects.get(user=user)
 
     Project.objects.filter(owner=profile).delete()
-    p1 = Project(owner=profile, name='paper', description="my late paper work")
+    p1 = Project(owner=profile, name='ungrouped', description="my my")
     p1.save()
 
     p2 = Project(owner=profile, name='woman', description="my woman painting")

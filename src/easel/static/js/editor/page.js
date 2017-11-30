@@ -201,7 +201,6 @@ function openPageEventHandler(e) {
 }
 
 function keyboardHandler(e) {
-    e.preventDefault();
     // cmd in mac and ctrl in other platform
     const cmdPressed = navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey
     if (cmdPressed) {
