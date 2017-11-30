@@ -38,10 +38,6 @@ var editable_settings = {
         'link': new MediumButton({
             label: '<i class="md-sm-text icon-file-o"></i>',
             action: function(html, mark, parent) {
-                //$('#page-preview').trigger('click');
-                console.log(html);
-                console.log(mark);
-                console.log(parent);
                 initializeLinkNewPageModal();
                 $('#link-page-target').removeAttr('id'); // removed uncleaned up ids
                 return '<a id="link-page-target" href="#">' + html + '</html>';
@@ -50,11 +46,6 @@ var editable_settings = {
         'left': new MediumButton({
             label: '<i class="md-sm-text icon-align-left"></i>',
             action: function(html, mark, parent) {
-                //$('#page-preview').trigger('click');
-                console.log(html);
-                console.log(mark);
-                console.log(parent);
-                console.log('in left handler');
                 $(parent).css('text-align', 'left');
                 return html;
             }
@@ -69,7 +60,6 @@ var editable_settings = {
         'center': new MediumButton({
             label: '<i class="md-sm-text icon-align-center"></i>',
              action: function(html, mark, parent) {
-                console.log('in center handler');
                 $(parent).css('text-align', 'center');
                 return html;
             }
@@ -101,7 +91,6 @@ var editable_settings = {
 
 /* initialize editable area in page preview */
 function initializeEditable() {
-    console.log('initializing editable');
     editor = new MediumEditor('.editable', editable_settings);
     /* change icon content */
     $('.medium-editor-action-indent').html('<i class="md-sm-text icon-outdent"></i>');

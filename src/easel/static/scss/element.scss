@@ -10,7 +10,6 @@ h2 {
 h3 {
 	font-size: 25pt;
 }
-
 figcaption {
 	font-family: $font-family-02;
 	font-size: 9pt;
@@ -76,11 +75,17 @@ figcaption {
 .loose-spacing {
 	letter-spacing: 3px;
 }
-
 .tight-spacing {
     letter-spacing: 0px;
 }
+.dark {
+	background-color: $interface-color-01;
+	color: $interface-color-05;
+}
 
+.light {
+	background-color: $interface-color-06;
+}
 .no-wrap {
 	white-space: nowrap;
 }
@@ -403,6 +408,17 @@ figcaption {
 	width: 100%;
 	max-width: 100%;
 	margin: 0 100px;
+}
+.fixed-container {
+	z-index: -1;
+	position: absolute;
+	width: 45%;
+	height: 100%;
+	margin: 50px 50px 50px 0px;
+	padding: 100px 40px 40px 40px;
+	right: 0;
+	top: 0;
+	overflow-y: scroll;
 }
 .margin-container {
 	margin: 20px;
@@ -733,6 +749,30 @@ nav {
     }
 }
 
+/* big modals */
+.library-modal {
+	width: 80% !important;
+	padding: 60px 50px;
+	max-height: 85%;
+	.modal-header {
+		font-size: 20pt;
+		letter-spacing: 4px;
+	}
+	.tabs {
+		background-color: #FAFAFA !important;
+	}
+    z-index: 9999;
+}
+.wide-modal {
+	width: 90% !important;
+	padding: 40px 40px;
+	max-height: 90%;
+	z-index: 1000 !important;
+	.modal-header {
+		font-size: 20pt;
+		letter-spacing: 4px;
+	}
+}
 .modal-close-btn {
 	@include smooth(0.3s);
 	position: absolute;
