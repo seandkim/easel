@@ -348,10 +348,14 @@ def processPage(user, siteName, page):
     # routed the relative link in nav to other pages
     soup = BeautifulSoup(page.site.nav_html, 'html.parser')
     for a in soup.find_all('a'):
-        print(a, a['href'], allPageNames, a['href'] in allPageNames)
-        if a["href"] in allPageNames:
-            print("inside!", a)
-            a["href"] = "../" + a["href"] + "/"
+        try:
+            if a["href"] in allPageNames:
+                print("inside!", a)
+                a["href"] = "../" + a["href"] + "/"
+        # if a tag doesn't contain href
+        except KeyError:
+            pass
+
     processed_nav_html = str(soup)
 
     # process content_html to have no edtiable material
