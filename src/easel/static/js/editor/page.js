@@ -232,7 +232,6 @@ function keyboardHandler(e) {
 }
 
 function savePages(allPageNames, successHandler, errorHandler) {
-    debugger;
     if (!allPageNames) {
         console.error("wrong pageNames");
         return;
@@ -263,7 +262,6 @@ function savePages(allPageNames, successHandler, errorHandler) {
         }
     }
 
-    debugger;
     // $('.delete-ud-wrapper').remove(); //gets rid of all trashCans
     // $('#ud-focus').removeAttr('id');
     $.ajax({

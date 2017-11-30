@@ -131,7 +131,6 @@ $(document).ready(function() {
 
     // add project form
     $("#add-project-modal").on('click', 'button', function(e) {
-        debugger;
         e.preventDefault();
         const fieldNames = ['projectName', 'description', 'username'];
         const values = getFormValues($(this).closest('form'), fieldNames);
@@ -145,7 +144,6 @@ $(document).ready(function() {
     });
 
     $("#edit-project-modal").on('click', 'button:not(.cancel)', function(e) {
-        debugger;
         e.preventDefault();
         const fieldNames = ['projectName', 'description'];
         const values = getFormValues($(this).closest('form'), fieldNames);
