@@ -81,7 +81,6 @@ $(document).ready(function() {
     $('.delete-button-icon').click(function(e) {
         const deleteName = $(this).closest('div.card').data()['sitename'];
         $('#delete-site-modal').data('deleteName', deleteName);
-        debugger;
     });
 
     $('#delete-site-modal').on('click', 'button:not(.cancel)', function(e) {
@@ -221,7 +220,11 @@ function modalSubmitHandler(modalID, url, method, requestData, successHandler, e
                 }
                 error_list.find("ul").append("<li>" + error + "</li>");
             }
-            $modal.find('tbody').prepend(error_list);
+            let form = $modal.find('tbody');
+            if (form.length == 0) {
+                form = $modal.find('form');
+            }
+            form.prepend(error_list);
             if (errorHandler) {
                 errorHandler();
             }
