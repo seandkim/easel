@@ -257,7 +257,6 @@ def deletePage(request, siteName):
 #   'htmls': <htmls of the new pages, in the correct index as above> }
 @login_required
 def savePages(request, siteName):
-    print('save')
     def processSavePage(html):
         soup = BeautifulSoup(html, 'html.parser')
         for e in soup.find_all():
@@ -278,14 +277,12 @@ def savePages(request, siteName):
     pageNames = request.POST.getlist('pageNames[]')
     htmls = request.POST.getlist('htmls[]')
 
-    print('pn = ', pageNames);
     
     if (len(pageNames) != len(htmls)):
         print('pageName and htmls does not have same length')
         return Json400()
     try:
         site = Site.getSite(request.user.username, siteName)
-        print('site = ', site)
     except ObjectDoesNotExist:
         print("Site %s does not exist" % siteName)
         return Json400()
@@ -373,12 +370,18 @@ def processPage(page, allPageNames):
     soup = BeautifulSoup(page.content_html, 'html.parser')
     for div in soup.find_all('div', class_='empty-workspace-msg'):
         div.decompose()
+    for div in soup.find_all('div', class_='delete-ud-wrapper'):
+        div.decompose()
     for div in soup.find_all(filterEditable):
         div['contenteditable'] = 'false'
-    remove_classnames = ['ud', 'ud-focus']
+
+    remove_classnames = ['ud']
     for name in remove_classnames:
         for ud in soup.find_all('', class_=name):
+            if ud.get('id') == 'ud-focus':
+                del ud['id']
             ud['class'].remove(name)
+
     processed_content_html = str(soup)
 
     t = get_template('test_pages/wrapper.html')
