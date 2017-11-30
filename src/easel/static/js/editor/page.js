@@ -327,7 +327,9 @@ function viewSiteHandler(private) {
     let path = "/easel/" + scope + username + '/' + siteName + '/' + pageName;
     let url = window.location.origin + path;
     var redirectWindow = window.open(url, '_blank');
-    redirectWindow.location;
+    if (redirectWindow) {
+        redirectWindow.location;
+    }
 }
 
 function showPageOptionMenu(e) {
