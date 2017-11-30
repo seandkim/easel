@@ -129,7 +129,7 @@ def editProject(request, projectName):
     project.description = description
     project.save()
 
-    return JsonResponse({'success': True})
+    return HttpResponseRedirect(reverse("projects"))
 
 
 @login_required
