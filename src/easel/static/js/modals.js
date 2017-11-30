@@ -35,7 +35,7 @@ $(document).ready(function() {
         if (publishes.length == 0) {
             // TODO append error message
             $('.modal').modal('close');
-            return
+            return;
         }
 
         savePages(publishes, function() {
@@ -48,6 +48,7 @@ $(document).ready(function() {
                 success: function(data) {
                     showAlertMsg("Successfully publish site.");
                     $('.modal').modal('close');
+                    $('#open-site-button').trigger('click');
                 },
                 error: function(jqXHR) {
                     showAlertMsg("Error in publishing.");
