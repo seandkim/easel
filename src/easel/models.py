@@ -4,7 +4,6 @@ from __future__ import unicode_literals
 from django.db import models
 from django.contrib.auth.models import User
 from django.template.loader import get_template
-from bs4 import BeautifulSoup
 
 
 class Profile(models.Model):

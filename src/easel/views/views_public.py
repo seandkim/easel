@@ -65,13 +65,14 @@ def renderPage(request, username, siteName, pageName, private):
     profile.cumVisitorNum += 1  # cumulative visitor
     profile.save()
 
-    # TODO check that this works
-    week = [site.mon, site.tue, site.wed, site.thu, site.fri, site.sat,
-            site.sun]
-    today = datetime.today().weekday()
-    week[today] += 1
-    week[(today+1) % len(week)] = 0
-
-    site.save()
-
+    updateVisitNum(site)
     return HttpResponse(page.published_html)
+
+
+def updateVisitNum(site):
+    week = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun']
+    today = datetime.today().weekday()
+    old = getattr(site, week[today])
+    setattr(site, week[today], old+1)
+    setattr(site, week[(today+1) % len(week)], 0)
+    site.save()
