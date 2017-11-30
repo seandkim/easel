@@ -4,10 +4,36 @@
 <div class="fixed-size-container sortable main-container">
     <h2 class="project-title-xl editable ud">ABOUT</h2>
     <span class="ud">
-        <img src="{% static 'img/placeholders/van-gogh.jpg' %}">
+            {% if profile.profilePic %}
+                <img src="{% url 'getProfilePhoto' %}">
+            {% else %}
+                <img src="{% static 'img/placeholders/girl.jpeg' %}">
+            {% endif %}
     </span>
+    <h2 class="project-title-xl editable ud">{{profile.user.first_name|upper}}<br>{{profile.user.last_name|upper}}</h2>
+    <h2 class="project-title-xl editable ud">Age</h2>
     <p class="ud editable">
-        I am a French impressionist painter. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Amet volutpat consequat mauris nunc. Donec enim diam vulputate ut pharetra. Nunc mi ipsum faucibus vitae. Sodales ut etiam sit amet nisl. Ultricies integer quis auctor elit sed. Tortor at risus viverra adipiscing at. Volutpat odio facilisis mauris sit amet massa vitae tortor condimentum. Enim diam vulputate ut pharetra sit amet aliquam. Non arcu risus quis varius. Turpis tincidunt.
+        {% if profile.age != 0 %}
+            {{profile.age}}
+        {% else %}
+            You can edit your age in user-setting page (you can find it in the sidebar on the right)!
+        {% endif %}
+    </p>
+    <h2 class="project-title editable ud">School</h2>
+    <p class="ud editable">
+        {% if profile.school != '' %}
+            {{profile.school}}
+        {% else %}
+            You can edit your school in user-setting page (you can find it in the sidebar on the right)!
+        {% endif %}
+    </p>
+    <h2 class="project-title editable ud">Bio</h2>
+    <p class="ud editable">
+        {% if profile.bio != '' %}
+            {{profile.bio}}
+        {% else %}
+            You can edit your bio in user-setting page (you can find it in the sidebar right)!
+        {% endif %}
     </p>
 </div>
 </div>
