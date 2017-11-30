@@ -771,7 +771,9 @@ ul {
 .autocomplete-content {
 	color: $interface-color-01;
     overflow: visible;
-    width: 80%;
+}
+#autocomplete-input {
+	width: 80%;
 }
 
 .error {

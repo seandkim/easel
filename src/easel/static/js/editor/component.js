@@ -387,7 +387,7 @@ function updateButtonList() {
         i++;
     });
     // TODO: allow linking to internal pages
-    //initializePagesAutoComplete();
+    initializePagesAutoComplete();
 }
 
 function deleteButtonHandler(e) {
@@ -439,6 +439,10 @@ function navEditChangeHandler(e) {
 // TODO: fix this really
 function initializePagesAutoComplete() {
     var settings = getPagesSetting();
+    for (var i = 0; i < settings.length; i++) {
+        settings[i] = '#' + settings[i];
+    }
+    console.log(settings);
     $('.page-autocomplete').autocomplete({
         data: settings,
         limit: 20,
