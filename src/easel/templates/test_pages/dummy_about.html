@@ -7,6 +7,13 @@
             <h2>ABOUT</h2>
         </div>
     </div>
+    {% if not profile.profilePic %}
+        <div class="ud">
+            <div class="editable">
+                The following image is a placeholder. You can edit your profile image in user-setting page (you can find it in the sidebar on the right)!
+            </div>
+        </div>
+    {% endif %}
     <div class="ud">
             {% if profile.profilePic %}
                 <img src="{% url 'getProfilePhoto' %}">
@@ -20,7 +27,7 @@
         </div>
     </div>
     <div class="ud">
-        <div class="editable"><h2>Age</h2></div>
+        <div class="editable"><h5>Age</h5></div>
     </div>
     <div class="ud">
         <div class="editable">
@@ -35,7 +42,7 @@
     </div>
     <div class="ud">
         <div class="editable">
-            <h2>School</h2>
+            <h5>School</h5>
         </div>
     </div>
     <div class="ud">
@@ -51,7 +58,7 @@
     </div>
     <div class="ud">
         <div class="editable">
-            <h2>Bio</h2>
+            <h5>Bio</h5>
         </div>
     </div>
     <div class="ud">
