@@ -335,22 +335,24 @@ def sitePublish(request, siteName):
     profile = Profile.objects.get(user=request.user)
     if ('pageNames[]' not in request.POST) or (request.POST['pageNames[]'] == ""):
         print("Pages are not specified. Publishing all pages")
-        pages = profile.getAllPages(siteName)
-    else:
-        pageNames = request.POST.getlist('pageNames[]')
-        pages = []
-        for pageName in pageNames:
-            pages.append(profile.getPage(siteName, pageName))
+        return Json400
+
+    pageNames = request.POST.getlist('pageNames[]')
+    allPageNames = set(profile.getAllPages().valueList('name'))
+    print(allPageNames)
+    pages = []
+    for pageName in pageNames:
+        pages.append(profile.getPage(siteName, pageName))
 
     for page in pages:
-        page.published_html = processPage(page)
+        page.published_html = processPage(page, allPageNames)
         page.save()
 
     return JsonResponse({'success': True})
 
 
 # process page for publishing & previewing
-def processPage(page):
+def processPage(page, allPageNames):
     def filterEditable(elem):
         try:
             return elem['contenteditable'] == 'true'
@@ -360,9 +362,11 @@ def processPage(page):
     # routed the relative link in nav to other pages
     soup = BeautifulSoup(page.site.nav_html, 'html.parser')
     for a in soup.find_all('a'):
-        if a['href'] and a['href'][0] == '#':
-            other_name = a['href'][1:]
-            a['href'] = "../" + other_name + "/"
+        # if a['href'] and a['href'][0] == '#':
+        print(a["href"])
+        if a["href"] in allPageNames:
+            #other_name = a['href']
+            a['href'] = "../" + a["href"] + "/"
     processed_nav_html = str(soup)
 
     # process content_html to have no edtiable material
