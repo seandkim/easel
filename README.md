@@ -4,7 +4,7 @@
 
 &nbsp;
 
-## Contributors (Team 277)
+## Contributors
 - Sean D Kim
 - Stella Kim
 - Tiffany Lee
